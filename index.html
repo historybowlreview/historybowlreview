@@ -308,6 +308,7 @@ function backToMenu(){
     $('gameArea').style.display = 'none';
     $('leaderboardPanel').style.display = 'none';
     $('mainMenu').style.display = 'grid';
+    $('categorySelection').classList.add('hidden');
     gameState.mode = 'practice';
     $('modeDisplay').textContent = 'Practice';
 }
@@ -437,6 +438,7 @@ function resetGame(){
         "Questions failed to load";
     $('buzzerBtn').disabled = true;
     $('answerInput').disabled = true;
+    $('categorySelection').classList.add('hidden');
     $('answerInput').value = '';
     $('currentResponseTime').textContent = 'Response time: --';
     $('questionCounter').textContent = 'Q 0 / 0';
@@ -876,6 +878,7 @@ function buzz(){
 
 /* ------------------ Show answer (for practice) ------------------ */
 function showAnswer(){
+    clearAllTimers(); // Stop reading, post-read, and answer timers
     if (!gameState.currentAnswer) {
         setFeedback("No current answer available.", false);
         return;
@@ -1021,7 +1024,7 @@ function submitAnswer(){
             setFeedback(`Incorrect tossup. The correct answer was: ${gameState.currentAnswer}. (No bonus.)`, false);
             setTimeout(()=> {
                 nextQuestion();
-            }, 1500);
+            }, 2000);
         }
     } else if (gameState.currentQuarter === 4){
         const bracketPoints = gameState.q4BracketPoints || 10;
@@ -1101,7 +1104,7 @@ async function finishGame() {
 
 
     // Update UI
-    $('questionText').textContent = `Game finished! Score: ${totalScore} / Avg Buzz-in: ${avgBuzz ? avgBuzz.toFixed(1) + 's' : 'N/A'} / Questions: ${entry.questionsAnswered}. Saved to global leaderboard.`;
+    $('questionText').textContent = `Game finished! Score: ${totalScore} / Avg Buzz-in: ${avgBuzz ? avgBuzz.toFixed(1) + 's' : 'N/A'} . Saved to global leaderboard.`;
     setFeedback("Game complete — check the leaderboard from the menu.", true);
     $('buzzerBtn').disabled = true;
     $('answerInput').disabled = true;
