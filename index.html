@@ -60,13 +60,13 @@
 
     <!-- Main menu -->
     <div id="mainMenu" class="menu">
-        <div class="card" onclick="openPracticeMode()">
+        <div class="card" onclick="openPracticeMode(); showGameArea();">
             <h3>🎯 Practice Mode</h3>
             <p class="muted">Pick a quarter to target specific formats and question types.</p>
             <div style="margin-top:10px"><button class="btn">Start Practice</button></div>
         </div>
-
-        <div class="card" onclick="startFullGameFromMenu()">
+    
+        <div class="card" onclick="startFullGameFromMenu(); showGameArea();">
             <h3>🏆 Full Game Simulation</h3>
             <p class="muted">Play a full match (Q1→Q4) with official scoring & bonuses.</p>
             <div style="margin-top:10px"><button class="btn">Start Full Game</button></div>
@@ -106,7 +106,6 @@
 
         <div class="question-area">
             <div id="questionText" class="question-text">Load questions first, then click "Next Question" to begin.</div>
-        </div>
         </div>
 
         <div class="controls">
@@ -355,6 +354,22 @@ function startGameFromBtn() {
     }
     // Hide Start Game button to prevent spamming
     $('startGameBtn').style.display = 'none';
+}
+
+function showMainMenu() {
+    $('mainMenu').style.display = 'grid';
+    $('gameArea').style.display = 'none';
+    $('leaderboardPanel').style.display = 'none';
+    $('playerNameContainer').style.display = 'none';
+}
+
+function showGameArea() {
+    $('mainMenu').style.display = 'none';
+    $('gameArea').style.display = 'block';
+}
+
+function showPlayerNameInput() {
+    $('playerNameContainer').style.display = 'flex';
 }
 
 function showLeaderboardPanel(){
@@ -1117,6 +1132,9 @@ async function finishGame() {
     // Disable input
     $('buzzerBtn').disabled = true;
     $('answerInput').disabled = true;
+    if (gameState.mode === 'full') {
+        showPlayerNameInput();
+    }
 }
 
 
