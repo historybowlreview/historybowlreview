@@ -111,7 +111,7 @@
 
         <div class="controls">
             <button id="buzzerBtn" class="buzzer-btn" onclick="buzz()" disabled>🔔 BUZZ</button>
-            <button class="btn" onclick="nextQuestion()">Next Question</button>
+            <button class="btn" id="startGameBtn" onclick="startGameFromBtn()">Start Game</button>
             <button class="btn secondary" onclick="showAnswer()">Show Answer</button>
 
             <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
@@ -313,6 +313,7 @@ function backToMenu(){
     $('mainMenu').style.display = 'grid';
     gameState.mode = 'practice';
     $('modeDisplay').textContent = 'Practice';
+    if ($('startGameBtn')) $('startGameBtn').style.display = 'inline-block';
 }
 
 function openPracticeMode(){
@@ -338,6 +339,22 @@ function startFullGameFromMenu(){
     $('mainMenu').style.display = 'none';
     $('gameArea').style.display = 'block';
     startGame();
+}
+
+function startGameFromBtn() {
+    if (!gameState.questionsLoaded) {
+        alert("Questions failed to load.");
+        return;
+    }
+    resetGame();
+    if (gameState.mode === "full") {
+        startGame();
+    } else {
+        // Practice: user will be prompted for a quarter as before
+        nextQuestion();
+    }
+    // Hide Start Game button to prevent spamming
+    $('startGameBtn').style.display = 'none';
 }
 
 function showLeaderboardPanel(){
@@ -423,6 +440,7 @@ function resetGame(){
     $('timerDisplay').textContent = '--';
     updateScoreDisplays();
     clearFeedback();
+    if ($('startGameBtn')) $('startGameBtn').style.display = 'inline-block';
 }
 
 function shuffle(array){
