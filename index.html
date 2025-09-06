@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>History Bowl Study Program</title>
+<title>History Bowl Study Program — Response Time Tracking</title>
 <style>
     /* --------- Visual styles (kept from your original, adjusted slightly) ---------- */
     *{box-sizing:border-box;margin:0;padding:0}
@@ -52,8 +52,8 @@
 <body>
 <div class="container">
     <div class="header">
-        <h1>💚🤍 History Bowl Study Program</h1>
-        <p class="small">Single-team practice + Full-game simulation with response time tracking & local leaderboards 🤍💚</p>
+        <h1>📚 History Bowl Study Program</h1>
+        <p class="small">Single-team practice + Full-game simulation — response time tracking</p>
     </div>
     <div id="questionsStatus" class="small muted"></div>
     <div id="questionsDisplay"></div>
@@ -62,12 +62,12 @@
     <div id="mainMenu" class="menu">
         <div class="card" onclick="openPracticeMode()">
             <h3>🎯 Practice Mode</h3>
-            <p class="muted">Pick a quarter to practice specific formats and question types.</p>
+            <p class="muted">Pick a quarter to target specific formats and question types.</p>
             <div style="margin-top:10px"><button class="btn">Start Practice</button></div>
         </div>
 
         <div class="card" onclick="startFullGameFromMenu()">
-            <h3>🚨 Full Game Simulation</h3>
+            <h3>🏆 Full Game Simulation</h3>
             <p class="muted">Play a full match (Q1→Q4) with official scoring & bonuses.</p>
             <div style="margin-top:10px"><button class="btn">Start Full Game</button></div>
         </div>
@@ -77,6 +77,11 @@
             <p class="muted">Your browser stores every saved attempt. Sorted by score and response time.</p>
             <div style="margin-top:10px"><button class="btn">View Leaderboard</button></div>
         </div>
+        <!-- Player Name Input -->
+        <div id="playerNameContainer" style="margin-bottom: 10px;">
+            <input type="text" id="playerNameInput" placeholder="Enter your name" maxlength="20" style="padding: 5px; width: 200px;">
+        </div>
+        
     </div>
 
     <!-- Game area -->
@@ -1056,69 +1061,84 @@ function computeQuestionCounterText(){
 }
 
 /* ------------------ Finish/End-game ------------------ */
-function finishGame(){
+async function finishGame() {
     clearAllTimers();
-    
+
     const totalScore = gameState.rawScore;
     const avgBuzz = calculateAverageBuzzInTime();
 
-    // Save to local leaderboard
+    // Get player name from input
+    const playerName = $('playerNameInput').value.trim() || "Anonymous";
+
+    // Build the score entry
     const entry = {
-        date: (new Date()).toISOString(),
+        date: new Date().toISOString(),
+        name: playerName,                     // NEW
         mode: gameState.mode,
         totalScore: totalScore,
         averageBuzzInTime: avgBuzz,
-        questionsAnswered: gameState.buzzInTimes.length
+        questionsAnswered: gameState.responseTimes.length
     };
-    saveScoreToLocalLeaderboard(entry);
-    
-    $('questionText').textContent = `Game finished! Score: ${totalScore} / Avg Buzz-in: ${avgBuzz ? avgBuzz.toFixed(1) + 's' : 'N/A'} / Questions: ${gameState.buzzInTimes.length}. Saved to local leaderboard.`;
+
+    // Save to global leaderboard
+    await saveScoreToGlobalLeaderboard(entry);
+
+    // Update UI
+    $('questionText').textContent = `Game finished! Score: ${totalScore} / Avg Buzz-in: ${avgBuzz ? avgBuzz.toFixed(1) + 's' : 'N/A'} / Questions: ${entry.questionsAnswered}. Saved to global leaderboard.`;
     setFeedback("Game complete — check the leaderboard from the menu.", true);
     $('buzzerBtn').disabled = true;
     $('answerInput').disabled = true;
 }
 
+
 /* Save to local leaderboard */
-function saveScoreToLocalLeaderboard(entry){
-    const key = 'hb_local_leaderboard_v2';
-    const existing = JSON.parse(localStorage.getItem(key) || '[]');
-    existing.push(entry);
-    // Sort by score descending, then by average buzz-in time ascending (faster is better)
-    existing.sort((a, b) => {
-        if (b.totalScore !== a.totalScore) return b.totalScore - a.totalScore;
-        if (a.averageBuzzInTime == null) return 1;
-        if (b.averageBuzzInTime == null) return -1;
-        return a.averageBuzzInTime - b.averageBuzzInTime;
-    });
-    localStorage.setItem(key, JSON.stringify(existing));
-}
+async function saveScoreToGlobalLeaderboard(entry) {
+    try {
+        const res = await fetch("/api/leaderboard", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(entry)
+        });
 
-/* Render leaderboard */
-function renderLeaderboard(){
-    const key = 'hb_local_leaderboard_v2';
-    const arr = JSON.parse(localStorage.getItem(key) || '[]');
-    const container = $('leaderboardList');
-    container.innerHTML = '';
-    if (!arr.length){
-        container.textContent = 'No saved attempts yet.';
-        return;
+        if (!res.ok) throw new Error("Failed to save score");
+
+        console.log("Score saved globally!");
+    } catch (err) {
+        console.error("Error saving score:", err);
+        alert("Failed to save score to global leaderboard.");
     }
-    
-    arr.forEach((e, idx) => {
-        const d = document.createElement('div');
-        d.style.padding = '8px';
-        d.style.borderBottom = '1px solid #eef2f7';
-        d.innerHTML = `<strong>#${idx+1}</strong> — ${new Date(e.date).toLocaleString()} — Mode: ${e.mode} — Score: ${e.totalScore} — Avg Buzz-in: ${e.averageBuzzInTime ? e.averageBuzzInTime.toFixed(1) + 's' : 'N/A'} — Questions: ${e.questionsAnswered || 0}`;
-        container.appendChild(d);
-    });
 }
 
-/* Clear leaderboard */
-function clearLeaderboard(){
-    if (!confirm("Clear all local leaderboard entries? This cannot be undone.")) return;
-    localStorage.removeItem('hb_local_leaderboard_v2');
-    renderLeaderboard();
+
+async function renderGlobalLeaderboard() {
+    const container = $('leaderboardList');
+    container.innerHTML = 'Loading...';
+
+    try {
+        const res = await fetch("/api/leaderboard");
+        if (!res.ok) throw new Error("Failed to fetch leaderboard");
+
+        const scores = await res.json();
+
+        container.innerHTML = '';
+        if (!scores.length) {
+            container.textContent = 'No scores yet.';
+            return;
+        }
+
+        scores.forEach((e, idx) => {
+            const d = document.createElement('div');
+            d.style.padding = '8px';
+            d.style.borderBottom = '1px solid #eef2f7';
+            d.innerHTML = `<strong>#${idx + 1}</strong> — ${e.name ? e.name : "Anonymous"} — ${new Date(e.date).toLocaleString()} — Mode: ${e.mode} — Score: ${e.totalScore} — Avg Buzz-in: ${e.averageBuzzInTime ? e.averageBuzzInTime.toFixed(1) + 's' : 'N/A'} — Questions: ${e.questionsAnswered || 0}`;
+            container.appendChild(d);
+        });
+    } catch (err) {
+        console.error(err);
+        container.textContent = 'Failed to load leaderboard.';
+    }
 }
+
 
 /* ------------------ Import/Export Questions ------------------ */
 
