@@ -1074,10 +1074,8 @@ async function finishGame() {
     const entry = {
         date: new Date().toISOString(),
         name: playerName,                     // NEW
-        mode: gameState.mode,
         totalScore: totalScore,
         averageBuzzInTime: avgBuzz,
-        questionsAnswered: gameState.responseTimes.length
     };
 
     // Save to global leaderboard
@@ -1132,7 +1130,7 @@ async function renderGlobalLeaderboard() {
             const d = document.createElement('div');
             d.style.padding = '8px';
             d.style.borderBottom = '1px solid #eef2f7';
-            d.innerHTML = `<strong>#${idx + 1}</strong> — ${e.name ? e.name : "Anonymous"} — ${new Date(e.date).toLocaleString()} — Mode: ${e.mode} — Score: ${e.totalScore} — Avg Buzz-in: ${e.averageBuzzInTime ? e.averageBuzzInTime.toFixed(1) + 's' : 'N/A'} — Questions: ${e.questionsAnswered || 0}`;
+            d.innerHTML = `<strong>#${idx + 1}</strong> — ${e.name ? e.name : "Anonymous"} — ${new Date(e.date).toLocaleString()} — Score: ${e.totalScore} — Avg Buzz-in: ${e.averageBuzzInTime ? e.averageBuzzInTime.toFixed(1) + 's' : 'N/A'}`;
             container.appendChild(d);
         });
     } catch (err) {
