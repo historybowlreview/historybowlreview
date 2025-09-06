@@ -1091,7 +1091,7 @@ async function finishGame() {
 }
 
 
-/* Save to global leaderboard */
+/* ------------------ Save score to global leaderboard ------------------ */
 async function saveScoreToGlobalLeaderboard(entry) {
     const WORKER_URL = "https://patient-base-c952.javalutionization.workers.dev";
 
@@ -1099,7 +1099,7 @@ async function saveScoreToGlobalLeaderboard(entry) {
         const res = await fetch(WORKER_URL, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(entry)
+            body: JSON.stringify(entry),
         });
 
         if (!res.ok) throw new Error(`Failed to save score: ${res.status} ${res.statusText}`);
@@ -1111,14 +1111,15 @@ async function saveScoreToGlobalLeaderboard(entry) {
     }
 }
 
-/* Render global leaderboard */
+/* ------------------ Render global leaderboard ------------------ */
 async function renderGlobalLeaderboard() {
+    const WORKER_URL = "https://patient-base-c952.javalutionization.workers.dev";
     const container = $('leaderboardList');
     container.innerHTML = 'Loading...';
-    const WORKER_URL = "https://patient-base-c952.javalutionization.workers.dev";
 
     try {
         const res = await fetch(WORKER_URL, { method: "GET" });
+
         if (!res.ok) throw new Error(`Failed to fetch leaderboard: ${res.status} ${res.statusText}`);
 
         const scores = await res.json();
@@ -1141,6 +1142,7 @@ async function renderGlobalLeaderboard() {
         container.textContent = 'Failed to load leaderboard.';
     }
 }
+
 
 
 /* ------------------ Import/Export Questions ------------------ */
