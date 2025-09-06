@@ -93,9 +93,9 @@
                 <div id="questionCounter" class="small muted">Q 0 / 0</div>
             </div>
             <div class="team-score">
-                <div class="team-name">Avg Time</div>
+                <div class="team-name">Avg Buzz-in</div>
                 <div class="score" id="avgResponseTime">--</div>
-                <div class="small muted">Seconds per question</div>
+                <div class="small muted">Seconds to buzz</div>
             </div>
         </div>
         <div style="text-align:center">
@@ -245,6 +245,7 @@ let gameState = {
     currentAnswer: "",
     currentBonus: null,
     buzzed: false,
+    buzzInTimes: [],
     multiplier: 1,
     q3selectedCategory: null,
     q3categoryProgress: 0,
@@ -271,8 +272,8 @@ function updateScoreDisplays(){
     $('rawScore').textContent = gameState.rawScore;
     
     // Calculate and display average response time
-    const avgTime = calculateAverageResponseTime();
-    $('avgResponseTime').textContent = avgTime !== null ? avgTime.toFixed(1) + 's' : '--';
+    const avgBuzz = calculateAverageBuzzInTime();
+    $('avgResponseTime').textContent = avgBuzz !== null ? avgBuzz.toFixed(1) + 's' : '--';
     
     $('quarterDisplay').textContent = gameState.currentQuarter;
 }
@@ -388,6 +389,7 @@ function resetGame(){
         currentAnswer: "",
         currentBonus: null,
         buzzed: false,
+        buzzInTimes: [],
         multiplier: 1,
         q3selectedCategory: null,
         q3categoryProgress: 0,
@@ -633,6 +635,12 @@ function finishQ3CategoryRound() {
     }, 4000);
 }
 
+function calculateAverageBuzzInTime() {
+    if (!gameState.buzzInTimes.length) return null;
+    const sum = gameState.buzzInTimes.reduce((a, b) => a + b, 0);
+    return sum / gameState.buzzInTimes.length;
+}
+
 function showQ3CategoryQuestion() {
     const qArr = gameState.q3CategoryQuestions;
     let idx = gameState.q3CurrentQuestionIdx;
@@ -791,7 +799,11 @@ function buzz(){
     gameState.buzzTime = Date.now(); // Record buzz time for response time calculation
     
     clearAllTimers();
-
+    // Calculate buzz-in time: from questionStartTime to buzzTime
+    if (gameState.questionStartTime && gameState.buzzTime) {
+        const buzzInTime = (gameState.buzzTime - gameState.questionStartTime) / 1000;
+        gameState.buzzInTimes.push(buzzInTime);
+    }
     let pctRead = 1;
     if (gameState.currentQuestionText && gameState.readingCharIndex){
         pctRead = gameState.readingCharIndex / gameState.currentQuestionText.length;
@@ -1048,19 +1060,19 @@ function finishGame(){
     clearAllTimers();
     
     const totalScore = gameState.rawScore;
-    const avgTime = calculateAverageResponseTime();
-    
+    const avgBuzz = calculateAverageBuzzInTime();
+
     // Save to local leaderboard
     const entry = {
         date: (new Date()).toISOString(),
         mode: gameState.mode,
         totalScore: totalScore,
-        averageResponseTime: avgTime,
-        questionsAnswered: gameState.responseTimes.length
+        averageBuzzInTime: avgBuzz,
+        questionsAnswered: gameState.buzzInTimes.length
     };
     saveScoreToLocalLeaderboard(entry);
-
-    $('questionText').textContent = `Game finished! Score: ${totalScore} / Avg Response Time: ${avgTime ? avgTime.toFixed(1) + 's' : 'N/A'} / Questions: ${gameState.responseTimes.length}. Saved to local leaderboard.`;
+    
+    $('questionText').textContent = `Game finished! Score: ${totalScore} / Avg Buzz-in: ${avgBuzz ? avgBuzz.toFixed(1) + 's' : 'N/A'} / Questions: ${gameState.buzzInTimes.length}. Saved to local leaderboard.`;
     setFeedback("Game complete — check the leaderboard from the menu.", true);
     $('buzzerBtn').disabled = true;
     $('answerInput').disabled = true;
@@ -1071,12 +1083,12 @@ function saveScoreToLocalLeaderboard(entry){
     const key = 'hb_local_leaderboard_v2';
     const existing = JSON.parse(localStorage.getItem(key) || '[]');
     existing.push(entry);
-    // Sort by score descending, then by average response time ascending (faster is better)
-    existing.sort((a,b)=> {
+    // Sort by score descending, then by average buzz-in time ascending (faster is better)
+    existing.sort((a, b) => {
         if (b.totalScore !== a.totalScore) return b.totalScore - a.totalScore;
-        if (a.averageResponseTime === null) return 1;
-        if (b.averageResponseTime === null) return -1;
-        return a.averageResponseTime - b.averageResponseTime;
+        if (a.averageBuzzInTime == null) return 1;
+        if (b.averageBuzzInTime == null) return -1;
+        return a.averageBuzzInTime - b.averageBuzzInTime;
     });
     localStorage.setItem(key, JSON.stringify(existing));
 }
@@ -1096,7 +1108,7 @@ function renderLeaderboard(){
         const d = document.createElement('div');
         d.style.padding = '8px';
         d.style.borderBottom = '1px solid #eef2f7';
-        d.innerHTML = `<strong>#${idx+1}</strong> — ${new Date(e.date).toLocaleString()} — Mode: ${e.mode} — Score: ${e.totalScore} — Avg Time: ${e.averageResponseTime ? e.averageResponseTime.toFixed(1) + 's' : 'N/A'} — Questions: ${e.questionsAnswered || 0}`;
+        d.innerHTML = `<strong>#${idx+1}</strong> — ${new Date(e.date).toLocaleString()} — Mode: ${e.mode} — Score: ${e.totalScore} — Avg Buzz-in: ${e.averageBuzzInTime ? e.averageBuzzInTime.toFixed(1) + 's' : 'N/A'} — Questions: ${e.questionsAnswered || 0}`;
         container.appendChild(d);
     });
 }
