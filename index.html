@@ -1093,7 +1093,7 @@ async function finishGame() {
 
 /* Save to global leaderboard */
 async function saveScoreToGlobalLeaderboard(entry) {
-    const WORKER_URL = "https://patient-base-c952.javalutionization.workers.dev/api/leaderboard";
+    const WORKER_URL = "https://patient-base-c952.javalutionization.workers.dev";
 
     try {
         const res = await fetch(WORKER_URL, {
@@ -1115,7 +1115,7 @@ async function saveScoreToGlobalLeaderboard(entry) {
 async function renderGlobalLeaderboard() {
     const container = $('leaderboardList');
     container.innerHTML = 'Loading...';
-    const WORKER_URL = "https://patient-base-c952.javalutionization.workers.dev/api/leaderboard";
+    const WORKER_URL = "https://patient-base-c952.javalutionization.workers.dev";
 
     try {
         const res = await fetch(WORKER_URL, { method: "GET" });
