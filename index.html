@@ -348,13 +348,13 @@ function promptPracticeQuarter() {
     return true;
 }
 
-function startFullGameFromMenu(){
+function startFullGameFromMenu() {
     if (!gameState.questionsLoaded) {
         alert("Questions failed to load.");
         return;
     }
+    gameState.mode = 'full'; // Set mode BEFORE resetGame
     resetGame();
-    gameState.mode = 'full';
     $('modeDisplay').textContent = 'Full Game';
     $('mainMenu').style.display = 'none';
     $('gameArea').style.display = 'block';
@@ -476,19 +476,6 @@ function nextQuestion() {
 
     clearAllTimers();
     clearFeedback();
-
-    // Practice quarter selection
-    if (gameState.mode === 'practice' && !gameState.practiceQuarterSelected) {
-        const choice = prompt("Enter practice quarter (1,2,3,4) or 'q' to cancel:", "1");
-        if (!choice || choice.toLowerCase() === 'q') return;
-        const q = parseInt(choice);
-        if (![1,2,3,4].includes(q)){ alert("Invalid quarter"); return; }
-        gameState.currentQuarter = q;
-        gameState.practiceQuarterSelected = true;
-        gameState.currentQuestionIndex = -1;
-        gameState.q3selectedCategory = null;
-        gameState.q3categoryProgress = 0;
-    }
 
     // Quarter 3: Category
     if (gameState.currentQuarter === 3) {
@@ -895,6 +882,7 @@ function showAnswer(){
     }
     $('questionText').textContent = gameState.currentQuestionText || '---';
     setFeedback(`Answer: ${gameState.currentAnswer}`, true);
+    $('buzzerBtn').disabled = true;
 }
 
 /* ------------------ Answer checking & scoring ------------------ */
