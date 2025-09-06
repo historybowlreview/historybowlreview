@@ -1113,9 +1113,9 @@ async function renderGlobalLeaderboard() {
     const WORKER_URL = "https://patient-base-c952.javalutionization.workers.dev";
     const container = $('leaderboardList');
     container.innerHTML = 'Loading...';
-     try {
-        const res = await fetch(WORKER_URL, { method: "GET" });
 
+    try {
+        const res = await fetch(WORKER_URL, { method: "GET" });
         if (!res.ok) throw new Error(`Failed to fetch leaderboard: ${res.status} ${res.statusText}`);
 
         const scores = await res.json();
@@ -1130,7 +1130,7 @@ async function renderGlobalLeaderboard() {
             const d = document.createElement('div');
             d.style.padding = '8px';
             d.style.borderBottom = '1px solid #eef2f7';
-            d.innerHTML = `<strong>#${idx + 1}</strong> — ${e.name ? e.name : "Anonymous"} — ${new Date(e.date).toLocaleString()} — Score: ${e.totalScore} — Avg Buzz-in: ${e.averageBuzzInTime ? e.averageBuzzInTime.toFixed(1) + 's' : 'N/A'}`;
+            d.innerHTML = `<strong>#${idx + 1}</strong> — ${e.name || "Anonymous"} — ${new Date(e.date).toLocaleString()} — Score: ${e.totalScore} — Avg Buzz-in: ${e.averageBuzzInTime ? e.averageBuzzInTime.toFixed(1) + 's' : 'N/A'}`;
             container.appendChild(d);
         });
     } catch (err) {
@@ -1138,6 +1138,7 @@ async function renderGlobalLeaderboard() {
         container.textContent = 'Failed to load leaderboard.';
     }
 }
+
 
 
 
