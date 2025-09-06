@@ -55,6 +55,8 @@
         <h1>📚 History Bowl Study Program</h1>
         <p class="small">Single-team practice + Full-game simulation — response time tracking</p>
     </div>
+    <div id="questionsStatus" class="small muted"></div>
+    <div id="questionsDisplay"></div>
 
     <!-- Main menu -->
     <div id="mainMenu" class="menu">
@@ -151,9 +153,11 @@
 /* ================================================================
    Game state & helpers
    ================================================================ */
-let QUESTIONS = null;
-let gameState = {
-    questionsLoaded: false
+let QUESTIONS = {
+    q1: [],
+    q2: [],
+    q3: [],
+    q4: []
 };
 
 // Fetch questions from server
@@ -222,13 +226,6 @@ function getRandomQ4Question() {
 // const q2Question = getRandomQuestion('q2');
 // const q3Categories = getRandomQ3Categories();
 // const q4Question = getRandomQ4Question();
-
-let QUESTIONS = {
-    q1: [],
-    q2: [],
-    q3: [],
-    q4: []
-};
 
 let gameState = {
     mode: "practice",
@@ -315,7 +312,6 @@ function backToMenu(){
 function openPracticeMode(){
     if (!gameState.questionsLoaded) {
         alert("Questions failed to load.");
-        showQuestionManager();
         return;
     }
     resetGame();
@@ -328,7 +324,6 @@ function openPracticeMode(){
 function startFullGameFromMenu(){
     if (!gameState.questionsLoaded) {
         alert("Questions failed to load.");
-        showQuestionManager();
         return;
     }
     resetGame();
@@ -442,7 +437,6 @@ function getCurrentQuarterArray(){
 function nextQuestion() {
     if (!gameState.questionsLoaded) {
         alert("Questions failed to load.");
-        showQuestionManager();
         return;
     }
 
