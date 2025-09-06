@@ -963,7 +963,7 @@ function submitAnswer(){
         const idx = gameState.q3CurrentQuestionIdx;
         const qArr = gameState.q3CategoryQuestions;
         qArr[idx].userAnswer = given;
-        qArr[idx].isCorrect = isStrictCorrect(given, qArr[idx].answer);
+        qArr[idx].isCorrect = isStrictCorrect(given, qArr[idx].answer) || looseMatch(given, qArr[idx].answer);
 
         let msg;
         if (qArr[idx].isCorrect) {
