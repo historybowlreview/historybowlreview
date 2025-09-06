@@ -70,12 +70,6 @@
             <div style="margin-top:10px"><button class="btn">Start Full Game</button></div>
         </div>
 
-        <div class="card" onclick="showQuestionManager()">
-            <h3>➕ Question Manager</h3>
-            <p class="muted">Load questions from JSON file and manage question sets.</p>
-            <div style="margin-top:10px"><button class="btn">Manage Questions</button></div>
-        </div>
-
         <div class="card" onclick="showLeaderboardPanel()">
             <h3>🏅 Local Leaderboard</h3>
             <p class="muted">Your browser stores every saved attempt. Sorted by score and response time.</p>
@@ -140,21 +134,6 @@
         </div>
     </div>
 
-    <!-- Admin / Question Manager -->
-    <div id="adminPanel" class="admin-panel">
-        <h3>Question Manager</h3>
-        <p class="small muted">Load questions from a JSON file. The file should contain q1, q2, q3, and q4 arrays with the appropriate structure.</p>
-
-        <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
-            <input type="file" id="questionsFileInput" accept=".json" onchange="loadQuestionsFromFile()" />
-            <button class="btn" onclick="exportQuestions()">Export Current Questions</button>
-            <button class="btn secondary" onclick="backToMenu()">Back to Menu</button>
-        </div>
-
-        <div id="questionsStatus" class="small muted" style="margin-top:8px;"></div>
-        <div class="question-list" id="questionsDisplay"></div>
-    </div>
-
     <!-- Leaderboard panel -->
     <div id="leaderboardPanel" class="admin-panel hidden">
         <h3>Local Leaderboard (all attempts)</h3>
@@ -216,50 +195,6 @@ let gameState = {
 const $ = id => document.getElementById(id);
 
 /* ------------------ Question Loading ------------------ */
-function loadQuestionsFromFile() {
-    const fileInput = $('questionsFileInput');
-    const file = fileInput.files[0];
-    
-    if (!file) {
-        updateQuestionsStatus("No file selected", false);
-        return;
-    }
-    
-    const reader = new FileReader();
-    reader.onload = function(e) {
-        try {
-            const jsonData = JSON.parse(e.target.result);
-            
-            // Validate structure
-            if (!jsonData.q1 || !jsonData.q2 || !jsonData.q3 || !jsonData.q4) {
-                throw new Error("JSON file must contain q1, q2, q3, and q4 arrays");
-            }
-            
-            // Additional validation
-            if (!Array.isArray(jsonData.q1) || !Array.isArray(jsonData.q2) || 
-                !Array.isArray(jsonData.q3) || !Array.isArray(jsonData.q4)) {
-                throw new Error("All quarters must be arrays");
-            }
-            
-            QUESTIONS = jsonData;
-            gameState.questionsLoaded = true;
-            
-            updateQuestionsStatus(`Successfully loaded: Q1(${jsonData.q1.length}) Q2(${jsonData.q2.length}) Q3(${jsonData.q3.length}) Q4(${jsonData.q4.length})`, true);
-            renderQuestionsDisplay();
-            
-        } catch (error) {
-            updateQuestionsStatus(`Error loading file: ${error.message}`, false);
-            gameState.questionsLoaded = false;
-        }
-    };
-    
-    reader.onerror = function() {
-        updateQuestionsStatus("Error reading file", false);
-        gameState.questionsLoaded = false;
-    };
-    
-    reader.readAsText(file);
-}
 
 function updateQuestionsStatus(message, success) {
     const statusEl = $('questionsStatus');
@@ -302,7 +237,6 @@ function clearFeedback(){
 function backToMenu(){
     clearAllTimers();
     $('gameArea').style.display = 'none';
-    $('adminPanel').style.display = 'none';
     $('leaderboardPanel').style.display = 'none';
     $('mainMenu').style.display = 'grid';
     gameState.mode = 'practice';
@@ -336,20 +270,10 @@ function startFullGameFromMenu(){
     startGame();
 }
 
-function showQuestionManager(){
-    clearAllTimers();
-    $('mainMenu').style.display = 'none';
-    $('gameArea').style.display = 'none';
-    $('leaderboardPanel').style.display = 'none';
-    $('adminPanel').style.display = 'block';
-    renderQuestionsDisplay();
-}
-
 function showLeaderboardPanel(){
     clearAllTimers();
     $('mainMenu').style.display = 'none';
     $('gameArea').style.display = 'none';
-    $('adminPanel').style.display = 'none';
     $('leaderboardPanel').style.display = 'block';
     renderLeaderboard();
 }
@@ -1123,21 +1047,25 @@ function clearLeaderboard(){
 }
 
 /* ------------------ Import/Export Questions ------------------ */
-function exportQuestions(){
-    if (!gameState.questionsLoaded) {
-        alert("No questions loaded to export.");
-        return;
-    }
-    const asText = JSON.stringify(QUESTIONS, null, 2);
-    const blob = new Blob([asText], {type: 'application/json'});
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'hb_questions_export.json';
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    URL.revokeObjectURL(url);
+function loadQuestionsFromServer() {
+    fetch('questions.json')
+      .then(response => {
+          if (!response.ok) throw new Error("Failed to load questions.json");
+          return response.json();
+      })
+      .then(jsonData => {
+          if (!jsonData.q1 || !jsonData.q2 || !jsonData.q3 || !jsonData.q4) {
+              throw new Error("questions.json must contain q1, q2, q3, q4");
+          }
+          QUESTIONS = jsonData;
+          gameState.questionsLoaded = true;
+          updateQuestionsStatus(`Successfully loaded: Q1(${jsonData.q1.length}) Q2(${jsonData.q2.length}) Q3(${jsonData.q3.length}) Q4(${jsonData.q4.length})`, true);
+          renderQuestionsDisplay();
+      })
+      .catch(err => {
+          updateQuestionsStatus("Error: " + err.message, false);
+          gameState.questionsLoaded = false;
+      });
 }
 
 /* Render a simple questions display */
