@@ -151,6 +151,77 @@
 /* ================================================================
    Game state & helpers
    ================================================================ */
+let QUESTIONS = null;
+let gameState = {
+    questionsLoaded: false
+};
+
+// Fetch questions from server
+async function loadQuestionsFromServer() {
+    try {
+        const response = await fetch('questions.json');
+        if (!response.ok) throw new Error("Failed to load questions.json");
+        const jsonData = await response.json();
+
+        // Basic structure check
+        if (!jsonData.q1 || !jsonData.q2 || !jsonData.q3 || !jsonData.q4) {
+            throw new Error("questions.json must contain q1, q2, q3, q4");
+        }
+
+        QUESTIONS = jsonData;
+        gameState.questionsLoaded = true;
+
+        // Count total questions correctly
+        const q3Count = jsonData.q3.reduce((sum, cat) => sum + cat.questions.length, 0);
+        const q4Count = jsonData.q4.reduce((sum, group) => sum + group.parts.length, 0);
+
+        updateQuestionsStatus(
+            `Successfully loaded: Q1(${jsonData.q1.length}) Q2(${jsonData.q2.length}) Q3(${q3Count}) Q4(${q4Count})`,
+            true
+        );
+
+        renderQuestionsDisplay();
+
+    } catch (err) {
+        updateQuestionsStatus("Error: " + err.message, false);
+        gameState.questionsLoaded = false;
+        console.error(err);
+    }
+}
+
+// Utility: pick a random element from an array
+function getRandomItem(array) {
+    return array[Math.floor(Math.random() * array.length)];
+}
+
+// Get a random question for Q1 or Q2
+function getRandomQuestion(quarter) {
+    if (!QUESTIONS || !QUESTIONS[quarter]) return null;
+    return getRandomItem(QUESTIONS[quarter]);
+}
+
+// Get random questions for Q3: pick 3 categories and all their 6 questions
+function getRandomQ3Categories() {
+    if (!QUESTIONS || !QUESTIONS.q3) return [];
+
+    const shuffledCategories = [...QUESTIONS.q3].sort(() => Math.random() - 0.5);
+    const selectedCategories = shuffledCategories.slice(0, 3);
+
+    return selectedCategories; // each has .category and .questions array
+}
+
+// Get a random Q4 question part
+function getRandomQ4Question() {
+    if (!QUESTIONS || !QUESTIONS.q4) return null;
+    const group = getRandomItem(QUESTIONS.q4);
+    return getRandomItem(group.parts);
+}
+
+// Example usage:
+// const q1Question = getRandomQuestion('q1');
+// const q2Question = getRandomQuestion('q2');
+// const q3Categories = getRandomQ3Categories();
+// const q4Question = getRandomQ4Question();
 
 let QUESTIONS = {
     q1: [],
@@ -1045,79 +1116,6 @@ function clearLeaderboard(){
 }
 
 /* ------------------ Import/Export Questions ------------------ */
-<script>
-let QUESTIONS = null;
-let gameState = {
-    questionsLoaded: false
-};
-
-// Fetch questions from server
-async function loadQuestionsFromServer() {
-    try {
-        const response = await fetch('questions.json');
-        if (!response.ok) throw new Error("Failed to load questions.json");
-        const jsonData = await response.json();
-
-        // Basic structure check
-        if (!jsonData.q1 || !jsonData.q2 || !jsonData.q3 || !jsonData.q4) {
-            throw new Error("questions.json must contain q1, q2, q3, q4");
-        }
-
-        QUESTIONS = jsonData;
-        gameState.questionsLoaded = true;
-
-        // Count total questions correctly
-        const q3Count = jsonData.q3.reduce((sum, cat) => sum + cat.questions.length, 0);
-        const q4Count = jsonData.q4.reduce((sum, group) => sum + group.parts.length, 0);
-
-        updateQuestionsStatus(
-            `Successfully loaded: Q1(${jsonData.q1.length}) Q2(${jsonData.q2.length}) Q3(${q3Count}) Q4(${q4Count})`,
-            true
-        );
-
-        renderQuestionsDisplay();
-
-    } catch (err) {
-        updateQuestionsStatus("Error: " + err.message, false);
-        gameState.questionsLoaded = false;
-        console.error(err);
-    }
-}
-
-// Utility: pick a random element from an array
-function getRandomItem(array) {
-    return array[Math.floor(Math.random() * array.length)];
-}
-
-// Get a random question for Q1 or Q2
-function getRandomQuestion(quarter) {
-    if (!QUESTIONS || !QUESTIONS[quarter]) return null;
-    return getRandomItem(QUESTIONS[quarter]);
-}
-
-// Get random questions for Q3: pick 3 categories and all their 6 questions
-function getRandomQ3Categories() {
-    if (!QUESTIONS || !QUESTIONS.q3) return [];
-
-    const shuffledCategories = [...QUESTIONS.q3].sort(() => Math.random() - 0.5);
-    const selectedCategories = shuffledCategories.slice(0, 3);
-
-    return selectedCategories; // each has .category and .questions array
-}
-
-// Get a random Q4 question part
-function getRandomQ4Question() {
-    if (!QUESTIONS || !QUESTIONS.q4) return null;
-    const group = getRandomItem(QUESTIONS.q4);
-    return getRandomItem(group.parts);
-}
-
-// Example usage:
-// const q1Question = getRandomQuestion('q1');
-// const q2Question = getRandomQuestion('q2');
-// const q3Categories = getRandomQ3Categories();
-// const q4Question = getRandomQ4Question();
-</script>
 
 
 /* Render a simple questions display */
