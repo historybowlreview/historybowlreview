@@ -399,7 +399,8 @@ function resetGame(){
         activeQ1: shuffle([...QUESTIONS.q1]),
         activeQ2: shuffle([...QUESTIONS.q2]),
         activeQ3: shuffle([...QUESTIONS.q3]),
-        activeQ4: shuffle([...QUESTIONS.q4])
+        activeQ4: shuffle([...QUESTIONS.q4]),
+        practiceQuarterSelected: false // <-- ADD THIS LINE
     };
     $('questionText').textContent = gameState.questionsLoaded ? 
         "Click 'Next Question' to start!" : 
