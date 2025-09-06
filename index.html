@@ -136,7 +136,7 @@
         <!-- Controls to go back or reset -->
         <div class="controls-row" style="margin-top:12px">
             <button class="btn secondary" onclick="backToMenu()">Back to Menu</button>
-            <button class="btn" onclick="resetGame()">Reset Game</button>
+            <button class="btn" onclick="resetPracticeGame()">Reset Game</button>
         </div>
     </div>
 
@@ -445,6 +445,10 @@ function resetGame(){
     $('timerDisplay').textContent = '--';
     updateScoreDisplays();
     clearFeedback();
+}
+
+function resetPracticeGame() {
+    resetGame();
     if (gameState.mode === 'practice') {
         if (promptPracticeQuarter()) {
             nextQuestion();
@@ -643,11 +647,6 @@ function finishQ3CategoryRound() {
     $('questionText').innerHTML = resultHtml;
     updateScoreDisplays();
     setFeedback(`Category complete! ${correct} correct, +${points} pts.`, true);
-    if (gameState.mode === 'practice') {
-        gameState.q3selectedCategory = null;
-        showCategorySelection();
-    }
-
     setTimeout(() => {
         if (gameState.mode === 'full') {
             gameState.currentQuarter++;
