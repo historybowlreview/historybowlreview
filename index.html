@@ -114,7 +114,6 @@
 
         <div class="controls">
             <button id="buzzerBtn" class="buzzer-btn" onclick="buzz()" disabled>🔔 BUZZ</button>
-            <button class="btn" onclick="nextQuestion()">Next Question</button>
             <button class="btn secondary" onclick="showAnswer()">Show Answer</button>
 
             <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
@@ -231,7 +230,7 @@ function getRandomQ4Part() {
 // const q4Question = getRandomQ4Question();
 
 let gameState = {
-    mode: "practice",
+    mode: null,
     currentQuarter: 1,
     q3CategoryQuestions: [],
     q3Timer: null,
@@ -323,6 +322,30 @@ function openPracticeMode(){
     $('modeDisplay').textContent = 'Practice';
     $('mainMenu').style.display = 'none';
     $('gameArea').style.display = 'block';
+    // This line is now unnecessary since button is removed:
+    // updateNextQuestionButtonVisibility();
+    if (promptPracticeQuarter()) {
+        nextQuestion();
+    }
+}
+
+function promptPracticeQuarter() {
+    const choice = prompt("Enter practice quarter (1,2,3,4) or 'q' to cancel:", "1");
+    if (!choice || choice.toLowerCase() === 'q') {
+        backToMenu();
+        return false;
+    }
+    const q = parseInt(choice);
+    if (![1,2,3,4].includes(q)) {
+        alert("Invalid quarter");
+        return promptPracticeQuarter();
+    }
+    gameState.currentQuarter = q;
+    gameState.practiceQuarterSelected = true;
+    gameState.currentQuestionIndex = -1;
+    gameState.q3selectedCategory = null;
+    gameState.q3categoryProgress = 0;
+    return true;
 }
 
 function startFullGameFromMenu(){
@@ -420,6 +443,11 @@ function resetGame(){
     $('timerDisplay').textContent = '--';
     updateScoreDisplays();
     clearFeedback();
+    if (gameState.mode === 'practice') {
+        if (promptPracticeQuarter()) {
+            nextQuestion();
+        }
+    }
 }
 
 function shuffle(array){
@@ -626,6 +654,10 @@ function finishQ3CategoryRound() {
     $('questionText').innerHTML = resultHtml;
     updateScoreDisplays();
     setFeedback(`Category complete! ${correct} correct, +${points} pts.`, true);
+    if (gameState.mode === 'practice') {
+        gameState.q3selectedCategory = null;
+        showCategorySelection();
+    }
 
     setTimeout(() => {
         if (gameState.mode === 'full') {
@@ -1072,14 +1104,13 @@ async function finishGame() {
 
     // Build the score entry
     const entry = {
-        date: new Date().toISOString(),
-        name: playerName,                     // NEW
-        totalScore: totalScore,
-        averageBuzzInTime: avgBuzz,
+      date: new Date().toISOString(),
+      name: $('playerNameInput').value.trim() || "Anonymous",
+      totalScore: totalScore,
+      averageBuzzInTime: avgBuzz
     };
-
-    // Save to global leaderboard
     await saveScoreToGlobalLeaderboard(entry);
+
 
     // Update UI
     $('questionText').textContent = `Game finished! Score: ${totalScore} / Avg Buzz-in: ${avgBuzz ? avgBuzz.toFixed(1) + 's' : 'N/A'} / Questions: ${entry.questionsAnswered}. Saved to global leaderboard.`;
@@ -1117,8 +1148,8 @@ async function renderGlobalLeaderboard() {
     try {
         const res = await fetch(WORKER_URL, { method: "GET" });
         if (!res.ok) throw new Error(`Failed to fetch leaderboard: ${res.status} ${res.statusText}`);
-
         const scores = await res.json();
+
 
         container.innerHTML = '';
         if (!scores.length) {
