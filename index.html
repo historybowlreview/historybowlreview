@@ -145,8 +145,6 @@
     </div>
 
     <footer>
-        <div class="small">Notes: Response time tracking measures from buzz to correct answer submission. Load your questions.json file to begin playing.</div>
-    </footer>
 </div>
 
 <script>
@@ -245,7 +243,7 @@ function backToMenu(){
 
 function openPracticeMode(){
     if (!gameState.questionsLoaded) {
-        alert("Please load questions first from the Question Manager.");
+        alert("Questions failed to load.");
         showQuestionManager();
         return;
     }
@@ -258,7 +256,7 @@ function openPracticeMode(){
 
 function startFullGameFromMenu(){
     if (!gameState.questionsLoaded) {
-        alert("Please load questions first from the Question Manager.");
+        alert("Questions failed to load.");
         showQuestionManager();
         return;
     }
@@ -341,7 +339,7 @@ function resetGame(){
     };
     $('questionText').textContent = gameState.questionsLoaded ? 
         "Click 'Next Question' to start!" : 
-        "Load questions first from Question Manager!";
+        "Questions failed to load";
     $('buzzerBtn').disabled = true;
     $('answerInput').disabled = true;
     $('answerInput').value = '';
@@ -372,7 +370,7 @@ function getCurrentQuarterArray(){
 /* ------------------ Start Next Question ------------------ */
 function nextQuestion() {
     if (!gameState.questionsLoaded) {
-        alert("Please load questions first from the Question Manager.");
+        alert("Questions failed to load.");
         showQuestionManager();
         return;
     }
@@ -1072,11 +1070,6 @@ function loadQuestionsFromServer() {
 function renderQuestionsDisplay(){
     const container = $('questionsDisplay');
     container.innerHTML = '';
-    
-    if (!gameState.questionsLoaded) {
-        container.innerHTML = '<p class="muted">No questions loaded. Use the file input above to load a JSON file.</p>';
-        return;
-    }
     
     const summary = document.createElement('div');
     summary.innerHTML = `
