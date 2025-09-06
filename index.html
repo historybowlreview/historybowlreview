@@ -81,7 +81,6 @@
         <div id="playerNameContainer" style="margin-bottom: 10px;">
             <input type="text" id="playerNameInput" placeholder="Enter your name" maxlength="20" style="padding: 5px; width: 200px;">
         </div>
-        
 
     </div>
 
@@ -112,7 +111,6 @@
         <div class="question-area">
             <div id="questionText" class="question-text">Load questions first, then click "Next Question" to begin.</div>
         </div>
-        </div>
 
         <div class="controls">
             <button id="buzzerBtn" class="buzzer-btn" onclick="buzz()" disabled>🔔 BUZZ</button>
@@ -132,11 +130,6 @@
         </div>
 
         <div id="feedback" class="feedback"></div>
-        <!-- Player Name + Submit Button (hidden by default) -->
-        <div id="playerNameContainer" style="margin-bottom: 10px; display: none;">
-            <input type="text" id="playerNameInput" placeholder="Enter your name" maxlength="20" style="padding: 5px; width: 200px;">
-            <button class="btn" id="submitScoreBtn" onclick="submitScore()">Submit Score</button>
-        </div>
 
         <!-- Q3 category selection area -->
         <div id="categorySelection" class="categories hidden"></div>
@@ -422,7 +415,6 @@ function resetGame(){
     $('buzzerBtn').disabled = true;
     $('answerInput').disabled = true;
     $('answerInput').value = '';
-    $('playerNameContainer').style.display = 'none';
     $('currentResponseTime').textContent = 'Response time: --';
     $('questionCounter').textContent = 'Q 0 / 0';
     $('timerDisplay').textContent = '--';
@@ -564,11 +556,6 @@ function nextQuestion() {
 
 /* ------------------ Category selection for Q3 ------------------ */
 function showCategorySelection(){
-    // If a category is already selected, hide the selection panel
-    if (gameState.q3selectedCategory !== null) {
-        $('categorySelection').classList.add('hidden');
-        return;
-    }
     const container = $('categorySelection');
     container.innerHTML = `<h4 style="width:100%">Select a Category</h4>`;
     container.classList.remove('hidden');
@@ -1095,35 +1082,13 @@ async function finishGame() {
 
     // Save to global leaderboard
     await saveScoreToGlobalLeaderboard(entry);
-    // Only show player name and submit button after full game
-    if (gameState.mode === "full") {
-        $('playerNameContainer').style.display = 'block'; // Show input/button
-
-        $('submitScoreBtn').onclick = async function() {
-            const playerName = $('playerNameInput').value.trim() || "Anonymous";
-            const entry = {
-                date: new Date().toISOString(),
-                name: playerName,
-                totalScore: totalScore,
-                averageBuzzInTime: avgBuzz
-            };
-            await saveScoreToGlobalLeaderboard(entry);
-            $('questionText').textContent = `Game finished! Score: ${totalScore} / Avg Buzz-in: ${avgBuzz ? avgBuzz.toFixed(1) + 's' : 'N/A'}. Saved to global leaderboard.`;
-            setFeedback("Game complete — check the leaderboard from the menu.", true);
-            $('playerNameContainer').style.display = 'none'; // Hide after submitting
-        };
-    } else {
-        $('playerNameContainer').style.display = 'none';
-    }
 
     // Update UI
     $('questionText').textContent = `Game finished! Score: ${totalScore} / Avg Buzz-in: ${avgBuzz ? avgBuzz.toFixed(1) + 's' : 'N/A'} / Questions: ${entry.questionsAnswered}. Saved to global leaderboard.`;
     setFeedback("Game complete — check the leaderboard from the menu.", true);
-    // Disable input
     $('buzzerBtn').disabled = true;
     $('answerInput').disabled = true;
 }
-
 
 /* ------------------ Save score to global leaderboard ------------------ */
 async function saveScoreToGlobalLeaderboard(entry) {
@@ -1150,25 +1115,12 @@ async function renderGlobalLeaderboard() {
     const WORKER_URL = "https://patient-base-c952.javalutionization.workers.dev";
     const container = $('leaderboardList');
     container.innerHTML = 'Loading...';
-
-    try {
+     try {
         const res = await fetch(WORKER_URL, { method: "GET" });
 
         if (!res.ok) throw new Error(`Failed to fetch leaderboard: ${res.status} ${res.statusText}`);
 
         const scores = await res.json();
-        let scores = await res.json();
-
-        // Sort by score desc, then by fastest buzz-in
-        scores = scores.sort((a, b) => {
-            if (b.totalScore !== a.totalScore) return b.totalScore - a.totalScore;
-            if (a.averageBuzzInTime == null) return 1;
-            if (b.averageBuzzInTime == null) return -1;
-            return a.averageBuzzInTime - b.averageBuzzInTime;
-        });
-
-        // Only show top 10
-        scores = scores.slice(0, 10);
 
         container.innerHTML = '';
         if (!scores.length) {
@@ -1181,7 +1133,6 @@ async function renderGlobalLeaderboard() {
             d.style.padding = '8px';
             d.style.borderBottom = '1px solid #eef2f7';
             d.innerHTML = `<strong>#${idx + 1}</strong> — ${e.name ? e.name : "Anonymous"} — ${new Date(e.date).toLocaleString()} — Mode: ${e.mode} — Score: ${e.totalScore} — Avg Buzz-in: ${e.averageBuzzInTime ? e.averageBuzzInTime.toFixed(1) + 's' : 'N/A'} — Questions: ${e.questionsAnswered || 0}`;
-            d.innerHTML = `<strong>#${idx + 1}</strong> — ${e.name ? e.name : "Anonymous"} — ${new Date(e.date).toLocaleString()} — Score: ${e.totalScore} — Avg Buzz-in: ${e.averageBuzzInTime ? e.averageBuzzInTime.toFixed(1) + 's' : 'N/A'}`;
             container.appendChild(d);
         });
     } catch (err) {
