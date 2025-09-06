@@ -1,0 +1,201 @@
+{
+  "q1": [
+    {
+      "question": "This ancient wonder of the world was located in Alexandria and was destroyed by earthquakes. Name this lighthouse.",
+      "answer": "Lighthouse of Alexandria"
+    },
+    {
+      "question": "This Roman general crossed the Rubicon River in 49 BCE, starting a civil war. Name him.",
+      "answer": "Julius Caesar"
+    },
+    {
+      "question": "This 1803 purchase doubled the size of the United States. Name this acquisition.",
+      "answer": "Louisiana Purchase"
+    },
+    {
+      "question": "This battle in 1066 saw the Norman conquest of England. Name this battle.",
+      "answer": "Battle of Hastings"
+    },
+    {
+      "question": "This ancient Greek playwright wrote 'Oedipus Rex'. Name this playwright.",
+      "answer": "Sophocles"
+    },
+    {
+      "question": "This conflict began in 1914 with the assassination of Archduke Franz Ferdinand. Name the war.",
+      "answer": "World War I"
+    },
+    {
+      "question": "This document, signed in 1215, limited the power of the English monarchy. Name it.",
+      "answer": "Magna Carta"
+    },
+    {
+      "question": "This trade route connected China to the Mediterranean across Central Asia. Name it.",
+      "answer": "Silk Road"
+    }
+  ],
+  "q2": [
+    {
+      "tossup": {
+        "question": "This president purchased Louisiana from France in 1803.",
+        "answer": "Thomas Jefferson"
+      },
+      "bonus": {
+        "question": "Name the two explorers Jefferson sent to map this new territory.",
+        "answer": "Lewis and Clark"
+      }
+    },
+    {
+      "tossup": {
+        "question": "This Egyptian queen allied herself with Julius Caesar and later Mark Antony.",
+        "answer": "Cleopatra VII"
+      },
+      "bonus": {
+        "question": "Name the battle where Octavian defeated Antony and Cleopatra in 31 BCE.",
+        "answer": "Battle of Actium"
+      }
+    },
+    {
+      "tossup": {
+        "question": "This English king had six wives and initiated the English Reformation.",
+        "answer": "Henry VIII"
+      },
+      "bonus": {
+        "question": "Name the daughter of Henry VIII who reigned after Edward VI and was nicknamed 'Bloody'.",
+        "answer": "Mary I"
+      }
+    },
+    {
+      "tossup": {
+        "question": "This 19th-century German chancellor unified Germany after the Franco-Prussian War.",
+        "answer": "Otto von Bismarck"
+      },
+      "bonus": {
+        "question": "Name the 1871 proclamation city where the German Empire was declared.",
+        "answer": "Versailles"
+      }
+    }
+  ],
+  "q3": [
+    {
+      "category": "Ancient Civilizations",
+      "questions": [
+        {
+          "question": "This river was crucial to Egyptian civilization.",
+          "answer": "Nile River"
+        },
+        {
+          "question": "This code was created by a Babylonian king.",
+          "answer": "Code of Hammurabi"
+        },
+        {
+          "question": "This city-state was known for its military culture.",
+          "answer": "Sparta"
+        },
+        {
+          "question": "This structure was built to keep out northern invaders in China.",
+          "answer": "Great Wall of China"
+        },
+        {
+          "question": "This empire was founded by Cyrus the Great.",
+          "answer": "Persian Empire"
+        },
+        {
+          "question": "This wonder of the world was located in Babylon.",
+          "answer": "Hanging Gardens of Babylon"
+        }
+      ]
+    },
+    {
+      "category": "American History",
+      "questions": [
+        {
+          "question": "This document was signed in 1776.",
+          "answer": "Declaration of Independence"
+        },
+        {
+          "question": "This war lasted from 1861 to 1865.",
+          "answer": "American Civil War"
+        },
+        {
+          "question": "This president was assassinated in 1865.",
+          "answer": "Abraham Lincoln"
+        },
+        {
+          "question": "This purchase was made from Russia in 1867.",
+          "answer": "Alaska Purchase"
+        },
+        {
+          "question": "This amendment abolished slavery.",
+          "answer": "13th Amendment"
+        },
+        {
+          "question": "This trail was used by pioneers moving west.",
+          "answer": "Oregon Trail"
+        }
+      ]
+    },
+    {
+      "category": "World Wars",
+      "questions": [
+        {
+          "question": "This event started World War I in 1914.",
+          "answer": "Assassination of Archduke Franz Ferdinand"
+        },
+        {
+          "question": "This battle was the longest of World War I.",
+          "answer": "Battle of Verdun"
+        },
+        {
+          "question": "This country invaded Poland in 1939.",
+          "answer": "Germany"
+        },
+        {
+          "question": "This attack brought the US into World War II.",
+          "answer": "Pearl Harbor"
+        },
+        {
+          "question": "This operation was the D-Day invasion.",
+          "answer": "Operation Overlord"
+        },
+        {
+          "question": "This city was the first target of an atomic bomb.",
+          "answer": "Hiroshima"
+        }
+      ]
+    }
+  ],
+  "q4": [
+    {
+      "parts": [
+        {
+          "text": "This 19th-century American novelist wrote an epic tale of obsession and the sea (30 pts).",
+          "answer": "Herman Melville"
+        },
+        {
+          "text": "This author wrote 'Moby-Dick', which features Captain Ahab (20 pts).",
+          "answer": "Herman Melville"
+        },
+        {
+          "text": "Name the author of 'Billy Budd' as well (10 pts).",
+          "answer": "Herman Melville"
+        }
+      ]
+    },
+    {
+      "parts": [
+        {
+          "text": "This Renaissance artist painted the ceiling of the Sistine Chapel (30 pts).",
+          "answer": "Michelangelo"
+        },
+        {
+          "text": "He was also a sculptor who created the statue of David (20 pts).",
+          "answer": "Michelangelo"
+        },
+        {
+          "text": "Name this Italian master who carved 'Pietà' (10 pts).",
+          "answer": "Michelangelo"
+        }
+      ]
+    }
+  ]
+}

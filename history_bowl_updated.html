@@ -1,0 +1,1187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>History Bowl Study Program — Response Time Tracking</title>
+<style>
+    /* --------- Visual styles (kept from your original, adjusted slightly) ---------- */
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+        min-height:100vh;color:#222;padding:24px;
+    }
+    .container{max-width:1100px;margin:0 auto;background:transparent}
+    .header{text-align:center;color:#fff;margin-bottom:20px}
+    .header h1{font-size:2.2rem;text-shadow:2px 2px 4px rgba(0,0,0,0.25)}
+    .menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:16px}
+    .card{background:rgba(255,255,255,0.95);padding:18px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.12);cursor:pointer}
+    .card h3{color:#5a67d8;margin-bottom:8px}
+    .btn{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:600}
+    .btn.secondary{background:#6c757d;margin-left:8px}
+    .game-area{display:none;margin-bottom:18px}
+    .scoreboard{display:flex;gap:12px;align-items:center;background:#f8f9fa;padding:12px;border-radius:10px;margin-bottom:12px}
+    .team-score{flex:1;text-align:center;padding:8px;background:white;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+    .team-name{font-weight:700;color:#5a67d8}
+    .score{font-size:1.6rem;font-weight:800}
+    .question-area{background:#f8f9fa;padding:16px;border-left:6px solid #5a67d8;border-radius:8px;min-height:110px}
+    .question-text{font-size:1.05rem;color:#2d3748;min-height:62px}
+    .controls{display:flex;gap:8px;align-items:center;margin-top:12px;flex-wrap:wrap}
+    .buzzer-btn{background:#e53e3e;color:white;padding:12px 22px;border-radius:999px;border:none;font-size:16px;font-weight:700;cursor:pointer}
+    .buzzer-btn:disabled{background:#a0aec0;cursor:not-allowed}
+    .answer-input{padding:10px;border-radius:8px;border:2px solid #e2e8f0;font-size:15px;width:100%;max-width:520px}
+    .feedback{margin-top:10px;padding:12px;border-radius:8px;font-weight:700;display:none}
+    .feedback.correct{background:#c6f6d5;color:#22543d;border:1px solid #9ae6b4}
+    .feedback.incorrect{background:#fed7d7;color:#742a2a;border:1px solid #fc8181}
+    .hidden{display:none}
+    .categories{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}
+    .category-btn{padding:12px;border-radius:8px;background:white;border:1px solid #e2e8f0;cursor:pointer;text-align:center}
+    .category-btn.selected{background:#5a67d8;color:white;border-color:#5a67d8}
+    .admin-panel{display:none;background:rgba(255,255,255,0.95);padding:16px;border-radius:12px;margin-top:12px}
+    .question-list{background:white;padding:12px;border-radius:8px;max-height:260px;overflow:auto;margin-top:8px}
+    .controls-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}
+    .leaderboard{background:#fff;padding:12px;border-radius:8px;margin-top:12px;max-height:260px;overflow:auto}
+    .small{font-size:0.9rem;color:#444}
+    .muted{color:#666;font-size:0.9rem}
+    .error{color:#e53e3e;background:#fed7d7;padding:8px;border-radius:8px;margin:8px 0}
+    footer{margin-top:18px;color:#fff;text-align:center;font-size:0.9rem}
+    @media (max-width:700px){.scoreboard{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>📚 History Bowl Study Program</h1>
+        <p class="small">Single-team practice + Full-game simulation — response time tracking</p>
+    </div>
+
+    <!-- Main menu -->
+    <div id="mainMenu" class="menu">
+        <div class="card" onclick="openPracticeMode()">
+            <h3>🎯 Practice Mode</h3>
+            <p class="muted">Pick a quarter to target specific formats and question types.</p>
+            <div style="margin-top:10px"><button class="btn">Start Practice</button></div>
+        </div>
+
+        <div class="card" onclick="startFullGameFromMenu()">
+            <h3>🏆 Full Game Simulation</h3>
+            <p class="muted">Play a full match (Q1→Q4) with official scoring & bonuses.</p>
+            <div style="margin-top:10px"><button class="btn">Start Full Game</button></div>
+        </div>
+
+        <div class="card" onclick="showQuestionManager()">
+            <h3>➕ Question Manager</h3>
+            <p class="muted">Load questions from JSON file and manage question sets.</p>
+            <div style="margin-top:10px"><button class="btn">Manage Questions</button></div>
+        </div>
+
+        <div class="card" onclick="showLeaderboardPanel()">
+            <h3>🏅 Local Leaderboard</h3>
+            <p class="muted">Your browser stores every saved attempt. Sorted by score and response time.</p>
+            <div style="margin-top:10px"><button class="btn">View Leaderboard</button></div>
+        </div>
+    </div>
+
+    <!-- Game area -->
+    <div id="gameArea" class="game-area">
+        <div class="scoreboard">
+            <div class="team-score">
+                <div class="team-name">Score</div>
+                <div class="score" id="rawScore">0</div>
+                <div class="small muted">Total points</div>
+            </div>
+            <div style="text-align:center">
+                <div class="small">Quarter</div>
+                <div id="quarterDisplay" style="font-weight:700">1</div>
+                <div id="questionCounter" class="small muted">Q 0 / 0</div>
+            </div>
+            <div class="team-score">
+                <div class="team-name">Avg Time</div>
+                <div class="score" id="avgResponseTime">--</div>
+                <div class="small muted">Seconds per question</div>
+            </div>
+        </div>
+        <div style="text-align:center">
+           <div class="small">Timer</div>
+            <div id="timerDisplay" style="font-weight:700">--</div>
+        </div>
+
+        <div class="question-area">
+            <div id="questionText" class="question-text">Load questions first, then click "Next Question" to begin.</div>
+        </div>
+
+        <div class="controls">
+            <button id="buzzerBtn" class="buzzer-btn" onclick="buzz()" disabled>🔔 BUZZ</button>
+            <button class="btn" onclick="nextQuestion()">Next Question</button>
+            <button class="btn secondary" onclick="showAnswer()">Show Answer</button>
+
+            <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+                <div class="small muted">Mode:</div>
+                <div id="modeDisplay" style="font-weight:700">Practice</div>
+            </div>
+        </div>
+
+        <div class="controls-row">
+            <input id="answerInput" class="answer-input" placeholder="Type answer and press Enter or Submit..." disabled>
+            <button class="btn" onclick="submitAnswer()">Submit</button>
+            <div id="currentResponseTime" class="small muted">Response time: --</div>
+        </div>
+
+        <div id="feedback" class="feedback"></div>
+
+        <!-- Q3 category selection area -->
+        <div id="categorySelection" class="categories hidden"></div>
+
+        <!-- Controls to go back or reset -->
+        <div class="controls-row" style="margin-top:12px">
+            <button class="btn secondary" onclick="backToMenu()">Back to Menu</button>
+            <button class="btn" onclick="resetGame()">Reset Game</button>
+        </div>
+    </div>
+
+    <!-- Admin / Question Manager -->
+    <div id="adminPanel" class="admin-panel">
+        <h3>Question Manager</h3>
+        <p class="small muted">Load questions from a JSON file. The file should contain q1, q2, q3, and q4 arrays with the appropriate structure.</p>
+
+        <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+            <input type="file" id="questionsFileInput" accept=".json" onchange="loadQuestionsFromFile()" />
+            <button class="btn" onclick="exportQuestions()">Export Current Questions</button>
+            <button class="btn secondary" onclick="backToMenu()">Back to Menu</button>
+        </div>
+
+        <div id="questionsStatus" class="small muted" style="margin-top:8px;"></div>
+        <div class="question-list" id="questionsDisplay"></div>
+    </div>
+
+    <!-- Leaderboard panel -->
+    <div id="leaderboardPanel" class="admin-panel hidden">
+        <h3>Local Leaderboard (all attempts)</h3>
+        <div style="display:flex;gap:8px;margin-bottom:8px;align-items:center">
+            <button class="btn" onclick="clearLeaderboard()">Clear Leaderboard</button>
+            <button class="btn secondary" onclick="backToMenu()">Back to Menu</button>
+        </div>
+        <div class="leaderboard" id="leaderboardList"></div>
+    </div>
+
+    <footer>
+        <div class="small">Notes: Response time tracking measures from buzz to correct answer submission. Load your questions.json file to begin playing.</div>
+    </footer>
+</div>
+
+<script>
+/* ================================================================
+   Game state & helpers
+   ================================================================ */
+
+let QUESTIONS = {
+    q1: [],
+    q2: [],
+    q3: [],
+    q4: []
+};
+
+let gameState = {
+    mode: "practice",
+    currentQuarter: 1,
+    q3CategoryQuestions: [],
+    q3Timer: null,
+    q3TimeLeft: 60,
+    q3CurrentQuestionIdx: 0,
+    q3CategoryActive: false,
+    currentQuestionIndex: -1,
+    rawScore: 0,
+    responseTimes: [], // Array to track response times
+    readingInterval: null,
+    postReadTimer: null,
+    answerTimer: null,
+    readingCharIndex: 0,
+    q4CurrentPart: 0,
+    currentQuestionText: "",
+    currentAnswer: "",
+    currentBonus: null,
+    buzzed: false,
+    multiplier: 1,
+    q3selectedCategory: null,
+    q3categoryProgress: 0,
+    q3categoryCorrectCount: 0,
+    q3Swept: false,
+    lastActionTimestamp: null,
+    questionStartTime: null, // When question reading began
+    buzzTime: null, // When user buzzed
+    questionsLoaded: false
+};
+
+const $ = id => document.getElementById(id);
+
+/* ------------------ Question Loading ------------------ */
+function loadQuestionsFromFile() {
+    const fileInput = $('questionsFileInput');
+    const file = fileInput.files[0];
+    
+    if (!file) {
+        updateQuestionsStatus("No file selected", false);
+        return;
+    }
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const jsonData = JSON.parse(e.target.result);
+            
+            // Validate structure
+            if (!jsonData.q1 || !jsonData.q2 || !jsonData.q3 || !jsonData.q4) {
+                throw new Error("JSON file must contain q1, q2, q3, and q4 arrays");
+            }
+            
+            // Additional validation
+            if (!Array.isArray(jsonData.q1) || !Array.isArray(jsonData.q2) || 
+                !Array.isArray(jsonData.q3) || !Array.isArray(jsonData.q4)) {
+                throw new Error("All quarters must be arrays");
+            }
+            
+            QUESTIONS = jsonData;
+            gameState.questionsLoaded = true;
+            
+            updateQuestionsStatus(`Successfully loaded: Q1(${jsonData.q1.length}) Q2(${jsonData.q2.length}) Q3(${jsonData.q3.length}) Q4(${jsonData.q4.length})`, true);
+            renderQuestionsDisplay();
+            
+        } catch (error) {
+            updateQuestionsStatus(`Error loading file: ${error.message}`, false);
+            gameState.questionsLoaded = false;
+        }
+    };
+    
+    reader.onerror = function() {
+        updateQuestionsStatus("Error reading file", false);
+        gameState.questionsLoaded = false;
+    };
+    
+    reader.readAsText(file);
+}
+
+function updateQuestionsStatus(message, success) {
+    const statusEl = $('questionsStatus');
+    statusEl.textContent = message;
+    statusEl.className = success ? 'small muted' : 'small error';
+}
+
+/* ------------------ UI helpers ------------------ */
+function updateScoreDisplays(){
+    $('rawScore').textContent = gameState.rawScore;
+    
+    // Calculate and display average response time
+    const avgTime = calculateAverageResponseTime();
+    $('avgResponseTime').textContent = avgTime !== null ? avgTime.toFixed(1) + 's' : '--';
+    
+    $('quarterDisplay').textContent = gameState.currentQuarter;
+}
+
+function calculateAverageResponseTime() {
+    if (gameState.responseTimes.length === 0) return null;
+    const sum = gameState.responseTimes.reduce((a, b) => a + b, 0);
+    return sum / gameState.responseTimes.length;
+}
+
+function setFeedback(text, ok=true){
+    const f = $('feedback');
+    f.textContent = text;
+    f.classList.remove('correct','incorrect');
+    f.classList.add(ok ? 'correct' : 'incorrect');
+    f.style.display = 'block';
+    setTimeout(()=>{ f.style.display = 'none'; }, 4000);
+}
+
+function clearFeedback(){
+    const f = $('feedback');
+    f.style.display = 'none';
+}
+
+/* ------------------ Navigation / menu ------------------ */
+function backToMenu(){
+    clearAllTimers();
+    $('gameArea').style.display = 'none';
+    $('adminPanel').style.display = 'none';
+    $('leaderboardPanel').style.display = 'none';
+    $('mainMenu').style.display = 'grid';
+    gameState.mode = 'practice';
+    $('modeDisplay').textContent = 'Practice';
+}
+
+function openPracticeMode(){
+    if (!gameState.questionsLoaded) {
+        alert("Please load questions first from the Question Manager.");
+        showQuestionManager();
+        return;
+    }
+    resetGame();
+    gameState.mode = 'practice';
+    $('modeDisplay').textContent = 'Practice';
+    $('mainMenu').style.display = 'none';
+    $('gameArea').style.display = 'block';
+}
+
+function startFullGameFromMenu(){
+    if (!gameState.questionsLoaded) {
+        alert("Please load questions first from the Question Manager.");
+        showQuestionManager();
+        return;
+    }
+    resetGame();
+    gameState.mode = 'full';
+    $('modeDisplay').textContent = 'Full Game';
+    $('mainMenu').style.display = 'none';
+    $('gameArea').style.display = 'block';
+    startGame();
+}
+
+function showQuestionManager(){
+    clearAllTimers();
+    $('mainMenu').style.display = 'none';
+    $('gameArea').style.display = 'none';
+    $('leaderboardPanel').style.display = 'none';
+    $('adminPanel').style.display = 'block';
+    renderQuestionsDisplay();
+}
+
+function showLeaderboardPanel(){
+    clearAllTimers();
+    $('mainMenu').style.display = 'none';
+    $('gameArea').style.display = 'none';
+    $('adminPanel').style.display = 'none';
+    $('leaderboardPanel').style.display = 'block';
+    renderLeaderboard();
+}
+
+/* ------------------ Timer/Reading helpers ------------------ */
+function clearAllTimers(){
+    if (gameState.readingInterval){ 
+        clearInterval(gameState.readingInterval); 
+        gameState.readingInterval = null; 
+    }
+    if (gameState.postReadTimer){ 
+        clearInterval(gameState.postReadTimer); 
+        gameState.postReadTimer = null; 
+    }
+    if (gameState.answerTimer){ 
+        clearInterval(gameState.answerTimer); 
+        gameState.answerTimer = null; 
+    }
+    if (gameState.q3Timer) {
+        clearInterval(gameState.q3Timer);
+        gameState.q3Timer = null;
+    }
+    gameState.readingCharIndex = 0;
+}
+
+function startGame(){
+    resetGame();
+    gameState.mode = 'full';
+    $('modeDisplay').textContent = 'Full Game';
+    gameState.currentQuarter = 1;
+    gameState.currentQuestionIndex = -1;
+    updateScoreDisplays();
+    nextQuestion();
+}
+
+/* ------------------ Reset ------------------ */
+function resetGame(){
+    clearAllTimers();
+    gameState = {
+        ...gameState,
+        currentQuarter: 1,
+        currentQuestionIndex: -1,
+        rawScore: 0,
+        responseTimes: [],
+        readingInterval: null,
+        postReadTimer: null,
+        answerTimer: null,
+        readingCharIndex: 0,
+        currentQuestionText: "",
+        currentAnswer: "",
+        currentBonus: null,
+        buzzed: false,
+        multiplier: 1,
+        q3selectedCategory: null,
+        q3categoryProgress: 0,
+        q3categoryCorrectCount: 0,
+        q3Swept: false,
+        lastActionTimestamp: null,
+        questionStartTime: null,
+        buzzTime: null,
+        activeQ1: shuffle([...QUESTIONS.q1]),
+        activeQ2: shuffle([...QUESTIONS.q2]),
+        activeQ3: shuffle([...QUESTIONS.q3]),
+        activeQ4: shuffle([...QUESTIONS.q4])
+    };
+    $('questionText').textContent = gameState.questionsLoaded ? 
+        "Click 'Next Question' to start!" : 
+        "Load questions first from Question Manager!";
+    $('buzzerBtn').disabled = true;
+    $('answerInput').disabled = true;
+    $('answerInput').value = '';
+    $('currentResponseTime').textContent = 'Response time: --';
+    $('questionCounter').textContent = 'Q 0 / 0';
+    $('timerDisplay').textContent = '--';
+    updateScoreDisplays();
+    clearFeedback();
+}
+
+function shuffle(array){
+    for (let i = array.length - 1; i > 0; i--){
+        const j = Math.floor(Math.random() * (i+1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+/* ------------------ Question selection helpers ------------------ */
+function getCurrentQuarterArray(){
+    if (gameState.currentQuarter === 1) return gameState.activeQ1;
+    if (gameState.currentQuarter === 2) return gameState.activeQ2;
+    if (gameState.currentQuarter === 3) return gameState.activeQ3;
+    if (gameState.currentQuarter === 4) return gameState.activeQ4;
+    return [];
+}
+
+/* ------------------ Start Next Question ------------------ */
+function nextQuestion() {
+    if (!gameState.questionsLoaded) {
+        alert("Please load questions first from the Question Manager.");
+        showQuestionManager();
+        return;
+    }
+
+    clearAllTimers();
+    clearFeedback();
+
+    // Practice quarter selection
+    if (gameState.mode === 'practice' && !gameState.practiceQuarterSelected) {
+        const choice = prompt("Enter practice quarter (1,2,3,4) or 'q' to cancel:", "1");
+        if (!choice || choice.toLowerCase() === 'q') return;
+        const q = parseInt(choice);
+        if (![1,2,3,4].includes(q)){ alert("Invalid quarter"); return; }
+        gameState.currentQuarter = q;
+        gameState.practiceQuarterSelected = true;
+        gameState.currentQuestionIndex = -1;
+        gameState.q3selectedCategory = null;
+        gameState.q3categoryProgress = 0;
+    }
+
+    // Quarter 3: Category
+    if (gameState.currentQuarter === 3) {
+        if (gameState.q3selectedCategory === null) {
+            showCategorySelection();
+            return;
+        }
+
+        const cat = QUESTIONS.q3[gameState.q3selectedCategory];
+        if (!cat || !cat.questions || cat.questions.length === 0){
+            $('questionText').textContent = "No questions in this category.";
+            return;
+        }
+
+        if (gameState.q3categoryProgress >= cat.questions.length) {
+            if (gameState.mode === 'full') {
+                gameState.currentQuarter++;
+                gameState.currentQuestionIndex = -1;
+                gameState.q3selectedCategory = null;
+                gameState.q3categoryProgress = 0;
+                nextQuestion();
+                return;
+            } else {
+                gameState.q3selectedCategory = null;
+                showCategorySelection();
+                return;
+            }
+        }
+
+        showQ3CategoryQuestion();
+        return;
+    }
+
+    // Quarters 1,2,4: increment index
+    if (gameState.currentQuarter === 1) {
+        gameState.currentQuestionIndex++;
+        if (gameState.currentQuestionIndex >= gameState.activeQ1.length) {
+            if (gameState.mode === 'full') {
+                gameState.currentQuarter++;
+                gameState.currentQuestionIndex = -1;
+                nextQuestion();
+                return;
+            } else {
+                alert(`No more questions in Quarter 1.`);
+                gameState.currentQuestionIndex = gameState.activeQ1.length - 1;
+                return;
+            }
+        }
+    } else if (gameState.currentQuarter === 2) {
+        if (!gameState.isAnsweringBonus) {
+            gameState.currentQuestionIndex++;
+        }
+        if (gameState.currentQuestionIndex >= gameState.activeQ2.length) {
+            if (gameState.mode === 'full') {
+                gameState.currentQuarter++;
+                gameState.currentQuestionIndex = -1;
+                nextQuestion();
+                return;
+            } else {
+                alert(`No more questions in Quarter 2.`);
+                gameState.currentQuestionIndex = gameState.activeQ2.length - 1;
+                return;
+            }
+        }
+    } else if (gameState.currentQuarter === 4) {
+        gameState.currentQuestionIndex++;
+        if (gameState.currentQuestionIndex >= gameState.activeQ4.length) {
+            if (gameState.mode === 'full') {
+                finishGame();
+                return;
+            } else {
+                alert(`No more questions in Quarter 4.`);
+                gameState.currentQuestionIndex = gameState.activeQ4.length - 1;
+                return;
+            }
+        }
+    }
+
+    // Prepare question UI
+    $('buzzerBtn').disabled = false;
+    $('answerInput').disabled = true;
+    $('answerInput').value = '';
+    $('questionText').textContent = 'Get ready...';
+    $('questionCounter').textContent = computeQuestionCounterText();
+    $('currentResponseTime').textContent = 'Response time: --';
+
+    // Record question start time
+    gameState.questionStartTime = Date.now();
+    
+    // Start reading question
+    setTimeout(() => startReading(), 800);
+}
+
+/* ------------------ Category selection for Q3 ------------------ */
+function showCategorySelection(){
+    const container = $('categorySelection');
+    container.innerHTML = `<h4 style="width:100%">Select a Category</h4>`;
+    container.classList.remove('hidden');
+    QUESTIONS.q3.forEach((cat, idx) => {
+        const btn = document.createElement('div');
+        btn.className = 'category-btn';
+        btn.textContent = `${cat.category} (${(cat.questions||[]).length} q)`;
+        btn.onclick = () => {
+            container.classList.add('hidden');
+            selectCategory(idx);
+        };
+        container.appendChild(btn);
+    });
+}
+
+function selectCategory(idx) {
+    gameState.q3selectedCategory = idx;
+    gameState.q3categoryProgress = 0;
+    gameState.q3categoryCorrectCount = 0;
+
+    gameState.q3CategoryQuestions = QUESTIONS.q3[idx].questions
+        .map(q => ({ ...q, userAnswer: "", isCorrect: false }));
+
+    if (gameState.mode === 'practice') {
+        gameState.q3CategoryQuestions.sort(() => Math.random() - 0.5);
+    }
+
+    gameState.q3CurrentQuestionIdx = 0;
+    gameState.q3TimeLeft = 60;
+    gameState.q3CategoryActive = true;
+
+    $('categorySelection').classList.add('hidden');
+    startQ3CategoryTimer();
+    showQ3CategoryQuestion();
+}
+
+function startQ3CategoryTimer() {
+    $('timerDisplay').textContent = `Time left: ${gameState.q3TimeLeft}s`;
+    gameState.q3Timer = setInterval(() => {
+        gameState.q3TimeLeft--;
+        $('timerDisplay').textContent = `Time left: ${gameState.q3TimeLeft}s`;
+        if (gameState.q3TimeLeft <= 0) {
+            finishQ3CategoryRound();
+        }
+    }, 1000);
+}
+
+function stopQ3CategoryTimer() {
+    if (gameState.q3Timer) {
+        clearInterval(gameState.q3Timer);
+        gameState.q3Timer = null;
+    }
+}
+
+function finishQ3CategoryRound() {
+    stopQ3CategoryTimer();
+    gameState.q3CategoryActive = false;
+    $('answerInput').disabled = true;
+    $('buzzerBtn').disabled = true;
+    if ($('skipBtn')) $('skipBtn').remove();
+
+    const correct = gameState.q3CategoryQuestions.filter(q => q.isCorrect).length;
+    const points = correct * 10;
+
+    let resultHtml = `<strong>Time's up or all answered!</strong><br>`;
+    resultHtml += `You got <strong>${correct}/6</strong> correct (+${points} pts).<br><br>`;
+    
+    $('questionText').innerHTML = resultHtml;
+    updateScoreDisplays();
+    setFeedback(`Category complete! ${correct} correct, +${points} pts.`, true);
+
+    setTimeout(() => {
+        if (gameState.mode === 'full') {
+            gameState.currentQuarter++;
+            gameState.currentQuestionIndex = -1;
+            gameState.q3selectedCategory = null;
+            nextQuestion();
+        } else {
+            gameState.q3selectedCategory = null;
+            showCategorySelection();
+        }
+    }, 4000);
+}
+
+function showQ3CategoryQuestion() {
+    const qArr = gameState.q3CategoryQuestions;
+    let idx = gameState.q3CurrentQuestionIdx;
+    let cnt = 0;
+    while (qArr[idx].userAnswer && cnt < qArr.length) {
+        idx = (idx + 1) % qArr.length;
+        cnt++;
+    }
+    
+    if (cnt >= qArr.length) {
+        finishQ3CategoryRound();
+        return;
+    }
+    
+    gameState.q3CurrentQuestionIdx = idx;
+    const qObj = qArr[idx];
+    
+    // Record question start time for Q3
+    gameState.questionStartTime = Date.now();
+
+    $('questionText').textContent = `(${idx+1}/6) ${qObj.question}`;
+    $('answerInput').disabled = false;
+    $('answerInput').value = '';
+    $('answerInput').focus();
+    $('buzzerBtn').disabled = true;
+
+    if (!document.getElementById('skipBtn')) {
+        const skipBtn = document.createElement('button');
+        skipBtn.id = 'skipBtn';
+        skipBtn.className = 'btn secondary';
+        skipBtn.textContent = 'Skip';
+        skipBtn.onclick = () => {
+            const qArr = gameState.q3CategoryQuestions;
+            let idx = gameState.q3CurrentQuestionIdx;
+            if (!qArr[idx].userAnswer) {
+                qArr[idx].userAnswer = "---";
+                qArr[idx].isCorrect = false;
+            }
+            let nextIdx = (idx + 1) % qArr.length;
+            let cnt = 0;
+            while (qArr[nextIdx].userAnswer && cnt < qArr.length) {
+                nextIdx = (nextIdx + 1) % qArr.length;
+                cnt++;
+            }
+            if (!qArr.some(q => !q.userAnswer)) {
+                finishQ3CategoryRound();
+            } else {
+                gameState.q3CurrentQuestionIdx = nextIdx;
+                showQ3CategoryQuestion();
+            }
+        };
+        $('answerInput').parentNode.insertBefore(skipBtn, $('answerInput').nextSibling);
+    }
+}
+
+/* ------------------ Reading / typing effect ------------------ */
+function startReading(){
+    clearAllTimers();
+    gameState.buzzed = false;
+    gameState.multiplier = 1;
+    updateScoreDisplays();
+    clearFeedback();
+
+    let questionText = "";
+    let correctAnswer = "";
+    gameState.currentBonus = null;
+
+    if (gameState.currentQuarter === 1){
+        const q = gameState.activeQ1[gameState.currentQuestionIndex];
+        questionText = q ? q.question : "";
+        correctAnswer = q ? q.answer : "";
+    } else if (gameState.currentQuarter === 2){
+        const q = gameState.activeQ2[gameState.currentQuestionIndex];
+        questionText = q ? q.tossup.question : "";
+        correctAnswer = q ? q.tossup.answer : "";
+        gameState.currentBonus = q ? q.bonus : null;
+    } else if (gameState.currentQuarter === 3){
+        const cat = QUESTIONS.q3[gameState.q3selectedCategory];
+        const qIndex = gameState.q3categoryProgress;
+        const q = cat && cat.questions ? cat.questions[qIndex] : null;
+        questionText = q ? q.question : "";
+        correctAnswer = q ? q.answer : "";
+    } else if (gameState.currentQuarter === 4){
+        const q = gameState.activeQ4[gameState.currentQuestionIndex];
+        if (!q){ questionText = ""; correctAnswer = ""; }
+        else {
+            gameState.currentQ4Parts = q.parts;
+            questionText = q.parts.map(p => p.text).join(" ");
+            correctAnswer = q.parts[0].answer;
+            let boundaries = [];
+            let idx = 0;
+            q.parts.forEach((p, i) => {
+                boundaries.push({ part: i, start: idx, end: idx + p.text.length });
+                idx += p.text.length + 1;
+            });
+            gameState.q4PartBoundaries = boundaries;
+        }
+    }
+
+    if (!questionText) {
+        $('questionText').textContent = "No question available.";
+        return;
+    }
+
+    gameState.currentQuestionText = questionText;
+    gameState.currentAnswer = correctAnswer;
+    gameState.readingCharIndex = 0;
+    $('questionText').textContent = "";
+    $('timerDisplay').textContent = "--";
+
+    gameState.readingInterval = setInterval(()=>{
+        if (gameState.readingCharIndex < questionText.length && !gameState.buzzed){
+            $('questionText').textContent += questionText[gameState.readingCharIndex];
+            gameState.readingCharIndex++;
+            if (gameState.currentQuarter === 4) {
+                let idx = gameState.readingCharIndex;
+                let boundaries = gameState.q4PartBoundaries;
+                let partIndex = boundaries.length - 1;
+                for (let i = 0; i < boundaries.length; i++) {
+                    if (idx < boundaries[i].end) {
+                        partIndex = i;
+                        break;
+                    }
+                }
+                gameState.q4CurrentPart = partIndex;
+            }
+        } else {
+            clearInterval(gameState.readingInterval);
+            gameState.readingInterval = null;
+            if (!gameState.buzzed){
+                let postReadTime = 5;
+                $('timerDisplay').textContent = `Buzz time: ${postReadTime}`;
+                gameState.postReadTimer = setInterval(()=>{
+                    postReadTime--;
+                    $('timerDisplay').textContent = `Buzz time: ${postReadTime}`;
+                    if (postReadTime <= 0){
+                        clearInterval(gameState.postReadTimer);
+                        gameState.postReadTimer = null;
+                        $('buzzerBtn').disabled = true;
+                        $('timerDisplay').textContent = "Time's up";
+                        setFeedback("Time expired! No buzz recorded.", false);
+                        setTimeout(()=> {
+                            nextQuestion();
+                        }, 1500);
+                    }
+                }, 1000);
+            }
+        }
+    }, 30);
+}
+
+/* ------------------ Buzz logic ------------------ */
+function buzz(){
+    if (gameState.buzzed) return;
+    gameState.buzzed = true;
+    gameState.buzzTime = Date.now(); // Record buzz time for response time calculation
+    
+    clearAllTimers();
+
+    let pctRead = 1;
+    if (gameState.currentQuestionText && gameState.readingCharIndex){
+        pctRead = gameState.readingCharIndex / gameState.currentQuestionText.length;
+        if (pctRead < 0) pctRead = 0;
+        if (pctRead > 1) pctRead = 1;
+    }
+
+    if (pctRead < 0.15) gameState.multiplier = 5;
+    else if (pctRead < 0.35) gameState.multiplier = 4;
+    else if (pctRead < 0.55) gameState.multiplier = 3;
+    else if (pctRead < 0.8) gameState.multiplier = 2;
+    else gameState.multiplier = 1;
+    
+    if (gameState.currentQuarter === 4) {
+        let bracketPoints = 10;
+        if (gameState.q4CurrentPart === 0) bracketPoints = 30;
+        else if (gameState.q4CurrentPart === 1) bracketPoints = 20;
+        else bracketPoints = 10;
+        gameState.q4BracketPoints = bracketPoints;
+    } else {
+        gameState.q4BracketPoints = 10;
+    }
+
+    $('answerInput').disabled = false;
+    $('answerInput').focus();
+    $('buzzerBtn').disabled = true;
+    updateScoreDisplays();
+    
+    let answerTime = 10;
+    $('timerDisplay').textContent = `Answer time: ${answerTime}`;
+    gameState.answerTimer = setInterval(()=>{
+        answerTime--;
+        $('timerDisplay').textContent = `Answer time: ${answerTime}`;
+        if (answerTime <= 0){
+            clearInterval(gameState.answerTimer);
+            gameState.answerTimer = null;
+            $('answerInput').disabled = true;
+            $('timerDisplay').textContent = "Time expired";
+            setFeedback("Time expired! No points awarded.", false);
+            setTimeout(()=> { 
+                nextQuestion(); 
+            }, 1500);
+        }
+    }, 1000);
+}
+
+/* ------------------ Show answer (for practice) ------------------ */
+function showAnswer(){
+    if (!gameState.currentAnswer) {
+        setFeedback("No current answer available.", false);
+        return;
+    }
+    $('questionText').textContent = gameState.currentQuestionText || '---';
+    setFeedback(`Answer: ${gameState.currentAnswer}`, true);
+}
+
+/* ------------------ Answer checking & scoring ------------------ */
+function normalize(s){
+    return (s || "").toString().trim().toLowerCase();
+}
+
+function isStrictCorrect(given, answer) {
+    const normGiven = normalize(given);
+    if (Array.isArray(answer)) {
+        return answer.some(a => normalize(a) === normGiven);
+    } else {
+        return normalize(answer) === normGiven;
+    }
+}
+
+function submitAnswer(){
+    if ($('answerInput').disabled) return;
+
+    const given = $('answerInput').value.trim();
+    if (!given){
+        setFeedback("Please type an answer before submitting.", false);
+        return;
+    }
+
+    const submitTime = Date.now();
+    
+    // Calculate response time
+    let responseTime = null;
+    if (gameState.currentQuarter === 3 && gameState.q3CategoryActive) {
+        // For Q3, use time since question was shown
+        responseTime = (submitTime - gameState.questionStartTime) / 1000;
+    } else if (gameState.buzzTime) {
+        // For other quarters, use time from buzz to submit
+        responseTime = (submitTime - gameState.buzzTime) / 1000;
+    }
+    
+    // Update current response time display
+    if (responseTime !== null) {
+        $('currentResponseTime').textContent = `Response time: ${responseTime.toFixed(1)}s`;
+    }
+
+    // Quarter 3 timed category mode
+    if (gameState.currentQuarter === 3 && gameState.q3CategoryActive) {
+        const idx = gameState.q3CurrentQuestionIdx;
+        const qArr = gameState.q3CategoryQuestions;
+        qArr[idx].userAnswer = given;
+        qArr[idx].isCorrect = isStrictCorrect(given, qArr[idx].answer);
+        
+        let msg;
+        if (qArr[idx].isCorrect) {
+            msg = `✔️ Correct! +10 pts`;
+            gameState.rawScore += 10;
+            if (responseTime !== null) {
+                gameState.responseTimes.push(responseTime);
+            }
+            updateScoreDisplays();
+        } else {
+            msg = `❌ Incorrect. Correct: ${qArr[idx].answer}`;
+        }
+        setFeedback(msg, qArr[idx].isCorrect);
+
+        if (qArr.some(q => !q.userAnswer)) {
+            let nextIdx = (idx + 1) % qArr.length;
+            while (qArr[nextIdx].userAnswer) {
+                nextIdx = (nextIdx + 1) % qArr.length;
+            }
+            gameState.q3CurrentQuestionIdx = nextIdx;
+            showQ3CategoryQuestion();
+        } else {
+            finishQ3CategoryRound();
+        }
+        return;
+    }
+
+    // Clear answer timer immediately
+    if (gameState.answerTimer){
+        clearInterval(gameState.answerTimer);
+        gameState.answerTimer = null;
+    }
+
+    $('answerInput').disabled = true;
+    $('timerDisplay').textContent = "";
+
+    const isCorrect = isStrictCorrect(given, gameState.currentAnswer);
+    let basePoints = 0;
+    let earnedPoints = 0;
+
+    if (gameState.currentQuarter === 1){
+        basePoints = 10;
+        if (isCorrect){
+            earnedPoints = basePoints;
+            gameState.rawScore += earnedPoints;
+            if (responseTime !== null) {
+                gameState.responseTimes.push(responseTime);
+            }
+            updateScoreDisplays();
+            setFeedback(`Correct! +${earnedPoints} points (${responseTime?.toFixed(1)}s)`, true);
+            setTimeout(()=> {
+                nextQuestion();
+            }, 1500);
+        } else {
+            setFeedback(`Incorrect. The correct answer was: ${gameState.currentAnswer}`, false);
+            setTimeout(()=> {
+                nextQuestion();
+            }, 1500);
+        }
+    } else if (gameState.currentQuarter === 2){
+        basePoints = 10;
+        if (isCorrect){
+            earnedPoints = basePoints;
+            gameState.rawScore += earnedPoints;
+            if (responseTime !== null) {
+                gameState.responseTimes.push(responseTime);
+            }
+            updateScoreDisplays();
+            setFeedback(`Correct tossup! +${earnedPoints} points. Now: bonus question.`, true);
+            
+            if (gameState.currentBonus){
+                setTimeout(()=> {
+                    $('questionText').textContent = gameState.currentBonus.question;
+                    gameState.currentAnswer = gameState.currentBonus.answer;
+                    gameState.multiplier = 1;
+                    $('answerInput').disabled = false;
+                    $('answerInput').value = '';
+                    $('answerInput').focus();
+                    gameState.isAnsweringBonus = true;
+                    gameState.questionStartTime = Date.now(); // Reset for bonus timing
+                }, 1000);
+            } else {
+                setTimeout(()=> {
+                    nextQuestion();
+                }, 1500);
+            }
+        } else {
+            setFeedback(`Incorrect tossup. The correct answer was: ${gameState.currentAnswer}. (No bonus.)`, false);
+            setTimeout(()=> {
+                nextQuestion();
+            }, 1500);
+        }
+    } else if (gameState.currentQuarter === 4){
+        const bracketPoints = gameState.q4BracketPoints || 10;
+        basePoints = bracketPoints;
+        if (isCorrect){
+            earnedPoints = basePoints;
+            gameState.rawScore += earnedPoints;
+            if (responseTime !== null) {
+                gameState.responseTimes.push(responseTime);
+            }
+            updateScoreDisplays();
+            setFeedback(`Correct! +${earnedPoints} points (${responseTime?.toFixed(1)}s)`, true);
+            setTimeout(()=> nextQuestion(), 1500);
+        } else {
+            setFeedback(`Incorrect. The correct answer was: ${gameState.currentAnswer}`, false);
+            setTimeout(()=> nextQuestion(), 1500);
+        }
+    }
+
+    // Special: if we just answered a Q2 bonus 
+    if (gameState.currentQuarter === 2 && gameState.isAnsweringBonus){
+        const bonusIsCorrect = isCorrect;
+        if (bonusIsCorrect){
+            const bonusPoints = 10;
+            gameState.rawScore += bonusPoints;
+            // Calculate bonus response time from when bonus was shown
+            const bonusResponseTime = (submitTime - gameState.questionStartTime) / 1000;
+            gameState.responseTimes.push(bonusResponseTime);
+            $('currentResponseTime').textContent = `Response time: ${bonusResponseTime.toFixed(1)}s`;
+            updateScoreDisplays();
+            setFeedback(`Correct bonus! +${bonusPoints} points (${bonusResponseTime.toFixed(1)}s)`, true);
+        } else {
+            setFeedback(`Incorrect bonus. The correct answer was: ${gameState.currentAnswer}`, false);
+        }
+        gameState.currentBonus = null;
+        gameState.isAnsweringBonus = false;
+        setTimeout(()=> {
+            nextQuestion();
+        }, 1500);
+    }
+}
+
+/* ------------------ Utility functions ------------------ */
+function computeQuestionCounterText(){
+    const q = gameState.currentQuarter;
+    if (q === 1) return `Q ${Math.max(0, gameState.currentQuestionIndex+1)} / ${gameState.activeQ1.length}`;
+    if (q === 2) return `Q ${Math.max(0, gameState.currentQuestionIndex+1)} / ${gameState.activeQ2.length}`;
+    if (q === 3){
+        if (gameState.q3selectedCategory !== null){
+            const cat = QUESTIONS.q3[gameState.q3selectedCategory];
+            return `Category ${cat.category} — Q ${gameState.q3categoryProgress+1} / ${cat.questions.length}`;
+        }
+        return `Select category`;
+    }
+    if (q === 4) return `Q ${Math.max(0, gameState.currentQuestionIndex+1)} / ${gameState.activeQ4.length}`;
+    return '';
+}
+
+/* ------------------ Finish/End-game ------------------ */
+function finishGame(){
+    clearAllTimers();
+    
+    const totalScore = gameState.rawScore;
+    const avgTime = calculateAverageResponseTime();
+    
+    // Save to local leaderboard
+    const entry = {
+        date: (new Date()).toISOString(),
+        mode: gameState.mode,
+        totalScore: totalScore,
+        averageResponseTime: avgTime,
+        questionsAnswered: gameState.responseTimes.length
+    };
+    saveScoreToLocalLeaderboard(entry);
+
+    $('questionText').textContent = `Game finished! Score: ${totalScore} / Avg Response Time: ${avgTime ? avgTime.toFixed(1) + 's' : 'N/A'} / Questions: ${gameState.responseTimes.length}. Saved to local leaderboard.`;
+    setFeedback("Game complete — check the leaderboard from the menu.", true);
+    $('buzzerBtn').disabled = true;
+    $('answerInput').disabled = true;
+}
+
+/* Save to local leaderboard */
+function saveScoreToLocalLeaderboard(entry){
+    const key = 'hb_local_leaderboard_v2';
+    const existing = JSON.parse(localStorage.getItem(key) || '[]');
+    existing.push(entry);
+    // Sort by score descending, then by average response time ascending (faster is better)
+    existing.sort((a,b)=> {
+        if (b.totalScore !== a.totalScore) return b.totalScore - a.totalScore;
+        if (a.averageResponseTime === null) return 1;
+        if (b.averageResponseTime === null) return -1;
+        return a.averageResponseTime - b.averageResponseTime;
+    });
+    localStorage.setItem(key, JSON.stringify(existing));
+}
+
+/* Render leaderboard */
+function renderLeaderboard(){
+    const key = 'hb_local_leaderboard_v2';
+    const arr = JSON.parse(localStorage.getItem(key) || '[]');
+    const container = $('leaderboardList');
+    container.innerHTML = '';
+    if (!arr.length){
+        container.textContent = 'No saved attempts yet.';
+        return;
+    }
+    
+    arr.forEach((e, idx) => {
+        const d = document.createElement('div');
+        d.style.padding = '8px';
+        d.style.borderBottom = '1px solid #eef2f7';
+        d.innerHTML = `<strong>#${idx+1}</strong> — ${new Date(e.date).toLocaleString()} — Mode: ${e.mode} — Score: ${e.totalScore} — Avg Time: ${e.averageResponseTime ? e.averageResponseTime.toFixed(1) + 's' : 'N/A'} — Questions: ${e.questionsAnswered || 0}`;
+        container.appendChild(d);
+    });
+}
+
+/* Clear leaderboard */
+function clearLeaderboard(){
+    if (!confirm("Clear all local leaderboard entries? This cannot be undone.")) return;
+    localStorage.removeItem('hb_local_leaderboard_v2');
+    renderLeaderboard();
+}
+
+/* ------------------ Import/Export Questions ------------------ */
+function exportQuestions(){
+    if (!gameState.questionsLoaded) {
+        alert("No questions loaded to export.");
+        return;
+    }
+    const asText = JSON.stringify(QUESTIONS, null, 2);
+    const blob = new Blob([asText], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'hb_questions_export.json';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+}
+
+/* Render a simple questions display */
+function renderQuestionsDisplay(){
+    const container = $('questionsDisplay');
+    container.innerHTML = '';
+    
+    if (!gameState.questionsLoaded) {
+        container.innerHTML = '<p class="muted">No questions loaded. Use the file input above to load a JSON file.</p>';
+        return;
+    }
+    
+    const summary = document.createElement('div');
+    summary.innerHTML = `
+        <h4>Loaded Questions Summary:</h4>
+        <p>Quarter 1: ${QUESTIONS.q1.length} questions</p>
+        <p>Quarter 2: ${QUESTIONS.q2.length} questions</p>
+        <p>Quarter 3: ${QUESTIONS.q3.length} categories</p>
+        <p>Quarter 4: ${QUESTIONS.q4.length} questions</p>
+    `;
+    container.appendChild(summary);
+}
+
+/* ------------------ Key handling ------------------ */
+document.addEventListener('keydown', function(e){
+    if (e.key === 'Enter'){
+        if (!$('answerInput').disabled && document.activeElement === $('answerInput')){
+            submitAnswer();
+        }
+    }
+});
+
+/* ------------------ Page init ------------------ */
+function init(){
+    resetGame();
+    updateScoreDisplays();
+    updateQuestionsStatus('Loading questions from server...', true);
+    
+    // Automatically load questions when the page loads
+    loadQuestionsFromServer();
+}
+
+init();
+
+</script>
+</body>
+</html>
