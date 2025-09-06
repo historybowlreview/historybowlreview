@@ -60,13 +60,13 @@
 
     <!-- Main menu -->
     <div id="mainMenu" class="menu">
-        <div class="card" onclick="openPracticeMode(); showGameArea();">
+        <div class="card" onclick="openPracticeMode()">
             <h3>🎯 Practice Mode</h3>
             <p class="muted">Pick a quarter to target specific formats and question types.</p>
             <div style="margin-top:10px"><button class="btn">Start Practice</button></div>
         </div>
-    
-        <div class="card" onclick="startFullGameFromMenu(); showGameArea();">
+
+        <div class="card" onclick="startFullGameFromMenu()">
             <h3>🏆 Full Game Simulation</h3>
             <p class="muted">Play a full match (Q1→Q4) with official scoring & bonuses.</p>
             <div style="margin-top:10px"><button class="btn">Start Full Game</button></div>
@@ -76,8 +76,13 @@
             <h3>🏅 Local Leaderboard</h3>
             <p class="muted">Your browser stores every saved attempt. Sorted by score and response time.</p>
             <div style="margin-top:10px"><button class="btn">View Leaderboard</button></div>
+        </div>
+        <!-- Player Name Input -->
+        <div id="playerNameContainer" style="margin-bottom: 10px;">
+            <input type="text" id="playerNameInput" placeholder="Enter your name" maxlength="20" style="padding: 5px; width: 200px;">
+        </div>
         
-        
+
     </div>
 
     <!-- Game area -->
@@ -107,10 +112,11 @@
         <div class="question-area">
             <div id="questionText" class="question-text">Load questions first, then click "Next Question" to begin.</div>
         </div>
+        </div>
 
         <div class="controls">
             <button id="buzzerBtn" class="buzzer-btn" onclick="buzz()" disabled>🔔 BUZZ</button>
-            <button class="btn" id="startGameBtn" onclick="startGameFromBtn()">Start Game</button>
+            <button class="btn" onclick="nextQuestion()">Next Question</button>
             <button class="btn secondary" onclick="showAnswer()">Show Answer</button>
 
             <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
@@ -276,11 +282,11 @@ function updateQuestionsStatus(message, success) {
 /* ------------------ UI helpers ------------------ */
 function updateScoreDisplays(){
     $('rawScore').textContent = gameState.rawScore;
-    
+
     // Calculate and display average response time
     const avgBuzz = calculateAverageBuzzInTime();
     $('avgResponseTime').textContent = avgBuzz !== null ? avgBuzz.toFixed(1) + 's' : '--';
-    
+
     $('quarterDisplay').textContent = gameState.currentQuarter;
 }
 
@@ -312,7 +318,6 @@ function backToMenu(){
     $('mainMenu').style.display = 'grid';
     gameState.mode = 'practice';
     $('modeDisplay').textContent = 'Practice';
-    if ($('startGameBtn')) $('startGameBtn').style.display = 'inline-block';
 }
 
 function openPracticeMode(){
@@ -338,38 +343,6 @@ function startFullGameFromMenu(){
     $('mainMenu').style.display = 'none';
     $('gameArea').style.display = 'block';
     startGame();
-}
-
-function startGameFromBtn() {
-    if (!gameState.questionsLoaded) {
-        alert("Questions failed to load.");
-        return;
-    }
-    resetGame();
-    if (gameState.mode === "full") {
-        startGame();
-    } else {
-        // Practice: user will be prompted for a quarter as before
-        nextQuestion();
-    }
-    // Hide Start Game button to prevent spamming
-    $('startGameBtn').style.display = 'none';
-}
-
-function showMainMenu() {
-    $('mainMenu').style.display = 'grid';
-    $('gameArea').style.display = 'none';
-    $('leaderboardPanel').style.display = 'none';
-    $('playerNameContainer').style.display = 'none';
-}
-
-function showGameArea() {
-    $('mainMenu').style.display = 'none';
-    $('gameArea').style.display = 'block';
-}
-
-function showPlayerNameInput() {
-    $('playerNameContainer').style.display = 'flex';
 }
 
 function showLeaderboardPanel(){
@@ -455,7 +428,6 @@ function resetGame(){
     $('timerDisplay').textContent = '--';
     updateScoreDisplays();
     clearFeedback();
-    if ($('startGameBtn')) $('startGameBtn').style.display = 'inline-block';
 }
 
 function shuffle(array){
@@ -585,7 +557,7 @@ function nextQuestion() {
 
     // Record question start time
     gameState.questionStartTime = Date.now();
-    
+
     // Start reading question
     setTimeout(() => startReading(), 800);
 }
@@ -663,7 +635,7 @@ function finishQ3CategoryRound() {
 
     let resultHtml = `<strong>Time's up or all answered!</strong><br>`;
     resultHtml += `You got <strong>${correct}/6</strong> correct (+${points} pts).<br><br>`;
-    
+
     $('questionText').innerHTML = resultHtml;
     updateScoreDisplays();
     setFeedback(`Category complete! ${correct} correct, +${points} pts.`, true);
@@ -695,15 +667,15 @@ function showQ3CategoryQuestion() {
         idx = (idx + 1) % qArr.length;
         cnt++;
     }
-    
+
     if (cnt >= qArr.length) {
         finishQ3CategoryRound();
         return;
     }
-    
+
     gameState.q3CurrentQuestionIdx = idx;
     const qObj = qArr[idx];
-    
+
     // Record question start time for Q3
     gameState.questionStartTime = Date.now();
 
@@ -843,7 +815,7 @@ function buzz(){
     if (gameState.buzzed) return;
     gameState.buzzed = true;
     gameState.buzzTime = Date.now(); // Record buzz time for response time calculation
-    
+
     clearAllTimers();
     // Calculate buzz-in time: from questionStartTime to buzzTime
     if (gameState.questionStartTime && gameState.buzzTime) {
@@ -862,7 +834,7 @@ function buzz(){
     else if (pctRead < 0.55) gameState.multiplier = 3;
     else if (pctRead < 0.8) gameState.multiplier = 2;
     else gameState.multiplier = 1;
-    
+
     if (gameState.currentQuarter === 4) {
         let bracketPoints = 10;
         if (gameState.q4CurrentPart === 0) bracketPoints = 30;
@@ -877,7 +849,7 @@ function buzz(){
     $('answerInput').focus();
     $('buzzerBtn').disabled = true;
     updateScoreDisplays();
-    
+
     let answerTime = 10;
     $('timerDisplay').textContent = `Answer time: ${answerTime}`;
     gameState.answerTimer = setInterval(()=>{
@@ -930,7 +902,7 @@ function submitAnswer(){
     }
 
     const submitTime = Date.now();
-    
+
     // Calculate response time
     let responseTime = null;
     if (gameState.currentQuarter === 3 && gameState.q3CategoryActive) {
@@ -940,7 +912,7 @@ function submitAnswer(){
         // For other quarters, use time from buzz to submit
         responseTime = (submitTime - gameState.buzzTime) / 1000;
     }
-    
+
     // Update current response time display
     if (responseTime !== null) {
         $('currentResponseTime').textContent = `Response time: ${responseTime.toFixed(1)}s`;
@@ -952,7 +924,7 @@ function submitAnswer(){
         const qArr = gameState.q3CategoryQuestions;
         qArr[idx].userAnswer = given;
         qArr[idx].isCorrect = isStrictCorrect(given, qArr[idx].answer);
-        
+
         let msg;
         if (qArr[idx].isCorrect) {
             msg = `✔️ Correct! +10 pts`;
@@ -1021,7 +993,7 @@ function submitAnswer(){
             }
             updateScoreDisplays();
             setFeedback(`Correct tossup! +${earnedPoints} points. Now: bonus question.`, true);
-            
+
             if (gameState.currentBonus){
                 setTimeout(()=> {
                     $('questionText').textContent = gameState.currentBonus.question;
@@ -1108,6 +1080,21 @@ async function finishGame() {
     const totalScore = gameState.rawScore;
     const avgBuzz = calculateAverageBuzzInTime();
 
+    // Get player name from input
+    const playerName = $('playerNameInput').value.trim() || "Anonymous";
+
+    // Build the score entry
+    const entry = {
+        date: new Date().toISOString(),
+        name: playerName,                     // NEW
+        mode: gameState.mode,
+        totalScore: totalScore,
+        averageBuzzInTime: avgBuzz,
+        questionsAnswered: gameState.responseTimes.length
+    };
+
+    // Save to global leaderboard
+    await saveScoreToGlobalLeaderboard(entry);
     // Only show player name and submit button after full game
     if (gameState.mode === "full") {
         $('playerNameContainer').style.display = 'block'; // Show input/button
@@ -1129,12 +1116,12 @@ async function finishGame() {
         $('playerNameContainer').style.display = 'none';
     }
 
+    // Update UI
+    $('questionText').textContent = `Game finished! Score: ${totalScore} / Avg Buzz-in: ${avgBuzz ? avgBuzz.toFixed(1) + 's' : 'N/A'} / Questions: ${entry.questionsAnswered}. Saved to global leaderboard.`;
+    setFeedback("Game complete — check the leaderboard from the menu.", true);
     // Disable input
     $('buzzerBtn').disabled = true;
     $('answerInput').disabled = true;
-    if (gameState.mode === 'full') {
-        showPlayerNameInput();
-    }
 }
 
 
@@ -1169,6 +1156,7 @@ async function renderGlobalLeaderboard() {
 
         if (!res.ok) throw new Error(`Failed to fetch leaderboard: ${res.status} ${res.statusText}`);
 
+        const scores = await res.json();
         let scores = await res.json();
 
         // Sort by score desc, then by fastest buzz-in
@@ -1192,6 +1180,7 @@ async function renderGlobalLeaderboard() {
             const d = document.createElement('div');
             d.style.padding = '8px';
             d.style.borderBottom = '1px solid #eef2f7';
+            d.innerHTML = `<strong>#${idx + 1}</strong> — ${e.name ? e.name : "Anonymous"} — ${new Date(e.date).toLocaleString()} — Mode: ${e.mode} — Score: ${e.totalScore} — Avg Buzz-in: ${e.averageBuzzInTime ? e.averageBuzzInTime.toFixed(1) + 's' : 'N/A'} — Questions: ${e.questionsAnswered || 0}`;
             d.innerHTML = `<strong>#${idx + 1}</strong> — ${e.name ? e.name : "Anonymous"} — ${new Date(e.date).toLocaleString()} — Score: ${e.totalScore} — Avg Buzz-in: ${e.averageBuzzInTime ? e.averageBuzzInTime.toFixed(1) + 's' : 'N/A'}`;
             container.appendChild(d);
         });
@@ -1210,7 +1199,7 @@ async function renderGlobalLeaderboard() {
 function renderQuestionsDisplay(){
     const container = $('questionsDisplay');
     container.innerHTML = '';
-    
+
     const summary = document.createElement('div');
     summary.innerHTML = `
         <h4>Loaded Questions Summary:</h4>
@@ -1236,7 +1225,7 @@ function init(){
     resetGame();
     updateScoreDisplays();
     updateQuestionsStatus('Loading questions from server...', true);
-    
+
     // Automatically load questions when the page loads
     loadQuestionsFromServer();
 }
