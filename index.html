@@ -295,6 +295,28 @@ function calculateAverageResponseTime() {
     return sum / gameState.responseTimes.length;
 }
 
+function looseMatch(given, answer) {
+  const articles = ["the", "a", "an", "of"];
+  function tokenize(s) {
+    return s
+      .toLowerCase()
+      .replace(/[^a-z0-9' ]+/g, '') // Remove punctuation except apostrophe
+      .split(/\s+/)
+      .filter(w => w && !articles.includes(w));
+  }
+  const givenWords = tokenize(given);
+  const answerWords = tokenize(Array.isArray(answer) ? answer[0] : answer);
+
+  // Accept if every answer word is present in the given OR every given word is present in the answer
+  const allAnswerInGiven = answerWords.every(w => givenWords.includes(w));
+  const allGivenInAnswer = givenWords.every(w => answerWords.includes(w));
+
+  // Accept if at least 70% of answer words are present in given
+  const pct = answerWords.filter(w => givenWords.includes(w)).length / answerWords.length;
+
+  return allAnswerInGiven || allGivenInAnswer || pct >= 0.7;
+}
+
 function setFeedback(text, ok=true){
     const f = $('feedback');
     f.textContent = text;
@@ -978,7 +1000,8 @@ function submitAnswer(){
     $('answerInput').disabled = true;
     $('timerDisplay').textContent = "";
 
-    const isCorrect = isStrictCorrect(given, gameState.currentAnswer);
+    const isCorrect = isStrictCorrect(given, gameState.currentAnswer) ||
+                  looseMatch(given, gameState.currentAnswer);
     let basePoints = 0;
     let earnedPoints = 0;
 
