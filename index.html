@@ -1,13 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>History Bowl Study Program</title>
-  <link rel="icon" href="290-2900079_dark-green-heart-shape.png" type="image/png">
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>History Bowl Study Program 💚🤍</title>
+<title>History Bowl Study Program — Single-file</title>
 <style>
     /* --------- Visual styles (kept from your original, adjusted slightly) ---------- */
     *{box-sizing:border-box;margin:0;padding:0}
@@ -48,10 +44,6 @@
     .leaderboard{background:#fff;padding:12px;border-radius:8px;margin-top:12px;max-height:260px;overflow:auto}
     .small{font-size:0.9rem;color:#444}
     .muted{color:#666;font-size:0.9rem}
-    .categories.hidden {
-      display: none !important;
-    }
-    .error{color:#e53e3e;background:#fed7d7;padding:8px;border-radius:8px;margin:8px 0}
     footer{margin-top:18px;color:#fff;text-align:center;font-size:0.9rem}
     @media (max-width:700px){.scoreboard{flex-direction:column}}
 </style>
@@ -59,45 +51,44 @@
 <body>
 <div class="container">
     <div class="header">
-        <h1>💚🤍 History Bowl Study Program</h1>
-        <p class="small">Specific quarter practice + Full-game simulation with response time tracking and leaderboards 🤍💚</p>
+        <h1>📚 History Bowl Study Program</h1>
+        <p class="small">Single-team practice + Full-game simulation — single-file</p>
     </div>
-    <div id="questionsStatus" class="small muted"></div>
-    <div id="questionsDisplay"></div>
 
     <!-- Main menu -->
     <div id="mainMenu" class="menu">
         <div class="card" onclick="openPracticeMode()">
             <h3>🎯 Practice Mode</h3>
-            <p class="muted">Pick a quarter to practice specific formats and question types.</p>
+            <p class="muted">Pick a quarter to target specific formats and question types.</p>
             <div style="margin-top:10px"><button class="btn">Start Practice</button></div>
         </div>
 
         <div class="card" onclick="startFullGameFromMenu()">
             <h3>🏆 Full Game Simulation</h3>
-            <p class="muted">Play a full match (Q1→Q4) with official scoring.</p>
+            <p class="muted">Play a full match (Q1→Q4) with official scoring & bonuses.</p>
             <div style="margin-top:10px"><button class="btn">Start Full Game</button></div>
+        </div>
+
+        <div class="card" onclick="showQuestionManager()">
+            <h3>➕ Question Manager</h3>
+            <p class="muted">Edit the embedded question arrays in this file (instructions below).</p>
+            <div style="margin-top:10px"><button class="btn">Manage Questions</button></div>
         </div>
 
         <div class="card" onclick="showLeaderboardPanel()">
             <h3>🏅 Local Leaderboard</h3>
-            <p class="muted">Shows the top 10 full game scores. Enter your name to save it with your score.</p>
+            <p class="muted">Your browser stores every saved attempt. Sorted by weighted score.</p>
             <div style="margin-top:10px"><button class="btn">View Leaderboard</button></div>
         </div>
-        <!-- Player Name Input -->
-        <div id="playerNameContainer" style="margin-bottom: 10px;">
-            <input type="text" id="playerNameInput" placeholder="Enter your name" maxlength="20" style="padding: 5px; width: 200px;">
-        </div>
-
     </div>
 
     <!-- Game area -->
     <div id="gameArea" class="game-area">
         <div class="scoreboard">
             <div class="team-score">
-                <div class="team-name">Score</div>
+                <div class="team-name">Player</div>
                 <div class="score" id="rawScore">0</div>
-                <div class="small muted">Total points</div>
+                <div class="small muted">Raw points</div>
             </div>
             <div style="text-align:center">
                 <div class="small">Quarter</div>
@@ -105,9 +96,9 @@
                 <div id="questionCounter" class="small muted">Q 0 / 0</div>
             </div>
             <div class="team-score">
-                <div class="team-name">Avg Buzz-in</div>
-                <div class="score" id="avgResponseTime">--</div>
-                <div class="small muted">Seconds to buzz</div>
+                <div class="team-name">Weighted</div>
+                <div class="score" id="weightedScore">0</div>
+                <div class="small muted">Weighted (multiplier)</div>
             </div>
         </div>
         <div style="text-align:center">
@@ -116,11 +107,12 @@
         </div>
 
         <div class="question-area">
-            <div id="questionText" class="question-text">Load questions first, then click "Next Question" to begin.</div>
+            <div id="questionText" class="question-text">Click "Next Question" to begin.</div>
         </div>
 
         <div class="controls">
             <button id="buzzerBtn" class="buzzer-btn" onclick="buzz()" disabled>🔔 BUZZ</button>
+            <button class="btn" onclick="nextQuestion()">Next Question</button>
             <button class="btn secondary" onclick="showAnswer()">Show Answer</button>
 
             <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
@@ -132,188 +124,225 @@
         <div class="controls-row">
             <input id="answerInput" class="answer-input" placeholder="Type answer and press Enter or Submit..." disabled>
             <button class="btn" onclick="submitAnswer()">Submit</button>
-            <div id="currentResponseTime" class="small muted">Response time: --</div>
+            <div id="multiplierDisplay" class="small muted">Multiplier: ×1</div>
         </div>
 
         <div id="feedback" class="feedback"></div>
 
-        <!-- Q3 category selection area -->
+        <!-- Q3 category selection area (for practice or full game behavior) -->
         <div id="categorySelection" class="categories hidden"></div>
 
         <!-- Controls to go back or reset -->
         <div class="controls-row" style="margin-top:12px">
             <button class="btn secondary" onclick="backToMenu()">Back to Menu</button>
-            <button class="btn" onclick="resetPracticeGame()">Reset Game</button>
+            <button class="btn" onclick="resetGame()">Reset Game</button>
         </div>
+    </div>
+
+    <!-- Admin / Question Manager (simple) -->
+    <div id="adminPanel" class="admin-panel">
+        <h3>Question Manager — Quick Edit</h3>
+        <p class="small muted">This page displays the active question arrays and allows quick import/export. For a permanent change, edit the <code>QUESTIONS</code> section inside this HTML file (search for the comment "=== QUESTIONS ===").</p>
+
+        <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+            <button class="btn" onclick="exportQuestions()">Export JSON</button>
+            <button class="btn" onclick="importQuestions()">Import JSON</button>
+            <button class="btn secondary" onclick="backToMenu()">Back to Menu</button>
+        </div>
+
+        <div class="question-list" id="questionsDisplay"></div>
     </div>
 
     <!-- Leaderboard panel -->
     <div id="leaderboardPanel" class="admin-panel hidden">
         <h3>Local Leaderboard (all attempts)</h3>
         <div style="display:flex;gap:8px;margin-bottom:8px;align-items:center">
+            <button class="btn" onclick="clearLeaderboard()">Clear Leaderboard</button>
             <button class="btn secondary" onclick="backToMenu()">Back to Menu</button>
         </div>
         <div class="leaderboard" id="leaderboardList"></div>
     </div>
 
     <footer>
+        <div class="small">Notes: No point deductions for wrong answers (per your rules). Q2 bonus is shown after a correct tossup. Q3 category sweep bonus (+20) is applied when all questions in that category are answered correctly.</div>
+    </footer>
 </div>
 
 <script>
 /* ================================================================
-   Game state & helpers
+   === QUESTIONS ===
+   Edit these arrays to add or change questions. Keep everything
+   in this single file (per your request). The structure:
+
+   - quarter1Questions: array of { question, answer }
+     8 tossups recommended.
+
+   - quarter2Questions: array of { tossup: {question, answer}, bonus: {question, answer} }
+     8 tossups recommended; include a bonus field for questions with bonuses.
+
+   - quarter3Categories: array of { category: "Name", questions: [ {question, answer}, ... ] }
+     Each category should have 6 questions in tournament format.
+
+   - quarter4Questions: array of { parts: [ {text, answer}, {text, answer}, {text, answer} ] }
+     Each entry is one pyramid tossup (3 parts). For single-team practice this will act as a standard question.
    ================================================================ */
-let QUESTIONS = {
-    q1: [],
-    q2: [],
-    q3: [],
-    q4: []
+function shuffle(array){
+    for (let i = array.length - 1; i > 0; i--){
+        const j = Math.floor(Math.random() * (i+1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+const QUESTIONS = {
+    q1: [
+        { question: "This ancient wonder of the world was located in Alexandria and was destroyed by earthquakes. Name this lighthouse.", answer: "Lighthouse of Alexandria" },
+        { question: "This Roman general crossed the Rubicon River in 49 BCE, starting a civil war. Name him.", answer: "Julius Caesar" },
+        { question: "This 1803 purchase doubled the size of the United States. Name this acquisition.", answer: "Louisiana Purchase" },
+        { question: "This battle in 1066 saw the Norman conquest of England. Name this battle.", answer: "Battle of Hastings" },
+        { question: "This ancient Greek playwright wrote 'Oedipus Rex'. Name this playwright.", answer: "Sophocles" },
+        { question: "This conflict began in 1914 with the assassination of Archduke Franz Ferdinand. Name the war.", answer: "World War I" },
+        { question: "This document, signed in 1215, limited the power of the English monarchy. Name it.", answer: "Magna Carta" },
+        { question: "This trade route connected China to the Mediterranean across Central Asia. Name it.", answer: "Silk Road" }
+    ],
+
+    q2: [
+        { tossup: { question: "This president purchased Louisiana from France in 1803.", answer: "Thomas Jefferson" }, bonus: { question: "Name the two explorers Jefferson sent to map this new territory.", answer: "Lewis and Clark" } },
+        { tossup: { question: "This Egyptian queen allied herself with Julius Caesar and later Mark Antony.", answer: "Cleopatra VII" }, bonus: { question: "Name the battle where Octavian defeated Antony and Cleopatra in 31 BCE.", answer: "Battle of Actium" } },
+        { tossup: { question: "This English king had six wives and initiated the English Reformation.", answer: "Henry VIII" }, bonus: { question: "Name the daughter of Henry VIII who reigned after Edward VI and was nicknamed 'Bloody'.", answer: "Mary I" } },
+        { tossup: { question: "This 19th-century German chancellor unified Germany after the Franco-Prussian War.", answer: "Otto von Bismarck" }, bonus: { question: "Name the 1871 proclamation city where the German Empire was declared.", answer: "Versailles" } }
+    ],
+
+    q3: [
+        {
+            category: "Ancient Civilizations",
+            questions: [
+                { question: "This river was crucial to Egyptian civilization.", answer: "Nile River" },
+                { question: "This code was created by a Babylonian king.", answer: "Code of Hammurabi" },
+                { question: "This city-state was known for its military culture.", answer: "Sparta" },
+                { question: "This structure was built to keep out northern invaders in China.", answer: "Great Wall of China" },
+                { question: "This empire was founded by Cyrus the Great.", answer: "Persian Empire" },
+                { question: "This wonder of the world was located in Babylon.", answer: "Hanging Gardens of Babylon" }
+            ]
+        },
+        {
+            category: "American History",
+            questions: [
+                { question: "This document was signed in 1776.", answer: "Declaration of Independence" },
+                { question: "This war lasted from 1861 to 1865.", answer: "American Civil War" },
+                { question: "This president was assassinated in 1865.", answer: "Abraham Lincoln" },
+                { question: "This purchase was made from Russia in 1867.", answer: "Alaska Purchase" },
+                { question: "This amendment abolished slavery.", answer: "13th Amendment" },
+                { question: "This trail was used by pioneers moving west.", answer: "Oregon Trail" }
+            ]
+        },
+        {
+            category: "World Wars",
+            questions: [
+                { question: "This event started World War I in 1914.", answer: "Assassination of Archduke Franz Ferdinand" },
+                { question: "This battle was the longest of World War I.", answer: "Battle of Verdun" },
+                { question: "This country invaded Poland in 1939.", answer: "Germany" },
+                { question: "This attack brought the US into World War II.", answer: "Pearl Harbor" },
+                { question: "This operation was the D-Day invasion.", answer: "Operation Overlord" },
+                { question: "This city was the first target of an atomic bomb.", answer: "Hiroshima" }
+            ]
+        }
+    ],
+
+    q4: [
+        {
+            parts: [
+                { text: "This 19th-century American novelist wrote an epic tale of obsession and the sea (30 pts).", answer: "Herman Melville" },
+                { text: "This author wrote 'Moby-*****', which features Captain Ahab (20 pts).", answer: "Herman Melville" },
+                { text: "Name the author of 'Billy Budd' as well (10 pts).", answer: "Herman Melville" }
+            ]
+        },
+        {
+            parts: [
+                { text: "This Renaissance artist painted the ceiling of the Sistine Chapel (30 pts).", answer: "Michelangelo" },
+                { text: "He was also a sculptor who created the statue of David (20 pts).", answer: "Michelangelo" },
+                { text: "Name this Italian master who carved 'Pietà' (10 pts).", answer: "Michelangelo" }
+            ]
+        }
+    ]
 };
 
-// Fetch questions from server
-async function loadQuestionsFromServer() { 
-    try {
-        const response = await fetch('questions.json');
-        if (!response.ok) throw new Error("Failed to load questions.json");
-        const jsonData = await response.json();
+/* ================================================================
+   END OF QUESTIONS
+   You can add or remove objects in the arrays above. Keep the
+   structures consistent. See the inline example comments for
+   guidance.
+   ================================================================ */
 
-        if (!jsonData.q1 || !jsonData.q2 || !jsonData.q3 || !jsonData.q4) {
-            throw new Error("questions.json must contain q1, q2, q3, q4");
-        }
-
-        QUESTIONS = jsonData;
-        gameState.questionsLoaded = true;
-
-        const q3Count = jsonData.q3.reduce((sum, cat) => sum + cat.questions.length, 0);
-        const q4Count = jsonData.q4.reduce((sum, group) => sum + group.parts.length, 0);
-
-        updateQuestionsStatus(
-            `Successfully loaded: Q1(${jsonData.q1.length}) Q2(${jsonData.q2.length}) Q3(${q3Count}) Q4(${q4Count})`,
-            true
-        );
-
-        renderQuestionsDisplay();
-
-    } catch (err) {
-        updateQuestionsStatus("Error: " + err.message, false);
-        gameState.questionsLoaded = false;
-        console.error(err);
-    }
-}
-
-// Utility to pick random item
-function getRandomItem(array) {
-    return array[Math.floor(Math.random() * array.length)];
-}
-
-// Functions to get questions on-demand — only pick what’s needed, don't pre-load
-function getRandomQ1() {
-    if (!QUESTIONS.q1.length) return null;
-    return getRandomItem(QUESTIONS.q1);
-}
-
-function getRandomQ2() {
-    if (!QUESTIONS.q2.length) return null;
-    return getRandomItem(QUESTIONS.q2);
-}
-
-function getRandomQ3() {
-    if (!QUESTIONS.q3.length) return [];
-    const shuffledCategories = [...QUESTIONS.q3].sort(() => Math.random() - 0.5);
-    return shuffledCategories.slice(0, 3); // 3 random categories with 6 questions each
-}
-
-function getRandomQ4Part() {
-    if (!QUESTIONS.q4.length) return null;
-    const group = getRandomItem(QUESTIONS.q4);
-    return getRandomItem(group.parts);
-}
-
-// Example usage:
-// const q1Question = getRandomQuestion('q1');
-// const q2Question = getRandomQuestion('q2');
-// const q3Categories = getRandomQ3Categories();
-// const q4Question = getRandomQ4Question();
-
+/* ------------------ Game state & helpers ------------------ */
 let gameState = {
-    mode: null,
+    mode: "practice", // 'practice' or 'full'
     currentQuarter: 1,
-    q3CategoryQuestions: [],
-    q3Timer: null,
-    q3TimeLeft: 60,
-    q3CurrentQuestionIdx: 0,
-    q3CategoryActive: false,
-    currentQuestionIndex: -1,
+    currentQuestionIndex: -1, // index in the quarter array (0-based)
     rawScore: 0,
-    responseTimes: [], // Array to track response times
+    weightedScore: 0,
+    q4partIndex: 0,
     readingInterval: null,
-    postReadTimer: null,
-    answerTimer: null,
     readingCharIndex: 0,
-    q4CurrentPart: 0,
     currentQuestionText: "",
     currentAnswer: "",
     currentBonus: null,
     buzzed: false,
-    buzzInTimes: [],
     multiplier: 1,
+    // For Q3 category: index of selected category and how many answered correct in it
     q3selectedCategory: null,
     q3categoryProgress: 0,
     q3categoryCorrectCount: 0,
+    // track Q3 sweep possibility
     q3Swept: false,
-    lastActionTimestamp: null,
-    questionStartTime: null, // When question reading began
-    buzzTime: null, // When user buzzed
-    questionsLoaded: false
+    // track Q4 part index if needed (we'll handle by percent read)
+    lastActionTimestamp: null
 };
 
 const $ = id => document.getElementById(id);
 
-/* ------------------ Question Loading ------------------ */
-
-function updateQuestionsStatus(message, success) {
-    const statusEl = $('questionsStatus');
-    statusEl.textContent = message;
-    statusEl.className = success ? 'small muted' : 'small error';
+function readQ4Part() {
+    if (!gameState.currentQ4Parts) return;
+    const partIndex = gameState.q4partIndex;
+    const partText = gameState.currentQ4Parts[partIndex];
+    gameState.currentQuestionText = partText;
+    gameState.readingCharIndex = 0;
+    $('questionText').textContent = "";
+    gameState.readingInterval = setInterval(() => {
+        if (gameState.readingCharIndex < partText.length && !gameState.buzzed) {
+            $('questionText').textContent += partText[gameState.readingCharIndex];
+            gameState.readingCharIndex++;
+        } else {
+            clearInterval(gameState.readingInterval);
+            gameState.readingInterval = null;
+            // If not buzzed, move to next part
+            if (!gameState.buzzed && partIndex < gameState.currentQ4Parts.length - 1) {
+                gameState.q4partIndex++;
+                setTimeout(readQ4Part, 800); // brief pause before next part
+            } else if (!gameState.buzzed) {
+                // End of last part: allow buzz for a few seconds if needed
+                let postReadTime = 5;
+                $('timerDisplay').textContent = `Buzz: ${postReadTime}`;
+                gameState.postReadTimer = setInterval(() => {
+                    postReadTime--;
+                    $('timerDisplay').textContent = `Buzz: ${postReadTime}`;
+                    if (postReadTime <= 0) {
+                        clearInterval(gameState.postReadTimer);
+                        $('buzzerBtn').disabled = true;
+                        $('timerDisplay').textContent = "--";
+                    }
+                }, 1000);
+            }
+        }
+    }, 30);
 }
 
 /* ------------------ UI helpers ------------------ */
 function updateScoreDisplays(){
     $('rawScore').textContent = gameState.rawScore;
-
-    // Calculate and display average response time
-    const avgBuzz = calculateAverageBuzzInTime();
-    $('avgResponseTime').textContent = avgBuzz !== null ? avgBuzz.toFixed(1) + 's' : '--';
-
+    $('weightedScore').textContent = gameState.weightedScore;
+    $('multiplierDisplay').textContent = `Multiplier: ×${gameState.multiplier}`;
     $('quarterDisplay').textContent = gameState.currentQuarter;
-}
-
-function calculateAverageResponseTime() {
-    if (gameState.responseTimes.length === 0) return null;
-    const sum = gameState.responseTimes.reduce((a, b) => a + b, 0);
-    return sum / gameState.responseTimes.length;
-}
-
-function looseMatch(given, answer) {
-  const articles = ["the", "a", "an", "of"];
-  function tokenize(s) {
-    return s
-      .toLowerCase()
-      .replace(/[^a-z0-9' ]+/g, '') // Remove punctuation except apostrophe
-      .split(/\s+/)
-      .filter(w => w && !articles.includes(w));
-  }
-  const givenWords = tokenize(given);
-  const answerWords = tokenize(Array.isArray(answer) ? answer[0] : answer);
-
-  // Accept if every answer word is present in the given OR every given word is present in the answer
-  const allAnswerInGiven = answerWords.every(w => givenWords.includes(w));
-  const allGivenInAnswer = givenWords.every(w => answerWords.includes(w));
-
-  // Accept if at least 70% of answer words are present in given
-  const pct = answerWords.filter(w => givenWords.includes(w)).length / answerWords.length;
-
-  return allAnswerInGiven || allGivenInAnswer || pct >= 0.7;
 }
 
 function setFeedback(text, ok=true){
@@ -334,88 +363,55 @@ function clearFeedback(){
 function backToMenu(){
     clearAllTimers();
     $('gameArea').style.display = 'none';
+    $('adminPanel').style.display = 'none';
     $('leaderboardPanel').style.display = 'none';
     $('mainMenu').style.display = 'grid';
-    $('categorySelection').classList.add('hidden');
+    // reset some state
     gameState.mode = 'practice';
     $('modeDisplay').textContent = 'Practice';
 }
 
 function openPracticeMode(){
-    if (!gameState.questionsLoaded) {
-        alert("Questions failed to load.");
-        return;
-    }
     resetGame();
     gameState.mode = 'practice';
     $('modeDisplay').textContent = 'Practice';
     $('mainMenu').style.display = 'none';
     $('gameArea').style.display = 'block';
-    // This line is now unnecessary since button is removed:
-    // updateNextQuestionButtonVisibility();
-    if (promptPracticeQuarter()) {
-        nextQuestion();
-    }
+    // allow picking quarter manually before Next Question
+    showPracticeQuarterOptions();
 }
 
-function promptPracticeQuarter() {
-    const choice = prompt("Enter practice quarter (1,2,3,4) or 'q' to cancel:", "1");
-    if (!choice || choice.toLowerCase() === 'q') {
-        backToMenu();
-        return false;
-    }
-    const q = parseInt(choice);
-    if (![1,2,3,4].includes(q)) {
-        alert("Invalid quarter");
-        return promptPracticeQuarter();
-    }
-    gameState.currentQuarter = q;
-    gameState.practiceQuarterSelected = true;
-    gameState.currentQuestionIndex = -1;
-    gameState.q3selectedCategory = null;
-    gameState.q3categoryProgress = 0;
-    return true;
-}
-
-function startFullGameFromMenu() {
-    if (!gameState.questionsLoaded) {
-        alert("Questions failed to load.");
-        return;
-    }
-    gameState.mode = 'full'; // Set mode BEFORE resetGame
+function startFullGameFromMenu(){
     resetGame();
+    gameState.mode = 'full';
     $('modeDisplay').textContent = 'Full Game';
     $('mainMenu').style.display = 'none';
     $('gameArea').style.display = 'block';
+    // begin game
     startGame();
+}
+
+function showQuestionManager(){
+    clearAllTimers();
+    $('mainMenu').style.display = 'none';
+    $('gameArea').style.display = 'none';
+    $('leaderboardPanel').style.display = 'none';
+    $('adminPanel').style.display = 'block';
+    renderQuestionsDisplay();
 }
 
 function showLeaderboardPanel(){
     clearAllTimers();
     $('mainMenu').style.display = 'none';
     $('gameArea').style.display = 'none';
+    $('adminPanel').style.display = 'none';
     $('leaderboardPanel').style.display = 'block';
-    renderGlobalLeaderboard();
+    renderLeaderboard();
 }
 
 /* ------------------ Timer/Reading helpers ------------------ */
 function clearAllTimers(){
-    if (gameState.readingInterval){ 
-        clearInterval(gameState.readingInterval); 
-        gameState.readingInterval = null; 
-    }
-    if (gameState.postReadTimer){ 
-        clearInterval(gameState.postReadTimer); 
-        gameState.postReadTimer = null; 
-    }
-    if (gameState.answerTimer){ 
-        clearInterval(gameState.answerTimer); 
-        gameState.answerTimer = null; 
-    }
-    if (gameState.q3Timer) {
-        clearInterval(gameState.q3Timer);
-        gameState.q3Timer = null;
-    }
+    if (gameState.readingInterval){ clearInterval(gameState.readingInterval); gameState.readingInterval = null; }
     gameState.readingCharIndex = 0;
 }
 
@@ -423,6 +419,7 @@ function startGame(){
     resetGame();
     gameState.mode = 'full';
     $('modeDisplay').textContent = 'Full Game';
+    // start at Q1
     gameState.currentQuarter = 1;
     gameState.currentQuestionIndex = -1;
     updateScoreDisplays();
@@ -433,63 +430,37 @@ function startGame(){
 function resetGame(){
     clearAllTimers();
     gameState = {
-        ...gameState,
+        mode: gameState.mode || 'practice',
         currentQuarter: 1,
         currentQuestionIndex: -1,
         rawScore: 0,
-        responseTimes: [],
+        weightedScore: 0,
         readingInterval: null,
-        postReadTimer: null,
-        answerTimer: null,
         readingCharIndex: 0,
         currentQuestionText: "",
         currentAnswer: "",
         currentBonus: null,
         buzzed: false,
-        buzzInTimes: [],
         multiplier: 1,
         q3selectedCategory: null,
         q3categoryProgress: 0,
         q3categoryCorrectCount: 0,
         q3Swept: false,
         lastActionTimestamp: null,
-        questionStartTime: null,
-        buzzTime: null,
         activeQ1: shuffle([...QUESTIONS.q1]),
         activeQ2: shuffle([...QUESTIONS.q2]),
         activeQ3: shuffle([...QUESTIONS.q3]),
-        activeQ4: shuffle([...QUESTIONS.q4]),
-        practiceQuarterSelected: false // <-- ADD THIS LINE
+        activeQ4: shuffle([...QUESTIONS.q4])
     };
-    $('questionText').textContent = gameState.questionsLoaded ? 
-        "Click 'Next Question' to start!" : 
-        "Questions failed to load";
+    $('questionText').textContent = "Click 'Next Question' to start!";
     $('buzzerBtn').disabled = true;
     $('answerInput').disabled = true;
-    $('categorySelection').classList.add('hidden');
     $('answerInput').value = '';
-    $('currentResponseTime').textContent = 'Response time: --';
+    $('multiplierDisplay').textContent = 'Multiplier: ×1';
     $('questionCounter').textContent = 'Q 0 / 0';
     $('timerDisplay').textContent = '--';
     updateScoreDisplays();
     clearFeedback();
-}
-
-function resetPracticeGame() {
-    resetGame();
-    if (gameState.mode === 'practice') {
-        if (promptPracticeQuarter()) {
-            nextQuestion();
-        }
-    }
-}
-
-function shuffle(array){
-    for (let i = array.length - 1; i > 0; i--){
-        const j = Math.floor(Math.random() * (i+1));
-        [array[i], array[j]] = [array[j], array[i]];
-    }
-    return array;
 }
 
 /* ------------------ Question selection helpers ------------------ */
@@ -501,31 +472,66 @@ function getCurrentQuarterArray(){
     return [];
 }
 
-/* ------------------ Start Next Question ------------------ */
-function nextQuestion() {
-    if (!gameState.questionsLoaded) {
-        alert("Questions failed to load.");
-        return;
+function incrementQuestionIndex(){
+    // Move to next question index for the current quarter.
+    const arr = getCurrentQuarterArray();
+    if (gameState.currentQuarter === 3 && gameState.q3selectedCategory !== null){
+        // inside a category: we use q3categoryProgress as index (0..5)
+        gameState.q3categoryProgress++;
+        // If category done, clear selection to force next selection logic
+        const cat = QUESTIONS.q3[gameState.q3selectedCategory];
+        if (gameState.q3categoryProgress >= (cat.questions.length || 0)){
+            gameState.q3selectedCategory = null;
+            gameState.q3categoryProgress = 0;
+            // If in full game, move to next quarter after both categories answered? For single-player we just continue.
+        }
+    } else {
+        gameState.currentQuestionIndex++;
     }
+}
 
+/* ------------------ Start Next Question ------------------ */
+function nextQuestion(){
     clearAllTimers();
     clearFeedback();
 
-    // Quarter 3: Category
-    if (gameState.currentQuarter === 3) {
-        if (gameState.q3selectedCategory === null) {
-            showCategorySelection();
-            return;
-        }
+    // If practice mode and quarter not selected, prompt category options or set currentQuarter to last selected
+    if (gameState.mode === 'practice' && !gameState.practiceQuarterSelected){
+        // show quarter picker UI (quick)
+        const choice = prompt("Enter practice quarter (1,2,3,4) or 'q' to cancel:", "1");
+        if (!choice || choice.toLowerCase() === 'q') return;
+        const q = parseInt(choice);
+        if (![1,2,3,4].includes(q)){ alert("Invalid quarter"); return; }
+        gameState.currentQuarter = q;
+        gameState.practiceQuarterSelected = true;
+        // reset indices
+        gameState.currentQuestionIndex = -1;
+        gameState.q3selectedCategory = null;
+        gameState.q3categoryProgress = 0;
+    }
 
+    // Determine quarter arrays
+    const quarterArr = getCurrentQuarterArray();
+
+    // For Q3: if a category hasn't been selected, show category selection (if in practice or if in full-game this happens at category round)
+    if (gameState.currentQuarter === 3 && gameState.q3selectedCategory === null){
+        // Show category buttons if not selected
+        showCategorySelection();
+        return;
+    }
+
+    // Determine next question index and existence
+    if (gameState.currentQuarter === 3 && gameState.q3selectedCategory !== null){
         const cat = QUESTIONS.q3[gameState.q3selectedCategory];
         if (!cat || !cat.questions || cat.questions.length === 0){
             $('questionText').textContent = "No questions in this category.";
             return;
         }
-
-        if (gameState.q3categoryProgress >= cat.questions.length) {
-            if (gameState.mode === 'full') {
+        // If we've answered all in this category, end category and if in full game move on
+        if (gameState.q3categoryProgress >= cat.questions.length){
+            // finished category
+            if (gameState.mode === 'full'){
+                // move to next quarter
                 gameState.currentQuarter++;
                 gameState.currentQuestionIndex = -1;
                 gameState.q3selectedCategory = null;
@@ -533,75 +539,55 @@ function nextQuestion() {
                 nextQuestion();
                 return;
             } else {
+                // practice mode: let user pick another category (or finish)
                 gameState.q3selectedCategory = null;
                 showCategorySelection();
                 return;
             }
         }
-
-        showQ3CategoryQuestion();
-        return;
-    }
-
-    // Quarters 1,2,4: increment index
-    if (gameState.currentQuarter === 1) {
+    } else {
+        // Non-Q3: increment index
         gameState.currentQuestionIndex++;
-        if (gameState.currentQuestionIndex >= gameState.activeQ1.length) {
-            if (gameState.mode === 'full') {
-                gameState.currentQuarter++;
-                gameState.currentQuestionIndex = -1;
-                nextQuestion();
-                return;
+        // If we ran out of questions in the quarter...
+        const arrLen = (gameState.currentQuarter === 3) ? QUESTIONS.q3.length : quarterArr.length;
+        // For Q1,Q2,Q4 check bounds
+        let arrLength;
+        if (gameState.currentQuarter === 1) arrLength = QUESTIONS.q1.length;
+        else if (gameState.currentQuarter === 2) arrLength = QUESTIONS.q2.length;
+        else if (gameState.currentQuarter === 4) arrLength = QUESTIONS.q4.length;
+        else arrLength = 0;
+
+        if (gameState.currentQuarter !== 3 && gameState.currentQuestionIndex >= arrLength){
+            // end of quarter
+            if (gameState.mode === 'full'){
+                if (gameState.currentQuarter < 4){
+                    gameState.currentQuarter++;
+                    gameState.currentQuestionIndex = -1;
+                    nextQuestion();
+                    return;
+                } else {
+                    // end of full game
+                    finishGame();
+                    return;
+                }
             } else {
-                alert(`No more questions in Quarter 1.`);
-                gameState.currentQuestionIndex = gameState.activeQ1.length - 1;
-                return;
-            }
-        }
-    } else if (gameState.currentQuarter === 2) {
-        if (!gameState.isAnsweringBonus) {
-            gameState.currentQuestionIndex++;
-        }
-        if (gameState.currentQuestionIndex >= gameState.activeQ2.length) {
-            if (gameState.mode === 'full') {
-                gameState.currentQuarter++;
-                gameState.currentQuestionIndex = -1;
-                nextQuestion();
-                return;
-            } else {
-                alert(`No more questions in Quarter 2.`);
-                gameState.currentQuestionIndex = gameState.activeQ2.length - 1;
-                return;
-            }
-        }
-    } else if (gameState.currentQuarter === 4) {
-        gameState.currentQuestionIndex++;
-        if (gameState.currentQuestionIndex >= gameState.activeQ4.length) {
-            if (gameState.mode === 'full') {
-                finishGame();
-                return;
-            } else {
-                alert(`No more questions in Quarter 4.`);
-                gameState.currentQuestionIndex = gameState.activeQ4.length - 1;
+                // practice: we've exhausted questions
+                alert(`No more questions in Quarter ${gameState.currentQuarter}. You can edit the QUESTIONS section to add more.`);
+                gameState.currentQuestionIndex = arrLength - 1;
                 return;
             }
         }
     }
 
-    // Prepare question UI
+    // Ready UI for a new question
     $('buzzerBtn').disabled = false;
     $('answerInput').disabled = true;
     $('answerInput').value = '';
     $('questionText').textContent = 'Get ready...';
     $('questionCounter').textContent = computeQuestionCounterText();
-    $('currentResponseTime').textContent = 'Response time: --';
-    $('categorySelection').classList.add('hidden');
 
-    // Record question start time
-    gameState.questionStartTime = Date.now();
-
-    // Start reading question
-    setTimeout(() => startReading(), 800);
+    // Small delay to simulate moderator prep then start reading
+    setTimeout(()=> startReading(), 800);
 }
 
 /* ------------------ Category selection for Q3 ------------------ */
@@ -614,7 +600,6 @@ function showCategorySelection(){
         btn.className = 'category-btn';
         btn.textContent = `${cat.category} (${(cat.questions||[]).length} q)`;
         btn.onclick = () => {
-            console.log("Category selected: ", idx);
             container.classList.add('hidden');
             selectCategory(idx);
         };
@@ -622,133 +607,15 @@ function showCategorySelection(){
     });
 }
 
-function selectCategory(idx) {
+function selectCategory(idx){
     gameState.q3selectedCategory = idx;
     gameState.q3categoryProgress = 0;
     gameState.q3categoryCorrectCount = 0;
-
-    gameState.q3CategoryQuestions = QUESTIONS.q3[idx].questions
-        .map(q => ({ ...q, userAnswer: "", isCorrect: false }));
-
-    if (gameState.mode === 'practice') {
-        gameState.q3CategoryQuestions.sort(() => Math.random() - 0.5);
-    }
-
-    gameState.q3CurrentQuestionIdx = 0;
-    gameState.q3TimeLeft = 60;
-    gameState.q3CategoryActive = true;
-
-    $('categorySelection').classList.add('hidden');
-    startQ3CategoryTimer();
-    showQ3CategoryQuestion();
-}
-
-function startQ3CategoryTimer() {
-    $('timerDisplay').textContent = `Time left: ${gameState.q3TimeLeft}s`;
-    gameState.q3Timer = setInterval(() => {
-        gameState.q3TimeLeft--;
-        $('timerDisplay').textContent = `Time left: ${gameState.q3TimeLeft}s`;
-        if (gameState.q3TimeLeft <= 0) {
-            finishQ3CategoryRound();
-        }
-    }, 1000);
-}
-
-function stopQ3CategoryTimer() {
-    if (gameState.q3Timer) {
-        clearInterval(gameState.q3Timer);
-        gameState.q3Timer = null;
-    }
-}
-
-function finishQ3CategoryRound() {
-    stopQ3CategoryTimer();
-    gameState.q3CategoryActive = false;
+    $('buzzerBtn').disabled = false;
     $('answerInput').disabled = true;
-    $('buzzerBtn').disabled = true;
-    if ($('skipBtn')) $('skipBtn').remove();
-
-    const correct = gameState.q3CategoryQuestions.filter(q => q.isCorrect).length;
-    const points = correct * 10;
-
-    let resultHtml = `<strong>Time's up or all answered!</strong><br>`;
-    resultHtml += `You got <strong>${correct}/6</strong> correct (+${points} pts).<br><br>`;
-
-    $('questionText').innerHTML = resultHtml;
-    updateScoreDisplays();
-    setFeedback(`Category complete! ${correct} correct, +${points} pts.`, true);
-    setTimeout(() => {
-        if (gameState.mode === 'full') {
-            gameState.currentQuarter++;
-            gameState.currentQuestionIndex = -1;
-            gameState.q3selectedCategory = null;
-            nextQuestion();
-        } else {
-            gameState.q3selectedCategory = null;
-            showCategorySelection();
-        }
-    }, 4000);
-}
-
-function calculateAverageBuzzInTime() {
-    if (!gameState.buzzInTimes.length) return null;
-    const sum = gameState.buzzInTimes.reduce((a, b) => a + b, 0);
-    return sum / gameState.buzzInTimes.length;
-}
-
-function showQ3CategoryQuestion() {
-    const qArr = gameState.q3CategoryQuestions;
-    let idx = gameState.q3CurrentQuestionIdx;
-    let cnt = 0;
-    while (qArr[idx].userAnswer && cnt < qArr.length) {
-        idx = (idx + 1) % qArr.length;
-        cnt++;
-    }
-
-    if (cnt >= qArr.length) {
-        finishQ3CategoryRound();
-        return;
-    }
-
-    gameState.q3CurrentQuestionIdx = idx;
-    const qObj = qArr[idx];
-
-    // Record question start time for Q3
-    gameState.questionStartTime = Date.now();
-
-    $('questionText').textContent = `(${idx+1}/6) ${qObj.question}`;
-    $('answerInput').disabled = false;
-    $('answerInput').value = '';
-    $('answerInput').focus();
-    $('buzzerBtn').disabled = true;
-
-    if (!document.getElementById('skipBtn')) {
-        const skipBtn = document.createElement('button');
-        skipBtn.id = 'skipBtn';
-        skipBtn.className = 'btn secondary';
-        skipBtn.textContent = 'Skip';
-        skipBtn.onclick = () => {
-            const qArr = gameState.q3CategoryQuestions;
-            let idx = gameState.q3CurrentQuestionIdx;
-            if (!qArr[idx].userAnswer) {
-                qArr[idx].userAnswer = "---";
-                qArr[idx].isCorrect = false;
-            }
-            let nextIdx = (idx + 1) % qArr.length;
-            let cnt = 0;
-            while (qArr[nextIdx].userAnswer && cnt < qArr.length) {
-                nextIdx = (nextIdx + 1) % qArr.length;
-                cnt++;
-            }
-            if (!qArr.some(q => !q.userAnswer)) {
-                finishQ3CategoryRound();
-            } else {
-                gameState.q3CurrentQuestionIdx = nextIdx;
-                showQ3CategoryQuestion();
-            }
-        };
-        $('answerInput').parentNode.insertBefore(skipBtn, $('answerInput').nextSibling);
-    }
+    $('questionText').textContent = `Category: ${QUESTIONS.q3[idx].category} — press Next Question to begin`;
+    // Immediately start reading the first question in that category:
+    nextQuestion();
 }
 
 /* ------------------ Reading / typing effect ------------------ */
@@ -773,31 +640,21 @@ function startReading(){
         correctAnswer = q ? q.tossup.answer : "";
         gameState.currentBonus = q ? q.bonus : null;
     } else if (gameState.currentQuarter === 3){
-        const cat = QUESTIONS.q3[gameState.q3selectedCategory];
+        const cat = gameState.activeQ3[gameState.q3selectedCategory];
         const qIndex = gameState.q3categoryProgress;
         const q = cat && cat.questions ? cat.questions[qIndex] : null;
         questionText = q ? q.question : "";
         correctAnswer = q ? q.answer : "";
     } else if (gameState.currentQuarter === 4){
         const q = gameState.activeQ4[gameState.currentQuestionIndex];
-        if (!q){ questionText = ""; correctAnswer = ""; }
+        if (!q) { questionText = ""; correctAnswer = ""; }
         else {
             gameState.currentQ4Parts = q.parts;
-            questionText = q.parts.map(p => p.text).join(" ");
-            correctAnswer = q.parts[0].answer;
-            let boundaries = [];
-            let idx = 0;
-            q.parts.forEach((p, i) => {
-                boundaries.push({ part: i, start: idx, end: idx + p.text.length });
-                idx += p.text.length + 1;
-            });
-            gameState.q4PartBoundaries = boundaries;
+            gameState.q4partIndex = 0;
+            correctAnswer = q.answer;
+            // Start reading first part
+            readQ4Part();
         }
-    }
-
-    if (!questionText) {
-        $('questionText').textContent = "No question available.";
-        return;
     }
 
     gameState.currentQuestionText = questionText;
@@ -810,60 +667,49 @@ function startReading(){
         if (gameState.readingCharIndex < questionText.length && !gameState.buzzed){
             $('questionText').textContent += questionText[gameState.readingCharIndex];
             gameState.readingCharIndex++;
-            if (gameState.currentQuarter === 4) {
-                let idx = gameState.readingCharIndex;
-                let boundaries = gameState.q4PartBoundaries;
-                let partIndex = boundaries.length - 1;
-                for (let i = 0; i < boundaries.length; i++) {
-                    if (idx < boundaries[i].end) {
-                        partIndex = i;
-                        break;
-                    }
-                }
-                gameState.q4CurrentPart = partIndex;
-            }
         } else {
             clearInterval(gameState.readingInterval);
             gameState.readingInterval = null;
             if (!gameState.buzzed){
                 let postReadTime = 5;
-                $('timerDisplay').textContent = `Buzz time: ${postReadTime}`;
+                $('timerDisplay').textContent = `Buzz: ${postReadTime}`;
                 gameState.postReadTimer = setInterval(()=>{
                     postReadTime--;
-                    $('timerDisplay').textContent = `Buzz time: ${postReadTime}`;
+                    $('timerDisplay').textContent = `Buzz: ${postReadTime}`;
                     if (postReadTime <= 0){
                         clearInterval(gameState.postReadTimer);
-                        gameState.postReadTimer = null;
                         $('buzzerBtn').disabled = true;
-                        $('timerDisplay').textContent = "Time's up";
-                        setFeedback("Time expired! No buzz recorded.", false);
-                        setTimeout(()=> {
-                            nextQuestion();
-                        }, 1500);
+                        $('timerDisplay').textContent = "--";
                     }
-                }, 1000);
+                },1000);
             }
         }
     }, 30);
 }
 
+
+
 /* ------------------ Buzz logic ------------------ */
 function buzz(){
+    // Single-team mode: buzz just stops reading and allows player to answer
     if (gameState.buzzed) return;
     gameState.buzzed = true;
-    gameState.buzzTime = Date.now(); // Record buzz time for response time calculation
+    gameState.lastActionTimestamp = Date.now();
 
-    clearAllTimers();
-    // Calculate buzz-in time: from questionStartTime to buzzTime
-    if (gameState.questionStartTime && gameState.buzzTime) {
-        const buzzInTime = (gameState.buzzTime - gameState.questionStartTime) / 1000;
-        gameState.buzzInTimes.push(buzzInTime);
+    // Stop reading animation at the buzz point (don’t auto-reveal rest)
+    if (gameState.readingInterval){
+        clearInterval(gameState.readingInterval);
+        gameState.readingInterval = null;
     }
+
+    // Calculate multiplier based on where they buzzed (how much was read)
     let pctRead = 1;
     if (gameState.currentQuestionText && gameState.readingCharIndex){
         pctRead = gameState.readingCharIndex / gameState.currentQuestionText.length;
         if (pctRead < 0) pctRead = 0;
         if (pctRead > 1) pctRead = 1;
+    } else {
+        pctRead = 1;
     }
 
     if (pctRead < 0.15) gameState.multiplier = 5;
@@ -872,63 +718,59 @@ function buzz(){
     else if (pctRead < 0.8) gameState.multiplier = 2;
     else gameState.multiplier = 1;
 
-    if (gameState.currentQuarter === 4) {
-        let bracketPoints = 10;
-        if (gameState.q4CurrentPart === 0) bracketPoints = 30;
-        else if (gameState.q4CurrentPart === 1) bracketPoints = 20;
-        else bracketPoints = 10;
-        gameState.q4BracketPoints = bracketPoints;
-    } else {
-        gameState.q4BracketPoints = 10;
-    }
-
+    // Enable answer input
     $('answerInput').disabled = false;
     $('answerInput').focus();
     $('buzzerBtn').disabled = true;
     updateScoreDisplays();
-
-    let answerTime = 10;
-    $('timerDisplay').textContent = `Answer time: ${answerTime}`;
+    
+    // Start 10s answer timer
+    let timeLeft = 10;
+    $('timerDisplay').textContent = `Answer: ${timeLeft}`;
     gameState.answerTimer = setInterval(()=>{
-        answerTime--;
-        $('timerDisplay').textContent = `Answer time: ${answerTime}`;
-        if (answerTime <= 0){
-            clearInterval(gameState.answerTimer);
-            gameState.answerTimer = null;
-            $('answerInput').disabled = true;
-            $('timerDisplay').textContent = "Time expired";
-            setFeedback("Time expired! No points awarded.", false);
-            setTimeout(()=> { 
-                nextQuestion(); 
-            }, 1500);
+       timeLeft--;
+       $('timerDisplay').textContent = `Answer: ${timeLeft}`;
+       if (timeLeft <= 0){
+          clearInterval(gameState.answerTimer);
+          $('answerInput').disabled = true;
+          $('timerDisplay').textContent = "--";
+          setFeedback("Time expired! No points awarded.", false);
+          setTimeout(()=>{ incrementQuestionIndex(); nextQuestion(); }, 900);
         }
-    }, 1000);
+    },1000);
+
+
+    // Start 10-second timer to answer
+    let buzzTime = 10;
+    $('timerDisplay').textContent = `Answer Time: ${buzzTime}`;
+    gameState.buzzTimer = setInterval(()=>{
+        buzzTime--;
+        $('timerDisplay').textContent = `Answer Time: ${buzzTime}`;
+        if (buzzTime <= 0){
+            clearInterval(gameState.buzzTimer);
+            gameState.buzzTimer = null;
+            $('answerInput').disabled = true;
+            $('submitBtn').disabled = true;
+            $('timerDisplay').textContent = "Time expired.";
+            // Show correct answer (no points)
+            alert(`⏰ Time up! The correct answer was: ${gameState.currentAnswer}`);
+        }
+    },1000);
 }
 
 /* ------------------ Show answer (for practice) ------------------ */
 function showAnswer(){
-    clearAllTimers(); // Stop reading, post-read, and answer timers
     if (!gameState.currentAnswer) {
         setFeedback("No current answer available.", false);
         return;
     }
     $('questionText').textContent = gameState.currentQuestionText || '---';
     setFeedback(`Answer: ${gameState.currentAnswer}`, true);
-    $('buzzerBtn').disabled = true;
 }
 
 /* ------------------ Answer checking & scoring ------------------ */
 function normalize(s){
-    return (s || "").toString().trim().toLowerCase();
-}
-
-function isStrictCorrect(given, answer) {
-    const normGiven = normalize(given);
-    if (Array.isArray(answer)) {
-        return answer.some(a => normalize(a) === normGiven);
-    } else {
-        return normalize(answer) === normGiven;
-    }
+    return (s || "").toString().trim().toLowerCase().replace(/[^\w\s]/g,'');
 }
 
 function submitAnswer(){
@@ -940,168 +782,158 @@ function submitAnswer(){
         return;
     }
 
-    const submitTime = Date.now();
-
-    // Calculate response time
-    let responseTime = null;
-    if (gameState.currentQuarter === 3 && gameState.q3CategoryActive) {
-        // For Q3, use time since question was shown
-        responseTime = (submitTime - gameState.questionStartTime) / 1000;
-    } else if (gameState.buzzTime) {
-        // For other quarters, use time from buzz to submit
-        responseTime = (submitTime - gameState.buzzTime) / 1000;
-    }
-
-    // Update current response time display
-    if (responseTime !== null) {
-        $('currentResponseTime').textContent = `Response time: ${responseTime.toFixed(1)}s`;
-    }
-
-    // Quarter 3 timed category mode
-    if (gameState.currentQuarter === 3 && gameState.q3CategoryActive) {
-        const idx = gameState.q3CurrentQuestionIdx;
-        const qArr = gameState.q3CategoryQuestions;
-        qArr[idx].userAnswer = given;
-        qArr[idx].isCorrect = isStrictCorrect(given, qArr[idx].answer) || looseMatch(given, qArr[idx].answer);
-
-        let msg;
-        if (qArr[idx].isCorrect) {
-            msg = `✔️ Correct! +10 pts`;
-            gameState.rawScore += 10;
-            if (responseTime !== null) {
-                gameState.responseTimes.push(responseTime);
-            }
-            updateScoreDisplays();
-        } else {
-            msg = `❌ Incorrect. Correct: ${qArr[idx].answer}`;
-        }
-        setFeedback(msg, qArr[idx].isCorrect);
-
-        if (qArr.some(q => !q.userAnswer)) {
-            let nextIdx = (idx + 1) % qArr.length;
-            while (qArr[nextIdx].userAnswer) {
-                nextIdx = (nextIdx + 1) % qArr.length;
-            }
-            gameState.q3CurrentQuestionIdx = nextIdx;
-            showQ3CategoryQuestion();
-        } else {
-            finishQ3CategoryRound();
-        }
-        return;
-    }
-
-    // Clear answer timer immediately
-    if (gameState.answerTimer){
-        clearInterval(gameState.answerTimer);
-        gameState.answerTimer = null;
-    }
-
+    // lock immediately so multiple clicks can’t resubmit
     $('answerInput').disabled = true;
+    $('submitBtn').disabled = true;
+    if (gameState.buzzTimer){
+        clearInterval(gameState.buzzTimer);
+        gameState.buzzTimer = null;
+    }
     $('timerDisplay').textContent = "";
 
-    const isCorrect = isStrictCorrect(given, gameState.currentAnswer) ||
-                  looseMatch(given, gameState.currentAnswer);
+    const playerAnswer = normalize(given);
+    const correct = normalize(gameState.currentAnswer);
+    const isCorrect = playerAnswer === correct || correct.includes(playerAnswer) 
+
+    // Base points and behavior depends on quarter
     let basePoints = 0;
-    let earnedPoints = 0;
+    let earnedWeighted = 0;
+    let earnedRaw = 0;
+    let txtFeedback = "";
 
     if (gameState.currentQuarter === 1){
         basePoints = 10;
         if (isCorrect){
-            earnedPoints = basePoints;
-            gameState.rawScore += earnedPoints;
-            if (responseTime !== null) {
-                gameState.responseTimes.push(responseTime);
-            }
+            earnedRaw = basePoints;
+            earnedWeighted = Math.round(earnedRaw * gameState.multiplier);
+            txtFeedback = `Correct! +${earnedRaw} raw (×${gameState.multiplier}) = +${earnedWeighted} weighted`;
+            // auto-advance scores
+            gameState.rawScore += earnedRaw;
+            gameState.weightedScore += earnedWeighted;
             updateScoreDisplays();
-            setFeedback(`Correct! +${earnedPoints} points (${responseTime?.toFixed(1)}s)`, true);
+            setFeedback(txtFeedback, true);
+            // move to next question after a brief delay
             setTimeout(()=> {
+                incrementQuestionIndex();
                 nextQuestion();
-            }, 1500);
+            }, 900);
         } else {
-            setFeedback(`Incorrect. The correct answer was: ${gameState.currentAnswer}`, false);
+            setFeedback("Incorrect. No deduction (per rules).", false);
+            // in single-team practice, we just move to next question
             setTimeout(()=> {
+                incrementQuestionIndex();
                 nextQuestion();
-            }, 1500);
+            }, 900);
         }
     } else if (gameState.currentQuarter === 2){
         basePoints = 10;
         if (isCorrect){
-            earnedPoints = basePoints;
-            gameState.rawScore += earnedPoints;
-            if (responseTime !== null) {
-                gameState.responseTimes.push(responseTime);
-            }
+            earnedRaw = basePoints;
+            earnedWeighted = Math.round(earnedRaw * gameState.multiplier);
+            gameState.rawScore += earnedRaw;
+            gameState.weightedScore += earnedWeighted;
             updateScoreDisplays();
-            setFeedback(`Correct tossup! +${earnedPoints} points. Now: bonus question.`, true);
-
+            setFeedback(`Correct tossup! ${earnedRaw} raw, ${earnedWeighted} weighted. Now: bonus question.`, true);
+            // Show bonus question (if present)
             if (gameState.currentBonus){
-                setTimeout(()=> {
-                    $('questionText').textContent = gameState.currentBonus.question;
-                    gameState.currentAnswer = gameState.currentBonus.answer;
-                    gameState.multiplier = 1;
-                    $('answerInput').disabled = false;
-                    $('answerInput').value = '';
-                    $('answerInput').focus();
-                    gameState.isAnsweringBonus = true;
-                    gameState.questionStartTime = Date.now(); // Reset for bonus timing
-                }, 1000);
+                // show bonus text, disable buzzer, enable answer for bonus with standard multiplier of 1
+                $('questionText').textContent = gameState.currentBonus.question;
+                gameState.currentAnswer = gameState.currentBonus.answer;
+                gameState.multiplier = 1; // bonuses not multiplied by buzz timing in this implementation
+                $('multiplierDisplay').textContent = `Multiplier: ×${gameState.multiplier}`;
+                // keep answer input enabled (player types bonus answer)
+                // Mark the tossup as answered, but we won't advance past the bonus until they submit it
             } else {
+                // no bonus; continue
                 setTimeout(()=> {
+                    incrementQuestionIndex();
                     nextQuestion();
-                }, 1500);
+                }, 900);
             }
         } else {
-            setFeedback(`Incorrect tossup. The correct answer was: ${gameState.currentAnswer}. (No bonus.)`, false);
+            setFeedback("Incorrect tossup. No deduction. (No bonus.)", false);
+            // advance to next question
+            setTimeout(()=> {
+                incrementQuestionIndex();
+                nextQuestion();
+            }, 900);
+        }
+    } else if (gameState.currentQuarter === 3){
+        // category round: questions are sequential within a category
+        basePoints = 10;
+        if (isCorrect){
+            earnedRaw = basePoints;
+            earnedWeighted = Math.round(earnedRaw * gameState.multiplier);
+            gameState.rawScore += earnedRaw;
+            gameState.weightedScore += earnedWeighted;
+            gameState.q3categoryCorrectCount++;
+            updateScoreDisplays();
+            setFeedback(`Correct for category: +${earnedRaw} raw (${earnedWeighted} weighted).`, true);
+            // increment progress and go to next within same category
+            incrementQuestionIndex();
             setTimeout(()=> {
                 nextQuestion();
-            }, 2000);
+            }, 700);
+        } else {
+            setFeedback("Incorrect. No deduction. (You may continue with remaining category questions.)", false);
+            incrementQuestionIndex();
+            setTimeout(()=> {
+                nextQuestion();
+            }, 700);
         }
     } else if (gameState.currentQuarter === 4){
-        const bracketPoints = gameState.q4BracketPoints || 10;
+        // Use part index for scoring
+        let bracketPoints = 10;
+        if (gameState.q4partIndex === 0) bracketPoints = 30;
+        else if (gameState.q4partIndex === 1) bracketPoints = 20;
+        else bracketPoints = 10;
+    
         basePoints = bracketPoints;
         if (isCorrect){
-            earnedPoints = basePoints;
-            gameState.rawScore += earnedPoints;
-            if (responseTime !== null) {
-                gameState.responseTimes.push(responseTime);
-            }
+            earnedRaw = basePoints;
+            earnedWeighted = Math.round(earnedRaw * gameState.multiplier);
+            gameState.rawScore += earnedRaw;
+            gameState.weightedScore += earnedWeighted;
             updateScoreDisplays();
-            setFeedback(`Correct! +${earnedPoints} points (${responseTime?.toFixed(1)}s)`, true);
-            setTimeout(()=> nextQuestion(), 1500);
+            setFeedback(`Correct! +${earnedRaw} raw (${earnedWeighted} weighted).`, true);
+            incrementQuestionIndex();
+            setTimeout(()=> nextQuestion(), 900);
         } else {
-            setFeedback(`Incorrect. The correct answer was: ${gameState.currentAnswer}`, false);
-            setTimeout(()=> nextQuestion(), 1500);
+            setFeedback("Incorrect. No deduction.", false);
+            incrementQuestionIndex();
+            setTimeout(()=> nextQuestion(), 900);
         }
     }
 
-    // Special: if we just answered a Q2 bonus 
-    if (gameState.currentQuarter === 2 && gameState.isAnsweringBonus){
+    // Special: if we just answered a Q2 bonus (we set currentQuestionText to bonus question and currentAnswer became bonus answer)
+    // We need to detect whether the last submit was a bonus (we detect by presence of 'currentBonus' and whether we're currently showing its question)
+    if (gameState.currentQuarter === 2 && gameState.currentBonus && $('questionText').textContent === gameState.currentBonus.question){
+        // This submit is for the bonus
         const bonusIsCorrect = isCorrect;
         if (bonusIsCorrect){
-            const bonusPoints = 10;
-            gameState.rawScore += bonusPoints;
-            // Calculate bonus response time from when bonus was shown
-            const bonusResponseTime = (submitTime - gameState.questionStartTime) / 1000;
-            gameState.responseTimes.push(bonusResponseTime);
-            $('currentResponseTime').textContent = `Response time: ${bonusResponseTime.toFixed(1)}s`;
+            const bn = 10;
+            gameState.rawScore += bn;
+            gameState.weightedScore += Math.round(bn * gameState.multiplier); // multiplier is 1 for bonus by default
             updateScoreDisplays();
-            setFeedback(`Correct bonus! +${bonusPoints} points (${bonusResponseTime.toFixed(1)}s)`, true);
+            setFeedback(`Correct bonus! +${bn} raw.`, true);
         } else {
-            setFeedback(`Incorrect bonus. The correct answer was: ${gameState.currentAnswer}`, false);
+            setFeedback(`Incorrect bonus. No deduction.`, false);
         }
+        // clear bonus and advance
         gameState.currentBonus = null;
-        gameState.isAnsweringBonus = false;
         setTimeout(()=> {
+            incrementQuestionIndex();
             nextQuestion();
-        }, 1500);
+        }, 900);
     }
 }
 
-/* ------------------ Utility functions ------------------ */
+/* ------------------ Utility: compute question counter text ------------------ */
 function computeQuestionCounterText(){
+    // Rough indicator per quarter
     const q = gameState.currentQuarter;
-    if (q === 1) return `Q ${Math.max(0, gameState.currentQuestionIndex+1)} / ${gameState.activeQ1.length}`;
-    if (q === 2) return `Q ${Math.max(0, gameState.currentQuestionIndex+1)} / ${gameState.activeQ2.length}`;
+    if (q === 1) return `Q ${Math.max(0, gameState.currentQuestionIndex+1)} / ${QUESTIONS.q1.length}`;
+    if (q === 2) return `Q ${Math.max(0, gameState.currentQuestionIndex+1)} / ${QUESTIONS.q2.length}`;
     if (q === 3){
         if (gameState.q3selectedCategory !== null){
             const cat = QUESTIONS.q3[gameState.q3selectedCategory];
@@ -1109,111 +941,130 @@ function computeQuestionCounterText(){
         }
         return `Select category`;
     }
-    if (q === 4) return `Q ${Math.max(0, gameState.currentQuestionIndex+1)} / ${gameState.activeQ4.length}`;
+    if (q === 4) return `Q ${Math.max(0, gameState.currentQuestionIndex+1)} / ${QUESTIONS.q4.length}`;
     return '';
 }
 
 /* ------------------ Finish/End-game ------------------ */
-async function finishGame() {
+function finishGame(){
     clearAllTimers();
+    // Finalize: show totals and offer to save to local leaderboard
+    const raw = gameState.rawScore;
+    const weighted = gameState.weightedScore;
+    const roundedWeighted = Math.round(weighted / 10) * 10; // round to nearest 10 per request
 
-    const totalScore = gameState.rawScore;
-    const avgBuzz = calculateAverageBuzzInTime();
-
-    // Get player name from input
-    const playerName = $('playerNameInput').value.trim() || "Anonymous";
-
-    // Build the score entry
+    // Save to local leaderboard
     const entry = {
-      date: new Date().toISOString(),
-      name: $('playerNameInput').value.trim() || "Anonymous",
-      totalScore: totalScore,
-      averageBuzzInTime: avgBuzz
+        date: (new Date()).toISOString(),
+        mode: gameState.mode,
+        rawScore: raw,
+        weightedScore: weighted,
+        roundedWeighted: roundedWeighted
     };
-    await saveScoreToGlobalLeaderboard(entry);
+    saveScoreToLocalLeaderboard(entry);
 
-
-    // Update UI
-    $('questionText').textContent = `Game finished! Score: ${totalScore} / Avg Buzz-in: ${avgBuzz ? avgBuzz.toFixed(1) + 's' : 'N/A'} . Saved to global leaderboard.`;
+    $('questionText').textContent = `Game finished! Raw: ${raw} / Weighted: ${weighted} (rounded ${roundedWeighted}). Saved to local leaderboard.`;
     setFeedback("Game complete — check the leaderboard from the menu.", true);
     $('buzzerBtn').disabled = true;
     $('answerInput').disabled = true;
 }
 
-/* ------------------ Save score to global leaderboard ------------------ */
-async function saveScoreToGlobalLeaderboard(entry) {
-    const WORKER_URL = "https://patient-base-c952.javalutionization.workers.dev";
-
-    try {
-        const res = await fetch(WORKER_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(entry),
-        });
-
-        if (!res.ok) throw new Error(`Failed to save score: ${res.status} ${res.statusText}`);
-
-        console.log("Score saved globally!");
-    } catch (err) {
-        console.error("Error saving score:", err);
-        alert("Failed to save score to global leaderboard.");
-    }
+/* Save to local leaderboard (localStorage) */
+function saveScoreToLocalLeaderboard(entry){
+    const key = 'hb_local_leaderboard_v1';
+    const existing = JSON.parse(localStorage.getItem(key) || '[]');
+    existing.push(entry);
+    // Sort by weightedScore descending (then raw as tiebreak)
+    existing.sort((a,b)=> (b.weightedScore - a.weightedScore) || (b.rawScore - a.rawScore));
+    localStorage.setItem(key, JSON.stringify(existing));
 }
 
-/* ------------------ Render global leaderboard ------------------ */
-async function renderGlobalLeaderboard() {
-    const WORKER_URL = "https://patient-base-c952.javalutionization.workers.dev";
+/* Render leaderboard */
+function renderLeaderboard(){
+    const key = 'hb_local_leaderboard_v1';
+    const arr = JSON.parse(localStorage.getItem(key) || '[]');
     const container = $('leaderboardList');
-    container.innerHTML = 'Loading...';
-
-    try {
-        const res = await fetch(WORKER_URL, { method: "GET" });
-        if (!res.ok) throw new Error(`Failed to fetch leaderboard: ${res.status} ${res.statusText}`);
-        const scores = await res.json();
-
-
-        container.innerHTML = '';
-        if (!scores.length) {
-            container.textContent = 'No scores yet.';
-            return;
-        }
-
-        scores.forEach((e, idx) => {
-            const d = document.createElement('div');
-            d.style.padding = '8px';
-            d.style.borderBottom = '1px solid #eef2f7';
-            d.innerHTML = `<strong>#${idx + 1}</strong> — ${e.name || "Anonymous"} — ${new Date(e.date).toLocaleString()} — Score: ${e.totalScore} — Avg Buzz-in: ${e.averageBuzzInTime ? e.averageBuzzInTime.toFixed(1) + 's' : 'N/A'}`;
-            container.appendChild(d);
-        });
-    } catch (err) {
-        console.error(err);
-        container.textContent = 'Failed to load leaderboard.';
+    container.innerHTML = '';
+    if (!arr.length){
+        container.textContent = 'No saved attempts yet.';
+        return;
     }
+    // show all attempts
+    arr.forEach((e, idx) => {
+        const d = document.createElement('div');
+        d.style.padding = '8px';
+        d.style.borderBottom = '1px solid #eef2f7';
+        d.innerHTML = `<strong>#${idx+1}</strong> — ${new Date(e.date).toLocaleString()} — Mode: ${e.mode} — Raw: ${e.rawScore} — Weighted: ${e.weightedScore} (rounded ${e.roundedWeighted})`;
+        container.appendChild(d);
+    });
 }
 
+/* Clear leaderboard */
+function clearLeaderboard(){
+    if (!confirm("Clear all local leaderboard entries? This cannot be undone.")) return;
+    localStorage.removeItem('hb_local_leaderboard_v1');
+    renderLeaderboard();
+}
 
+/* ------------------ Import/Export Questions (quick JSON) ------------------ */
+function exportQuestions(){
+    const asText = JSON.stringify(QUESTIONS, null, 2);
+    // Simple download as file
+    const blob = new Blob([asText], {type: 'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'hb_questions_export.json';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+}
 
-
-/* ------------------ Import/Export Questions ------------------ */
-
+function importQuestions(){
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json,application/json';
+    input.onchange = e => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = ev => {
+            try {
+                const obj = JSON.parse(ev.target.result);
+                // Quick validation
+                if (!obj.q1 || !obj.q2 || !obj.q3 || !obj.q4) {
+                    alert("JSON doesn't look like the expected QUESTIONS structure.");
+                    return;
+                }
+                // Overwrite in-memory QUESTIONS object (not the file content)
+                QUESTIONS.q1 = obj.q1;
+                QUESTIONS.q2 = obj.q2;
+                QUESTIONS.q3 = obj.q3;
+                QUESTIONS.q4 = obj.q4;
+                alert("Imported QUESTIONS into memory for this session. To make permanent changes, edit the HTML file's QUESTIONS section.");
+                renderQuestionsDisplay();
+            } catch (err) {
+                alert("Failed to parse JSON: " + err.message);
+            }
+        };
+        reader.readAsText(file);
+    };
+    input.click();
+}
 
 /* Render a simple questions display */
 function renderQuestionsDisplay(){
     const container = $('questionsDisplay');
     container.innerHTML = '';
-
-    const summary = document.createElement('div');
-    summary.innerHTML = `
-        <h4>Loaded Questions Summary:</h4>
-        <p>Quarter 1: ${QUESTIONS.q1.length} questions</p>
-        <p>Quarter 2: ${QUESTIONS.q2.length} questions</p>
-        <p>Quarter 3: ${QUESTIONS.q3.length} categories</p>
-        <p>Quarter 4: ${QUESTIONS.q4.length} questions</p>
-    `;
-    container.appendChild(summary);
+    const pre = document.createElement('pre');
+    pre.style.whiteSpace = 'pre-wrap';
+    pre.style.fontSize = '13px';
+    pre.textContent = JSON.stringify(QUESTIONS, null, 2);
+    container.appendChild(pre);
 }
 
-/* ------------------ Key handling ------------------ */
+/* ------------------ Key handling (Enter to submit) ------------------ */
 document.addEventListener('keydown', function(e){
     if (e.key === 'Enter'){
         if (!$('answerInput').disabled && document.activeElement === $('answerInput')){
@@ -1225,15 +1076,22 @@ document.addEventListener('keydown', function(e){
 /* ------------------ Page init ------------------ */
 function init(){
     resetGame();
+    // display any leaderboard counts on the menu? optional
+    renderQuestionsDisplay();
     updateScoreDisplays();
-    updateQuestionsStatus('Loading questions from server...', true);
-
-    // Automatically load questions when the page loads
-    loadQuestionsFromServer();
 }
 
 init();
 
+/* ------------------ Final notes for hosting global leaderboard -----------
+If you host this on a website and want a GLOBAL leaderboard:
+ - Create a small backend (Firebase/Firestore or a tiny Node + DB).
+ - On finishGame(), send `entry` via fetch() to your endpoint.
+ - Endpoint stores entry and returns a global top-N list.
+ - Replace localStorage saving with a successful POST response.
+
+This file is intentionally single-file and local-only by default.
+--------------------------------------------------------------------------- */
 </script>
 </body>
 </html>
