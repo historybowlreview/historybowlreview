@@ -64,24 +64,23 @@
     </div>
     <div id="questionsStatus" class="small muted"></div>
     <div id="questionsDisplay"></div>
-
+    </div>
+    <div id="setPickerModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.6);z-index:10000;align-items:center;justify-content:center;">
+        <div style="background:white;padding:24px;border-radius:12px;max-width:400px;width:100%;max-height:80vh;overflow:auto;">
+          <h3>Select Practice Sets</h3>
+          <div id="setPickerList" style="max-height:300px;overflow-y:auto;margin-bottom:18px;"></div>
+          <button onclick="selectAllSets()">Select All</button>
+          <button onclick="deselectAllSets()">Deselect All</button>
+          <button onclick="confirmSetPicker()">Confirm</button>
+          <button onclick="cancelSetPicker()" style="margin-left:12px;">Cancel</button>
+        </div>
+    </div>
     <!-- Main menu -->
     <div id="mainMenu" class="menu">
         <div class="card" onclick="openPracticeMode()">
             <h3>🎯 Practice Mode</h3>
             <p class="muted">Pick a quarter to practice specific formats and question types.</p>
             <div style="margin-top:10px"><button class="btn">Start Practice</button></div>
-        </div>
-        <div id="setPickerModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.6);z-index:10000;align-items:center;justify-content:center;">
-          <div style="background:white;padding:24px;border-radius:12px;max-width:400px;width:100%;max-height:80vh;overflow:auto;">
-            <h3>Select Practice Sets</h3>
-            <div id="setPickerList" style="max-height:300px;overflow-y:auto;margin-bottom:18px;"></div>
-            <button onclick="selectAllSets()">Select All</button>
-            <button onclick="deselectAllSets()">Deselect All</button>
-            <button onclick="confirmSetPicker()">Confirm</button>
-            <button onclick="cancelSetPicker()" style="margin-left:12px;">Cancel</button>
-          </div>
-        </div>
 
         <div class="card" onclick="startFullGameFromMenu()">
             <h3>🏆 Full Game Simulation</h3>
@@ -1268,14 +1267,23 @@ function showAnswer(){
     $('buzzerBtn').disabled = true;
     $('answerInput').disabled = true;
     $('answerInput').value = '';
-    // Disable Show Answer button for 12 seconds
-    $('showAnswerBtn').disabled = true; // Add id="showAnswerBtn" to button in HTML
+    $('showAnswerBtn').disabled = true;
 
-    setTimeout(() => {
-        gameState.isShowingAnswer = false;
-        $('showAnswerBtn').disabled = false;
-        nextQuestion();
-    }, 12000);
+    // Show and start countdown for next question
+    let secs = 12;
+    $('timerDisplay').textContent = `Next question in: ${secs}`;
+    gameState.feedbackTimer = setInterval(() => {
+        secs--;
+        $('timerDisplay').textContent = `Next question in: ${secs}`;
+        if (secs <= 0) {
+            clearInterval(gameState.feedbackTimer);
+            gameState.feedbackTimer = null;
+            $('timerDisplay').textContent = '--';
+            gameState.isShowingAnswer = false;
+            $('showAnswerBtn').disabled = false;
+            nextQuestion();
+        }
+    }, 1000);
 }
 
 /* ------------------ Answer checking & scoring ------------------ */
