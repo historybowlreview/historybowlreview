@@ -790,19 +790,6 @@ function resetGame() {
     clearFeedback();
 }
 
-    $('questionText').textContent = gameState.questionsLoaded ? 
-        "Click 'Next Question' to start!" : 
-        "Questions failed to load";
-    $('buzzerBtn').disabled = true;
-    $('answerInput').disabled = true;
-    $('categorySelection').classList.add('hidden');
-    $('answerInput').value = '';
-    $('currentResponseTime').textContent = 'Response time: --';
-    $('questionCounter').textContent = 'Q 0 / 0';
-    $('timerDisplay').textContent = '--';
-    updateScoreDisplays();
-    clearFeedback();
-}
 
 async function resetPracticeGame() {
     if (gameState.mode === 'full') {
