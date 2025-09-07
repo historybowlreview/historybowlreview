@@ -212,6 +212,7 @@ async function loadAllQuestionSets(files) {
         const data = await response.json();
         QUESTIONS_SETS.push(data);
     }
+    gameState.questionsLoaded = true; // <-- Add this line!
 }
 
 // Utility to pick random item
@@ -732,16 +733,29 @@ function resetGame(){
     clearFeedback();
 }
 
-function resetPracticeGame() {
+async function resetPracticeGame() {
     if (gameState.mode === 'full') {
         startFullGameFromMenu();
     } else {
-        resetGame();
-        updatePauseButtonVisibility();
-        if (gameState.mode === 'practice') {
-            if (promptPracticeQuarter()) {
-                nextQuestion();
+        // Practice mode: ask for quarter and sets again
+        gameState.mode = 'practice';
+        $('modeDisplay').textContent = 'Practice';
+        $('mainMenu').style.display = 'none';
+        $('gameArea').style.display = 'block';
+
+        if (promptPracticeQuarter()) {
+            const selectedFiles = promptPracticeSet();
+            if (!selectedFiles) { backToMenu(); return; }
+            await loadAllQuestionSets(selectedFiles); // Only load selected files
+            if (!QUESTIONS_SETS.length) {
+                alert("Failed to load selected question sets.");
+                backToMenu();
+                return;
             }
+            assignPracticeQuestionsFromSets(QUESTIONS_SETS);
+            resetGame();
+            updatePauseButtonVisibility();
+            nextQuestion();
         }
     }
 }
