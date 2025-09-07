@@ -412,7 +412,8 @@ function startPostReadTimer() {
             gameState.postReadTimer = null;
             $('buzzerBtn').disabled = true;
             $('timerDisplay').textContent = "Time's up";
-            setFeedback(`Time expired! No buzz recorded. The correct answer was: ${gameState.currentAnswer}`, false);
+            let ans = Array.isArray(gameState.currentAnswer) ? gameState.currentAnswer.join(', ') : gameState.currentAnswer;
+            setFeedback(`Time expired! No points awarded. The correct answer was: ${ans}`, false);
             startFeedbackCountdown(10);
             $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(() => {
@@ -433,7 +434,8 @@ function startAnswerTimer() {
             gameState.answerTimer = null;
             $('answerInput').disabled = true;
             $('timerDisplay').textContent = "Time expired";
-            setFeedback(`Time expired! No points awarded. The correct answer was: ${gameState.currentAnswer}`, false);
+            let ans = Array.isArray(gameState.currentAnswer) ? gameState.currentAnswer.join(', ') : gameState.currentAnswer;
+            setFeedback(`Correct answer: ${ans}`, false);
             startFeedbackCountdown(10);
             $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(() => {
@@ -569,7 +571,8 @@ function resumePostReadTimer() {
             gameState.postReadTimer = null;
             $('buzzerBtn').disabled = true;
             $('timerDisplay').textContent = "Time's up";
-            setFeedback(`Time expired! No buzz recorded. The correct answer was: ${gameState.currentAnswer}`, false);
+            let ans = Array.isArray(gameState.currentAnswer) ? gameState.currentAnswer.join(', ') : gameState.currentAnswer;
+            setFeedback(`Time expired! No points awarded. The correct answer was: ${ans}`, false);
             startFeedbackCountdown(10);
             $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(() => {
@@ -589,7 +592,8 @@ function resumeAnswerTimer() {
             gameState.answerTimer = null;
             $('answerInput').disabled = true;
             $('timerDisplay').textContent = "Time expired";
-            setFeedback(`Time expired! No points awarded. The correct answer was: ${gameState.currentAnswer}`, false);
+            let ans = Array.isArray(gameState.currentAnswer) ? gameState.currentAnswer.join(', ') : gameState.currentAnswer;
+            setFeedback(`Correct answer: ${ans}`, false);
             startFeedbackCountdown(10);
             $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(() => {
@@ -1042,7 +1046,8 @@ function startReading(){
                         gameState.postReadTimer = null;
                         $('buzzerBtn').disabled = true;
                         $('timerDisplay').textContent = "Time's up";
-                        setFeedback(`Time expired! No buzz recorded. The correct answer was: ${gameState.currentAnswer}`, false);
+                        let ans = Array.isArray(gameState.currentAnswer) ? gameState.currentAnswer.join(', ') : gameState.currentAnswer;
+                        setFeedback(`Time expired! No points awarded. The correct answer was: ${ans}`, false);
                         startFeedbackCountdown(10);
                         $('questionText').textContent = gameState.currentQuestionText;
                         setTimeout(()=> {
@@ -1121,7 +1126,8 @@ function showAnswer(){
         setFeedback("No current answer available.", false);
         return;
     }
-    setFeedback(`Answer: ${gameState.currentAnswer}`, true);
+    let ans = Array.isArray(gameState.currentAnswer) ? gameState.currentAnswer.join(', ') : gameState.currentAnswer;
+    setFeedback(`Answer: ${ans}`, true);
     startFeedbackCountdown(10);
     $('questionText').textContent = gameState.currentQuestionText || '---';
     setFeedback(`Answer: ${gameState.currentAnswer}`, true);
@@ -1189,7 +1195,8 @@ function submitAnswer(){
             }
             updateScoreDisplays();
         } else {
-            msg = `❌ Incorrect. Correct: ${qArr[idx].answer}`;
+            let ans = Array.isArray(qArr[idx].answer) ? qArr[idx].answer.join(', ') : qArr[idx].answer;
+            msg = `❌ Incorrect. Correct: ${ans}`;
         }
         setFeedback(msg, qArr[idx].isCorrect);
         if (!qArr[idx].isCorrect) startFeedbackCountdown(10);
@@ -1235,7 +1242,8 @@ function submitAnswer(){
                 nextQuestion();
             }, 1500);
         } else {
-            setFeedback(`Incorrect. The correct answer was: ${gameState.currentAnswer}`, false);
+            let ans = Array.isArray(gameState.currentAnswer) ? gameState.currentAnswer.join(', ') : gameState.currentAnswer;
+            setFeedback(`Incorrect. The correct answer was: ${ans}`, false);
             startFeedbackCountdown(10);
             $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(()=> {
@@ -1270,7 +1278,8 @@ function submitAnswer(){
                 }, 1500);
             }
         } else {
-            setFeedback(`Incorrect tossup. The correct answer was: ${gameState.currentAnswer}. (No bonus.)`, false);
+            let ans = Array.isArray(gameState.currentAnswer) ? gameState.currentAnswer.join(', ') : gameState.currentAnswer;
+            setFeedback(`Incorrect tossup. The correct answer was: ${ans}. (No bonus.)`, false);
             startFeedbackCountdown(10);
             $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(()=> {
@@ -1290,7 +1299,8 @@ function submitAnswer(){
             setFeedback(`Correct! +${earnedPoints} points (${responseTime?.toFixed(1)}s)`, true);
             setTimeout(()=> nextQuestion(), 1500);
         } else {
-            setFeedback(`Incorrect. The correct answer was: ${gameState.currentAnswer}`, false);
+            let ans = Array.isArray(gameState.currentAnswer) ? gameState.currentAnswer.join(', ') : gameState.currentAnswer;
+            setFeedback(`Incorrect. The correct answer was: ${ans}`, false);
             startFeedbackCountdown(10);
             $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(()=> nextQuestion(), 10000); // longer delay
@@ -1310,7 +1320,8 @@ function submitAnswer(){
             updateScoreDisplays();
             setFeedback(`Correct bonus! +${bonusPoints} points (${bonusResponseTime.toFixed(1)}s)`, true);
         } else {
-            setFeedback(`Incorrect bonus. The correct answer was: ${gameState.currentAnswer}`, false);
+            let ans = Array.isArray(gameState.currentAnswer) ? gameState.currentAnswer.join(', ') : gameState.currentAnswer;
+            setFeedback(`Incorrect bonus. The correct answer was: ${ans}`, false);
             startFeedbackCountdown(10);
             $('questionText').textContent = gameState.currentQuestionText;
         }
