@@ -648,11 +648,15 @@ function resetGame(){
 }
 
 function resetPracticeGame() {
-    resetGame();
-    updatePauseButtonVisibility();
-    if (gameState.mode === 'practice') {
-        if (promptPracticeQuarter()) {
-            nextQuestion();
+    if (gameState.mode === 'full') {
+        startFullGameFromMenu();
+    } else {
+        resetGame();
+        updatePauseButtonVisibility();
+        if (gameState.mode === 'practice') {
+            if (promptPracticeQuarter()) {
+                nextQuestion();
+            }
         }
     }
 }
@@ -1094,6 +1098,11 @@ function showAnswer(){
     $('questionText').textContent = gameState.currentQuestionText || '---';
     setFeedback(`Answer: ${gameState.currentAnswer}`, true);
     $('buzzerBtn').disabled = true;
+
+    // Automatically load next question after answer disappears
+    setTimeout(() => {
+        nextQuestion();
+    }, 2000); // 2 seconds (adjust as needed)
 }
 
 /* ------------------ Answer checking & scoring ------------------ */
