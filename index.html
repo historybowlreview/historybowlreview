@@ -304,6 +304,7 @@ function calculateAverageResponseTime() {
 function looseMatch(given, answer) {
   const articles = ["the", "a", "an", "of"];
   function tokenize(s) {
+    // Only accept alphanumeric words, ignore punctuation-only tokens
     return s
       .toLowerCase()
       .replace(/[^a-z0-9' ]+/g, '') // Remove punctuation except apostrophe
@@ -313,14 +314,14 @@ function looseMatch(given, answer) {
   const givenWords = tokenize(given);
   const answerWords = tokenize(Array.isArray(answer) ? answer[0] : answer);
 
-  // Accept if every answer word is present in the given OR every given word is present in the answer
+  // If either is empty, don't accept as correct!
+  if (!givenWords.length || !answerWords.length) return false;
+
   const allAnswerInGiven = answerWords.every(w => givenWords.includes(w));
   const allGivenInAnswer = givenWords.every(w => answerWords.includes(w));
-
-  // Accept if at least 70% of answer words are present in given
   const pct = answerWords.filter(w => givenWords.includes(w)).length / answerWords.length;
 
-  return allAnswerInGiven || allGivenInAnswer || pct >= 0.7;
+  return (allAnswerInGiven || allGivenInAnswer || pct >= 0.7);
 }
 
 function setFeedback(text, ok=true){
