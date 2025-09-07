@@ -599,6 +599,7 @@ function togglePause() {
         gameState.isPaused = false;
         $('pauseBtn').textContent = "Pause";
         clearFeedback();
+        if (gameState.wasReading) resumeReading();
 
         // Resume timers...
         // (existing timer resume logic)
