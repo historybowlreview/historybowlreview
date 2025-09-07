@@ -1544,11 +1544,11 @@ function renderQuestionsDisplay(){
 function promptPracticeSet() {
     // List of available filenames and display names
     const availableFiles = [
-        { name: "Set 1", file: "questions1.json" },
-        { name: "Set 2", file: "questions2.json" },
-        { name: "Set 3", file: "questions3.json" },
-        { name: "Set 4", file: "questions4.json" },
-        { name: "Set 5", file: "questions5.json" }
+        { name: "2014-2015HistoryBowlRound1", file: "historybowlquestionsets/2014-2015HistoryBowlRound1.json" },
+        { name: "2014-2015HistoryBowlRound2", file: "historybowlquestionsets/2014-2015HistoryBowlRound2.json" },
+        { name: "2014-2015HistoryBowlRound3", file: "historybowlquestionsets/2014-2015HistoryBowlRound3.json" },
+        { name: "2014-2015HistoryBowlRound4", file: "historybowlquestionsets/2014-2015HistoryBowlRound4.json" },
+        { name: "2014-2015HistoryBowlRound5", file: "historybowlquestionsets/2014-2015HistoryBowlRound5.json" }
     ];
     const names = availableFiles.map((set, idx) => `${idx+1}: ${set.name}`).join('\n');
     const pick = prompt(`Select question set(s) by number (e.g. 1,2,3) or type 'all' for all sets:\n${names}`, 'all');
