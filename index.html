@@ -836,6 +836,7 @@ function nextQuestion() {
 
     clearAllTimers();
     clearFeedback();
+    $('showAnswerBtn').disabled = false;
 
     // Quarter 3: Category
     if (gameState.currentQuarter === 3) {
