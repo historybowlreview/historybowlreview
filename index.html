@@ -131,7 +131,7 @@
 
         <div class="controls">
             <button id="buzzerBtn" class="buzzer-btn" onclick="buzz()" disabled>🔔 BUZZ</button>
-            <button class="btn secondary" onclick="showAnswer()">Show Answer</button>
+            <button class="btn secondary" id="showAnswerBtn" onclick="showAnswer()">Show Answer</button>
 
             <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
                 <div class="small muted">Mode:</div>
@@ -1231,6 +1231,7 @@ function buzz(){
     }
 
     $('answerInput').disabled = false;
+    $('showAnswerBtn').disabled = true;
     $('answerInput').focus();
     $('buzzerBtn').disabled = true;
     updateScoreDisplays();
@@ -1257,21 +1258,24 @@ function buzz(){
 
 /* ------------------ Show answer (for practice) ------------------ */
 function showAnswer(){
+    if (gameState.isShowingAnswer) return;
+    gameState.isShowingAnswer = true;
+
     clearAllTimers(); // Stop reading, post-read, and answer timers
-    if (!gameState.currentAnswer) {
-        setFeedback("No current answer available.", false);
-        return;
-    }
     setFeedback(`Answer: ${formatAnswer(gameState.currentAnswer)}`, true);
-    startFeedbackCountdown(10);
+
     $('questionText').textContent = gameState.currentQuestionText || '---';
-    setFeedback(`Answer: ${formatAnswer(gameState.currentAnswer)}`, true);
     $('buzzerBtn').disabled = true;
-    $('answerInput').disabled = true; // <-- Add this line!
-    // Automatically load next question after answer disappears
+    $('answerInput').disabled = true;
+    $('answerInput').value = '';
+    // Disable Show Answer button for 12 seconds
+    $('showAnswerBtn').disabled = true; // Add id="showAnswerBtn" to button in HTML
+
     setTimeout(() => {
+        gameState.isShowingAnswer = false;
+        $('showAnswerBtn').disabled = false;
         nextQuestion();
-    }, 10000);
+    }, 12000);
 }
 
 /* ------------------ Answer checking & scoring ------------------ */
