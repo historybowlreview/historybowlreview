@@ -401,6 +401,45 @@ function startFullGameFromMenu() {
     startGame();
 }
 
+function startPostReadTimer() {
+    gameState.postReadTimeLeft = 5;
+    $('timerDisplay').textContent = `Buzz time: ${gameState.postReadTimeLeft}`;
+    gameState.postReadTimer = setInterval(() => {
+        gameState.postReadTimeLeft--;
+        $('timerDisplay').textContent = `Buzz time: ${gameState.postReadTimeLeft}`;
+        if (gameState.postReadTimeLeft <= 0) {
+            clearInterval(gameState.postReadTimer);
+            gameState.postReadTimer = null;
+            $('buzzerBtn').disabled = true;
+            $('timerDisplay').textContent = "Time's up";
+            setFeedback(`Time expired! No buzz recorded. The correct answer was: ${gameState.currentAnswer}`, false);
+            $('questionText').textContent = gameState.currentQuestionText;
+            setTimeout(() => {
+                nextQuestion();
+            }, 5000);
+        }
+    }, 1000);
+}
+
+function startAnswerTimer() {
+    gameState.answerTimeLeft = 10;
+    $('timerDisplay').textContent = `Answer time: ${gameState.answerTimeLeft}`;
+    gameState.answerTimer = setInterval(() => {
+        gameState.answerTimeLeft--;
+        $('timerDisplay').textContent = `Answer time: ${gameState.answerTimeLeft}`;
+        if (gameState.answerTimeLeft <= 0) {
+            clearInterval(gameState.answerTimer);
+            gameState.answerTimer = null;
+            $('answerInput').disabled = true;
+            $('timerDisplay').textContent = "Time expired";
+            setFeedback("Time expired! No points awarded.", false);
+            setTimeout(() => {
+                nextQuestion();
+            }, 1500);
+        }
+    }, 1000);
+}
+
 function showLeaderboardPanel(){
     clearAllTimers();
     $('mainMenu').style.display = 'none';
@@ -427,7 +466,6 @@ function clearAllTimers(){
         clearInterval(gameState.q3Timer);
         gameState.q3Timer = null;
     }
-    gameState.readingCharIndex = 0;
 }
 
 function startGame(){
@@ -504,20 +542,17 @@ function resumeReading() {
 }
 
 function resumePostReadTimer() {
-    let postReadTime = gameState.pausedPostReadTime;
-    $('timerDisplay').textContent = `Buzz time: ${postReadTime}`;
+    $('timerDisplay').textContent = `Buzz time: ${gameState.postReadTimeLeft}`;
     gameState.postReadTimer = setInterval(() => {
-        postReadTime--;
-        $('timerDisplay').textContent = `Buzz time: ${postReadTime}`;
-        if (postReadTime <= 0) {
+        gameState.postReadTimeLeft--;
+        $('timerDisplay').textContent = `Buzz time: ${gameState.postReadTimeLeft}`;
+        if (gameState.postReadTimeLeft <= 0) {
             clearInterval(gameState.postReadTimer);
             gameState.postReadTimer = null;
             $('buzzerBtn').disabled = true;
             $('timerDisplay').textContent = "Time's up";
-            setFeedback(
-                `Time expired! No buzz recorded. The correct answer was: ${gameState.currentAnswer}\n\nFull question:\n${gameState.currentQuestionText}`,
-                false
-            );
+            setFeedback(`Time expired! No buzz recorded. The correct answer was: ${gameState.currentAnswer}`, false);
+            $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(() => {
                 nextQuestion();
             }, 5000);
@@ -526,12 +561,11 @@ function resumePostReadTimer() {
 }
 
 function resumeAnswerTimer() {
-    let answerTime = gameState.pausedAnswerTime;
-    $('timerDisplay').textContent = `Answer time: ${answerTime}`;
+    $('timerDisplay').textContent = `Answer time: ${gameState.answerTimeLeft}`;
     gameState.answerTimer = setInterval(() => {
-        answerTime--;
-        $('timerDisplay').textContent = `Answer time: ${answerTime}`;
-        if (answerTime <= 0) {
+        gameState.answerTimeLeft--;
+        $('timerDisplay').textContent = `Answer time: ${gameState.answerTimeLeft}`;
+        if (gameState.answerTimeLeft <= 0) {
             clearInterval(gameState.answerTimer);
             gameState.answerTimer = null;
             $('answerInput').disabled = true;
@@ -962,10 +996,8 @@ function startReading(){
                         gameState.postReadTimer = null;
                         $('buzzerBtn').disabled = true;
                         $('timerDisplay').textContent = "Time's up";
-                        setFeedback(
-                            `Time expired! No buzz recorded. The correct answer was: ${gameState.currentAnswer}\n\nFull question:\n${gameState.currentQuestionText}`,
-                            false
-                        );
+                        setFeedback(`Time expired! No buzz recorded. The correct answer was: ${gameState.currentAnswer}`, false);
+                        $('questionText').textContent = gameState.currentQuestionText;
                         setTimeout(()=> {
                             nextQuestion();
                         }, 5000); // 5 seconds to review
