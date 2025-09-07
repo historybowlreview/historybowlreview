@@ -254,8 +254,8 @@ let gameState = {
     readingCharIndex: 0,
     q4CurrentPart: 0,
     currentQuestionText: "",
-    gameState.isPaused = false;
-    gameState.savedIntervals = {};
+    isPaused = false;
+    savedIntervals = {};
     currentAnswer: "",
     currentBonus: null,
     buzzed: false,
@@ -481,8 +481,8 @@ function resetGame(){
         currentBonus: null,
         buzzed: false,
         buzzInTimes: [],
-        gameState.isPaused = false;
-        gameState.savedIntervals = {};
+        isPaused = false;
+        savedIntervals = {};
         multiplier: 1,
         q3selectedCategory: null,
         q3categoryProgress: 0,
