@@ -141,14 +141,6 @@
             line-height: 1.6;
         }
 
-        .multi-part-container {
-            border: 2px dashed #dee2e6;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-            background: rgba(102, 126, 234, 0.05);
-        }
-
         .category-questions {
             background: rgba(118, 75, 162, 0.05);
             border: 2px dashed #764ba2;
@@ -225,7 +217,8 @@
                 </div>
                 <div class="form-group">
                     <label for="simple-answer">Answer:</label>
-                    <input type="text" id="simple-answer" placeholder="Enter the answer...">
+                    <input type="text" id="simple-answer" placeholder="Enter the answer (separate multiple answers with commas)...">
+                    <small style="color: #666; font-style: italic;">Tip: Use commas to separate multiple acceptable answers (e.g., "Julius Caesar, Gaius Julius Caesar, Caesar")</small>
                 </div>
                 <button class="btn" onclick="addSimpleQuestion()">Add Question</button>
             </div>
@@ -239,7 +232,8 @@
                 </div>
                 <div class="form-group">
                     <label for="tossup-answer">Tossup Answer:</label>
-                    <input type="text" id="tossup-answer" placeholder="Enter tossup answer...">
+                    <input type="text" id="tossup-answer" placeholder="Enter tossup answer (separate multiple answers with commas)...">
+                    <small style="color: #666; font-style: italic;">Tip: Use commas for multiple acceptable answers</small>
                 </div>
                 <div class="form-group">
                     <label for="bonus-question">Bonus Question:</label>
@@ -247,7 +241,8 @@
                 </div>
                 <div class="form-group">
                     <label for="bonus-answer">Bonus Answer:</label>
-                    <input type="text" id="bonus-answer" placeholder="Enter bonus answer...">
+                    <input type="text" id="bonus-answer" placeholder="Enter bonus answer (separate multiple answers with commas)...">
+                    <small style="color: #666; font-style: italic;">Tip: Use commas for multiple acceptable answers</small>
                 </div>
                 <button class="btn" onclick="addTossupBonus()">Add Tossup-Bonus</button>
             </div>
@@ -264,7 +259,8 @@
                         <label>Question:</label>
                         <textarea class="cat-question" placeholder="Enter question..."></textarea>
                         <label>Answer:</label>
-                        <input type="text" class="cat-answer" placeholder="Enter answer...">
+                        <input type="text" class="cat-answer" placeholder="Enter answer (separate multiple with commas)...">
+                        <small style="color: #666; font-style: italic; display: block; margin-top: 5px;">Use commas for multiple acceptable answers</small>
                         <button class="remove-btn" onclick="removeQuestion(this)">Remove</button>
                     </div>
                 </div>
@@ -276,23 +272,23 @@
             <!-- Multi-part Format -->
             <div id="multipart-form" class="hidden">
                 <h3>Multi-Part Questions</h3>
-                <div class="multi-part-container" id="multipart-questions">
-                    <div class="question-item">
-                        <label>Question Text:</label>
-                        <textarea class="mp-question" placeholder="Enter question text..."></textarea>
-                        <label>Points:</label>
-                        <select class="mp-points">
-                            <option value="30">30 pts</option>
-                            <option value="20">20 pts</option>
-                            <option value="10">10 pts</option>
-                        </select>
-                        <label>Answer:</label>
-                        <input type="text" class="mp-answer" placeholder="Enter answer...">
-                        <button class="remove-btn" onclick="removeQuestion(this)">Remove</button>
-                    </div>
+                <div class="form-group">
+                    <label for="mp-question-30">30 pts:</label>
+                    <textarea id="mp-question-30" placeholder="Enter the 30-point question text..."></textarea>
                 </div>
-                <button class="add-btn" onclick="addMultipartQuestion()">Add Another Part</button>
-                <br><br>
+                <div class="form-group">
+                    <label for="mp-question-20">20 pts:</label>
+                    <textarea id="mp-question-20" placeholder="Enter the 20-point question text..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="mp-question-10">10 pts:</label>
+                    <textarea id="mp-question-10" placeholder="Enter the 10-point question text..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="mp-answer">Answer:</label>
+                    <input type="text" id="mp-answer" placeholder="Enter answer (separate multiple with commas)...">
+                    <small style="color: #666; font-style: italic;">Use commas for multiple acceptable answers</small>
+                </div>
                 <button class="btn" onclick="addMultipart()">Add Multi-Part Question</button>
             </div>
         </div>
@@ -302,9 +298,13 @@
             <button class="btn btn-secondary" onclick="clearAll()">Clear All</button>
             <button class="btn btn-secondary" onclick="loadSampleData()">Load Sample Data</button>
         </div>
+        
         <div class="form-group">
-            <input type="file" id="json-file-input" accept=".json" onchange="importJSON()" style="margin-bottom:10px;">
+            <label for="json-file-input">Import Existing JSON File:</label>
+            <input type="file" id="json-file-input" accept=".json" onchange="importJSON()" style="margin-bottom: 10px; padding: 10px; border: 2px dashed #667eea; border-radius: 10px; background: #f8f9fa;">
+            <small style="color: #666; font-style: italic; display: block;">Select a JSON file to import and add to your current questions</small>
         </div>
+
         <div class="output-section">
             <h3>Generated JSON Output:</h3>
             <div class="output-content" id="output"></div>
@@ -348,7 +348,10 @@
                 return;
             }
             
-            questionData.q1.push({ question, answer });
+            // Process multiple answers
+            const processedAnswer = processMultipleAnswers(answer);
+            
+            questionData.q1.push({ question, answer: processedAnswer });
             
             // Clear inputs
             document.getElementById('simple-question').value = '';
@@ -369,8 +372,8 @@
             }
             
             questionData.q2.push({
-                tossup: { question: tossupQuestion, answer: tossupAnswer },
-                bonus: { question: bonusQuestion, answer: bonusAnswer }
+                tossup: { question: tossupQuestion, answer: processMultipleAnswers(tossupAnswer) },
+                bonus: { question: bonusQuestion, answer: processMultipleAnswers(bonusAnswer) }
             });
             
             // Clear inputs
@@ -391,7 +394,7 @@
                 const answer = item.querySelector('.cat-answer').value.trim();
                 
                 if (question && answer) {
-                    questions.push({ question, answer });
+                    questions.push({ question, answer: processMultipleAnswers(answer) });
                 }
             });
             
@@ -412,7 +415,8 @@
                     <label>Question:</label>
                     <textarea class="cat-question" placeholder="Enter question..."></textarea>
                     <label>Answer:</label>
-                    <input type="text" class="cat-answer" placeholder="Enter answer...">
+                    <input type="text" class="cat-answer" placeholder="Enter answer (separate multiple with commas)...">
+                    <small style="color: #666; font-style: italic; display: block; margin-top: 5px;">Use commas for multiple acceptable answers</small>
                     <button class="remove-btn" onclick="removeQuestion(this)">Remove</button>
                 </div>
             `;
@@ -421,44 +425,32 @@
         }
 
         function addMultipart() {
-            const parts = [];
+            const question30 = document.getElementById('mp-question-30').value.trim();
+            const question20 = document.getElementById('mp-question-20').value.trim();
+            const question10 = document.getElementById('mp-question-10').value.trim();
+            const answer = document.getElementById('mp-answer').value.trim();
             
-            document.querySelectorAll('#multipart-questions .question-item').forEach(item => {
-                const text = item.querySelector('.mp-question').value.trim();
-                const points = item.querySelector('.mp-points').value;
-                const answer = item.querySelector('.mp-answer').value.trim();
-                
-                if (text && answer) {
-                    parts.push({
-                        text: text + ` (${points} pts).`,
-                        answer: answer
-                    });
-                }
-            });
-            
-            if (parts.length === 0) {
-                alert('Please provide at least one question part');
+            if (!question30 || !question20 || !question10 || !answer) {
+                alert('Please fill in all three question parts and the answer');
                 return;
             }
             
-            questionData.q4.push({ parts });
+            const parts = [
+                `(30 pts) ${question30} `,
+                `(20 pts) ${question20} `,
+                `(10 pts) ${question10}`
+            ];
+            
+            questionData.q4.push({ 
+                parts: parts,
+                answer: processMultipleAnswers(answer)
+            });
             
             // Clear inputs
-            document.getElementById('multipart-questions').innerHTML = `
-                <div class="question-item">
-                    <label>Question Text:</label>
-                    <textarea class="mp-question" placeholder="Enter question text..."></textarea>
-                    <label>Points:</label>
-                    <select class="mp-points">
-                        <option value="30">30 pts</option>
-                        <option value="20">20 pts</option>
-                        <option value="10">10 pts</option>
-                    </select>
-                    <label>Answer:</label>
-                    <input type="text" class="mp-answer" placeholder="Enter answer...">
-                    <button class="remove-btn" onclick="removeQuestion(this)">Remove</button>
-                </div>
-            `;
+            document.getElementById('mp-question-30').value = '';
+            document.getElementById('mp-question-20').value = '';
+            document.getElementById('mp-question-10').value = '';
+            document.getElementById('mp-answer').value = '';
             
             updateOutput();
         }
@@ -471,27 +463,8 @@
                 <label>Question:</label>
                 <textarea class="cat-question" placeholder="Enter question..."></textarea>
                 <label>Answer:</label>
-                <input type="text" class="cat-answer" placeholder="Enter answer...">
-                <button class="remove-btn" onclick="removeQuestion(this)">Remove</button>
-            `;
-            container.appendChild(newQuestion);
-        }
-
-        function addMultipartQuestion() {
-            const container = document.getElementById('multipart-questions');
-            const newQuestion = document.createElement('div');
-            newQuestion.className = 'question-item';
-            newQuestion.innerHTML = `
-                <label>Question Text:</label>
-                <textarea class="mp-question" placeholder="Enter question text..."></textarea>
-                <label>Points:</label>
-                <select class="mp-points">
-                    <option value="30">30 pts</option>
-                    <option value="20">20 pts</option>
-                    <option value="10">10 pts</option>
-                </select>
-                <label>Answer:</label>
-                <input type="text" class="mp-answer" placeholder="Enter answer...">
+                <input type="text" class="cat-answer" placeholder="Enter answer (separate multiple with commas)...">
+                <small style="color: #666; font-style: italic; display: block; margin-top: 5px;">Use commas for multiple acceptable answers</small>
                 <button class="remove-btn" onclick="removeQuestion(this)">Remove</button>
             `;
             container.appendChild(newQuestion);
@@ -499,6 +472,16 @@
 
         function removeQuestion(button) {
             button.parentElement.remove();
+        }
+
+        function processMultipleAnswers(answerString) {
+            // Check if the answer contains commas
+            if (answerString.includes(',')) {
+                // Split by commas and trim whitespace
+                const answers = answerString.split(',').map(answer => answer.trim()).filter(answer => answer.length > 0);
+                return answers.length > 1 ? answers : answerString;
+            }
+            return answerString;
         }
 
         function generateOutput() {
@@ -608,15 +591,11 @@
                 "q4": [
                     {
                         "parts": [
-                            {
-                                "text": "This 19th-century American novelist wrote an epic tale of obsession and the sea (30 pts).",
-                                "answer": "Herman Melville"
-                            },
-                            {
-                                "text": "This author wrote 'Moby-Dick', which features Captain Ahab (20 pts).",
-                                "answer": "Herman Melville"
-                            }
-                        ]
+                            "(30 pts) This 19th-century American novelist wrote an epic tale of obsession and the sea ",
+                            "(20 pts) This author wrote 'Moby-Dick', which features Captain Ahab ",
+                            "(10 pts) Name the author of 'Billy Budd' as well"
+                        ],
+                        "answer": ["Herman Melville", "Melville"]
                     }
                 ]
             };
@@ -636,7 +615,7 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'questions.json';
+            a.download = 'history_bowl_questions.json';
             document.body.appendChild(a);
             a.click();
             document.body.removeChild(a);
