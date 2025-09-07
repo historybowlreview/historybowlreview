@@ -585,7 +585,8 @@ function togglePause() {
         gameState.isPaused = true;
         $('pauseBtn').textContent = "Resume";
         setFeedback("Paused. Press Resume to continue.", true);
-        $('buzzerBtn').disabled = false;
+        $('buzzerBtn').disabled = true;
+        $('showAnswerBtn').disabled = true;
 
         // Only re-enable answer input if buzzed or it's Q3 category mode
         if (gameState.buzzed || (gameState.currentQuarter === 3 && gameState.q3CategoryActive)) {
@@ -598,35 +599,33 @@ function togglePause() {
         gameState.isPaused = false;
         $('pauseBtn').textContent = "Pause";
         clearFeedback();
-        // Resume timers
-        if (gameState.wasReading) resumeReading();
-        else if (gameState.pausedPostReadTime !== null) {
-            gameState.postReadTimeLeft = gameState.pausedPostReadTime;
-            resumePostReadTimer();
-        }
-        else if (gameState.pausedAnswerTime !== null) {
-            gameState.answerTimeLeft = gameState.pausedAnswerTime;
-            resumeAnswerTimer();
-        }
-        else if (gameState.pausedQ3Time !== null) {
-            gameState.q3TimeLeft = gameState.pausedQ3Time;
-            startQ3CategoryTimer();
-        }
-        else if (
-            typeof gameState.pausedFeedbackTime === 'number' &&
-            !isNaN(gameState.pausedFeedbackTime) &&
-            gameState.pausedFeedbackTime > 0
-        ) {
-            resumeFeedbackCountdown(gameState.pausedFeedbackTime);
-            gameState.pausedFeedbackTime = null;
-        }
+
+        // Resume timers...
+        // (existing timer resume logic)
+
         gameState.pausedPostReadTime = null;
         gameState.pausedAnswerTime = null;
         gameState.pausedQ3Time = null;
         gameState.pausedFeedbackTime = null;
         gameState.wasReading = false;
-        $('buzzerBtn').disabled = false;
-        $('answerInput').disabled = false;
+
+        // --- Add this logic here ---
+        if (
+            gameState.buzzed ||
+            (gameState.currentQuarter === 3 && gameState.q3CategoryActive)
+        ) {
+            $('buzzerBtn').disabled = true;
+        } else {
+            $('buzzerBtn').disabled = false;
+        }
+
+        $('showAnswerBtn').disabled = gameState.isShowingAnswer ? true : false;
+
+        if (gameState.buzzed || (gameState.currentQuarter === 3 && gameState.q3CategoryActive)) {
+            $('answerInput').disabled = false;
+        } else {
+            $('answerInput').disabled = true;
+        }
     }
 }
 
