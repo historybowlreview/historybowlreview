@@ -366,7 +366,6 @@ async function openPracticeMode() {
         alert("Questions failed to load.");
         return;
     }
-    resetGame();
     gameState.mode = 'practice';
     $('modeDisplay').textContent = 'Practice';
     $('mainMenu').style.display = 'none';
@@ -383,6 +382,10 @@ async function openPracticeMode() {
             return;
         }
         assignPracticeQuestionsFromSets(QUESTIONS_SETS);
+
+        // Move resetGame here, AFTER assigning questions!
+        resetGame();
+
         nextQuestion();
     }
 }
