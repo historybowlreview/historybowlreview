@@ -510,7 +510,18 @@ function togglePause() {
         gameState.isPaused = false;
         $('pauseBtn').textContent = "Pause";
         clearFeedback();
-        $('questionText').textContent = gameState.currentQuestionText.slice(0, gameState.readingCharIndex);
+        if (gameState.currentQuarter === 3 && gameState.q3CategoryActive) {
+            // Restore full question text for Q3 category
+            const idx = gameState.q3CurrentQuestionIdx;
+            const qArr = gameState.q3CategoryQuestions;
+            if (qArr && qArr[idx]) {
+                $('questionText').textContent = `(${idx+1}/${qArr.length}) ${qArr[idx].question}`;
+                gameState.currentAnswer = qArr[idx].answer;
+                gameState.currentQuestionText = qArr[idx].question;
+            }
+        } else {
+            $('questionText').textContent = gameState.currentQuestionText.slice(0, gameState.readingCharIndex);
+        }
         $('buzzerBtn').disabled = false;
         $('answerInput').disabled = false;
         // Resume reading if needed
