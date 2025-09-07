@@ -600,9 +600,16 @@ function togglePause() {
         $('pauseBtn').textContent = "Pause";
         clearFeedback();
         if (gameState.wasReading) resumeReading();
-
-        // Resume timers...
-        // (existing timer resume logic)
+    
+        // Resume timer if paused after Show Answer
+        if (
+            typeof gameState.pausedFeedbackTime === 'number' &&
+            !isNaN(gameState.pausedFeedbackTime) &&
+            gameState.pausedFeedbackTime > 0
+        ) {
+            resumeFeedbackCountdown(gameState.pausedFeedbackTime);
+            gameState.pausedFeedbackTime = null;
+        }
 
         gameState.pausedPostReadTime = null;
         gameState.pausedAnswerTime = null;
