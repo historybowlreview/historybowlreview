@@ -585,8 +585,14 @@ function togglePause() {
         gameState.isPaused = true;
         $('pauseBtn').textContent = "Resume";
         setFeedback("Paused. Press Resume to continue.", true);
-        $('buzzerBtn').disabled = true;
-        $('answerInput').disabled = true;
+        $('buzzerBtn').disabled = false;
+
+        // Only re-enable answer input if buzzed or it's Q3 category mode
+        if (gameState.buzzed || (gameState.currentQuarter === 3 && gameState.q3CategoryActive)) {
+            $('answerInput').disabled = false;
+        } else {
+            $('answerInput').disabled = true;
+        }
     } else {
         // RESUME
         gameState.isPaused = false;
