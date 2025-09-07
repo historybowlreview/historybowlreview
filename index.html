@@ -261,6 +261,9 @@ let gameState = {
     buzzed: false,
     buzzInTimes: [],
     multiplier: 1,
+    pausedPostReadTime: null,
+    pausedAnswerTime: null,
+    wasReading: false,
     q3selectedCategory: null,
     q3categoryProgress: 0,
     q3categoryCorrectCount: 0,
@@ -438,7 +441,22 @@ function startGame(){
 
 function togglePause() {
     if (!gameState.isPaused) {
-        // Pause: clear all timers and save their states
+        // PAUSE
+        // Determine which timer is running
+        if (gameState.readingInterval) {
+            gameState.wasReading = true;
+        } else {
+            gameState.wasReading = false;
+        }
+        if (gameState.postReadTimer) {
+            // Extract remaining seconds from display
+            const val = $('timerDisplay').textContent.match(/Buzz time: ([0-9]+)/);
+            gameState.pausedPostReadTime = val ? parseInt(val[1]) : null;
+        }
+        if (gameState.answerTimer) {
+            const val = $('timerDisplay').textContent.match(/Answer time: ([0-9]+)/);
+            gameState.pausedAnswerTime = val ? parseInt(val[1]) : null;
+        }
         clearAllTimers();
         gameState.isPaused = true;
         $('pauseBtn').textContent = "Resume";
@@ -446,17 +464,83 @@ function togglePause() {
         $('buzzerBtn').disabled = true;
         $('answerInput').disabled = true;
     } else {
-        // Resume: restart reading timer or post-read/answer timer as needed
+        // RESUME
         gameState.isPaused = false;
         $('pauseBtn').textContent = "Pause";
         clearFeedback();
-        // Resume logic: If question was being read, restart reading
-        // If in post-read or answer phase, restart those timers
-        // For simplicity, just show the full question and enable buzz/answer
         $('questionText').textContent = gameState.currentQuestionText;
         $('buzzerBtn').disabled = false;
         $('answerInput').disabled = false;
+        // Resume reading if needed
+        if (gameState.wasReading) {
+            resumeReading();
+        } else if (gameState.pausedPostReadTime !== null) {
+            resumePostReadTimer();
+        } else if (gameState.pausedAnswerTime !== null) {
+            resumeAnswerTimer();
+        }
+        gameState.pausedPostReadTime = null;
+        gameState.pausedAnswerTime = null;
+        gameState.wasReading = false;
     }
+}
+
+function resumeReading() {
+    const questionText = gameState.currentQuestionText;
+    const idx = gameState.readingCharIndex;
+    $('questionText').textContent = questionText.slice(0, idx);
+    gameState.readingInterval = setInterval(() => {
+        if (gameState.readingCharIndex < questionText.length && !gameState.buzzed) {
+            $('questionText').textContent += questionText[gameState.readingCharIndex];
+            gameState.readingCharIndex++;
+        } else {
+            clearInterval(gameState.readingInterval);
+            gameState.readingInterval = null;
+            // Start post-read timer as usual
+            startPostReadTimer();
+        }
+    }, 30);
+}
+
+function resumePostReadTimer() {
+    let postReadTime = gameState.pausedPostReadTime;
+    $('timerDisplay').textContent = `Buzz time: ${postReadTime}`;
+    gameState.postReadTimer = setInterval(() => {
+        postReadTime--;
+        $('timerDisplay').textContent = `Buzz time: ${postReadTime}`;
+        if (postReadTime <= 0) {
+            clearInterval(gameState.postReadTimer);
+            gameState.postReadTimer = null;
+            $('buzzerBtn').disabled = true;
+            $('timerDisplay').textContent = "Time's up";
+            setFeedback(
+                `Time expired! No buzz recorded. The correct answer was: ${gameState.currentAnswer}\n\nFull question:\n${gameState.currentQuestionText}`,
+                false
+            );
+            setTimeout(() => {
+                nextQuestion();
+            }, 5000);
+        }
+    }, 1000);
+}
+
+function resumeAnswerTimer() {
+    let answerTime = gameState.pausedAnswerTime;
+    $('timerDisplay').textContent = `Answer time: ${answerTime}`;
+    gameState.answerTimer = setInterval(() => {
+        answerTime--;
+        $('timerDisplay').textContent = `Answer time: ${answerTime}`;
+        if (answerTime <= 0) {
+            clearInterval(gameState.answerTimer);
+            gameState.answerTimer = null;
+            $('answerInput').disabled = true;
+            $('timerDisplay').textContent = "Time expired";
+            setFeedback("Time expired! No points awarded.", false);
+            setTimeout(() => {
+                nextQuestion();
+            }, 1500);
+        }
+    }, 1000);
 }
 
 /* ------------------ Reset ------------------ */
@@ -475,6 +559,9 @@ function resetGame(){
         readingInterval: null,
         postReadTimer: null,
         answerTimer: null,
+        pausedPostReadTime: null,
+        pausedAnswerTime: null,
+        wasReading: false,
         readingCharIndex: 0,
         currentQuestionText: "",
         currentAnswer: "",
@@ -1059,10 +1146,8 @@ function submitAnswer(){
                 nextQuestion();
             }, 1500);
         } else {
-            setFeedback(
-                `Incorrect. The correct answer was: ${gameState.currentAnswer}\n\nFull question:\n${gameState.currentQuestionText}`,
-                false
-            );
+            setFeedback(`Incorrect. The correct answer was: ${gameState.currentAnswer}`, false);
+            $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(()=> {
                 nextQuestion();
             }, 5000); // <-- Delay longer for study
@@ -1096,6 +1181,7 @@ function submitAnswer(){
             }
         } else {
             setFeedback(`Incorrect tossup. The correct answer was: ${gameState.currentAnswer}. (No bonus.)`, false);
+            $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(()=> {
                 nextQuestion();
             }, 2000);
@@ -1113,10 +1199,8 @@ function submitAnswer(){
             setFeedback(`Correct! +${earnedPoints} points (${responseTime?.toFixed(1)}s)`, true);
             setTimeout(()=> nextQuestion(), 1500);
         } else {
-            setFeedback(
-                `Incorrect. The correct answer was: ${gameState.currentAnswer}\n\nFull question:\n${gameState.currentQuestionText}`,
-                false
-            );
+            setFeedback(`Incorrect. The correct answer was: ${gameState.currentAnswer}`, false);
+            $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(()=> nextQuestion(), 5000); // longer delay
         }
     }
@@ -1135,6 +1219,7 @@ function submitAnswer(){
             setFeedback(`Correct bonus! +${bonusPoints} points (${bonusResponseTime.toFixed(1)}s)`, true);
         } else {
             setFeedback(`Incorrect bonus. The correct answer was: ${gameState.currentAnswer}`, false);
+            $('questionText').textContent = gameState.currentQuestionText;
         }
         gameState.currentBonus = null;
         gameState.isAnsweringBonus = false;
