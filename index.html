@@ -413,6 +413,7 @@ function startPostReadTimer() {
             $('buzzerBtn').disabled = true;
             $('timerDisplay').textContent = "Time's up";
             setFeedback(`Time expired! No buzz recorded. The correct answer was: ${gameState.currentAnswer}`, false);
+            startFeedbackCountdown(10);
             $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(() => {
                 nextQuestion();
@@ -433,6 +434,7 @@ function startAnswerTimer() {
             $('answerInput').disabled = true;
             $('timerDisplay').textContent = "Time expired";
             setFeedback(`Time expired! No points awarded. The correct answer was: ${gameState.currentAnswer}`, false);
+            startFeedbackCountdown(10);
             $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(() => {
                 nextQuestion();
@@ -553,6 +555,7 @@ function resumePostReadTimer() {
             $('buzzerBtn').disabled = true;
             $('timerDisplay').textContent = "Time's up";
             setFeedback(`Time expired! No buzz recorded. The correct answer was: ${gameState.currentAnswer}`, false);
+            startFeedbackCountdown(10);
             $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(() => {
                 nextQuestion();
@@ -571,7 +574,8 @@ function resumeAnswerTimer() {
             gameState.answerTimer = null;
             $('answerInput').disabled = true;
             $('timerDisplay').textContent = "Time expired";
-            setFeedback("Time expired! No points awarded. The correct answer was: " + gameState.currentAnswer, false);
+            setFeedback(`Time expired! No points awarded. The correct answer was: ${gameState.currentAnswer}`, false);
+            startFeedbackCountdown(10);
             $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(() => {
                 nextQuestion();
@@ -789,7 +793,13 @@ function showCategorySelection(){
     const container = $('categorySelection');
     container.innerHTML = `<h4 style="width:100%">Select a Category</h4>`;
     container.classList.remove('hidden');
-    QUESTIONS.q3.forEach((cat, idx) => {
+    
+    // Select 3 random categories
+    let categories = QUESTIONS.q3;
+    let pairs = categories.map((cat, idx) => ({cat, idx}));
+    let selected = pairs.sort(() => Math.random() - 0.5).slice(0, 3);
+
+    selected.forEach(({cat, idx}) => {
         const btn = document.createElement('div');
         btn.className = 'category-btn';
         btn.textContent = `${cat.category} (${(cat.questions||[]).length} q)`;
@@ -1018,6 +1028,7 @@ function startReading(){
                         $('buzzerBtn').disabled = true;
                         $('timerDisplay').textContent = "Time's up";
                         setFeedback(`Time expired! No buzz recorded. The correct answer was: ${gameState.currentAnswer}`, false);
+                        startFeedbackCountdown(10);
                         $('questionText').textContent = gameState.currentQuestionText;
                         setTimeout(()=> {
                             nextQuestion();
@@ -1095,6 +1106,8 @@ function showAnswer(){
         setFeedback("No current answer available.", false);
         return;
     }
+    setFeedback(`Answer: ${gameState.currentAnswer}`, true);
+    startFeedbackCountdown(10);
     $('questionText').textContent = gameState.currentQuestionText || '---';
     setFeedback(`Answer: ${gameState.currentAnswer}`, true);
     $('buzzerBtn').disabled = true;
@@ -1164,6 +1177,7 @@ function submitAnswer(){
             msg = `❌ Incorrect. Correct: ${qArr[idx].answer}`;
         }
         setFeedback(msg, qArr[idx].isCorrect);
+        if (!qArr[idx].isCorrect) startFeedbackCountdown(10);
 
         if (qArr.some(q => !q.userAnswer)) {
             let nextIdx = (idx + 1) % qArr.length;
@@ -1207,10 +1221,11 @@ function submitAnswer(){
             }, 1500);
         } else {
             setFeedback(`Incorrect. The correct answer was: ${gameState.currentAnswer}`, false);
+            startFeedbackCountdown(10);
             $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(()=> {
                 nextQuestion();
-            }, 10000); // <-- Delay longer for study
+            }, 10000);
         }
     } else if (gameState.currentQuarter === 2){
         basePoints = 10;
@@ -1241,6 +1256,7 @@ function submitAnswer(){
             }
         } else {
             setFeedback(`Incorrect tossup. The correct answer was: ${gameState.currentAnswer}. (No bonus.)`, false);
+            startFeedbackCountdown(10);
             $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(()=> {
                 nextQuestion();
@@ -1260,6 +1276,7 @@ function submitAnswer(){
             setTimeout(()=> nextQuestion(), 1500);
         } else {
             setFeedback(`Incorrect. The correct answer was: ${gameState.currentAnswer}`, false);
+            startFeedbackCountdown(10);
             $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(()=> nextQuestion(), 10000); // longer delay
         }
@@ -1279,6 +1296,7 @@ function submitAnswer(){
             setFeedback(`Correct bonus! +${bonusPoints} points (${bonusResponseTime.toFixed(1)}s)`, true);
         } else {
             setFeedback(`Incorrect bonus. The correct answer was: ${gameState.currentAnswer}`, false);
+            startFeedbackCountdown(10);
             $('questionText').textContent = gameState.currentQuestionText;
         }
         gameState.currentBonus = null;
@@ -1303,6 +1321,19 @@ function computeQuestionCounterText(){
     }
     if (q === 4) return `Q ${Math.max(0, gameState.currentQuestionIndex+1)} / ${gameState.activeQ4.length}`;
     return '';
+}
+
+function startFeedbackCountdown(seconds) {
+    $('timerDisplay').textContent = `Next question in: ${seconds}`;
+    let timeLeft = seconds;
+    let interval = setInterval(() => {
+        timeLeft--;
+        $('timerDisplay').textContent = `Next question in: ${timeLeft}`;
+        if (timeLeft <= 0) {
+            clearInterval(interval);
+            $('timerDisplay').textContent = '--';
+        }
+    }, 1000);
 }
 
 /* ------------------ Finish/End-game ------------------ */
