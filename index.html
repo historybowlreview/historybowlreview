@@ -203,6 +203,17 @@ async function loadQuestionsFromServer() {
     }
 }
 
+let QUESTIONS_SETS = [];
+
+async function loadAllQuestionSets(files) {
+    QUESTIONS_SETS = [];
+    for (const file of files) {
+        const response = await fetch(file);
+        const data = await response.json();
+        QUESTIONS_SETS.push(data);
+    }
+}
+
 // Utility to pick random item
 function getRandomItem(array) {
     return array[Math.floor(Math.random() * array.length)];
@@ -350,7 +361,7 @@ function backToMenu(){
     $('modeDisplay').textContent = 'Practice';
 }
 
-function openPracticeMode(){
+async function openPracticeMode() {
     if (!gameState.questionsLoaded) {
         alert("Questions failed to load.");
         return;
@@ -361,11 +372,26 @@ function openPracticeMode(){
     $('mainMenu').style.display = 'none';
     updatePauseButtonVisibility();
     $('gameArea').style.display = 'block';
-    // This line is now unnecessary since button is removed:
-    // updateNextQuestionButtonVisibility();
+
     if (promptPracticeQuarter()) {
+        const selectedFiles = promptPracticeSet();
+        if (!selectedFiles) { backToMenu(); return; }
+        await loadAllQuestionSets(selectedFiles); // Only load selected files
+        if (!QUESTIONS_SETS.length) {
+            alert("Failed to load selected question sets.");
+            backToMenu();
+            return;
+        }
+        assignPracticeQuestionsFromSets(QUESTIONS_SETS);
         nextQuestion();
     }
+}
+
+function assignPracticeQuestionsFromSets(sets) {
+    gameState.activeQ1 = sets.flatMap(set => set.q1 || []);
+    gameState.activeQ2 = sets.flatMap(set => set.q2 || []);
+    gameState.activeQ3 = sets.flatMap(set => set.q3 || []);
+    gameState.activeQ4 = sets.flatMap(set => set.q4 || []);
 }
 
 function promptPracticeQuarter() {
@@ -1496,6 +1522,37 @@ function renderQuestionsDisplay(){
         <p>Quarter 4: ${QUESTIONS.q4.length} questions</p>
     `;
     container.appendChild(summary);
+}
+
+function promptPracticeSet() {
+    // List of available filenames and display names
+    const availableFiles = [
+        { name: "Set 1", file: "questions1.json" },
+        { name: "Set 2", file: "questions2.json" },
+        { name: "Set 3", file: "questions3.json" },
+        { name: "Set 4", file: "questions4.json" },
+        { name: "Set 5", file: "questions5.json" }
+    ];
+    const names = availableFiles.map((set, idx) => `${idx+1}: ${set.name}`).join('\n');
+    const pick = prompt(`Select question set(s) by number (e.g. 1,2,3) or type 'all' for all sets:\n${names}`, 'all');
+    if (!pick) return null;
+
+    if (pick.trim().toLowerCase() === 'all') {
+        return availableFiles.map(s => s.file);
+    }
+
+    // Parse comma-separated list
+    const indices = pick.split(',')
+        .map(s => parseInt(s.trim()) - 1)
+        .filter(idx => idx >= 0 && idx < availableFiles.length);
+
+    if (!indices.length) {
+        alert("Invalid selection.");
+        return promptPracticeSet();
+    }
+
+    // Return selected filenames
+    return indices.map(idx => availableFiles[idx].file);
 }
 
 /* ------------------ Key handling ------------------ */
