@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History Bowl Question Formatter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .format-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .format-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border: none;
+            border-radius: 15px;
+            padding: 20px;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .format-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .format-card.active {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            transform: translateY(-2px);
+        }
+
+        .input-section {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            border: 2px solid #e9ecef;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        input, textarea, select {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.2);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .output-section {
+            background: #2c3e50;
+            color: #ecf0f1;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+        }
+
+        .output-content {
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+
+        .multi-part-container {
+            border: 2px dashed #dee2e6;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .category-questions {
+            background: rgba(118, 75, 162, 0.05);
+            border: 2px dashed #764ba2;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .question-item {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid #667eea;
+        }
+
+        .remove-btn {
+            background: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            float: right;
+        }
+
+        .add-btn {
+            background: #27ae60;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏛️ History Bowl Question Formatter</h1>
+        
+        <div class="format-selector">
+            <button class="format-card active" onclick="selectFormat('simple')">
+                📝 Simple Q&A<br>
+                <small>Basic question-answer pairs</small>
+            </button>
+            <button class="format-card" onclick="selectFormat('tossup')">
+                🎯 Tossup-Bonus<br>
+                <small>Tossup question with bonus</small>
+            </button>
+            <button class="format-card" onclick="selectFormat('category')">
+                📚 Categorized<br>
+                <small>Questions grouped by category</small>
+            </button>
+            <button class="format-card" onclick="selectFormat('multipart')">
+                🎲 Multi-Part<br>
+                <small>Questions with point values</small>
+            </button>
+        </div>
+
+        <div class="input-section">
+            <!-- Simple Q&A Format -->
+            <div id="simple-form">
+                <h3>Simple Question & Answer</h3>
+                <div class="form-group">
+                    <label for="simple-question">Question:</label>
+                    <textarea id="simple-question" placeholder="Enter your question here..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="simple-answer">Answer:</label>
+                    <input type="text" id="simple-answer" placeholder="Enter the answer...">
+                </div>
+                <button class="btn" onclick="addSimpleQuestion()">Add Question</button>
+            </div>
+
+            <!-- Tossup-Bonus Format -->
+            <div id="tossup-form" class="hidden">
+                <h3>Tossup-Bonus Format</h3>
+                <div class="form-group">
+                    <label for="tossup-question">Tossup Question:</label>
+                    <textarea id="tossup-question" placeholder="Enter tossup question..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="tossup-answer">Tossup Answer:</label>
+                    <input type="text" id="tossup-answer" placeholder="Enter tossup answer...">
+                </div>
+                <div class="form-group">
+                    <label for="bonus-question">Bonus Question:</label>
+                    <textarea id="bonus-question" placeholder="Enter bonus question..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="bonus-answer">Bonus Answer:</label>
+                    <input type="text" id="bonus-answer" placeholder="Enter bonus answer...">
+                </div>
+                <button class="btn" onclick="addTossupBonus()">Add Tossup-Bonus</button>
+            </div>
+
+            <!-- Category Format -->
+            <div id="category-form" class="hidden">
+                <h3>Categorized Questions</h3>
+                <div class="form-group">
+                    <label for="category-name">Category Name:</label>
+                    <input type="text" id="category-name" placeholder="e.g., Ancient Civilizations">
+                </div>
+                <div class="category-questions" id="category-questions">
+                    <div class="question-item">
+                        <label>Question:</label>
+                        <textarea class="cat-question" placeholder="Enter question..."></textarea>
+                        <label>Answer:</label>
+                        <input type="text" class="cat-answer" placeholder="Enter answer...">
+                        <button class="remove-btn" onclick="removeQuestion(this)">Remove</button>
+                    </div>
+                </div>
+                <button class="add-btn" onclick="addCategoryQuestion()">Add Another Question</button>
+                <br><br>
+                <button class="btn" onclick="addCategory()">Add Category</button>
+            </div>
+
+            <!-- Multi-part Format -->
+            <div id="multipart-form" class="hidden">
+                <h3>Multi-Part Questions</h3>
+                <div class="multi-part-container" id="multipart-questions">
+                    <div class="question-item">
+                        <label>Question Text:</label>
+                        <textarea class="mp-question" placeholder="Enter question text..."></textarea>
+                        <label>Points:</label>
+                        <select class="mp-points">
+                            <option value="30">30 pts</option>
+                            <option value="20">20 pts</option>
+                            <option value="10">10 pts</option>
+                        </select>
+                        <label>Answer:</label>
+                        <input type="text" class="mp-answer" placeholder="Enter answer...">
+                        <button class="remove-btn" onclick="removeQuestion(this)">Remove</button>
+                    </div>
+                </div>
+                <button class="add-btn" onclick="addMultipartQuestion()">Add Another Part</button>
+                <br><br>
+                <button class="btn" onclick="addMultipart()">Add Multi-Part Question</button>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <button class="btn" onclick="generateOutput()">Generate JSON</button>
+            <button class="btn btn-secondary" onclick="clearAll()">Clear All</button>
+            <button class="btn btn-secondary" onclick="loadSampleData()">Load Sample Data</button>
+        </div>
+        <div class="form-group">
+            <input type="file" id="json-file-input" accept=".json" onchange="importJSON()" style="margin-bottom:10px;">
+        </div>
+        <div class="output-section">
+            <h3>Generated JSON Output:</h3>
+            <div class="output-content" id="output"></div>
+        </div>
+
+        <div class="form-group">
+            <button class="btn" onclick="copyToClipboard()">Copy to Clipboard</button>
+            <button class="btn btn-secondary" onclick="downloadJSON()">Download JSON</button>
+        </div>
+    </div>
+
+    <script>
+        let currentFormat = 'simple';
+        let questionData = {
+            q1: [],
+            q2: [],
+            q3: [],
+            q4: []
+        };
+
+        function selectFormat(format) {
+            // Update active button
+            document.querySelectorAll('.format-card').forEach(card => card.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            // Hide all forms
+            document.querySelectorAll('[id$="-form"]').forEach(form => form.classList.add('hidden'));
+            
+            // Show selected form
+            document.getElementById(format + '-form').classList.remove('hidden');
+            
+            currentFormat = format;
+        }
+
+        function addSimpleQuestion() {
+            const question = document.getElementById('simple-question').value.trim();
+            const answer = document.getElementById('simple-answer').value.trim();
+            
+            if (!question || !answer) {
+                alert('Please fill in both question and answer');
+                return;
+            }
+            
+            questionData.q1.push({ question, answer });
+            
+            // Clear inputs
+            document.getElementById('simple-question').value = '';
+            document.getElementById('simple-answer').value = '';
+            
+            updateOutput();
+        }
+
+        function addTossupBonus() {
+            const tossupQuestion = document.getElementById('tossup-question').value.trim();
+            const tossupAnswer = document.getElementById('tossup-answer').value.trim();
+            const bonusQuestion = document.getElementById('bonus-question').value.trim();
+            const bonusAnswer = document.getElementById('bonus-answer').value.trim();
+            
+            if (!tossupQuestion || !tossupAnswer || !bonusQuestion || !bonusAnswer) {
+                alert('Please fill in all fields');
+                return;
+            }
+            
+            questionData.q2.push({
+                tossup: { question: tossupQuestion, answer: tossupAnswer },
+                bonus: { question: bonusQuestion, answer: bonusAnswer }
+            });
+            
+            // Clear inputs
+            document.getElementById('tossup-question').value = '';
+            document.getElementById('tossup-answer').value = '';
+            document.getElementById('bonus-question').value = '';
+            document.getElementById('bonus-answer').value = '';
+            
+            updateOutput();
+        }
+
+        function addCategory() {
+            const categoryName = document.getElementById('category-name').value.trim();
+            const questions = [];
+            
+            document.querySelectorAll('#category-questions .question-item').forEach(item => {
+                const question = item.querySelector('.cat-question').value.trim();
+                const answer = item.querySelector('.cat-answer').value.trim();
+                
+                if (question && answer) {
+                    questions.push({ question, answer });
+                }
+            });
+            
+            if (!categoryName || questions.length === 0) {
+                alert('Please provide a category name and at least one question');
+                return;
+            }
+            
+            questionData.q3.push({
+                category: categoryName,
+                questions: questions
+            });
+            
+            // Clear inputs
+            document.getElementById('category-name').value = '';
+            document.getElementById('category-questions').innerHTML = `
+                <div class="question-item">
+                    <label>Question:</label>
+                    <textarea class="cat-question" placeholder="Enter question..."></textarea>
+                    <label>Answer:</label>
+                    <input type="text" class="cat-answer" placeholder="Enter answer...">
+                    <button class="remove-btn" onclick="removeQuestion(this)">Remove</button>
+                </div>
+            `;
+            
+            updateOutput();
+        }
+
+        function addMultipart() {
+            const parts = [];
+            
+            document.querySelectorAll('#multipart-questions .question-item').forEach(item => {
+                const text = item.querySelector('.mp-question').value.trim();
+                const points = item.querySelector('.mp-points').value;
+                const answer = item.querySelector('.mp-answer').value.trim();
+                
+                if (text && answer) {
+                    parts.push({
+                        text: text + ` (${points} pts).`,
+                        answer: answer
+                    });
+                }
+            });
+            
+            if (parts.length === 0) {
+                alert('Please provide at least one question part');
+                return;
+            }
+            
+            questionData.q4.push({ parts });
+            
+            // Clear inputs
+            document.getElementById('multipart-questions').innerHTML = `
+                <div class="question-item">
+                    <label>Question Text:</label>
+                    <textarea class="mp-question" placeholder="Enter question text..."></textarea>
+                    <label>Points:</label>
+                    <select class="mp-points">
+                        <option value="30">30 pts</option>
+                        <option value="20">20 pts</option>
+                        <option value="10">10 pts</option>
+                    </select>
+                    <label>Answer:</label>
+                    <input type="text" class="mp-answer" placeholder="Enter answer...">
+                    <button class="remove-btn" onclick="removeQuestion(this)">Remove</button>
+                </div>
+            `;
+            
+            updateOutput();
+        }
+
+        function addCategoryQuestion() {
+            const container = document.getElementById('category-questions');
+            const newQuestion = document.createElement('div');
+            newQuestion.className = 'question-item';
+            newQuestion.innerHTML = `
+                <label>Question:</label>
+                <textarea class="cat-question" placeholder="Enter question..."></textarea>
+                <label>Answer:</label>
+                <input type="text" class="cat-answer" placeholder="Enter answer...">
+                <button class="remove-btn" onclick="removeQuestion(this)">Remove</button>
+            `;
+            container.appendChild(newQuestion);
+        }
+
+        function addMultipartQuestion() {
+            const container = document.getElementById('multipart-questions');
+            const newQuestion = document.createElement('div');
+            newQuestion.className = 'question-item';
+            newQuestion.innerHTML = `
+                <label>Question Text:</label>
+                <textarea class="mp-question" placeholder="Enter question text..."></textarea>
+                <label>Points:</label>
+                <select class="mp-points">
+                    <option value="30">30 pts</option>
+                    <option value="20">20 pts</option>
+                    <option value="10">10 pts</option>
+                </select>
+                <label>Answer:</label>
+                <input type="text" class="mp-answer" placeholder="Enter answer...">
+                <button class="remove-btn" onclick="removeQuestion(this)">Remove</button>
+            `;
+            container.appendChild(newQuestion);
+        }
+
+        function removeQuestion(button) {
+            button.parentElement.remove();
+        }
+
+        function generateOutput() {
+            updateOutput();
+        }
+
+        function updateOutput() {
+            const output = JSON.stringify(questionData, null, 2);
+            document.getElementById('output').textContent = output;
+        }
+
+        function clearAll() {
+            questionData = { q1: [], q2: [], q3: [], q4: [] };
+            updateOutput();
+        }
+
+        function importJSON() {
+            const fileInput = document.getElementById('json-file-input');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    
+                    // Validate the structure
+                    if (!importedData || typeof importedData !== 'object') {
+                        throw new Error('Invalid JSON structure');
+                    }
+                    
+                    // Merge with existing data
+                    if (importedData.q1 && Array.isArray(importedData.q1)) {
+                        questionData.q1 = [...questionData.q1, ...importedData.q1];
+                    }
+                    if (importedData.q2 && Array.isArray(importedData.q2)) {
+                        questionData.q2 = [...questionData.q2, ...importedData.q2];
+                    }
+                    if (importedData.q3 && Array.isArray(importedData.q3)) {
+                        questionData.q3 = [...questionData.q3, ...importedData.q3];
+                    }
+                    if (importedData.q4 && Array.isArray(importedData.q4)) {
+                        questionData.q4 = [...questionData.q4, ...importedData.q4];
+                    }
+                    
+                    updateOutput();
+                    alert(`JSON file imported successfully! 
+                    - Simple Q&A: ${importedData.q1?.length || 0} questions added
+                    - Tossup-Bonus: ${importedData.q2?.length || 0} sets added  
+                    - Categories: ${importedData.q3?.length || 0} categories added
+                    - Multi-part: ${importedData.q4?.length || 0} questions added`);
+                    
+                } catch (error) {
+                    alert('Error importing JSON file. Please make sure it\'s a valid JSON file with the correct structure.\n\nError: ' + error.message);
+                }
+                
+                // Clear the file input
+                fileInput.value = '';
+            };
+            
+            reader.readAsText(file);
+        }
+
+        function loadSampleData() {
+            // Load the sample data from the document
+            questionData = {
+                "q1": [
+                    {
+                        "question": "This ancient wonder of the world was located in Alexandria and was destroyed by earthquakes. Name this lighthouse.",
+                        "answer": ["Lighthouse of Alexandria", "Pharos of Alexandria", "Alexandria Lighthouse"]
+                    },
+                    {
+                        "question": "This Roman general crossed the Rubicon River in 49 BCE, starting a civil war. Name him.",
+                        "answer": ["Julius Caesar", "Gaius Julius Caesar", "Caesar"]
+                    }
+                ],
+                "q2": [
+                    {
+                        "tossup": {
+                            "question": "This president purchased Louisiana from France in 1803.",
+                            "answer": "Thomas Jefferson"
+                        },
+                        "bonus": {
+                            "question": "Name the two explorers Jefferson sent to map this new territory.",
+                            "answer": "Lewis and Clark"
+                        }
+                    }
+                ],
+                "q3": [
+                    {
+                        "category": "Ancient Civilizations",
+                        "questions": [
+                            {
+                                "question": "This river was crucial to Egyptian civilization.",
+                                "answer": "Nile River"
+                            },
+                            {
+                                "question": "This code was created by a Babylonian king.",
+                                "answer": "Code of Hammurabi"
+                            }
+                        ]
+                    }
+                ],
+                "q4": [
+                    {
+                        "parts": [
+                            {
+                                "text": "This 19th-century American novelist wrote an epic tale of obsession and the sea (30 pts).",
+                                "answer": "Herman Melville"
+                            },
+                            {
+                                "text": "This author wrote 'Moby-Dick', which features Captain Ahab (20 pts).",
+                                "answer": "Herman Melville"
+                            }
+                        ]
+                    }
+                ]
+            };
+            updateOutput();
+        }
+
+        function copyToClipboard() {
+            const output = document.getElementById('output').textContent;
+            navigator.clipboard.writeText(output).then(() => {
+                alert('JSON copied to clipboard!');
+            });
+        }
+
+        function downloadJSON() {
+            const output = document.getElementById('output').textContent;
+            const blob = new Blob([output], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'questions.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Initialize with sample data
+        loadSampleData();
+    </script>
+</body>
+</html>
