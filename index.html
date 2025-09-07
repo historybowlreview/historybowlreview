@@ -417,31 +417,29 @@ function backToMenu(){
 }
 
 async function openPracticeMode() {
-    if (!gameState.questionsLoaded) {
-        alert("Questions failed to load.");
-        return;
-    }
     gameState.mode = 'practice';
     $('modeDisplay').textContent = 'Practice';
     $('mainMenu').style.display = 'none';
     updatePauseButtonVisibility();
     $('gameArea').style.display = 'block';
 
+    // Prompt for set picker FIRST
+    const selectedFiles = await promptPracticeSet();
+    if (!selectedFiles) { backToMenu(); return; }
+    await loadAllQuestionSets(selectedFiles);
+    if (!QUESTIONS_SETS.length) {
+        alert("Failed to load selected question sets.");
+        backToMenu();
+        return;
+    }
+    assignPracticeQuestionsFromSets(QUESTIONS_SETS);
+
+    // THEN prompt for quarter
     if (promptPracticeQuarter()) {
-        const selectedFiles = await promptPracticeSet();
-        if (!selectedFiles) { backToMenu(); return; }
-        await loadAllQuestionSets(selectedFiles); // Only load selected files
-        if (!QUESTIONS_SETS.length) {
-            alert("Failed to load selected question sets.");
-            backToMenu();
-            return;
-        }
-        assignPracticeQuestionsFromSets(QUESTIONS_SETS);
-
-        // Move resetGame here, AFTER assigning questions!
         resetGame();
-
         nextQuestion();
+    } else {
+        backToMenu();
     }
 }
 
@@ -795,25 +793,29 @@ async function resetPracticeGame() {
     if (gameState.mode === 'full') {
         startFullGameFromMenu();
     } else {
-        // Practice mode: ask for quarter and sets again
         gameState.mode = 'practice';
         $('modeDisplay').textContent = 'Practice';
         $('mainMenu').style.display = 'none';
         $('gameArea').style.display = 'block';
 
+        // Prompt for set picker FIRST
+        const selectedFiles = await promptPracticeSet();
+        if (!selectedFiles) { backToMenu(); return; }
+        await loadAllQuestionSets(selectedFiles);
+        if (!QUESTIONS_SETS.length) {
+            alert("Failed to load selected question sets.");
+            backToMenu();
+            return;
+        }
+        assignPracticeQuestionsFromSets(QUESTIONS_SETS);
+
+        // THEN prompt for quarter
         if (promptPracticeQuarter()) {
-            const selectedFiles = await promptPracticeSet();
-            if (!selectedFiles) { backToMenu(); return; }
-            await loadAllQuestionSets(selectedFiles); // Only load selected files
-            if (!QUESTIONS_SETS.length) {
-                alert("Failed to load selected question sets.");
-                backToMenu();
-                return;
-            }
-            assignPracticeQuestionsFromSets(QUESTIONS_SETS);
             resetGame();
             updatePauseButtonVisibility();
             nextQuestion();
+        } else {
+            backToMenu();
         }
     }
 }
