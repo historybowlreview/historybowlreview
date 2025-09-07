@@ -644,16 +644,15 @@ function resumeFeedbackCountdown(timeLeft) {
         isNaN(timeLeft) ||
         timeLeft <= 0
     ) {
-        // Do not start timer, just advance
         nextQuestion();
         return;
     }
     if (gameState.feedbackTimer) clearInterval(gameState.feedbackTimer);
-    gameState.feedbackTimeLeft = timeLeft;
+    gameState.feedbackTimeLeft = timeLeft; // <--- Set here
     $('timerDisplay').textContent = `Next question in: ${timeLeft}`;
     gameState.feedbackTimer = setInterval(() => {
         timeLeft--;
-        gameState.feedbackTimeLeft = timeLeft;
+        gameState.feedbackTimeLeft = timeLeft; // <--- Keep updating
         $('timerDisplay').textContent = `Next question in: ${timeLeft}`;
         if (timeLeft <= 0) {
             clearInterval(gameState.feedbackTimer);
@@ -1267,27 +1266,27 @@ function showAnswer(){
     if (gameState.isShowingAnswer) return;
     gameState.isShowingAnswer = true;
 
-    clearAllTimers(); // Stop reading, post-read, and answer timers
+    clearAllTimers();
     setFeedback(`Answer: ${formatAnswer(gameState.currentAnswer)}`, true);
 
     $('questionText').textContent = gameState.currentQuestionText || '---';
     $('buzzerBtn').disabled = true;
     $('answerInput').disabled = true;
     $('answerInput').value = '';
-    $('showAnswerBtn').disabled = true; // <-- Keep disabled until next question
+    $('showAnswerBtn').disabled = true;
 
-    // Show and start countdown for next question
     let secs = 10;
     $('timerDisplay').textContent = `Next question in: ${secs}`;
+    gameState.feedbackTimeLeft = secs; // <--- Ensure this is set
     gameState.feedbackTimer = setInterval(() => {
         secs--;
+        gameState.feedbackTimeLeft = secs; // <--- Update every tick
         $('timerDisplay').textContent = `Next question in: ${secs}`;
         if (secs <= 0) {
             clearInterval(gameState.feedbackTimer);
             gameState.feedbackTimer = null;
             $('timerDisplay').textContent = '--';
             gameState.isShowingAnswer = false;
-            // Don't re-enable the button here!
             nextQuestion();
         }
     }, 1000);
