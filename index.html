@@ -502,8 +502,8 @@ function togglePause() {
             clearInterval(gameState.q3Timer);
         }
         if (gameState.feedbackTimer) {
-            gameState.pausedFeedbackTime = parseInt($('timerDisplay').textContent.replace(/[^0-9]/g, '')) || null;
             clearInterval(gameState.feedbackTimer);
+            gameState.pausedFeedbackTime = gameState.feedbackTimeLeft; // Use gameState value!
         }
         gameState.isPaused = true;
         $('pauseBtn').textContent = "Resume";
@@ -545,9 +545,11 @@ function togglePause() {
 // Add this function:
 function resumeFeedbackCountdown(timeLeft) {
     if (gameState.feedbackTimer) clearInterval(gameState.feedbackTimer);
+    gameState.feedbackTimeLeft = timeLeft; // <--- Track time left
     $('timerDisplay').textContent = `Next question in: ${timeLeft}`;
     gameState.feedbackTimer = setInterval(() => {
         timeLeft--;
+        gameState.feedbackTimeLeft = timeLeft; // <--- Update on every tick!
         $('timerDisplay').textContent = `Next question in: ${timeLeft}`;
         if (timeLeft <= 0) {
             clearInterval(gameState.feedbackTimer);
@@ -1358,10 +1360,11 @@ function computeQuestionCounterText(){
 function startFeedbackCountdown(seconds) {
     $('timerDisplay').textContent = `Next question in: ${seconds}`;
     let timeLeft = seconds;
-    // Clear any previous feedback timer
+    gameState.feedbackTimeLeft = timeLeft; // <--- Track time left in gameState
     if (gameState.feedbackTimer) clearInterval(gameState.feedbackTimer);
     gameState.feedbackTimer = setInterval(() => {
         timeLeft--;
+        gameState.feedbackTimeLeft = timeLeft; // <--- Update on every tick!
         $('timerDisplay').textContent = `Next question in: ${timeLeft}`;
         if (timeLeft <= 0) {
             clearInterval(gameState.feedbackTimer);
@@ -1369,8 +1372,6 @@ function startFeedbackCountdown(seconds) {
             $('timerDisplay').textContent = '--';
         }
     }, 1000);
-    // Save when it should finish
-    gameState.feedbackTimeLeft = timeLeft;
 }
 
 function formatAnswer(ans) {
