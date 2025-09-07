@@ -143,6 +143,7 @@
         <!-- Controls to go back or reset -->
         <div class="controls-row" style="margin-top:12px">
             <button class="btn secondary" onclick="backToMenu()">Back to Menu</button>
+            <button class="btn secondary" id="pauseBtn" onclick="togglePause()">Pause</button>
             <button class="btn" onclick="resetPracticeGame()">Reset Game</button>
         </div>
     </div>
@@ -253,6 +254,8 @@ let gameState = {
     readingCharIndex: 0,
     q4CurrentPart: 0,
     currentQuestionText: "",
+    gameState.isPaused = false;
+    gameState.savedIntervals = {};
     currentAnswer: "",
     currentBonus: null,
     buzzed: false,
@@ -334,6 +337,7 @@ function clearFeedback(){
 /* ------------------ Navigation / menu ------------------ */
 function backToMenu(){
     clearAllTimers();
+    updatePauseButtonVisibility();
     $('gameArea').style.display = 'none';
     $('leaderboardPanel').style.display = 'none';
     $('mainMenu').style.display = 'grid';
@@ -351,6 +355,7 @@ function openPracticeMode(){
     gameState.mode = 'practice';
     $('modeDisplay').textContent = 'Practice';
     $('mainMenu').style.display = 'none';
+    updatePauseButtonVisibility();
     $('gameArea').style.display = 'block';
     // This line is now unnecessary since button is removed:
     // updateNextQuestionButtonVisibility();
@@ -385,6 +390,7 @@ function startFullGameFromMenu() {
     }
     gameState.mode = 'full'; // Set mode BEFORE resetGame
     resetGame();
+    updatePauseButtonVisibility();
     $('modeDisplay').textContent = 'Full Game';
     $('mainMenu').style.display = 'none';
     $('gameArea').style.display = 'block';
@@ -430,7 +436,34 @@ function startGame(){
     nextQuestion();
 }
 
+function togglePause() {
+    if (!gameState.isPaused) {
+        // Pause: clear all timers and save their states
+        clearAllTimers();
+        gameState.isPaused = true;
+        $('pauseBtn').textContent = "Resume";
+        setFeedback("Paused. Press Resume to continue.", true);
+        $('buzzerBtn').disabled = true;
+        $('answerInput').disabled = true;
+    } else {
+        // Resume: restart reading timer or post-read/answer timer as needed
+        gameState.isPaused = false;
+        $('pauseBtn').textContent = "Pause";
+        clearFeedback();
+        // Resume logic: If question was being read, restart reading
+        // If in post-read or answer phase, restart those timers
+        // For simplicity, just show the full question and enable buzz/answer
+        $('questionText').textContent = gameState.currentQuestionText;
+        $('buzzerBtn').disabled = false;
+        $('answerInput').disabled = false;
+    }
+}
+
 /* ------------------ Reset ------------------ */
+function updatePauseButtonVisibility() {
+    $('pauseBtn').style.display = (gameState.mode === 'practice') ? 'inline-block' : 'none';
+}
+
 function resetGame(){
     clearAllTimers();
     gameState = {
@@ -448,6 +481,8 @@ function resetGame(){
         currentBonus: null,
         buzzed: false,
         buzzInTimes: [],
+        gameState.isPaused = false;
+        gameState.savedIntervals = {};
         multiplier: 1,
         q3selectedCategory: null,
         q3categoryProgress: 0,
@@ -478,6 +513,7 @@ function resetGame(){
 
 function resetPracticeGame() {
     resetGame();
+    updatePauseButtonVisibility();
     if (gameState.mode === 'practice') {
         if (promptPracticeQuarter()) {
             nextQuestion();
@@ -838,10 +874,13 @@ function startReading(){
                         gameState.postReadTimer = null;
                         $('buzzerBtn').disabled = true;
                         $('timerDisplay').textContent = "Time's up";
-                        setFeedback("Time expired! No buzz recorded.", false);
+                        setFeedback(
+                            `Time expired! No buzz recorded. The correct answer was: ${gameState.currentAnswer}\n\nFull question:\n${gameState.currentQuestionText}`,
+                            false
+                        );
                         setTimeout(()=> {
                             nextQuestion();
-                        }, 1500);
+                        }, 5000); // 5 seconds to review
                     }
                 }, 1000);
             }
@@ -1020,10 +1059,13 @@ function submitAnswer(){
                 nextQuestion();
             }, 1500);
         } else {
-            setFeedback(`Incorrect. The correct answer was: ${gameState.currentAnswer}`, false);
+            setFeedback(
+                `Incorrect. The correct answer was: ${gameState.currentAnswer}\n\nFull question:\n${gameState.currentQuestionText}`,
+                false
+            );
             setTimeout(()=> {
                 nextQuestion();
-            }, 1500);
+            }, 5000); // <-- Delay longer for study
         }
     } else if (gameState.currentQuarter === 2){
         basePoints = 10;
@@ -1071,8 +1113,11 @@ function submitAnswer(){
             setFeedback(`Correct! +${earnedPoints} points (${responseTime?.toFixed(1)}s)`, true);
             setTimeout(()=> nextQuestion(), 1500);
         } else {
-            setFeedback(`Incorrect. The correct answer was: ${gameState.currentAnswer}`, false);
-            setTimeout(()=> nextQuestion(), 1500);
+            setFeedback(
+                `Incorrect. The correct answer was: ${gameState.currentAnswer}\n\nFull question:\n${gameState.currentQuestionText}`,
+                false
+            );
+            setTimeout(()=> nextQuestion(), 5000); // longer delay
         }
     }
 
