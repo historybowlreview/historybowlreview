@@ -501,9 +501,14 @@ function togglePause() {
             gameState.pausedQ3Time = gameState.q3TimeLeft;
             clearInterval(gameState.q3Timer);
         }
-        if (gameState.feedbackTimer) {
+        if (
+            gameState.feedbackTimer &&
+            typeof gameState.feedbackTimeLeft === 'number' &&
+            !isNaN(gameState.feedbackTimeLeft) &&
+            gameState.feedbackTimeLeft > 0
+        ) {
             clearInterval(gameState.feedbackTimer);
-            gameState.pausedFeedbackTime = gameState.feedbackTimeLeft; // Use gameState value!
+            gameState.pausedFeedbackTime = gameState.feedbackTimeLeft;
         }
         gameState.isPaused = true;
         $('pauseBtn').textContent = "Resume";
@@ -529,8 +534,13 @@ function togglePause() {
             gameState.q3TimeLeft = gameState.pausedQ3Time;
             startQ3CategoryTimer();
         }
-        else if (gameState.pausedFeedbackTime !== null) {
+        else if (
+            typeof gameState.pausedFeedbackTime === 'number' &&
+            !isNaN(gameState.pausedFeedbackTime) &&
+            gameState.pausedFeedbackTime > 0
+        ) {
             resumeFeedbackCountdown(gameState.pausedFeedbackTime);
+            gameState.pausedFeedbackTime = null;
         }
         gameState.pausedPostReadTime = null;
         gameState.pausedAnswerTime = null;
@@ -544,12 +554,21 @@ function togglePause() {
 
 // Add this function:
 function resumeFeedbackCountdown(timeLeft) {
+    if (
+        typeof timeLeft !== 'number' ||
+        isNaN(timeLeft) ||
+        timeLeft <= 0
+    ) {
+        // Do not start timer, just advance
+        nextQuestion();
+        return;
+    }
     if (gameState.feedbackTimer) clearInterval(gameState.feedbackTimer);
-    gameState.feedbackTimeLeft = timeLeft; // <--- Track time left
+    gameState.feedbackTimeLeft = timeLeft;
     $('timerDisplay').textContent = `Next question in: ${timeLeft}`;
     gameState.feedbackTimer = setInterval(() => {
         timeLeft--;
-        gameState.feedbackTimeLeft = timeLeft; // <--- Update on every tick!
+        gameState.feedbackTimeLeft = timeLeft;
         $('timerDisplay').textContent = `Next question in: ${timeLeft}`;
         if (timeLeft <= 0) {
             clearInterval(gameState.feedbackTimer);
