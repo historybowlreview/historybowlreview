@@ -1191,8 +1191,10 @@ function buzz(){
     if (gameState.buzzed) return;
     gameState.buzzed = true;
     gameState.buzzTime = Date.now(); // Record buzz time for response time calculation
+    
 
     clearAllTimers();
+    $('showAnswerBtn').disabled = true;
     // Calculate buzz-in time: from questionStartTime to buzzTime
     if (gameState.questionStartTime && gameState.buzzTime) {
         const buzzInTime = (gameState.buzzTime - gameState.questionStartTime) / 1000;
@@ -1259,10 +1261,10 @@ function showAnswer(){
     $('buzzerBtn').disabled = true;
     $('answerInput').disabled = true;
     $('answerInput').value = '';
-    $('showAnswerBtn').disabled = true;
+    $('showAnswerBtn').disabled = true; // <-- Keep disabled until next question
 
     // Show and start countdown for next question
-    let secs = 12;
+    let secs = 10;
     $('timerDisplay').textContent = `Next question in: ${secs}`;
     gameState.feedbackTimer = setInterval(() => {
         secs--;
@@ -1272,7 +1274,7 @@ function showAnswer(){
             gameState.feedbackTimer = null;
             $('timerDisplay').textContent = '--';
             gameState.isShowingAnswer = false;
-            $('showAnswerBtn').disabled = false;
+            // Don't re-enable the button here!
             nextQuestion();
         }
     }, 1000);
