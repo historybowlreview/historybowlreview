@@ -481,25 +481,30 @@ function startGame(){
     nextQuestion();
 }
 
+// --- Feedback Timer Pause Logic ---
 function togglePause() {
     if (!gameState.isPaused) {
         // PAUSE
-        // Determine which timer is running
-        if (gameState.readingInterval) {
-            gameState.wasReading = true;
-        } else {
-            gameState.wasReading = false;
-        }
+        gameState.wasReading = !!gameState.readingInterval;
+        if (gameState.readingInterval) clearInterval(gameState.readingInterval);
         if (gameState.postReadTimer) {
-            // Extract remaining seconds from display
             const val = $('timerDisplay').textContent.match(/Buzz time: ([0-9]+)/);
             gameState.pausedPostReadTime = val ? parseInt(val[1]) : null;
+            clearInterval(gameState.postReadTimer);
         }
         if (gameState.answerTimer) {
             const val = $('timerDisplay').textContent.match(/Answer time: ([0-9]+)/);
             gameState.pausedAnswerTime = val ? parseInt(val[1]) : null;
+            clearInterval(gameState.answerTimer);
         }
-        clearAllTimers();
+        if (gameState.q3Timer) {
+            gameState.pausedQ3Time = gameState.q3TimeLeft;
+            clearInterval(gameState.q3Timer);
+        }
+        if (gameState.feedbackTimer) {
+            gameState.pausedFeedbackTime = parseInt($('timerDisplay').textContent.replace(/[^0-9]/g, '')) || null;
+            clearInterval(gameState.feedbackTimer);
+        }
         gameState.isPaused = true;
         $('pauseBtn').textContent = "Resume";
         setFeedback("Paused. Press Resume to continue.", true);
@@ -510,36 +515,47 @@ function togglePause() {
         gameState.isPaused = false;
         $('pauseBtn').textContent = "Pause";
         clearFeedback();
-        if (gameState.currentQuarter === 3 && gameState.q3CategoryActive) {
-            // Restore full question text for Q3 category
-            const idx = gameState.q3CurrentQuestionIdx;
-            const qArr = gameState.q3CategoryQuestions;
-            if (qArr && qArr[idx]) {
-                $('questionText').textContent = `(${idx+1}/${qArr.length}) ${qArr[idx].question}`;
-                gameState.currentAnswer = qArr[idx].answer;
-                gameState.currentQuestionText = qArr[idx].question;
-            }
-            // Restart Q3 timer if not running
-            if (!gameState.q3Timer) {
-                startQ3CategoryTimer();
-            }
-        } else {
-            $('questionText').textContent = gameState.currentQuestionText.slice(0, gameState.readingCharIndex);
-        }
-        $('buzzerBtn').disabled = false;
-        $('answerInput').disabled = false;
-        // Resume reading if needed
-        if (gameState.wasReading) {
-            resumeReading();
-        } else if (gameState.pausedPostReadTime !== null) {
+        // Resume timers
+        if (gameState.wasReading) resumeReading();
+        else if (gameState.pausedPostReadTime !== null) {
+            gameState.postReadTimeLeft = gameState.pausedPostReadTime;
             resumePostReadTimer();
-        } else if (gameState.pausedAnswerTime !== null) {
+        }
+        else if (gameState.pausedAnswerTime !== null) {
+            gameState.answerTimeLeft = gameState.pausedAnswerTime;
             resumeAnswerTimer();
+        }
+        else if (gameState.pausedQ3Time !== null) {
+            gameState.q3TimeLeft = gameState.pausedQ3Time;
+            startQ3CategoryTimer();
+        }
+        else if (gameState.pausedFeedbackTime !== null) {
+            resumeFeedbackCountdown(gameState.pausedFeedbackTime);
         }
         gameState.pausedPostReadTime = null;
         gameState.pausedAnswerTime = null;
+        gameState.pausedQ3Time = null;
+        gameState.pausedFeedbackTime = null;
         gameState.wasReading = false;
+        $('buzzerBtn').disabled = false;
+        $('answerInput').disabled = false;
     }
+}
+
+// Add this function:
+function resumeFeedbackCountdown(timeLeft) {
+    if (gameState.feedbackTimer) clearInterval(gameState.feedbackTimer);
+    $('timerDisplay').textContent = `Next question in: ${timeLeft}`;
+    gameState.feedbackTimer = setInterval(() => {
+        timeLeft--;
+        $('timerDisplay').textContent = `Next question in: ${timeLeft}`;
+        if (timeLeft <= 0) {
+            clearInterval(gameState.feedbackTimer);
+            gameState.feedbackTimer = null;
+            $('timerDisplay').textContent = '--';
+            nextQuestion();
+        }
+    }, 1000);
 }
 
 function resumeReading() {
@@ -1105,7 +1121,7 @@ function buzz(){
             gameState.answerTimer = null;
             $('answerInput').disabled = true;
             $('timerDisplay').textContent = "Time expired";
-            setFeedback("Time expired! No points awarded. The correct answer was: " + gameState.currentAnswer, false);
+            setFeedback("Time expired! No points awarded. The correct answer was: " + formatAnswer(gameState.currentAnswer), false);
             $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(()=> { 
                 nextQuestion(); 
@@ -1124,7 +1140,7 @@ function showAnswer(){
     setFeedback(`Answer: ${formatAnswer(gameState.currentAnswer)}`, true);
     startFeedbackCountdown(10);
     $('questionText').textContent = gameState.currentQuestionText || '---';
-    setFeedback(`Answer: ${gameState.currentAnswer}`, true);
+    setFeedback(`Answer: ${formatAnswer(gameState.currentAnswer)}`, true);
     $('buzzerBtn').disabled = true;
 
     // Automatically load next question after answer disappears
@@ -1342,14 +1358,19 @@ function computeQuestionCounterText(){
 function startFeedbackCountdown(seconds) {
     $('timerDisplay').textContent = `Next question in: ${seconds}`;
     let timeLeft = seconds;
-    let interval = setInterval(() => {
+    // Clear any previous feedback timer
+    if (gameState.feedbackTimer) clearInterval(gameState.feedbackTimer);
+    gameState.feedbackTimer = setInterval(() => {
         timeLeft--;
         $('timerDisplay').textContent = `Next question in: ${timeLeft}`;
         if (timeLeft <= 0) {
-            clearInterval(interval);
+            clearInterval(gameState.feedbackTimer);
+            gameState.feedbackTimer = null;
             $('timerDisplay').textContent = '--';
         }
     }, 1000);
+    // Save when it should finish
+    gameState.feedbackTimeLeft = timeLeft;
 }
 
 function formatAnswer(ans) {
