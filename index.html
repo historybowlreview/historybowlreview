@@ -57,117 +57,109 @@
 </style>
 </head>
 <body>
-<div class="container">
+  <div class="container">
+    <!-- Header -->
     <div class="header">
-        <h1>💚🤍 History Bowl Study Program</h1>
-        <p class="small">Specific quarter practice + Full-game simulation with response time tracking and leaderboards 🤍💚</p>
+      <h1>💚🤍 History Bowl Study Program</h1>
+      <p class="small">Specific quarter practice + Full-game simulation with response time tracking and leaderboards 🤍💚</p>
     </div>
     <div id="questionsStatus" class="small muted"></div>
     <div id="questionsDisplay"></div>
+
+    <!-- Set Picker Modal -->
     <div id="setPickerModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.6);z-index:10000;align-items:center;justify-content:center;">
-        <div style="background:white;padding:24px;border-radius:12px;max-width:400px;width:100%;max-height:80vh;overflow:auto;">
-          <h3>Select Practice Sets</h3>
-          <div id="setPickerList" style="max-height:300px;overflow-y:auto;margin-bottom:18px;"></div>
-          <button onclick="selectAllSets()">Select All</button>
-          <button onclick="deselectAllSets()">Deselect All</button>
-          <button onclick="confirmSetPicker()">Confirm</button>
-          <button onclick="cancelSetPicker()" style="margin-left:12px;">Cancel</button>
-        </div>
+      <div style="background:white;padding:24px;border-radius:12px;max-width:400px;width:100%;max-height:80vh;overflow:auto;">
+        <h3>Select Practice Sets</h3>
+        <div id="setPickerList" style="max-height:300px;overflow-y:auto;margin-bottom:18px;"></div>
+        <button onclick="selectAllSets()">Select All</button>
+        <button onclick="deselectAllSets()">Deselect All</button>
+        <button onclick="confirmSetPicker()">Confirm</button>
+        <button onclick="cancelSetPicker()" style="margin-left:12px;">Cancel</button>
+      </div>
     </div>
-    <!-- Main menu -->
+
+    <!-- Main Menu -->
     <div id="mainMenu" class="menu">
-        <div class="card" onclick="openPracticeMode()">
-            <h3>🎯 Practice Mode</h3>
-            <p class="muted">Pick a quarter to practice specific formats and question types.</p>
-            <div style="margin-top:10px"><button class="btn">Start Practice</button></div>
-
-        <div class="card" onclick="startFullGameFromMenu()">
-            <h3>🏆 Full Game Simulation</h3>
-            <p class="muted">Play a full match (Q1→Q4) with official scoring.</p>
-            <div style="margin-top:10px"><button class="btn">Start Full Game</button></div>
-        </div>
-
-        <div class="card" onclick="showLeaderboardPanel()">
-            <h3>🏅 Local Leaderboard</h3>
-            <p class="muted">Shows the top 10 full game scores. Enter your name to save it with your score.</p>
-            <div style="margin-top:10px"><button class="btn">View Leaderboard</button></div>
-        </div>
-        <!-- Player Name Input -->
-        <div id="playerNameContainer" style="margin-bottom: 10px;">
-            <input type="text" id="playerNameInput" placeholder="Enter your name" maxlength="20" style="padding: 5px; width: 200px;">
-        </div>
-
+      <div class="card" onclick="openPracticeMode()">
+        <h3>🎯 Practice Mode</h3>
+        <p class="muted">Pick a quarter to practice specific formats and question types.</p>
+        <div style="margin-top:10px"><button class="btn">Start Practice</button></div>
+      </div>
+      <div class="card" onclick="startFullGameFromMenu()">
+        <h3>🏆 Full Game Simulation</h3>
+        <p class="muted">Play a full match (Q1→Q4) with official scoring.</p>
+        <div style="margin-top:10px"><button class="btn">Start Full Game</button></div>
+      </div>
+      <div class="card" onclick="showLeaderboardPanel()">
+        <h3>🏅 Local Leaderboard</h3>
+        <p class="muted">Shows the top 10 full game scores. Enter your name to save it with your score.</p>
+        <div style="margin-top:10px"><button class="btn">View Leaderboard</button></div>
+      </div>
+      <!-- Player Name Input -->
+      <div id="playerNameContainer" style="margin-bottom: 10px;">
+        <input type="text" id="playerNameInput" placeholder="Enter your name" maxlength="20" style="padding: 5px; width: 200px;">
+      </div>
     </div>
 
-    <!-- Game area -->
+    <!-- Game Area -->
     <div id="gameArea" class="game-area">
-        <div class="scoreboard">
-            <div class="team-score">
-                <div class="team-name">Score</div>
-                <div class="score" id="rawScore">0</div>
-                <div class="small muted">Total points</div>
-            </div>
-            <div style="text-align:center">
-                <div class="small">Quarter</div>
-                <div id="quarterDisplay" style="font-weight:700">1</div>
-                <div id="questionCounter" class="small muted">Q 0 / 0</div>
-            </div>
-            <div class="team-score">
-                <div class="team-name">Avg Buzz-in</div>
-                <div class="score" id="avgResponseTime">--</div>
-                <div class="small muted">Seconds to buzz</div>
-            </div>
+      <div class="scoreboard">
+        <div class="team-score">
+          <div class="team-name">Score</div>
+          <div class="score" id="rawScore">0</div>
+          <div class="small muted">Total points</div>
         </div>
         <div style="text-align:center">
-           <div class="small">Timer</div>
-            <div id="timerDisplay" style="font-weight:700">--</div>
+          <div class="small">Quarter</div>
+          <div id="quarterDisplay" style="font-weight:700">1</div>
+          <div id="questionCounter" class="small muted">Q 0 / 0</div>
         </div>
-
-        <div class="question-area">
-            <div id="questionText" class="question-text">Load questions first, then click "Next Question" to begin.</div>
+        <div class="team-score">
+          <div class="team-name">Avg Buzz-in</div>
+          <div class="score" id="avgResponseTime">--</div>
+          <div class="small muted">Seconds to buzz</div>
         </div>
-
-        <div class="controls">
-            <button id="buzzerBtn" class="buzzer-btn" onclick="buzz()" disabled>🔔 BUZZ</button>
-            <button class="btn secondary" id="showAnswerBtn" onclick="showAnswer()">Show Answer</button>
-
-            <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
-                <div class="small muted">Mode:</div>
-                <div id="modeDisplay" style="font-weight:700">Practice</div>
-            </div>
+      </div>
+      <div style="text-align:center">
+        <div class="small">Timer</div>
+        <div id="timerDisplay" style="font-weight:700">--</div>
+      </div>
+      <div class="question-area">
+        <div id="questionText" class="question-text">Load questions first, then click "Next Question" to begin.</div>
+      </div>
+      <div class="controls">
+        <button id="buzzerBtn" class="buzzer-btn" onclick="buzz()" disabled>🔔 BUZZ</button>
+        <button class="btn secondary" id="showAnswerBtn" onclick="showAnswer()">Show Answer</button>
+        <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+          <div class="small muted">Mode:</div>
+          <div id="modeDisplay" style="font-weight:700">Practice</div>
         </div>
-
-        <div class="controls-row">
-            <input id="answerInput" class="answer-input" placeholder="Type answer and press Enter or Submit..." disabled>
-            <button class="btn" onclick="submitAnswer()">Submit</button>
-            <div id="currentResponseTime" class="small muted">Response time: --</div>
-        </div>
-
-        <div id="feedback" class="feedback"></div>
-
-        <!-- Q3 category selection area -->
-        <div id="categorySelection" class="categories hidden"></div>
-
-        <!-- Controls to go back or reset -->
-        <div class="controls-row" style="margin-top:12px">
-            <button class="btn secondary" onclick="backToMenu()">Back to Menu</button>
-            <button class="btn secondary" id="pauseBtn" onclick="togglePause()">Pause</button>
-            <button class="btn" onclick="resetPracticeGame()">Reset Game</button>
-        </div>
+      </div>
+      <div class="controls-row">
+        <input id="answerInput" class="answer-input" placeholder="Type answer and press Enter or Submit..." disabled>
+        <button class="btn" onclick="submitAnswer()">Submit</button>
+        <div id="currentResponseTime" class="small muted">Response time: --</div>
+      </div>
+      <div id="feedback" class="feedback"></div>
+      <!-- Q3 category selection area -->
+      <div id="categorySelection" class="categories hidden"></div>
+      <!-- Controls to go back or reset -->
+      <div class="controls-row" style="margin-top:12px">
+        <button class="btn secondary" onclick="backToMenu()">Back to Menu</button>
+        <button class="btn secondary" id="pauseBtn" onclick="togglePause()">Pause</button>
+        <button class="btn" onclick="resetPracticeGame()">Reset Game</button>
+      </div>
     </div>
 
-    <!-- Leaderboard panel -->
+    <!-- Leaderboard Panel -->
     <div id="leaderboardPanel" class="admin-panel hidden">
-        <h3>Local Leaderboard (all attempts)</h3>
-        <div style="display:flex;gap:8px;margin-bottom:8px;align-items:center">
-            <button class="btn" onclick="clearLeaderboard()">Clear Leaderboard</button>
-            <button class="btn secondary" onclick="backToMenu()">Back to Menu</button>
-        </div>
-        <div class="leaderboard" id="leaderboardList"></div>
+      <h3>Local Leaderboard (all attempts)</h3>
+      <div style="display:flex;gap:8px;margin-bottom:8px;align-items:center">
+        <button class="btn" onclick="clearLeaderboard()">Clear Leaderboard</button>
+        <button class="btn secondary" onclick="backToMenu()">Back to Menu</button>
+      </div>
+      <div class="leaderboard" id="leaderboardList"></div>
     </div>
-
-    <footer>
-</div>
 
 <script>
 /* ================================================================
