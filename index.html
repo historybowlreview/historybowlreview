@@ -416,7 +416,7 @@ function startPostReadTimer() {
             $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(() => {
                 nextQuestion();
-            }, 5000);
+            }, 10000);
         }
     }, 1000);
 }
@@ -556,7 +556,7 @@ function resumePostReadTimer() {
             $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(() => {
                 nextQuestion();
-            }, 5000);
+            }, 10000);
         }
     }, 1000);
 }
@@ -1021,7 +1021,7 @@ function startReading(){
                         $('questionText').textContent = gameState.currentQuestionText;
                         setTimeout(()=> {
                             nextQuestion();
-                        }, 5000); // 5 seconds to review
+                        }, 10000); // 5 seconds to review
                     }
                 }, 1000);
             }
@@ -1102,7 +1102,7 @@ function showAnswer(){
     // Automatically load next question after answer disappears
     setTimeout(() => {
         nextQuestion();
-    }, 5000);
+    }, 10000);
 }
 
 /* ------------------ Answer checking & scoring ------------------ */
@@ -1210,7 +1210,7 @@ function submitAnswer(){
             $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(()=> {
                 nextQuestion();
-            }, 5000); // <-- Delay longer for study
+            }, 10000); // <-- Delay longer for study
         }
     } else if (gameState.currentQuarter === 2){
         basePoints = 10;
@@ -1261,7 +1261,7 @@ function submitAnswer(){
         } else {
             setFeedback(`Incorrect. The correct answer was: ${gameState.currentAnswer}`, false);
             $('questionText').textContent = gameState.currentQuestionText;
-            setTimeout(()=> nextQuestion(), 5000); // longer delay
+            setTimeout(()=> nextQuestion(), 10000); // longer delay
         }
     }
 
