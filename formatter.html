@@ -217,8 +217,8 @@
                 </div>
                 <div class="form-group">
                     <label for="simple-answer">Answer:</label>
-                    <input type="text" id="simple-answer" placeholder="Enter the answer (separate multiple answers with commas)...">
-                    <small style="color: #666; font-style: italic;">Tip: Use commas to separate multiple acceptable answers (e.g., "Julius Caesar, Gaius Julius Caesar, Caesar")</small>
+                    <input type="text" id="simple-answer" placeholder="Enter the answer (separate multiple answers with commas)..." onkeydown="if(event.key==='Enter') { event.preventDefault(); addSimpleQuestion(); }">
+                    <small style="color: #666; font-style: italic;">Tip: Use commas to separate multiple acceptable answers. Press Enter to add question.</small>
                 </div>
                 <button class="btn" onclick="addSimpleQuestion()">Add Question</button>
             </div>
@@ -241,8 +241,8 @@
                 </div>
                 <div class="form-group">
                     <label for="bonus-answer">Bonus Answer:</label>
-                    <input type="text" id="bonus-answer" placeholder="Enter bonus answer (separate multiple answers with commas)...">
-                    <small style="color: #666; font-style: italic;">Tip: Use commas for multiple acceptable answers</small>
+                    <input type="text" id="bonus-answer" placeholder="Enter bonus answer (separate multiple answers with commas)..." onkeydown="if(event.key==='Enter') { event.preventDefault(); addTossupBonus(); }">
+                    <small style="color: #666; font-style: italic;">Tip: Use commas for multiple acceptable answers. Press Enter to add question.</small>
                 </div>
                 <button class="btn" onclick="addTossupBonus()">Add Tossup-Bonus</button>
             </div>
@@ -286,8 +286,8 @@
                 </div>
                 <div class="form-group">
                     <label for="mp-answer">Answer:</label>
-                    <input type="text" id="mp-answer" placeholder="Enter answer (separate multiple with commas)...">
-                    <small style="color: #666; font-style: italic;">Use commas for multiple acceptable answers</small>
+                    <input type="text" id="mp-answer" placeholder="Enter answer (separate multiple with commas)..." onkeydown="if(event.key==='Enter') { event.preventDefault(); addMultipart(); }">
+                    <small style="color: #666; font-style: italic;">Use commas for multiple acceptable answers. Press Enter to add question.</small>
                 </div>
                 <button class="btn" onclick="addMultipart()">Add Multi-Part Question</button>
             </div>
@@ -436,9 +436,9 @@
             }
             
             const parts = [
-                `(30 pts) ${question30} `,
-                `(20 pts) ${question20} `,
-                `(10 pts) ${question10}`
+                `(30 pts) ${question30} (20 pts) `,
+                `${question20} (10 pts) `,
+                `${question10}`
             ];
             
             questionData.q4.push({ 
