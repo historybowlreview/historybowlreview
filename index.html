@@ -519,6 +519,10 @@ function togglePause() {
                 gameState.currentAnswer = qArr[idx].answer;
                 gameState.currentQuestionText = qArr[idx].question;
             }
+            // Restart Q3 timer if not running
+            if (!gameState.q3Timer) {
+                startQ3CategoryTimer();
+            }
         } else {
             $('questionText').textContent = gameState.currentQuestionText.slice(0, gameState.readingCharIndex);
         }
