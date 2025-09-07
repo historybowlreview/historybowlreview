@@ -330,7 +330,7 @@ function setFeedback(text, ok=true){
     f.classList.remove('correct','incorrect');
     f.classList.add(ok ? 'correct' : 'incorrect');
     f.style.display = 'block';
-    setTimeout(()=>{ f.style.display = 'none'; }, 4000);
+    setTimeout(()=>{ f.style.display = 'none'; }, 10000);
 }
 
 function clearFeedback(){
@@ -436,7 +436,7 @@ function startAnswerTimer() {
             $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(() => {
                 nextQuestion();
-            }, 1500);
+            }, 10000);
         }
     }, 1000);
 }
@@ -575,7 +575,7 @@ function resumeAnswerTimer() {
             $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(() => {
                 nextQuestion();
-            }, 1500);
+            }, 10000);
         }
     }, 1000);
 }
@@ -1083,7 +1083,7 @@ function buzz(){
             $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(()=> { 
                 nextQuestion(); 
-            }, 1500);
+            }, 10000);
         }
     }, 1000);
 }
@@ -1244,7 +1244,7 @@ function submitAnswer(){
             $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(()=> {
                 nextQuestion();
-            }, 2000);
+            }, 10000);
         }
     } else if (gameState.currentQuarter === 4){
         const bracketPoints = gameState.q4BracketPoints || 10;
@@ -1285,7 +1285,7 @@ function submitAnswer(){
         gameState.isAnsweringBonus = false;
         setTimeout(()=> {
             nextQuestion();
-        }, 1500);
+        }, 10000);
     }
 }
 
