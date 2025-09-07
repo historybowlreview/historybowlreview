@@ -432,7 +432,8 @@ function startAnswerTimer() {
             gameState.answerTimer = null;
             $('answerInput').disabled = true;
             $('timerDisplay').textContent = "Time expired";
-            setFeedback("Time expired! No points awarded.", false);
+            setFeedback(`Time expired! No points awarded. The correct answer was: ${gameState.currentAnswer}`, false);
+            $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(() => {
                 nextQuestion();
             }, 1500);
@@ -570,7 +571,8 @@ function resumeAnswerTimer() {
             gameState.answerTimer = null;
             $('answerInput').disabled = true;
             $('timerDisplay').textContent = "Time expired";
-            setFeedback("Time expired! No points awarded.", false);
+            setFeedback("Time expired! No points awarded. The correct answer was: " + gameState.currentAnswer, false);
+            $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(() => {
                 nextQuestion();
             }, 1500);
@@ -1048,17 +1050,18 @@ function buzz(){
     $('buzzerBtn').disabled = true;
     updateScoreDisplays();
 
-    let answerTime = 10;
-    $('timerDisplay').textContent = `Answer time: ${answerTime}`;
+    gameState.answerTimeLeft = 10;
+    $('timerDisplay').textContent = `Answer time: ${gameState.answerTimeLeft}`;
     gameState.answerTimer = setInterval(()=>{
-        answerTime--;
-        $('timerDisplay').textContent = `Answer time: ${answerTime}`;
-        if (answerTime <= 0){
+        gameState.answerTimeLeft--;
+        $('timerDisplay').textContent = `Answer time: ${gameState.answerTimeLeft}`;
+        if (gameState.answerTimeLeft <= 0){
             clearInterval(gameState.answerTimer);
             gameState.answerTimer = null;
             $('answerInput').disabled = true;
             $('timerDisplay').textContent = "Time expired";
-            setFeedback("Time expired! No points awarded.", false);
+            setFeedback("Time expired! No points awarded. The correct answer was: " + gameState.currentAnswer, false);
+            $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(()=> { 
                 nextQuestion(); 
             }, 1500);
