@@ -72,6 +72,16 @@
             <p class="muted">Pick a quarter to practice specific formats and question types.</p>
             <div style="margin-top:10px"><button class="btn">Start Practice</button></div>
         </div>
+        <div id="setPickerModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.6);z-index:10000;align-items:center;justify-content:center;">
+          <div style="background:white;padding:24px;border-radius:12px;max-width:400px;width:100%;max-height:80vh;overflow:auto;">
+            <h3>Select Practice Sets</h3>
+            <div id="setPickerList" style="max-height:300px;overflow-y:auto;margin-bottom:18px;"></div>
+            <button onclick="selectAllSets()">Select All</button>
+            <button onclick="deselectAllSets()">Deselect All</button>
+            <button onclick="confirmSetPicker()">Confirm</button>
+            <button onclick="cancelSetPicker()" style="margin-left:12px;">Cancel</button>
+          </div>
+        </div>
 
         <div class="card" onclick="startFullGameFromMenu()">
             <h3>🏆 Full Game Simulation</h3>
@@ -213,6 +223,50 @@ async function loadAllQuestionSets(files) {
         QUESTIONS_SETS.push(data);
     }
     gameState.questionsLoaded = true; // <-- Add this line!
+}
+
+function selectAllSets() {
+    const checkboxes = document.querySelectorAll('#setPickerList input[type=checkbox]');
+    checkboxes.forEach(cb => cb.checked = true);
+}
+
+function deselectAllSets() {
+    const checkboxes = document.querySelectorAll('#setPickerList input[type=checkbox]');
+    checkboxes.forEach(cb => cb.checked = false);
+}
+
+function openSetPicker(availableFiles, callback) {
+    const modal = $('setPickerModal');
+    const list = $('setPickerList');
+    list.innerHTML = '';
+    availableFiles.forEach((set, idx) => {
+        const div = document.createElement('div');
+        div.innerHTML = `<label><input type="checkbox" value="${idx}"> ${set.name}</label>`;
+        list.appendChild(div);
+    });
+    modal.style.display = 'flex';
+    window._setPickerCallback = callback;
+    window._setPickerFiles = availableFiles;
+}
+
+function confirmSetPicker() {
+    const modal = $('setPickerModal');
+    const checkboxes = $('setPickerList').querySelectorAll('input[type=checkbox]');
+    const indices = Array.from(checkboxes)
+        .filter(cb => cb.checked)
+        .map(cb => parseInt(cb.value));
+    modal.style.display = 'none';
+    if (indices.length === 0) {
+        alert('Please select at least one set.');
+        return;
+    }
+    const files = indices.map(idx => window._setPickerFiles[idx].file);
+    window._setPickerCallback(files);
+}
+
+function cancelSetPicker() {
+    $('setPickerModal').style.display = 'none';
+    window._setPickerCallback(null);
 }
 
 // Utility to pick random item
@@ -374,7 +428,7 @@ async function openPracticeMode() {
     $('gameArea').style.display = 'block';
 
     if (promptPracticeQuarter()) {
-        const selectedFiles = promptPracticeSet();
+        const selectedFiles = await promptPracticeSet();
         if (!selectedFiles) { backToMenu(); return; }
         await loadAllQuestionSets(selectedFiles); // Only load selected files
         if (!QUESTIONS_SETS.length) {
@@ -671,7 +725,7 @@ function updatePauseButtonVisibility() {
     $('pauseBtn').style.display = (gameState.mode === 'practice') ? 'inline-block' : 'none';
 }
 
-function resetGame(){
+function resetGame() {
     clearAllTimers();
     gameState = {
         ...gameState,
@@ -706,18 +760,35 @@ function resetGame(){
 
     // Pick question set depending on mode
     if (gameState.mode === 'full') {
-        // Full game: 10 Q1, 8 Q2, 1 category for Q3, 8 Q4
+        // Full game: use the master QUESTIONS object
         gameState.activeQ1 = shuffle([...QUESTIONS.q1]).slice(0, 10);
         gameState.activeQ2 = shuffle([...QUESTIONS.q2]).slice(0, 8);
         gameState.activeQ4 = shuffle([...QUESTIONS.q4]).slice(0, 8);
-        gameState.activeQ3 = [getRandomItem([...QUESTIONS.q3])]; // pick 1 random category
+        gameState.activeQ3 = [getRandomItem([...QUESTIONS.q3])];
     } else {
-        // Practice mode: use ALL questions
-        gameState.activeQ1 = shuffle([...QUESTIONS.q1]);
-        gameState.activeQ2 = shuffle([...QUESTIONS.q2]);
-        gameState.activeQ3 = shuffle([...QUESTIONS.q3]);
-        gameState.activeQ4 = shuffle([...QUESTIONS.q4]);
+        // Practice mode: use ONLY previously assigned question sets
+        // Do NOT reassign from master QUESTIONS!
+        // gameState.activeQ1, activeQ2, activeQ3, activeQ4 are already set by assignPracticeQuestionsFromSets()
+        // Just shuffle them again if you want random order:
+        if (Array.isArray(gameState.activeQ1)) gameState.activeQ1 = shuffle([...gameState.activeQ1]);
+        if (Array.isArray(gameState.activeQ2)) gameState.activeQ2 = shuffle([...gameState.activeQ2]);
+        if (Array.isArray(gameState.activeQ3)) gameState.activeQ3 = shuffle([...gameState.activeQ3]);
+        if (Array.isArray(gameState.activeQ4)) gameState.activeQ4 = shuffle([...gameState.activeQ4]);
     }
+
+    $('questionText').textContent = gameState.questionsLoaded ?
+        "Click 'Next Question' to start!" :
+        "Questions failed to load";
+    $('buzzerBtn').disabled = true;
+    $('answerInput').disabled = true;
+    $('categorySelection').classList.add('hidden');
+    $('answerInput').value = '';
+    $('currentResponseTime').textContent = 'Response time: --';
+    $('questionCounter').textContent = 'Q 0 / 0';
+    $('timerDisplay').textContent = '--';
+    updateScoreDisplays();
+    clearFeedback();
+}
 
     $('questionText').textContent = gameState.questionsLoaded ? 
         "Click 'Next Question' to start!" : 
@@ -744,7 +815,7 @@ async function resetPracticeGame() {
         $('gameArea').style.display = 'block';
 
         if (promptPracticeQuarter()) {
-            const selectedFiles = promptPracticeSet();
+            const selectedFiles = await promptPracticeSet();
             if (!selectedFiles) { backToMenu(); return; }
             await loadAllQuestionSets(selectedFiles); // Only load selected files
             if (!QUESTIONS_SETS.length) {
@@ -1186,6 +1257,7 @@ function buzz(){
             $('answerInput').disabled = true;
             $('timerDisplay').textContent = "Time expired";
             setFeedback("Time expired! No points awarded. The correct answer was: " + formatAnswer(gameState.currentAnswer), false);
+            startFeedbackCountdown(10);
             $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(()=> { 
                 nextQuestion(); 
@@ -1549,27 +1621,13 @@ function promptPracticeSet() {
         { name: "2014-2015HistoryBowlRound3", file: "historybowlquestionsets/2014-2015HistoryBowlRound3.json" },
         { name: "2014-2015HistoryBowlRound4", file: "historybowlquestionsets/2014-2015HistoryBowlRound4.json" },
         { name: "2014-2015HistoryBowlRound5", file: "historybowlquestionsets/2014-2015HistoryBowlRound5.json" }
+        // ...add more as needed
     ];
-    const names = availableFiles.map((set, idx) => `${idx+1}: ${set.name}`).join('\n');
-    const pick = prompt(`Select question set(s) by number (e.g. 1,2,3) or type 'all' for all sets:\n${names}`, 'all');
-    if (!pick) return null;
 
-    if (pick.trim().toLowerCase() === 'all') {
-        return availableFiles.map(s => s.file);
-    }
-
-    // Parse comma-separated list
-    const indices = pick.split(',')
-        .map(s => parseInt(s.trim()) - 1)
-        .filter(idx => idx >= 0 && idx < availableFiles.length);
-
-    if (!indices.length) {
-        alert("Invalid selection.");
-        return promptPracticeSet();
-    }
-
-    // Return selected filenames
-    return indices.map(idx => availableFiles[idx].file);
+    // Return a promise that resolves with the selected files
+    return new Promise(resolve => {
+        openSetPicker(availableFiles, files => resolve(files));
+    });
 }
 
 /* ------------------ Key handling ------------------ */
