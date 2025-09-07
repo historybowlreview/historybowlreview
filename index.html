@@ -1163,7 +1163,7 @@ function showAnswer(){
     $('questionText').textContent = gameState.currentQuestionText || '---';
     setFeedback(`Answer: ${formatAnswer(gameState.currentAnswer)}`, true);
     $('buzzerBtn').disabled = true;
-
+    $('answerInput').disabled = true; // <-- Add this line!
     // Automatically load next question after answer disappears
     setTimeout(() => {
         nextQuestion();
