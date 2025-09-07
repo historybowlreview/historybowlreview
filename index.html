@@ -508,7 +508,7 @@ function togglePause() {
         gameState.isPaused = false;
         $('pauseBtn').textContent = "Pause";
         clearFeedback();
-        $('questionText').textContent = gameState.currentQuestionText;
+        $('questionText').textContent = gameState.currentQuestionText.slice(0, gameState.readingCharIndex);
         $('buzzerBtn').disabled = false;
         $('answerInput').disabled = false;
         // Resume reading if needed
