@@ -176,9 +176,10 @@
   "q3": [
     {
       "category": "CLEOPATRA",
+      "prompt": "Cleopatra VII was...",
       "questions": [
         {
-          "question": "Cleopatra VII was…\nThe last Macedonian pharaoh of what land prior to its conquest by Rome?",
+          "question": "The last Macedonian pharaoh of what land prior to its conquest by Rome?",
           "answer": "Egypt"
         },
         {
@@ -231,9 +232,10 @@
     },
     {
       "category": "WORLD WAR I",
+      "prompt": "In World War I, who or what was...",
       "questions": [
         {
-          "question": "In World War I, who or what was…\nThe country which exited the war following the Bolshevik Revolution and organized the\nUSSR five years later?",
+          "question": "The country which exited the war following the Bolshevik Revolution and organized the\nUSSR five years later?",
           "answer": [
             "Russia",
             "Russian Soviet Federative Socialist Republic",
@@ -288,9 +290,10 @@
     },
     {
       "category": "MUSSOLINI",
+      "prompt": "Benito Mussolini...",
       "questions": [
         {
-          "question": "Benito Mussolini…\nWas the dictator of what country?",
+          "question": "Was the dictator of what country?",
           "answer": "Italy"
         },
         {

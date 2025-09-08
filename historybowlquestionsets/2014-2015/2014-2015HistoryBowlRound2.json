@@ -130,9 +130,10 @@
   "q3": [
     {
       "category": "RECONSTRUCTION",
+      "prompt": "During the post-Civil War Reconstruction period in the U.S., who or what was the...",
       "questions": [
         {
-          "question": "During the post-Civil War Reconstruction period in the U.S., who or what was the…\nState that took a long time to recover from Sherman’s March from Atlanta to Savannah?",
+          "question": "State that took a long time to recover from Sherman’s March from Atlanta to Savannah?",
           "answer": "Georgia"
         },
         {
@@ -167,9 +168,10 @@
     },
     {
       "category": "CHARLEMAGNE",
+      "prompt": "Medieval emperor Charlemagne...",
       "questions": [
         {
-          "question": "Medieval emperor Charlemagne…\nWas crowned on Christmas 800 by Leo III, a holder of what top office of the Catholic\nChurch?",
+          "question": "Was crowned on Christmas 800 by Leo III, a holder of what top office of the Catholic\nChurch?",
           "answer": "Pope, the Papacy, Papacy"
         },
         {
@@ -204,9 +206,10 @@
     },
     {
       "category": "THE PHILIPPINES",
+      "prompt": "The present-day country of the Philippines is or was...",
       "questions": [
         {
-          "question": "The present-day country of the Philippines is or was…\nColonized by what European power, after whose king Philip II it was named?",
+          "question": "Colonized by what European power, after whose king Philip II it was named?",
           "answer": "Spain"
         },
         {
