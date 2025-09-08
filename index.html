@@ -1084,6 +1084,7 @@ function stopQ3CategoryTimer() {
 }
 
 function finishQ3CategoryRound() {
+    const qArr = gameState.q3CategoryQuestions;
     stopQ3CategoryTimer();
     gameState.q3CategoryActive = false;
     $('answerInput').disabled = true;
