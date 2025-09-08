@@ -1737,13 +1737,40 @@ async function renderGlobalLeaderboard() {
             return;
         }
 
-        scores.forEach((e, idx) => {
-            const d = document.createElement('div');
-            d.style.padding = '8px';
-            d.style.borderBottom = '1px solid #eef2f7';
-            d.innerHTML = `<strong>#${idx + 1}</strong> — ${e.name || "Anonymous"} — ${new Date(e.date).toLocaleString()} — Score: ${e.totalScore} — Avg Buzz-in: ${e.averageBuzzInTime ? e.averageBuzzInTime.toFixed(1) + 's' : 'N/A'}`;
-            container.appendChild(d);
-        });
+        // Sort scores by totalScore descending and take top 10
+        const topScores = scores
+          .sort((a, b) => b.totalScore - a.totalScore)
+          .slice(0, 10);
+        
+        container.innerHTML = `
+          <table style="width:100%;background:#fff;border-radius:8px;overflow:hidden;">
+            <thead style="background:#f3f4f6;">
+              <tr>
+                <th style="padding:8px;text-align:center;">#</th>
+                <th style="padding:8px;">Name</th>
+                <th style="padding:8px;">Date</th>
+                <th style="padding:8px;">Score</th>
+                <th style="padding:8px;">Avg Buzz-in</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${topScores.map((e, idx) => `
+                <tr style="border-bottom:1px solid #eef2f7;">
+                  <td style="padding:8px;text-align:center;">
+                    <span style="font-weight:bold;${idx < 3 ? 'color:#764ba2;font-size:1.3em;' : idx < 10 ? 'color:#2b6cb0;font-size:1.08em;' : ''}">
+                      ${idx + 1}
+                    </span>
+                  </td>
+                  <td style="padding:8px;">${e.name || "Anonymous"}</td>
+                  <td style="padding:8px;">${new Date(e.date).toLocaleString()}</td>
+                  <td style="padding:8px;font-weight:700;">${e.totalScore}</td>
+                  <td style="padding:8px;">${e.averageBuzzInTime ? e.averageBuzzInTime.toFixed(1) + 's' : 'N/A'}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+          <div class="small muted" style="margin-top:8px;">Showing top 10 scores by total points.</div>
+        `;
     } catch (err) {
         console.error(err);
         container.textContent = 'Failed to load leaderboard.';
