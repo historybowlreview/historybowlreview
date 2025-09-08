@@ -264,6 +264,8 @@ function deselectAllSets() {
 }
 
 function openSetPicker(availableFiles, callback) {
+    window._setPickerCallback = callback;
+    window._setPickerFiles = availableFiles;
     const tabsContainer = $('setPickerTabs');
     const list = $('setPickerList');
     tabsContainer.innerHTML = '';
@@ -321,29 +323,6 @@ function confirmSetPicker() {
     }
     modal.style.display = 'none';
     window._setPickerCallback(selected);
-}
-
-function renderSetList(yearIdx) {
-    // Remove active from all tabs
-    document.querySelectorAll('.tab-btn').forEach(tab => tab.classList.remove('active'));
-    // Add active to the clicked tab
-    document.querySelectorAll('.tab-btn')[yearIdx].classList.add('active');
-    // ...render sets as before...
-}
-
-function confirmSetPicker() {
-    const modal = $('setPickerModal');
-    const checkboxes = $('setPickerList').querySelectorAll('input[type=checkbox]');
-    const indices = Array.from(checkboxes)
-        .filter(cb => cb.checked)
-        .map(cb => parseInt(cb.value));
-    modal.style.display = 'none';
-    if (indices.length === 0) {
-        alert('Please select at least one set.');
-        return;
-    }
-    const files = indices.map(idx => window._setPickerFiles[idx].file);
-    window._setPickerCallback(files);
 }
 
 function cancelSetPicker() {
@@ -1720,16 +1699,18 @@ function promptPracticeSet() {
         year: "2014-2015",
         sets: [
           { name: "2014-2015 Round 1", file: "historybowlquestionsets/2014-2015HistoryBowlRound1.json" },
+          { name: "2014-2015 Round 2", file: "historybowlquestionsets/2014-2015HistoryBowlRound2.json" },
+          { name: "2014-2015 Round 3", file: "historybowlquestionsets/2014-2015HistoryBowlRound3.json" },
+          { name: "2014-2015 Round 4", file: "historybowlquestionsets/2014-2015HistoryBowlRound4.json" },
+          { name: "2014-2015 Round 5", file: "historybowlquestionsets/2014-2015HistoryBowlRound5.json" },
+          { name: "2014-2015 Round 6", file: "historybowlquestionsets/2014-2015HistoryBowlRound6.json" },
+          { name: "2014-2015 Round 7", file: "historybowlquestionsets/2014-2015HistoryBowlRound7.json" },
+          { name: "2014-2015 Round 8", file: "historybowlquestionsets/2014-2015HistoryBowlRound8.json" },
+          { name: "2014-2015 Round 9", file: "historybowlquestionsets/2014-2015HistoryBowlRound9.json" },
+          { name: "2014-2015 Extras", file: "historybowlquestionsets/2014-2015HistoryBowlExtras.json" },
           // ...more 2014-2015 sets
         ]
-      },
-      {
-        year: "2015-2016",
-        sets: [
-          { name: "2015-2016 Round 1", file: "historybowlquestionsets/2015-2016HistoryBowlRound1.json" },
-          // ...more 2015-2016 sets
-        ]
-      },
+      }
       // Add more years as needed
     ];
 
