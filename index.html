@@ -1143,6 +1143,7 @@ function finishQ3CategoryRound() {
     $('questionText').innerHTML = resultHtml;
     updateScoreDisplays();
     setFeedback(`Category complete! ${correct} correct, +${points} pts.`, true);
+    startFeedbackCountdown(20);
     setTimeout(() => {
         if (gameState.mode === 'full') {
             gameState.currentQuarter++;
@@ -1447,8 +1448,13 @@ function submitAnswer(){
     const given = $('answerInput').value.trim();
     if (!given){
         setFeedback("Please type an answer before submitting.", false);
+        if (gameState.bonusTimer) {
+            clearInterval(gameState.bonusTimer);
+            gameState.bonusTimer = null;
+        }
         return;
     }
+    
 
     const submitTime = Date.now();
 
@@ -1472,9 +1478,15 @@ function submitAnswer(){
         const idx = gameState.q3CurrentQuestionIdx;
         const qArr = gameState.q3CategoryQuestions;
         qArr[idx].userAnswer = given;
-
+    
+        // CHECK the answer and set isCorrect!
+        const correct =
+            isStrictCorrect(given, qArr[idx].answer) ||
+            looseMatch(given, qArr[idx].answer);
+        qArr[idx].isCorrect = correct;
+    
         let msg;
-        if (qArr[idx].isCorrect) {
+        if (correct) {
             msg = `✔️ Correct! +10 pts`;
             gameState.rawScore += 10;
             if (responseTime !== null) {
@@ -1482,7 +1494,6 @@ function submitAnswer(){
             }
             updateScoreDisplays();
         } else {
-            let ans = Array.isArray(qArr[idx].answer) ? qArr[idx].answer.join(', ') : qArr[idx].answer;
             msg = `❌ Incorrect. Correct: ${formatAnswer(qArr[idx].answer)}`;
         }
 
@@ -1588,10 +1599,8 @@ function submitAnswer(){
         } else {
             setFeedback(`Incorrect tossup. The correct answer was: ${formatAnswer(gameState.currentAnswer)}. (No bonus.)`, false);
             startFeedbackCountdown(10);
-            $('questionText').textContent = gameState.currentBonus?.question || '';
-            setTimeout(()=> {
-                nextQuestion();
-            }, 10000);
+            $('questionText').textContent = gameState.currentQuestionText; // Stay on tossup, not bonus!
+            setTimeout(()=> { nextQuestion(); }, 10000);
         }
     } else if (gameState.currentQuarter === 4){
         const bracketPoints = gameState.q4BracketPoints || 10;
