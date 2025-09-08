@@ -254,6 +254,11 @@
                     <label for="category-name">Category Name:</label>
                     <input type="text" id="category-name" placeholder="e.g., Ancient Civilizations">
                 </div>
+                <div class="form-group">
+                    <label for="category-prompt">Prompt (optional):</label>
+                    <input type="text" id="category-prompt" placeholder="e.g., Millard Fillmore is or was...">
+                    <small style="color: #666; font-style: italic;">If blank, defaults to 'Millard Fillmore is or was...'</small>
+                </div>
                 <div class="category-questions" id="category-questions">
                     <div class="question-item">
                         <label>Question:</label>
@@ -387,29 +392,35 @@
 
         function addCategory() {
             const categoryName = document.getElementById('category-name').value.trim();
+            const categoryPrompt = document.getElementById('category-prompt').value.trim(); // <-- ADD THIS
             const questions = [];
-            
+        
             document.querySelectorAll('#category-questions .question-item').forEach(item => {
                 const question = item.querySelector('.cat-question').value.trim();
                 const answer = item.querySelector('.cat-answer').value.trim();
-                
+        
                 if (question && answer) {
                     questions.push({ question, answer: processMultipleAnswers(answer) });
                 }
             });
-            
+        
             if (!categoryName || questions.length === 0) {
                 alert('Please provide a category name and at least one question');
                 return;
             }
-            
-            questionData.q3.push({
+        
+            // ADD prompt to the category object
+            const categoryObj = {
                 category: categoryName,
                 questions: questions
-            });
-            
+            };
+            if (categoryPrompt) categoryObj.prompt = categoryPrompt;
+        
+            questionData.q3.push(categoryObj);
+        
             // Clear inputs
             document.getElementById('category-name').value = '';
+            document.getElementById('category-prompt').value = '';
             document.getElementById('category-questions').innerHTML = `
                 <div class="question-item">
                     <label>Question:</label>
@@ -420,7 +431,7 @@
                     <button class="remove-btn" onclick="removeQuestion(this)">Remove</button>
                 </div>
             `;
-            
+        
             updateOutput();
         }
 
@@ -627,4 +638,3 @@
     </script>
 </body>
 </html>
-
