@@ -457,10 +457,10 @@ function looseMatch(given, answer) {
 
   if (!givenWords.length) return false;
 
-  return answerWordsArr.some(ansWords =>
-    givenWords.length === ansWords.length &&
-    givenWords.every(w => ansWords.includes(w))
-  );
+  return answerWordsArr.some(ansWords => {
+    // Accept if all givenWords are in ansWords (flexible)
+    return givenWords.every(w => ansWords.includes(w));
+  });
 }
 
 function setFeedback(text, ok=true){
