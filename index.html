@@ -1757,11 +1757,28 @@ async function renderGlobalLeaderboard() {
               ${topScores.map((e, idx) => `
                 <tr style="border-bottom:1px solid #eef2f7;">
                   <td style="padding:8px;text-align:center;">
-                    <span style="font-weight:bold;${idx < 3 ? 'color:#764ba2;font-size:1.3em;' : idx < 10 ? 'color:#2b6cb0;font-size:1.08em;' : ''}">
+                    <span style="font-weight:bold;
+                      ${
+                        idx === 0 ? 'color:#8646C7;font-size:1.5em;'  
+                        : idx === 1 ? 'color:#7146C7;font-size:1.4em;'
+                        : idx === 2 ? 'color:#4E59BC;font-size:1.3em;'  
+                        : (idx === 3 || idx === 4) ? 'color:#457CB7;font-size:1.2em;' 
+                        : (idx >= 5 && idx < 10) ? 'color:#2F547C;font-size:1.1em;'    
+                        : ''
+                      }">
                       ${idx + 1}
                     </span>
                   </td>
-                  <td style="padding:8px;">${e.name || "Anonymous"}</td>
+                  <td style="padding:8px;
+                    ${
+                      idx === 0 ? 'color:#8646C7;font-weight:bold;font-size:1.2em;'
+                      : idx === 1 ? 'color:#7146C7;font-weight:bold;'
+                      : idx === 2 ? 'color:#4E59BC;font-weight:bold;'
+                      : (idx === 3 || idx === 4) ? 'color:#457CB7;font-weight:600;'
+                      : (idx >= 5 && idx < 10) ? 'color:#2F547C;font-weight:600;'
+                      : ''
+                    }
+                  ">${e.name || "Anonymous"}</td>
                   <td style="padding:8px;">${new Date(e.date).toLocaleString()}</td>
                   <td style="padding:8px;font-weight:700;">${e.totalScore}</td>
                   <td style="padding:8px;">${e.averageBuzzInTime ? e.averageBuzzInTime.toFixed(1) + 's' : 'N/A'}</td>
