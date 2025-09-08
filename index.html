@@ -1441,7 +1441,6 @@ function submitAnswer(){
             let ans = Array.isArray(qArr[idx].answer) ? qArr[idx].answer.join(', ') : qArr[idx].answer;
             msg = `❌ Incorrect. Correct: ${formatAnswer(qArr[idx].answer)}`;
         }
-        showQ3FeedbackPopup(msg, qArr[idx].isCorrect);
 
         if (qArr.some(q => !q.userAnswer)) {
             let nextIdx = (idx + 1) % qArr.length;
@@ -1788,16 +1787,16 @@ function promptPracticeSet() {
       {
         year: "2014-2015",
         sets: [
-          { name: "2014-2015 Round 1", file: "historybowlquestionsets/2014-2015HistoryBowlRound1.json" },
-          { name: "2014-2015 Round 2", file: "historybowlquestionsets/2014-2015HistoryBowlRound2.json" },
-          { name: "2014-2015 Round 3", file: "historybowlquestionsets/2014-2015HistoryBowlRound3.json" },
-          { name: "2014-2015 Round 4", file: "historybowlquestionsets/2014-2015HistoryBowlRound4.json" },
-          { name: "2014-2015 Round 5", file: "historybowlquestionsets/2014-2015HistoryBowlRound5.json" },
-          { name: "2014-2015 Round 6", file: "historybowlquestionsets/2014-2015HistoryBowlRound6.json" },
-          { name: "2014-2015 Round 7", file: "historybowlquestionsets/2014-2015HistoryBowlRound7.json" },
-          { name: "2014-2015 Round 8", file: "historybowlquestionsets/2014-2015HistoryBowlRound8.json" },
-          { name: "2014-2015 Round 9", file: "historybowlquestionsets/2014-2015HistoryBowlRound9.json" },
-          { name: "2014-2015 Extras", file: "historybowlquestionsets/2014-2015HistoryBowlExtras.json" },
+          { name: "2014-2015 Round 1", file: "historybowlquestionsets/2014-2015/2014-2015HistoryBowlRound1.json" },
+          { name: "2014-2015 Round 2", file: "historybowlquestionsets/2014-2015/2014-2015HistoryBowlRound2.json" },
+          { name: "2014-2015 Round 3", file: "historybowlquestionsets/2014-2015/2014-2015HistoryBowlRound3.json" },
+          { name: "2014-2015 Round 4", file: "historybowlquestionsets/2014-2015/2014-2015HistoryBowlRound4.json" },
+          { name: "2014-2015 Round 5", file: "historybowlquestionsets/2014-2015/2014-2015HistoryBowlRound5.json" },
+          { name: "2014-2015 Round 6", file: "historybowlquestionsets/2014-2015/2014-2015HistoryBowlRound6.json" },
+          { name: "2014-2015 Round 7", file: "historybowlquestionsets/2014-2015/2014-2015HistoryBowlRound7.json" },
+          { name: "2014-2015 Round 8", file: "historybowlquestionsets/2014-2015/2014-2015HistoryBowlRound8.json" },
+          { name: "2014-2015 Round 9", file: "historybowlquestionsets/2014-2015/2014-2015HistoryBowlRound9.json" },
+          { name: "2014-2015 Extras", file: "historybowlquestionsets/2014-2015/2014-2015HistoryBowlExtras.json" },
           // ...more 2014-2015 sets
         ]
       }
