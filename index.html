@@ -814,6 +814,11 @@ function updatePauseButtonVisibility() {
 
 function resetGame() {
     clearAllTimers();
+    if (gameState.feedbackTimer) {
+        clearInterval(gameState.feedbackTimer);
+        gameState.feedbackTimer = null;
+        gameState.feedbackTimeLeft = null;
+    }
     gameState = {
         ...gameState,
         currentQuarter: gameState.currentQuarter,
@@ -1164,6 +1169,8 @@ function calculateAverageBuzzInTime() {
 }
 
 function showQ3CategoryQuestion() {
+    gameState.q3CurrentQuestionIdx = idx;
+    $('questionCounter').textContent = computeQuestionCounterText();
     const qArr = gameState.q3CategoryQuestions;
     if (document.getElementById('skipBtn')) {
         document.getElementById('skipBtn').remove();
@@ -1184,7 +1191,6 @@ function showQ3CategoryQuestion() {
         return;
     }
 
-    gameState.q3CurrentQuestionIdx = idx;
     const qObj = qArr[idx];
 
     // Record question start time for Q3
@@ -1709,6 +1715,12 @@ function computeQuestionCounterText(){
         }
         return `Select category`;
     }
+    if (q === 4) {
+        // If index < 0, show nothing or Q 0 / total
+        if (gameState.currentQuestionIndex < 0 || !gameState.activeQ4) return '';
+        return `Q ${gameState.currentQuestionIndex+1} / ${gameState.activeQ4.length}`;
+    }
+    return '';
 }
 
 function startFeedbackCountdown(seconds) {
