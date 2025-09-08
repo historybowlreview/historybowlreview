@@ -48,6 +48,20 @@
     .leaderboard{background:#fff;padding:12px;border-radius:8px;margin-top:12px;max-height:260px;overflow:auto}
     .small{font-size:0.9rem;color:#444}
     .muted{color:#666;font-size:0.9rem}
+    .tab-btn {
+        background: #f3f4f6;
+        color: #5a67d8;
+        border: none;
+        border-radius: 6px 6px 0 0;
+        padding: 8px 16px;
+        margin-right: 4px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+    .tab-btn.active {
+        background: #5a67d8;
+        color: white;
+    }
     .categories.hidden {
       display: none !important;
     }
@@ -67,10 +81,16 @@
     <div id="questionsDisplay"></div>
 
     <!-- Set Picker Modal -->
-    <div id="setPickerModal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.6);z-index:10000;align-items:center;justify-content:center;">
-      <div style="background:white;padding:24px;border-radius:12px;max-width:400px;width:100%;max-height:80vh;overflow:auto;">
+    <div id="setPickerModal" style="...">
+      <div style="background:white;...">
         <h3>Select Practice Sets</h3>
+        <!-- Tabs go above -->
+        <div id="setPickerTabs"></div>
+        <!-- Set list below tabs -->
         <div id="setPickerList" style="max-height:300px;overflow-y:auto;margin-bottom:18px;"></div>
+        <!-- Buttons below set list -->
+        <button id="selectAllYearBtn">Select All This Year</button>
+        <button id="deselectAllYearBtn">Deselect All This Year</button>
         <button onclick="selectAllSets()">Select All</button>
         <button onclick="deselectAllSets()">Deselect All</button>
         <button onclick="confirmSetPicker()">Confirm</button>
@@ -226,17 +246,70 @@ function deselectAllSets() {
 }
 
 function openSetPicker(availableFiles, callback) {
-    const modal = $('setPickerModal');
+    const tabsContainer = $('setPickerTabs');
     const list = $('setPickerList');
+    tabsContainer.innerHTML = '';
     list.innerHTML = '';
-    availableFiles.forEach((set, idx) => {
-        const div = document.createElement('div');
-        div.innerHTML = `<label><input type="checkbox" value="${idx}"> ${set.name}</label>`;
-        list.appendChild(div);
+
+    // Render tabs for each year
+    availableFiles.forEach((group, idx) => {
+        const tab = document.createElement('button');
+        tab.textContent = group.year;
+        tab.className = 'tab-btn';
+        tab.onclick = () => renderSetList(idx);
+        tabsContainer.appendChild(tab);
     });
-    modal.style.display = 'flex';
-    window._setPickerCallback = callback;
-    window._setPickerFiles = availableFiles;
+
+    // Initially show first year
+    renderSetList(0);
+
+    function renderSetList(yearIdx) {
+        list.innerHTML = '';
+        const sets = availableFiles[yearIdx].sets;
+        sets.forEach((set, idx) => {
+            const div = document.createElement('div');
+            div.innerHTML = `<label><input type="checkbox" value="${yearIdx}-${idx}"> ${set.name}</label>`;
+            list.appendChild(div);
+        });
+
+        // Add select/deselect all for this year
+        $('selectAllYearBtn').onclick = () => {
+            list.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = true);
+        };
+        $('deselectAllYearBtn').onclick = () => {
+            list.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
+        };
+    }
+
+    // ...Modal open/close logic as before
+}
+
+function confirmSetPicker() {
+    const modal = $('setPickerModal');
+    const checkboxes = $('setPickerList').querySelectorAll('input[type=checkbox]');
+    const selected = [];
+    for (const cb of checkboxes) {
+        if (cb.checked) {
+            // cb.value is "yearIdx-setIdx"
+            const [yearIdx, setIdx] = cb.value.split('-').map(Number);
+            const file = window._setPickerFiles[yearIdx].sets[setIdx].file;
+            selected.push(file);
+        }
+    }
+    if (selected.length === 0) {
+        alert('Please select at least one set.');
+        return;
+    }
+    modal.style.display = 'none';
+    window._setPickerCallback(selected);
+}
+
+function renderSetList(yearIdx) {
+    // Remove active from all tabs
+    document.querySelectorAll('.tab-btn').forEach(tab => tab.classList.remove('active'));
+    // Add active to the clicked tab
+    document.querySelectorAll('.tab-btn')[yearIdx].classList.add('active');
+    // ...render sets as before...
 }
 
 function confirmSetPicker() {
@@ -1623,12 +1696,21 @@ function renderQuestionsDisplay(){
 function promptPracticeSet() {
     // List of available filenames and display names
     const availableFiles = [
-        { name: "2014-2015HistoryBowlRound1", file: "historybowlquestionsets/2014-2015HistoryBowlRound1.json" },
-        { name: "2014-2015HistoryBowlRound2", file: "historybowlquestionsets/2014-2015HistoryBowlRound2.json" },
-        { name: "2014-2015HistoryBowlRound3", file: "historybowlquestionsets/2014-2015HistoryBowlRound3.json" },
-        { name: "2014-2015HistoryBowlRound4", file: "historybowlquestionsets/2014-2015HistoryBowlRound4.json" },
-        { name: "2014-2015HistoryBowlRound5", file: "historybowlquestionsets/2014-2015HistoryBowlRound5.json" }
-        // ...add more as needed
+      {
+        year: "2014-2015",
+        sets: [
+          { name: "2014-2015 Round 1", file: "historybowlquestionsets/2014-2015HistoryBowlRound1.json" },
+          // ...more 2014-2015 sets
+        ]
+      },
+      {
+        year: "2015-2016",
+        sets: [
+          { name: "2015-2016 Round 1", file: "historybowlquestionsets/2015-2016HistoryBowlRound1.json" },
+          // ...more 2015-2016 sets
+        ]
+      },
+      // Add more years as needed
     ];
 
     // Return a promise that resolves with the selected files
