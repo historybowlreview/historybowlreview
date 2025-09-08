@@ -1093,8 +1093,20 @@ function finishQ3CategoryRound() {
     const correct = gameState.q3CategoryQuestions.filter(q => q.isCorrect).length;
     const points = correct * 10;
 
-    let resultHtml = `<strong>Time's up or all answered!</strong><br>`;
-    resultHtml += `You got <strong>${correct}/6</strong> correct (+${points} pts).<br><br>`;
+    let resultHtml = `<strong>Category complete!</strong><br>`;
+    resultHtml += `You got <strong>${correct}/${qArr.length}</strong> correct (+${points} pts).<br><br>`;
+    resultHtml += `<table style="width:100%;text-align:left;font-size:0.98em;background:#fff;"><thead><tr><th>#</th><th>Question</th><th>Your Answer</th><th>Correct Answer</th><th>✓</th></tr></thead><tbody>`;
+    qArr.forEach((q, i) => {
+        resultHtml += `<tr>
+            <td>${i+1}</td>
+            <td>${q.question}</td>
+            <td>${q.userAnswer || "---"}</td>
+            <td>${formatAnswer(q.answer)}</td>
+            <td style="color:${q.isCorrect ? '#38a169':'#e53e3e'};">${q.isCorrect ? '✔️':'❌'}</td>
+        </tr>`;
+    });
+    resultHtml += `</tbody></table>`;
+    $('questionText').innerHTML = resultHtml;
 
     $('questionText').innerHTML = resultHtml;
     updateScoreDisplays();
@@ -1429,8 +1441,7 @@ function submitAnswer(){
             let ans = Array.isArray(qArr[idx].answer) ? qArr[idx].answer.join(', ') : qArr[idx].answer;
             msg = `❌ Incorrect. Correct: ${formatAnswer(qArr[idx].answer)}`;
         }
-        setFeedback(msg, qArr[idx].isCorrect);
-        if (!qArr[idx].isCorrect) startFeedbackCountdown(10);
+        showQ3FeedbackPopup(msg, qArr[idx].isCorrect);
 
         if (qArr.some(q => !q.userAnswer)) {
             let nextIdx = (idx + 1) % qArr.length;
@@ -1515,7 +1526,7 @@ function submitAnswer(){
                             $('timerDisplay').textContent = "Bonus expired";
                             setFeedback(`Time expired! No points awarded. The correct answer was: ${formatAnswer(gameState.currentAnswer)}`, false);
                             startFeedbackCountdown(10);
-                            $('questionText').textContent = gameState.currentQuestionText;
+                            $('questionText').textContent = gameState.currentBonus?.question || '';
                             // Mark we're not answering bonus anymore
                             gameState.currentBonus = null;
                             gameState.isAnsweringBonus = false;
@@ -1534,7 +1545,7 @@ function submitAnswer(){
         } else {
             setFeedback(`Incorrect tossup. The correct answer was: ${formatAnswer(gameState.currentAnswer)}. (No bonus.)`, false);
             startFeedbackCountdown(10);
-            $('questionText').textContent = gameState.currentQuestionText;
+            $('questionText').textContent = gameState.currentBonus?.question || '';
             setTimeout(()=> {
                 nextQuestion();
             }, 10000);
@@ -1574,13 +1585,62 @@ function submitAnswer(){
         } else {
             setFeedback(`Incorrect bonus. The correct answer was: ${formatAnswer(gameState.currentAnswer)}`, false);
             startFeedbackCountdown(10);
-            $('questionText').textContent = gameState.currentQuestionText;
+            $('questionText').textContent = gameState.currentBonus?.question || '';
         }
         gameState.currentBonus = null;
         gameState.isAnsweringBonus = false;
         setTimeout(()=> {
             nextQuestion();
-        }, 10000);
+        }, bonusIsCorrect ? 1500 : 10000);
+    }
+}
+
+function showQ3FeedbackPopup(msg, correct) {
+    // Create modal if not exists
+    let modal = document.getElementById('q3FeedbackModal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'q3FeedbackModal';
+        modal.style.position = 'fixed';
+        modal.style.top = '0';
+        modal.style.left = '0';
+        modal.style.width = '100vw';
+        modal.style.height = '100vh';
+        modal.style.background = 'rgba(0,0,0,0.3)';
+        modal.style.zIndex = '99999';
+        modal.style.display = 'flex';
+        modal.style.alignItems = 'center';
+        modal.style.justifyContent = 'center';
+        modal.innerHTML = `<div style="background:#fff;padding:32px;border-radius:12px;max-width:420px;">
+            <h3 style="color:${correct ? '#38a169':'#e53e3e'};">${correct ? 'Correct!' : 'Incorrect'}</h3>
+            <div>${msg}</div>
+            <div style="margin-top:18px;text-align:center">
+                <button onclick="closeQ3FeedbackPopup()" class="btn">Continue</button>
+            </div>
+        </div>`;
+        document.body.appendChild(modal);
+    } else {
+        modal.querySelector('h3').textContent = correct ? 'Correct!' : 'Incorrect';
+        modal.querySelector('h3').style.color = correct ? '#38a169':'#e53e3e';
+        modal.querySelector('div > div').textContent = msg;
+        modal.style.display = 'flex';
+    }
+}
+function closeQ3FeedbackPopup() {
+    let modal = document.getElementById('q3FeedbackModal');
+    if (modal) modal.style.display = 'none';
+    // After closing, go to next question or finish
+    const qArr = gameState.q3CategoryQuestions;
+    const idx = gameState.q3CurrentQuestionIdx;
+    if (qArr.some(q => !q.userAnswer)) {
+        let nextIdx = (idx + 1) % qArr.length;
+        while (qArr[nextIdx].userAnswer) {
+            nextIdx = (nextIdx + 1) % qArr.length;
+        }
+        gameState.q3CurrentQuestionIdx = nextIdx;
+        showQ3CategoryQuestion();
+    } else {
+        finishQ3CategoryRound();
     }
 }
 
