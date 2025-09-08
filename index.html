@@ -130,7 +130,7 @@
       </div>
       <div class="card" onclick="showLeaderboardPanel()">
         <h3>🏅 Global Leaderboard</h3>
-        <p class="muted">Shows the top 10 full game scores. Enter your name to save it with your score.</p>
+        <p class="muted">Shows all full game attempts ordered by score. Enter your name to save it with your score.</p>
         <div style="margin-top:10px"><button class="btn">View Leaderboard</button></div>
       </div>
       <!-- Player Name Input -->
@@ -193,7 +193,6 @@
     <div id="leaderboardPanel" class="admin-panel hidden">
       <h3>Global Leaderboard (all attempts)</h3>
       <div style="display:flex;gap:8px;margin-bottom:8px;align-items:center">
-        <button class="btn" onclick="clearLeaderboard()">Clear Leaderboard</button>
         <button class="btn secondary" onclick="backToMenu()">Back to Menu</button>
       </div>
       <div class="leaderboard" id="leaderboardList"></div>
