@@ -1687,9 +1687,10 @@ function computeQuestionCounterText(){
     if (q === 1) return `Q ${Math.max(0, gameState.currentQuestionIndex+1)} / ${gameState.activeQ1.length}`;
     if (q === 2) return `Q ${Math.max(0, gameState.currentQuestionIndex+1)} / ${gameState.activeQ2.length}`;
     if (q === 3){
-        if (gameState.q3selectedCategory !== null){
-            const cat = QUESTIONS.q3[gameState.q3selectedCategory];
-            return `Category ${cat.category} — Q ${gameState.q3categoryProgress+1} / ${cat.questions.length}`;
+        if (gameState.q3selectedCategory !== null && Array.isArray(gameState.q3CategoryQuestions)){
+            const current = (gameState.q3CurrentQuestionIdx ?? 0) + 1;
+            const total = gameState.q3CategoryQuestions.length;
+            return `Q ${current} / ${total}`;
         }
         return `Select category`;
     }
