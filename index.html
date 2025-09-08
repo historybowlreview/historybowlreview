@@ -442,10 +442,8 @@ function looseMatch(given, answer) {
   const answerWords = tokenize(Array.isArray(answer) ? answer[0] : answer);
 
   if (!givenWords.length || !answerWords.length) return false;
-  // Only accept if both sets have exactly the same words
   if (givenWords.length !== answerWords.length) return false;
   return givenWords.every(w => answerWords.includes(w));
-}llGivenInAnswer || pct >= 0.7);
 }
 
 function setFeedback(text, ok=true){
