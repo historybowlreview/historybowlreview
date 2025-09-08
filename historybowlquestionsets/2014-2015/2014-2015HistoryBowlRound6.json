@@ -196,9 +196,10 @@
   "q3": [
     {
       "category": "THE CARIBBEAN",
+      "prompt": "In the history of the Caribbean islands, who or what was the...",
       "questions": [
         {
-          "question": "In the history of the Caribbean islands, who or what was the…\nStyle of music originating in Trinidad practiced by Harry Belafonte (pr. beh-luh-FON-tay)\nand Lord Invader?",
+          "question": "Style of music originating in Trinidad practiced by Harry Belafonte (pr. beh-luh-FON-tay)\nand Lord Invader?",
           "answer": "calypso"
         },
         {
@@ -240,9 +241,10 @@
     },
     {
       "category": "EMANCIPATION OF SERFS",
+      "prompt": "The emancipation of the world's largest serf population...",
       "questions": [
         {
-          "question": "The emancipation of the world's largest serf population…\nOccurred in what empire, which was ultimately ended by the deposition of Tsar Nicholas II?",
+          "question": "Occurred in what empire, which was ultimately ended by the deposition of Tsar Nicholas II?",
           "answer": [
             "Russian Empire",
             "Russia"
@@ -296,9 +298,10 @@
     },
     {
       "category": "EARLY PHILADELPHIA",
+      "prompt": "The American city of Philadelphia was...",
       "questions": [
         {
-          "question": "The American city of Philadelphia was…\nThe initial capital of what colony, set up as a religious refuge?",
+          "question": "The initial capital of what colony, set up as a religious refuge?",
           "answer": "Pennsylvania"
         },
         {

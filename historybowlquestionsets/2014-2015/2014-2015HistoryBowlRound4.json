@@ -183,9 +183,10 @@
   "q3": [
     {
       "category": "LEWIS AND CLARK",
+      "prompt": "The Lewis and Clark expedition...",
       "questions": [
         {
-          "question": "The Lewis and Clark expedition…\nWas intended to explore what large acquisition of land made in 1803?",
+          "question": "Was intended to explore what large acquisition of land made in 1803?",
           "answer": [
             "Louisiana Purchase",
             "Louisiana territory",
@@ -236,9 +237,10 @@
     },
     {
       "category": "PEOPLE OF 1968",
+      "prompt": "In 1968, who...",
       "questions": [
         {
-          "question": "In 1968, who…\nWas killed by James Earl Ray in Memphis after leading a civil rights action?",
+          "question": "Was killed by James Earl Ray in Memphis after leading a civil rights action?",
           "answer": [
             "Martin Luther King Jr.",
             "King"
@@ -298,9 +300,10 @@
     },
     {
       "category": "AMENDMENTS",
+      "prompt": "What U.S. Constitutional amendment is or was the chief subject of...",
       "questions": [
         {
-          "question": "What U.S. Constitutional amendment is or was the chief subject of…\nA witness's right not to testify against himself?",
+          "question": "A witness's right not to testify against himself?",
           "answer": [
             "Fifth",
             "5",

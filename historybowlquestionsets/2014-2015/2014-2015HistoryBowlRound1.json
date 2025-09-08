@@ -130,9 +130,10 @@
   "q3": [
     {
       "category": "FAMOUS GREEKS",
+      "prompt": "What person or god from ancient Greece...",
       "questions": [
         {
-          "question": "What person or god from ancient Greece…\nWas the leader of the Olympian gods and was depicted in a famous statue at Olympia?",
+          "question": "Was the leader of the Olympian gods and was depicted in a famous statue at Olympia?",
           "answer": "Zeus"
         },
         {
@@ -167,9 +168,10 @@
     },
     {
       "category": "MEDIEVAL EASTERN EUROPE",
+      "prompt": "In the Middle Ages, who or what was the...",
       "questions": [
         {
-          "question": "In the Middle Ages, who or what was the…\nEmpire which, by the 1070s, was reduced to the area around Constantinople?",
+          "question": "Empire which, by the 1070s, was reduced to the area around Constantinople?",
           "answer": "Byzantine, Byzantine Empire, Eastern Roman Empire, Eastern Roman"
         },
         {
@@ -204,6 +206,7 @@
     },
     {
       "category": "HERBERT HOOVER",
+      "prompt": "Name the person or event from the life or presidency of Hoover that was...",
       "questions": [
         {
           "question": "Name the person or event from the life or presidency of Hoover that was...\nThe four-term New Deal architect who succeeded him",
@@ -314,5 +317,4 @@
       "answer": "New York"
     }
   ]
-
 }

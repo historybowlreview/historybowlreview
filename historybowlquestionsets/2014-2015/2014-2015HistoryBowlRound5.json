@@ -174,9 +174,10 @@
   "q3": [
     {
       "category": "THE MAURYAN EMPIRE",
+      "prompt": "The Mauryan empire...",
       "questions": [
         {
-          "question": "The Mauryan empire…\nwas on what subcontinent later home to the British Raj?",
+          "question": "was on what subcontinent later home to the British Raj?",
           "answer": [
             "Indian subcontinent",
             "India"
@@ -237,9 +238,10 @@
     },
     {
       "category": "THE CONGRESS OF VIENNA",
+      "prompt": "During or after the Congress of Vienna, what...",
       "questions": [
         {
-          "question": "During or after the Congress of Vienna, what...\nFrench emperor was exiled to Saint Helena?",
+          "question": "French emperor was exiled to Saint Helena?",
           "answer": [
             "Napoleon Bonaparte",
             "Napoleon",
@@ -292,9 +294,10 @@
     },
     {
       "category": "BREAKAWAY REGIONS",
+      "prompt": "Who or what is or was the...",
       "questions": [
         {
-          "question": "Who or what is or was the…\nOil-rich African country with capital at Abuja which Biafra broke away from?",
+          "question": "Oil-rich African country with capital at Abuja which Biafra broke away from?",
           "answer": "Nigeria"
         },
         {

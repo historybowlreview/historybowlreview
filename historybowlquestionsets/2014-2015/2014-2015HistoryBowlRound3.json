@@ -188,9 +188,10 @@
   "q3": [
     {
       "category": "THIRTY YEARS WAR",
+      "prompt": "During the Thirty Years War, who or what was the...",
       "questions": [
         {
-          "question": "During the Thirty Years War, who or what was the…\nIncreasingly chaotic German “empire” whose member states took opposing sides?",
+          "question": "Increasingly chaotic German “empire” whose member states took opposing sides?",
           "answer": [
             "Holy Roman Empire",
             "Holy Roman",
@@ -244,9 +245,10 @@
     },
     {
       "category": "THE U.K. IN THE 1990’S",
+      "prompt": "In the 1990s, who or what was the...",
       "questions": [
         {
-          "question": "In the 1990s, who or what was the…\nCity where the Jubilee underground line on the tube was extended?",
+          "question": "City where the Jubilee underground line on the tube was extended?",
           "answer": "London"
         },
         {
@@ -291,9 +293,10 @@
     },
     {
       "category": "JOHN QUINCY ADAMS",
+      "prompt": "Fun-loving Sixth U.S. President John Quincy Adams...",
       "questions": [
         {
-          "question": "Fun-loving Sixth U.S. President John Quincy Adams…\nWas the first-ever U.S. ambassador to what country, where he presented credentials at St.\nPetersburg?",
+          "question": "Was the first-ever U.S. ambassador to what country, where he presented credentials at St.\nPetersburg?",
           "answer": "Russia"
         },
         {

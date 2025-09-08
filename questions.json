@@ -1495,9 +1495,10 @@
   "q3": [
     {
       "category": "FAMOUS GREEKS",
+      "prompt": "What person or god from ancient Greece...",
       "questions": [
         {
-          "question": "What person or god from ancient Greece…\nWas the leader of the Olympian gods and was depicted in a famous statue at Olympia?",
+          "question": "Was the leader of the Olympian gods and was depicted in a famous statue at Olympia?",
           "answer": "Zeus"
         },
         {
@@ -1532,9 +1533,10 @@
     },
     {
       "category": "MEDIEVAL EASTERN EUROPE",
+      "prompt": "In the Middle Ages, who or what was the...",
       "questions": [
         {
-          "question": "In the Middle Ages, who or what was the…\nEmpire which, by the 1070s, was reduced to the area around Constantinople?",
+          "question": "Empire which, by the 1070s, was reduced to the area around Constantinople?",
           "answer": "Byzantine, Byzantine Empire, Eastern Roman Empire, Eastern Roman"
         },
         {
@@ -1569,6 +1571,7 @@
     },
     {
       "category": "HERBERT HOOVER",
+      "prompt": "Name the person or event from the life or presidency of Hoover that was...",
       "questions": [
         {
           "question": "Name the person or event from the life or presidency of Hoover that was...\nThe four-term New Deal architect who succeeded him",
@@ -1606,9 +1609,10 @@
     },
     {
       "category": "RECONSTRUCTION",
+      "prompt": "During the post-Civil War Reconstruction period in the U.S., who or what was the...",
       "questions": [
         {
-          "question": "During the post-Civil War Reconstruction period in the U.S., who or what was the…\nState that took a long time to recover from Sherman’s March from Atlanta to Savannah?",
+          "question": "State that took a long time to recover from Sherman’s March from Atlanta to Savannah?",
           "answer": "Georgia"
         },
         {
@@ -1643,9 +1647,10 @@
     },
     {
       "category": "CHARLEMAGNE",
+      "prompt": "Medieval emperor Charlemagne...",
       "questions": [
         {
-          "question": "Medieval emperor Charlemagne…\nWas crowned on Christmas 800 by Leo III, a holder of what top office of the Catholic\nChurch?",
+          "question": "Was crowned on Christmas 800 by Leo III, a holder of what top office of the Catholic\nChurch?",
           "answer": "Pope, the Papacy, Papacy"
         },
         {
@@ -1680,9 +1685,10 @@
     },
     {
       "category": "THE PHILIPPINES",
+      "prompt": "The present-day country of the Philippines is or was...",
       "questions": [
         {
-          "question": "The present-day country of the Philippines is or was…\nColonized by what European power, after whose king Philip II it was named?",
+          "question": "Colonized by what European power, after whose king Philip II it was named?",
           "answer": "Spain"
         },
         {
@@ -1717,9 +1723,10 @@
     },
     {
       "category": "THIRTY YEARS WAR",
+      "prompt": "During the Thirty Years War, who or what was the...",
       "questions": [
         {
-          "question": "During the Thirty Years War, who or what was the…\nIncreasingly chaotic German “empire” whose member states took opposing sides?",
+          "question": "Increasingly chaotic German “empire” whose member states took opposing sides?",
           "answer": [
             "Holy Roman Empire",
             "Holy Roman",
@@ -1773,9 +1780,10 @@
     },
     {
       "category": "THE U.K. IN THE 1990’S",
+      "prompt": "In the 1990s, who or what was the...",
       "questions": [
         {
-          "question": "In the 1990s, who or what was the…\nCity where the Jubilee underground line on the tube was extended?",
+          "question": "City where the Jubilee underground line on the tube was extended?",
           "answer": "London"
         },
         {
@@ -1820,9 +1828,10 @@
     },
     {
       "category": "JOHN QUINCY ADAMS",
+      "prompt": "Fun-loving Sixth U.S. President John Quincy Adams...",
       "questions": [
         {
-          "question": "Fun-loving Sixth U.S. President John Quincy Adams…\nWas the first-ever U.S. ambassador to what country, where he presented credentials at St.\nPetersburg?",
+          "question": "Was the first-ever U.S. ambassador to what country, where he presented credentials at St.\nPetersburg?",
           "answer": "Russia"
         },
         {
@@ -1867,9 +1876,10 @@
     },
     {
       "category": "LEWIS AND CLARK",
+      "prompt": "The Lewis and Clark expedition...",
       "questions": [
         {
-          "question": "The Lewis and Clark expedition…\nWas intended to explore what large acquisition of land made in 1803?",
+          "question": "Was intended to explore what large acquisition of land made in 1803?",
           "answer": [
             "Louisiana Purchase",
             "Louisiana territory",
@@ -1920,9 +1930,10 @@
     },
     {
       "category": "PEOPLE OF 1968",
+      "prompt": "In 1968, who...",
       "questions": [
         {
-          "question": "In 1968, who…\nWas killed by James Earl Ray in Memphis after leading a civil rights action?",
+          "question": "Was killed by James Earl Ray in Memphis after leading a civil rights action?",
           "answer": [
             "Martin Luther King Jr.",
             "King"
@@ -1982,9 +1993,10 @@
     },
     {
       "category": "AMENDMENTS",
+      "prompt": "What U.S. Constitutional amendment is or was the chief subject of...",
       "questions": [
         {
-          "question": "What U.S. Constitutional amendment is or was the chief subject of…\nA witness's right not to testify against himself?",
+          "question": "A witness's right not to testify against himself?",
           "answer": [
             "Fifth",
             "5",
@@ -2059,9 +2071,10 @@
     },
     {
       "category": "THE MAURYAN EMPIRE",
+      "prompt": "The Mauryan empire...",
       "questions": [
         {
-          "question": "The Mauryan empire…\nwas on what subcontinent later home to the British Raj?",
+          "question": "was on what subcontinent later home to the British Raj?",
           "answer": [
             "Indian subcontinent",
             "India"
@@ -2122,9 +2135,10 @@
     },
     {
       "category": "THE CONGRESS OF VIENNA",
+      "prompt": "During or after the Congress of Vienna, what...",
       "questions": [
         {
-          "question": "During or after the Congress of Vienna, what...\nFrench emperor was exiled to Saint Helena?",
+          "question": "French emperor was exiled to Saint Helena?",
           "answer": [
             "Napoleon Bonaparte",
             "Napoleon",
@@ -2177,9 +2191,10 @@
     },
     {
       "category": "BREAKAWAY REGIONS",
+      "prompt": "Who or what is or was the...",
       "questions": [
         {
-          "question": "Who or what is or was the…\nOil-rich African country with capital at Abuja which Biafra broke away from?",
+          "question": "Oil-rich African country with capital at Abuja which Biafra broke away from?",
           "answer": "Nigeria"
         },
         {
@@ -2217,9 +2232,10 @@
     },
     {
       "category": "THE CARIBBEAN",
+      "prompt": "In the history of the Caribbean islands, who or what was the...",
       "questions": [
         {
-          "question": "In the history of the Caribbean islands, who or what was the…\nStyle of music originating in Trinidad practiced by Harry Belafonte (pr. beh-luh-FON-tay)\nand Lord Invader?",
+          "question": "Style of music originating in Trinidad practiced by Harry Belafonte (pr. beh-luh-FON-tay)\nand Lord Invader?",
           "answer": "calypso"
         },
         {
@@ -2261,9 +2277,10 @@
     },
     {
       "category": "EMANCIPATION OF SERFS",
+      "prompt": "The emancipation of the world's largest serf population...",
       "questions": [
         {
-          "question": "The emancipation of the world's largest serf population…\nOccurred in what empire, which was ultimately ended by the deposition of Tsar Nicholas II?",
+          "question": "Occurred in what empire, which was ultimately ended by the deposition of Tsar Nicholas II?",
           "answer": [
             "Russian Empire",
             "Russia"
@@ -2317,9 +2334,10 @@
     },
     {
       "category": "EARLY PHILADELPHIA",
+      "prompt": "The American city of Philadelphia was...",
       "questions": [
         {
-          "question": "The American city of Philadelphia was…\nThe initial capital of what colony, set up as a religious refuge?",
+          "question": "The initial capital of what colony, set up as a religious refuge?",
           "answer": "Pennsylvania"
         },
         {
@@ -2365,9 +2383,10 @@
     },
     {
       "category": "CLEOPATRA",
+      "prompt": "Cleopatra VII was...",
       "questions": [
         {
-          "question": "Cleopatra VII was…\nThe last Macedonian pharaoh of what land prior to its conquest by Rome?",
+          "question": "The last Macedonian pharaoh of what land prior to its conquest by Rome?",
           "answer": "Egypt"
         },
         {
@@ -2420,9 +2439,10 @@
     },
     {
       "category": "WORLD WAR I",
+      "prompt": "In World War I, who or what was...",
       "questions": [
         {
-          "question": "In World War I, who or what was…\nThe country which exited the war following the Bolshevik Revolution and organized the\nUSSR five years later?",
+          "question": "The country which exited the war following the Bolshevik Revolution and organized the\nUSSR five years later?",
           "answer": [
             "Russia",
             "Russian Soviet Federative Socialist Republic",
@@ -2477,9 +2497,10 @@
     },
     {
       "category": "MUSSOLINI",
+      "prompt": "Benito Mussolini...",
       "questions": [
         {
-          "question": "Benito Mussolini…\nWas the dictator of what country?",
+          "question": "Was the dictator of what country?",
           "answer": "Italy"
         },
         {
@@ -2524,9 +2545,10 @@
     },
     {
       "category": "THE SOUTH SEA BUBBLE",
+      "prompt": "England's South Sea Bubble scandal of 1720...",
       "questions": [
         {
-          "question": "England's South Sea Bubble scandal of 1720...\nArose over a company which transported what kind of people in the \"Middle Passage\" after\nforcible abduction from Africa?",
+          "question": "Arose over a company which transported what kind of people in the \"Middle Passage\" after\nforcible abduction from Africa?",
           "answer": [
             "slaves",
             "slave"
@@ -2577,9 +2599,10 @@
     },
     {
       "category": "POST-WAR ITALY",
+      "prompt": "In Italy after World War II, who or what was the...",
       "questions": [
         {
-          "question": "In Italy after World War II, who or what was the...\nIdeology advocated by the Red Brigades terrorist group and Italy's neighbor Yugoslavia?",
+          "question": "Ideology advocated by the Red Brigades terrorist group and Italy's neighbor Yugoslavia?",
           "answer": [
             "Communism",
             "Marxism"
@@ -2632,9 +2655,10 @@
     },
     {
       "category": "MILLARD FILLMORE",
+      "prompt": "U.S. President Millard Fillmore...",
       "questions": [
         {
-          "question": "U.S. President Millard Fillmore…\nWas the last President to belong to neither of what two parties?",
+          "question": "Was the last President to belong to neither of what two parties?",
           "answer": [
             "Democrats and Republicans",
             "Democrat and Republican"
@@ -2686,9 +2710,10 @@
     },
     {
       "category": "OTTOMAN GROUPS",
+      "prompt": "What group within the Ottoman Empire was...",
       "questions": [
         {
-          "question": "What group within the Ottoman Empire was...\nThe ethnicity of the ruling class?",
+          "question": "The ethnicity of the ruling class?",
           "answer": [
             "Turks",
             "Turk",
@@ -2745,9 +2770,10 @@
     },
     {
       "category": "AMERICAN REVOLUTIONARY WAR LEADERS",
+      "prompt": "What military man during the American Revolution was the...",
       "questions": [
         {
-          "question": "What military man during the American Revolution was the…\nLeader of the Continental Army who became the first U.S. President?",
+          "question": "Leader of the Continental Army who became the first U.S. President?",
           "answer": [
             "George Washington",
             "Washington"
@@ -2804,6 +2830,69 @@
           "answer": [
             "Banastre Tarleton",
             "Tarleton"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "THE COURT OF THE FRENCH KING",
+      "prompt": "What important person in the reigns of the final four kings of pre-Revolutionary France was...",
+      "questions": [
+        {
+          "question": "A radical free speech advocate and the author of Candide?",
+          "answer": [
+            "Voltaire",
+            "Francois-Marie Arouet",
+            "Arouet"
+          ]
+        },
+        {
+          "question": "A finance minister whose cheapness caused his name to be applied to an all-black outline\nportrait?",
+          "answer": [
+            "Etienne de Silhouette",
+            "Silhouette"
+          ]
+        },
+        {
+          "question": "The king from 1610 to 1643 who ended the regency of Marie de Medici?",
+          "answer": "Louis XIII"
+        },
+        {
+          "question": "The thinker who explained separation of powers in The Spirit of the Laws?",
+          "answer": [
+            "Baron Montesquieu",
+            "Charles-Louis de Secondat",
+            "Secondat"
+          ]
+        },
+        {
+          "question": "The Catholic \"Red Eminence\" who dominated the court in the 1620s and 30s?",
+          "answer": [
+            "Cardinal Richelieu",
+            "Richelieu",
+            "Armand Jean du Plessis",
+            "du Plessis"
+          ]
+        },
+        {
+          "question": "The influential mistress of Louis XV with a flamboyant hairstyle?",
+          "answer": [
+            "Madame de Pompadour",
+            "Pompadour"
+          ]
+        },
+        {
+          "question": "The formulator of the law of conservation of mass and the metric system who was executed by\nthe Revolution despite being the \"Father of Modern Chemistry?\"",
+          "answer": [
+            "Antoine Lavoisier",
+            "Lavoisier"
+          ]
+        },
+        {
+          "question": "The composer of religious music for Louis XIV who died after shattering his foot with a\nbaton?",
+          "answer": [
+            "Jean-Baptiste Lully",
+            "Lully"
           ]
         }
       ]

@@ -168,9 +168,10 @@
   "q3": [
     {
       "category": "THE SOUTH SEA BUBBLE",
+      "prompt": "England's South Sea Bubble scandal of 1720...",
       "questions": [
         {
-          "question": "England's South Sea Bubble scandal of 1720...\nArose over a company which transported what kind of people in the \"Middle Passage\" after\nforcible abduction from Africa?",
+          "question": "Arose over a company which transported what kind of people in the \"Middle Passage\" after\nforcible abduction from Africa?",
           "answer": [
             "slaves",
             "slave"
@@ -221,9 +222,10 @@
     },
     {
       "category": "POST-WAR ITALY",
+      "prompt": "In Italy after World War II, who or what was the...",
       "questions": [
         {
-          "question": "In Italy after World War II, who or what was the...\nIdeology advocated by the Red Brigades terrorist group and Italy's neighbor Yugoslavia?",
+          "question": "Ideology advocated by the Red Brigades terrorist group and Italy's neighbor Yugoslavia?",
           "answer": [
             "Communism",
             "Marxism"
@@ -276,9 +278,10 @@
     },
     {
       "category": "MILLARD FILLMORE",
+      "prompt": "U.S. President Millard Fillmore...",
       "questions": [
         {
-          "question": "U.S. President Millard Fillmore…\nWas the last President to belong to neither of what two parties?",
+          "question": "Was the last President to belong to neither of what two parties?",
           "answer": [
             "Democrats and Republicans",
             "Democrat and Republican"

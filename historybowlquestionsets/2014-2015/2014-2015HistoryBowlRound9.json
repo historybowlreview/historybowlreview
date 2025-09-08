@@ -183,9 +183,10 @@
   "q3": [
     {
       "category": "OTTOMAN GROUPS",
+      "prompt": "What group within the Ottoman Empire was...",
       "questions": [
         {
-          "question": "What group within the Ottoman Empire was...\nThe ethnicity of the ruling class?",
+          "question": "The ethnicity of the ruling class?",
           "answer": [
             "Turks",
             "Turk",
@@ -242,9 +243,10 @@
     },
     {
       "category": "AMERICAN REVOLUTIONARY WAR LEADERS",
+      "prompt": "What military man during the American Revolution was the...",
       "questions": [
         {
-          "question": "What military man during the American Revolution was the…\nLeader of the Continental Army who became the first U.S. President?",
+          "question": "Leader of the Continental Army who became the first U.S. President?",
           "answer": [
             "George Washington",
             "Washington"
@@ -301,6 +303,69 @@
           "answer": [
             "Banastre Tarleton",
             "Tarleton"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "THE COURT OF THE FRENCH KING",
+      "prompt": "What important person in the reigns of the final four kings of pre-Revolutionary France was...",
+      "questions": [
+        {
+          "question": "A radical free speech advocate and the author of Candide?",
+          "answer": [
+            "Voltaire",
+            "Francois-Marie Arouet",
+            "Arouet"
+          ]
+        },
+        {
+          "question": "A finance minister whose cheapness caused his name to be applied to an all-black outline\nportrait?",
+          "answer": [
+            "Etienne de Silhouette",
+            "Silhouette"
+          ]
+        },
+        {
+          "question": "The king from 1610 to 1643 who ended the regency of Marie de Medici?",
+          "answer": "Louis XIII"
+        },
+        {
+          "question": "The thinker who explained separation of powers in The Spirit of the Laws?",
+          "answer": [
+            "Baron Montesquieu",
+            "Charles-Louis de Secondat",
+            "Secondat"
+          ]
+        },
+        {
+          "question": "The Catholic \"Red Eminence\" who dominated the court in the 1620s and 30s?",
+          "answer": [
+            "Cardinal Richelieu",
+            "Richelieu",
+            "Armand Jean du Plessis",
+            "du Plessis"
+          ]
+        },
+        {
+          "question": "The influential mistress of Louis XV with a flamboyant hairstyle?",
+          "answer": [
+            "Madame de Pompadour",
+            "Pompadour"
+          ]
+        },
+        {
+          "question": "The formulator of the law of conservation of mass and the metric system who was executed by\nthe Revolution despite being the \"Father of Modern Chemistry?\"",
+          "answer": [
+            "Antoine Lavoisier",
+            "Lavoisier"
+          ]
+        },
+        {
+          "question": "The composer of religious music for Louis XIV who died after shattering his foot with a\nbaton?",
+          "answer": [
+            "Jean-Baptiste Lully",
+            "Lully"
           ]
         }
       ]
