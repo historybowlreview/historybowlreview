@@ -1043,7 +1043,7 @@ function showCategorySelection(){
     selected.forEach(({cat, idx}) => {
         const btn = document.createElement('div');
         btn.className = 'category-btn';
-        btn.textContent = `${cat.category} (${(cat.questions||[]).length} q)`;
+        btn.textContent = cat.category;
         btn.onclick = () => {
             console.log("Category selected: ", idx);
             container.classList.add('hidden');
@@ -1067,8 +1067,21 @@ function selectCategory(idx) {
     gameState.q3CategoryActive = true;
 
     $('categorySelection').classList.add('hidden');
-    startQ3CategoryTimer();
-    showQ3CategoryQuestion();
+    // Show prompt first, then proceed to questions
+    const cat = QUESTIONS.q3[idx];
+    const prefix = cat.prompt || "Millard Fillmore is or was...";
+    $('q3PrefixBox').textContent = prefix;
+    $('q3PrefixBox').classList.remove('hidden');
+    $('questionText').textContent = prefix;
+    $('answerInput').disabled = true;
+    $('buzzerBtn').disabled = true;
+    $('showAnswerBtn').disabled = true;
+    
+    // After 2 seconds, start timer and show first question
+    setTimeout(() => {
+        startQ3CategoryTimer();
+        showQ3CategoryQuestion();
+    }, 2000);
 }
 
 function startQ3CategoryTimer() {
@@ -1093,6 +1106,8 @@ function finishQ3CategoryRound() {
     const qArr = gameState.q3CategoryQuestions;
     stopQ3CategoryTimer();
     gameState.q3CategoryActive = false;
+    $('q3PrefixBox').classList.add('hidden');
+    $('q3PrefixBox').textContent = "";
     $('answerInput').disabled = true;
     $('buzzerBtn').disabled = true;
     if ($('skipBtn')) $('skipBtn').remove();
@@ -1139,9 +1154,13 @@ function calculateAverageBuzzInTime() {
 
 function showQ3CategoryQuestion() {
     const qArr = gameState.q3CategoryQuestions;
+    if (document.getElementById('skipBtn')) {
+        document.getElementById('skipBtn').remove();
+    }
     const cat = QUESTIONS.q3[gameState.q3selectedCategory];
     const prefix = cat.prompt || "Millard Fillmore is or was...";
     $('q3PrefixBox').textContent = prefix;
+    $('q3PrefixBox').classList.remove('hidden');
     let idx = gameState.q3CurrentQuestionIdx;
     let cnt = 0;
     while (qArr[idx].userAnswer && cnt < qArr.length) {
