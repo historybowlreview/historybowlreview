@@ -814,6 +814,11 @@ function updatePauseButtonVisibility() {
 
 function resetGame() {
     clearAllTimers();
+    if (gameState.feedbackTimer) {
+        clearInterval(gameState.feedbackTimer);
+        gameState.feedbackTimer = null;
+        gameState.feedbackTimeLeft = null;
+    }
     gameState = {
         ...gameState,
         currentQuarter: gameState.currentQuarter,
@@ -1143,6 +1148,7 @@ function finishQ3CategoryRound() {
     $('questionText').innerHTML = resultHtml;
     updateScoreDisplays();
     setFeedback(`Category complete! ${correct} correct, +${points} pts.`, true);
+    startFeedbackCountdown(20);
     setTimeout(() => {
         if (gameState.mode === 'full') {
             gameState.currentQuarter++;
@@ -1173,23 +1179,23 @@ function showQ3CategoryQuestion() {
     $('q3PrefixBox').classList.remove('hidden');
     let idx = gameState.q3CurrentQuestionIdx;
     let cnt = 0;
-    while (qArr[idx].userAnswer && cnt < qArr.length) {
+    while (qArr[idx] && qArr[idx].userAnswer && cnt < qArr.length) {
         idx = (idx + 1) % qArr.length;
         cnt++;
     }
 
-    if (cnt >= qArr.length) {
+    if (cnt >= qArr.length || !qArr[idx]) {
         finishQ3CategoryRound();
         return;
     }
 
-    gameState.q3CurrentQuestionIdx = idx;
-    const qObj = qArr[idx];
+    gameState.q3CurrentQuestionIdx = idx; // <-- Move this here!
 
     // Record question start time for Q3
     gameState.questionStartTime = Date.now();
 
-    $('questionText').textContent = `(${idx+1}/8) ${qObj.question}`;
+    $('questionCounter').textContent = computeQuestionCounterText();
+    $('questionText').textContent = `(${idx + 1}/${qArr.length}) ${qArr[idx].question}`;
     $('answerInput').disabled = false;
     $('answerInput').value = '';
     $('answerInput').focus();
@@ -1447,8 +1453,13 @@ function submitAnswer(){
     const given = $('answerInput').value.trim();
     if (!given){
         setFeedback("Please type an answer before submitting.", false);
+        if (gameState.bonusTimer) {
+            clearInterval(gameState.bonusTimer);
+            gameState.bonusTimer = null;
+        }
         return;
     }
+    
 
     const submitTime = Date.now();
 
@@ -1472,9 +1483,15 @@ function submitAnswer(){
         const idx = gameState.q3CurrentQuestionIdx;
         const qArr = gameState.q3CategoryQuestions;
         qArr[idx].userAnswer = given;
-
+    
+        // CHECK the answer and set isCorrect!
+        const correct =
+            isStrictCorrect(given, qArr[idx].answer) ||
+            looseMatch(given, qArr[idx].answer);
+        qArr[idx].isCorrect = correct;
+    
         let msg;
-        if (qArr[idx].isCorrect) {
+        if (correct) {
             msg = `✔️ Correct! +10 pts`;
             gameState.rawScore += 10;
             if (responseTime !== null) {
@@ -1482,7 +1499,6 @@ function submitAnswer(){
             }
             updateScoreDisplays();
         } else {
-            let ans = Array.isArray(qArr[idx].answer) ? qArr[idx].answer.join(', ') : qArr[idx].answer;
             msg = `❌ Incorrect. Correct: ${formatAnswer(qArr[idx].answer)}`;
         }
 
@@ -1588,10 +1604,8 @@ function submitAnswer(){
         } else {
             setFeedback(`Incorrect tossup. The correct answer was: ${formatAnswer(gameState.currentAnswer)}. (No bonus.)`, false);
             startFeedbackCountdown(10);
-            $('questionText').textContent = gameState.currentBonus?.question || '';
-            setTimeout(()=> {
-                nextQuestion();
-            }, 10000);
+            $('questionText').textContent = gameState.currentQuestionText; // Stay on tossup, not bonus!
+            setTimeout(()=> { nextQuestion(); }, 10000);
         }
     } else if (gameState.currentQuarter === 4){
         const bracketPoints = gameState.q4BracketPoints || 10;
@@ -1700,6 +1714,12 @@ function computeQuestionCounterText(){
         }
         return `Select category`;
     }
+    if (q === 4) {
+        // If index < 0, show nothing or Q 0 / total
+        if (gameState.currentQuestionIndex < 0 || !gameState.activeQ4) return '';
+        return `Q ${gameState.currentQuestionIndex+1} / ${gameState.activeQ4.length}`;
+    }
+    return '';
 }
 
 function startFeedbackCountdown(seconds) {
