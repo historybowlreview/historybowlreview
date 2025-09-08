@@ -1169,8 +1169,6 @@ function calculateAverageBuzzInTime() {
 }
 
 function showQ3CategoryQuestion() {
-    gameState.q3CurrentQuestionIdx = idx;
-    $('questionCounter').textContent = computeQuestionCounterText();
     const qArr = gameState.q3CategoryQuestions;
     if (document.getElementById('skipBtn')) {
         document.getElementById('skipBtn').remove();
@@ -1181,22 +1179,23 @@ function showQ3CategoryQuestion() {
     $('q3PrefixBox').classList.remove('hidden');
     let idx = gameState.q3CurrentQuestionIdx;
     let cnt = 0;
-    while (qArr[idx].userAnswer && cnt < qArr.length) {
+    while (qArr[idx] && qArr[idx].userAnswer && cnt < qArr.length) {
         idx = (idx + 1) % qArr.length;
         cnt++;
     }
 
-    if (cnt >= qArr.length) {
+    if (cnt >= qArr.length || !qArr[idx]) {
         finishQ3CategoryRound();
         return;
     }
 
-    const qObj = qArr[idx];
+    gameState.q3CurrentQuestionIdx = idx; // <-- Move this here!
 
     // Record question start time for Q3
     gameState.questionStartTime = Date.now();
 
-    $('questionText').textContent = `(${idx+1}/8) ${qObj.question}`;
+    $('questionCounter').textContent = computeQuestionCounterText();
+    $('questionText').textContent = `(${idx + 1}/${qArr.length}) ${qArr[idx].question}`;
     $('answerInput').disabled = false;
     $('answerInput').value = '';
     $('answerInput').focus();
