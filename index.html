@@ -1688,9 +1688,9 @@ function computeQuestionCounterText(){
     if (q === 2) return `Q ${Math.max(0, gameState.currentQuestionIndex+1)} / ${gameState.activeQ2.length}`;
     if (q === 3){
         if (gameState.q3selectedCategory !== null && Array.isArray(gameState.q3CategoryQuestions)){
-            const current = (gameState.q3CurrentQuestionIdx ?? 0) + 1;
+            const answered = gameState.q3CategoryQuestions.filter(q => q.userAnswer).length;
             const total = gameState.q3CategoryQuestions.length;
-            return `Q ${current} / ${total}`;
+            return `Q ${answered + 1} / ${total}`;
         }
         return `Select category`;
     }
