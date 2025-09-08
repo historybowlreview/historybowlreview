@@ -367,7 +367,7 @@ function getRandomQ4Part() {
 
 let gameState = {
     mode: null,
-    currentQuarter: 1,
+    currentQuarter: gameState.currentQuarter,
     q3CategoryQuestions: [],
     q3Timer: null,
     q3TimeLeft: 60,
