@@ -450,11 +450,17 @@ function looseMatch(given, answer) {
       .filter(w => w && !articles.includes(w));
   }
   const givenWords = tokenize(given);
-  const answerWords = tokenize(Array.isArray(answer) ? answer[0] : answer);
 
-  if (!givenWords.length || !answerWords.length) return false;
-  if (givenWords.length !== answerWords.length) return false;
-  return givenWords.every(w => answerWords.includes(w));
+  let answerWordsArr = Array.isArray(answer)
+    ? answer.map(tokenize)
+    : [tokenize(answer)];
+
+  if (!givenWords.length) return false;
+
+  return answerWordsArr.some(ansWords =>
+    givenWords.length === ansWords.length &&
+    givenWords.every(w => ansWords.includes(w))
+  );
 }
 
 function setFeedback(text, ok=true){
@@ -1688,14 +1694,12 @@ function computeQuestionCounterText(){
     if (q === 2) return `Q ${Math.max(0, gameState.currentQuestionIndex+1)} / ${gameState.activeQ2.length}`;
     if (q === 3){
         if (gameState.q3selectedCategory !== null && Array.isArray(gameState.q3CategoryQuestions)){
-            const answered = gameState.q3CategoryQuestions.filter(q => q.userAnswer).length;
+            const current = (gameState.q3CurrentQuestionIdx ?? 0) + 1;
             const total = gameState.q3CategoryQuestions.length;
-            return `Q ${answered + 1} / ${total}`;
+            return `Q ${current} / ${total}`;
         }
         return `Select category`;
     }
-    if (q === 4) return `Q ${Math.max(0, gameState.currentQuestionIndex+1)} / ${gameState.activeQ4.length}`;
-    return '';
 }
 
 function startFeedbackCountdown(seconds) {
