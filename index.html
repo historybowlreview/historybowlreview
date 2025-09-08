@@ -1051,10 +1051,7 @@ function selectCategory(idx) {
 
     gameState.q3CategoryQuestions = QUESTIONS.q3[idx].questions
         .map(q => ({ ...q, userAnswer: "", isCorrect: false }));
-
-    if (gameState.mode === 'practice') {
-        gameState.q3CategoryQuestions.sort(() => Math.random() - 0.5);
-    }
+    // Remove the sort/shuffle line!
 
     gameState.q3CurrentQuestionIdx = 0;
     gameState.q3TimeLeft = 60;
