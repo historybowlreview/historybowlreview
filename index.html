@@ -17,6 +17,24 @@
         min-height:100vh;color:#222;padding:24px;
     }
     .container{max-width:1100px;margin:0 auto;background:transparent}
+    #setPickerModal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      z-index: 9999;
+      background: rgba(0,0,0,0.35);
+      display: none;
+    }
+    #setPickerModal > div {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      padding: 28px;
+      border-radius: 16px;
+      box-shadow: 0 10px 40px rgba(60,40,80,0.25);
+      min-width: 320px;
+      max-width: 96vw;
+    }
     .header{text-align:center;color:#fff;margin-bottom:20px}
     .header h1{font-size:2.2rem;text-shadow:2px 2px 4px rgba(0,0,0,0.25)}
     .menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:16px}
@@ -48,6 +66,20 @@
     .leaderboard{background:#fff;padding:12px;border-radius:8px;margin-top:12px;max-height:260px;overflow:auto}
     .small{font-size:0.9rem;color:#444}
     .muted{color:#666;font-size:0.9rem}
+    .tab-btn {
+        background: #f3f4f6;
+        color: #5a67d8;
+        border: none;
+        border-radius: 6px 6px 0 0;
+        padding: 8px 16px;
+        margin-right: 4px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+    .tab-btn.active {
+        background: #5a67d8;
+        color: white;
+    }
     .categories.hidden {
       display: none !important;
     }
@@ -57,109 +89,114 @@
 </style>
 </head>
 <body>
-<div class="container">
+  <div class="container">
+    <!-- Header -->
     <div class="header">
-        <h1>💚🤍 History Bowl Study Program</h1>
-        <p class="small">Specific quarter practice + Full-game simulation with response time tracking and leaderboards 🤍💚</p>
+      <h1>💚🤍 History Bowl Study Program</h1>
+      <p class="small">Specific quarter practice + Full-game simulation with response time tracking and leaderboards 🤍💚</p>
     </div>
     <div id="questionsStatus" class="small muted"></div>
     <div id="questionsDisplay"></div>
 
-    <!-- Main menu -->
-    <div id="mainMenu" class="menu">
-        <div class="card" onclick="openPracticeMode()">
-            <h3>🎯 Practice Mode</h3>
-            <p class="muted">Pick a quarter to practice specific formats and question types.</p>
-            <div style="margin-top:10px"><button class="btn">Start Practice</button></div>
-        </div>
-
-        <div class="card" onclick="startFullGameFromMenu()">
-            <h3>🏆 Full Game Simulation</h3>
-            <p class="muted">Play a full match (Q1→Q4) with official scoring.</p>
-            <div style="margin-top:10px"><button class="btn">Start Full Game</button></div>
-        </div>
-
-        <div class="card" onclick="showLeaderboardPanel()">
-            <h3>🏅 Local Leaderboard</h3>
-            <p class="muted">Shows the top 10 full game scores. Enter your name to save it with your score.</p>
-            <div style="margin-top:10px"><button class="btn">View Leaderboard</button></div>
-        </div>
-        <!-- Player Name Input -->
-        <div id="playerNameContainer" style="margin-bottom: 10px;">
-            <input type="text" id="playerNameInput" placeholder="Enter your name" maxlength="20" style="padding: 5px; width: 200px;">
-        </div>
-
+    <!-- Set Picker Modal -->
+    <div id="setPickerModal" style="display:none;">
+      <div style="background:white;...">
+        <h3>Select Practice Sets</h3>
+        <!-- Tabs go above -->
+        <div id="setPickerTabs"></div>
+        <!-- Set list below tabs -->
+        <div id="setPickerList" style="max-height:300px;overflow-y:auto;margin-bottom:18px;"></div>
+        <!-- Buttons below set list -->
+        <button id="selectAllYearBtn">Select All This Year</button>
+        <button id="deselectAllYearBtn">Deselect All This Year</button>
+        <button onclick="selectAllSets()">Select All</button>
+        <button onclick="deselectAllSets()">Deselect All</button>
+        <button onclick="confirmSetPicker()">Confirm</button>
+        <button onclick="cancelSetPicker()" style="margin-left:12px;">Cancel</button>
+      </div>
     </div>
 
-    <!-- Game area -->
+    <!-- Main Menu -->
+    <div id="mainMenu" class="menu">
+      <div class="card" onclick="openPracticeMode()">
+        <h3>🎯 Practice Mode</h3>
+        <p class="muted">Pick a quarter to practice specific formats and question types.</p>
+        <div style="margin-top:10px"><button class="btn">Start Practice</button></div>
+      </div>
+      <div class="card" onclick="startFullGameFromMenu()">
+        <h3>🏆 Full Game Simulation</h3>
+        <p class="muted">Play a full match (Q1→Q4) with official scoring.</p>
+        <div style="margin-top:10px"><button class="btn">Start Full Game</button></div>
+      </div>
+      <div class="card" onclick="showLeaderboardPanel()">
+        <h3>🏅 Global Leaderboard</h3>
+        <p class="muted">Shows all full game attempts ordered by score. Enter your name to save it with your score.</p>
+        <div style="margin-top:10px"><button class="btn">View Leaderboard</button></div>
+      </div>
+      <!-- Player Name Input -->
+      <div id="playerNameContainer" style="margin-bottom: 10px;">
+        <input type="text" id="playerNameInput" placeholder="Enter your name" maxlength="20" style="padding: 5px; width: 200px;">
+      </div>
+    </div>
+
+    <!-- Game Area -->
     <div id="gameArea" class="game-area">
-        <div class="scoreboard">
-            <div class="team-score">
-                <div class="team-name">Score</div>
-                <div class="score" id="rawScore">0</div>
-                <div class="small muted">Total points</div>
-            </div>
-            <div style="text-align:center">
-                <div class="small">Quarter</div>
-                <div id="quarterDisplay" style="font-weight:700">1</div>
-                <div id="questionCounter" class="small muted">Q 0 / 0</div>
-            </div>
-            <div class="team-score">
-                <div class="team-name">Avg Buzz-in</div>
-                <div class="score" id="avgResponseTime">--</div>
-                <div class="small muted">Seconds to buzz</div>
-            </div>
+      <div class="scoreboard">
+        <div class="team-score">
+          <div class="team-name">Score</div>
+          <div class="score" id="rawScore">0</div>
+          <div class="small muted">Total points</div>
         </div>
         <div style="text-align:center">
-           <div class="small">Timer</div>
-            <div id="timerDisplay" style="font-weight:700">--</div>
+          <div class="small">Quarter</div>
+          <div id="quarterDisplay" style="font-weight:700">1</div>
+          <div id="questionCounter" class="small muted">Q 0 / 0</div>
         </div>
-
-        <div class="question-area">
-            <div id="questionText" class="question-text">Load questions first, then click "Next Question" to begin.</div>
+        <div class="team-score">
+          <div class="team-name">Avg Buzz-in</div>
+          <div class="score" id="avgResponseTime">--</div>
+          <div class="small muted">Seconds to buzz</div>
         </div>
-
-        <div class="controls">
-            <button id="buzzerBtn" class="buzzer-btn" onclick="buzz()" disabled>🔔 BUZZ</button>
-            <button class="btn secondary" onclick="showAnswer()">Show Answer</button>
-
-            <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
-                <div class="small muted">Mode:</div>
-                <div id="modeDisplay" style="font-weight:700">Practice</div>
-            </div>
+      </div>
+      <div style="text-align:center">
+        <div class="small">Timer</div>
+        <div id="timerDisplay" style="font-weight:700">--</div>
+      </div>
+      <div class="question-area">
+        <div id="questionText" class="question-text">Load questions first, then click "Next Question" to begin.</div>
+      </div>
+      <div class="controls">
+        <button id="buzzerBtn" class="buzzer-btn" onclick="buzz()" disabled>🔔 BUZZ</button>
+        <button class="btn secondary" id="showAnswerBtn" onclick="showAnswer()">Show Answer</button>
+        <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+          <div class="small muted">Mode:</div>
+          <div id="modeDisplay" style="font-weight:700">Practice</div>
         </div>
-
-        <div class="controls-row">
-            <input id="answerInput" class="answer-input" placeholder="Type answer and press Enter or Submit..." disabled>
-            <button class="btn" onclick="submitAnswer()">Submit</button>
-            <div id="currentResponseTime" class="small muted">Response time: --</div>
-        </div>
-
-        <div id="feedback" class="feedback"></div>
-
-        <!-- Q3 category selection area -->
-        <div id="categorySelection" class="categories hidden"></div>
-
-        <!-- Controls to go back or reset -->
-        <div class="controls-row" style="margin-top:12px">
-            <button class="btn secondary" onclick="backToMenu()">Back to Menu</button>
-            <button class="btn secondary" id="pauseBtn" onclick="togglePause()">Pause</button>
-            <button class="btn" onclick="resetPracticeGame()">Reset Game</button>
-        </div>
+      </div>
+      <div class="controls-row">
+        <input id="answerInput" class="answer-input" placeholder="Type answer and press Enter or Submit..." disabled>
+        <button class="btn" onclick="submitAnswer()">Submit</button>
+        <div id="currentResponseTime" class="small muted">Response time: --</div>
+      </div>
+      <div id="feedback" class="feedback"></div>
+      <!-- Q3 category selection area -->
+      <div id="categorySelection" class="categories hidden"></div>
+      <!-- Controls to go back or reset -->
+      <div class="controls-row" style="margin-top:12px">
+        <button class="btn secondary" onclick="backToMenu()">Back to Menu</button>
+        <button class="btn secondary" id="pauseBtn" onclick="togglePause()">Pause</button>
+        <button class="btn" onclick="resetPracticeGame()">Reset Game</button>
+      </div>
     </div>
 
-    <!-- Leaderboard panel -->
+    <!-- Leaderboard Panel -->
     <div id="leaderboardPanel" class="admin-panel hidden">
-        <h3>Local Leaderboard (all attempts)</h3>
-        <div style="display:flex;gap:8px;margin-bottom:8px;align-items:center">
-            <button class="btn" onclick="clearLeaderboard()">Clear Leaderboard</button>
-            <button class="btn secondary" onclick="backToMenu()">Back to Menu</button>
-        </div>
-        <div class="leaderboard" id="leaderboardList"></div>
+      <h3>Global Leaderboard (all attempts)</h3>
+      <div style="display:flex;gap:8px;margin-bottom:8px;align-items:center">
+        <button class="btn secondary" onclick="backToMenu()">Back to Menu</button>
+      </div>
+      <div class="leaderboard" id="leaderboardList"></div>
     </div>
-
-    <footer>
-</div>
 
 <script>
 /* ================================================================
@@ -201,6 +238,96 @@ async function loadQuestionsFromServer() {
         gameState.questionsLoaded = false;
         console.error(err);
     }
+}
+
+let QUESTIONS_SETS = [];
+
+async function loadAllQuestionSets(files) {
+    QUESTIONS_SETS = [];
+    for (const file of files) {
+        const response = await fetch(file);
+        const data = await response.json();
+        QUESTIONS_SETS.push(data);
+    }
+    gameState.questionsLoaded = true; // <-- Add this line!
+}
+
+function selectAllSets() {
+    const checkboxes = document.querySelectorAll('#setPickerList input[type=checkbox]');
+    checkboxes.forEach(cb => cb.checked = true);
+}
+
+function deselectAllSets() {
+    const checkboxes = document.querySelectorAll('#setPickerList input[type=checkbox]');
+    checkboxes.forEach(cb => cb.checked = false);
+}
+
+function openSetPicker(availableFiles, callback) {
+    window._setPickerCallback = callback;
+    window._setPickerFiles = availableFiles;
+    const tabsContainer = $('setPickerTabs');
+    const list = $('setPickerList');
+    tabsContainer.innerHTML = '';
+    list.innerHTML = '';
+
+    // Render tabs for each year
+    availableFiles.forEach((group, idx) => {
+        const tab = document.createElement('button');
+        tab.textContent = group.year;
+        tab.className = 'tab-btn';
+        tab.onclick = () => renderSetList(idx);
+        tabsContainer.appendChild(tab);
+    });
+
+    // Initially show first year
+    renderSetList(0);
+
+    function renderSetList(yearIdx) {
+        list.innerHTML = '';
+        const sets = availableFiles[yearIdx].sets;
+        sets.forEach((set, idx) => {
+            const div = document.createElement('div');
+            div.innerHTML = `<label><input type="checkbox" value="${yearIdx}-${idx}"> ${set.name}</label>`;
+            list.appendChild(div);
+        });
+
+        // Add select/deselect all for this year
+        $('selectAllYearBtn').onclick = () => {
+            list.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = true);
+        };
+        $('deselectAllYearBtn').onclick = () => {
+            list.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
+        };
+    }
+    $('setPickerModal').style.display = 'block';
+
+    // ...Modal open/close logic as before
+}
+
+function confirmSetPicker() {
+    const modal = $('setPickerModal');
+    const checkboxes = $('setPickerList').querySelectorAll('input[type=checkbox]');
+    const selected = [];
+    for (const cb of checkboxes) {
+        if (cb.checked) {
+            // cb.value is "yearIdx-setIdx"
+            const [yearIdx, setIdx] = cb.value.split('-').map(Number);
+            const file = window._setPickerFiles[yearIdx].sets[setIdx].file;
+            selected.push(file);
+        }
+    }
+    if (selected.length === 0) {
+        alert('Please select at least one set.');
+        return;
+    }
+    modal.style.display = 'none';
+    window._setPickerCallback(selected);
+}
+
+function cancelSetPicker() {
+    $('setPickerModal').style.display = 'none';
+    window._setPickerCallback(null);
+    backToMenu();
 }
 
 // Utility to pick random item
@@ -304,24 +431,18 @@ function calculateAverageResponseTime() {
 function looseMatch(given, answer) {
   const articles = ["the", "a", "an", "of"];
   function tokenize(s) {
-    // Only accept alphanumeric words, ignore punctuation-only tokens
     return s
       .toLowerCase()
-      .replace(/[^a-z0-9' ]+/g, '') // Remove punctuation except apostrophe
+      .replace(/[^a-z0-9' ]+/g, '')
       .split(/\s+/)
       .filter(w => w && !articles.includes(w));
   }
   const givenWords = tokenize(given);
   const answerWords = tokenize(Array.isArray(answer) ? answer[0] : answer);
 
-  // If either is empty, don't accept as correct!
   if (!givenWords.length || !answerWords.length) return false;
-
-  const allAnswerInGiven = answerWords.every(w => givenWords.includes(w));
-  const allGivenInAnswer = givenWords.every(w => answerWords.includes(w));
-  const pct = answerWords.filter(w => givenWords.includes(w)).length / answerWords.length;
-
-  return (allAnswerInGiven || allGivenInAnswer || pct >= 0.7);
+  if (givenWords.length !== answerWords.length) return false;
+  return givenWords.every(w => answerWords.includes(w));
 }
 
 function setFeedback(text, ok=true){
@@ -350,22 +471,38 @@ function backToMenu(){
     $('modeDisplay').textContent = 'Practice';
 }
 
-function openPracticeMode(){
-    if (!gameState.questionsLoaded) {
-        alert("Questions failed to load.");
-        return;
-    }
-    resetGame();
+async function openPracticeMode() {
     gameState.mode = 'practice';
     $('modeDisplay').textContent = 'Practice';
     $('mainMenu').style.display = 'none';
     updatePauseButtonVisibility();
     $('gameArea').style.display = 'block';
-    // This line is now unnecessary since button is removed:
-    // updateNextQuestionButtonVisibility();
-    if (promptPracticeQuarter()) {
-        nextQuestion();
+
+    // Prompt for set picker FIRST
+    const selectedFiles = await promptPracticeSet();
+    if (!selectedFiles) { backToMenu(); return; }
+    await loadAllQuestionSets(selectedFiles);
+    if (!QUESTIONS_SETS.length) {
+        alert("Failed to load selected question sets.");
+        backToMenu();
+        return;
     }
+    assignPracticeQuestionsFromSets(QUESTIONS_SETS);
+
+    // THEN prompt for quarter
+    if (promptPracticeQuarter()) {
+        resetGame();
+        nextQuestion();
+    } else {
+        backToMenu();
+    }
+}
+
+function assignPracticeQuestionsFromSets(sets) {
+    gameState.activeQ1 = sets.flatMap(set => set.q1 || []);
+    gameState.activeQ2 = sets.flatMap(set => set.q2 || []);
+    gameState.activeQ3 = sets.flatMap(set => set.q3 || []);
+    gameState.activeQ4 = sets.flatMap(set => set.q4 || []);
 }
 
 function promptPracticeQuarter() {
@@ -514,27 +651,23 @@ function togglePause() {
         $('pauseBtn').textContent = "Resume";
         setFeedback("Paused. Press Resume to continue.", true);
         $('buzzerBtn').disabled = true;
-        $('answerInput').disabled = true;
+        $('showAnswerBtn').disabled = true;
+
+        // Only re-enable answer input if buzzed or it's Q3 category mode
+        if (gameState.buzzed || (gameState.currentQuarter === 3 && gameState.q3CategoryActive)) {
+            $('answerInput').disabled = false;
+        } else {
+            $('answerInput').disabled = true;
+        }
     } else {
         // RESUME
         gameState.isPaused = false;
         $('pauseBtn').textContent = "Pause";
         clearFeedback();
-        // Resume timers
         if (gameState.wasReading) resumeReading();
-        else if (gameState.pausedPostReadTime !== null) {
-            gameState.postReadTimeLeft = gameState.pausedPostReadTime;
-            resumePostReadTimer();
-        }
-        else if (gameState.pausedAnswerTime !== null) {
-            gameState.answerTimeLeft = gameState.pausedAnswerTime;
-            resumeAnswerTimer();
-        }
-        else if (gameState.pausedQ3Time !== null) {
-            gameState.q3TimeLeft = gameState.pausedQ3Time;
-            startQ3CategoryTimer();
-        }
-        else if (
+    
+        // Resume timer if paused after Show Answer
+        if (
             typeof gameState.pausedFeedbackTime === 'number' &&
             !isNaN(gameState.pausedFeedbackTime) &&
             gameState.pausedFeedbackTime > 0
@@ -542,13 +675,30 @@ function togglePause() {
             resumeFeedbackCountdown(gameState.pausedFeedbackTime);
             gameState.pausedFeedbackTime = null;
         }
+
         gameState.pausedPostReadTime = null;
         gameState.pausedAnswerTime = null;
         gameState.pausedQ3Time = null;
         gameState.pausedFeedbackTime = null;
         gameState.wasReading = false;
-        $('buzzerBtn').disabled = false;
-        $('answerInput').disabled = false;
+
+        // --- Add this logic here ---
+        if (
+            gameState.buzzed ||
+            (gameState.currentQuarter === 3 && gameState.q3CategoryActive)
+        ) {
+            $('buzzerBtn').disabled = true;
+        } else {
+            $('buzzerBtn').disabled = false;
+        }
+
+        $('showAnswerBtn').disabled = gameState.isShowingAnswer ? true : false;
+
+        if (gameState.buzzed || (gameState.currentQuarter === 3 && gameState.q3CategoryActive)) {
+            $('answerInput').disabled = false;
+        } else {
+            $('answerInput').disabled = true;
+        }
     }
 }
 
@@ -559,16 +709,15 @@ function resumeFeedbackCountdown(timeLeft) {
         isNaN(timeLeft) ||
         timeLeft <= 0
     ) {
-        // Do not start timer, just advance
         nextQuestion();
         return;
     }
     if (gameState.feedbackTimer) clearInterval(gameState.feedbackTimer);
-    gameState.feedbackTimeLeft = timeLeft;
+    gameState.feedbackTimeLeft = timeLeft; // <--- Set here
     $('timerDisplay').textContent = `Next question in: ${timeLeft}`;
     gameState.feedbackTimer = setInterval(() => {
         timeLeft--;
-        gameState.feedbackTimeLeft = timeLeft;
+        gameState.feedbackTimeLeft = timeLeft; // <--- Keep updating
         $('timerDisplay').textContent = `Next question in: ${timeLeft}`;
         if (timeLeft <= 0) {
             clearInterval(gameState.feedbackTimer);
@@ -641,11 +790,11 @@ function updatePauseButtonVisibility() {
     $('pauseBtn').style.display = (gameState.mode === 'practice') ? 'inline-block' : 'none';
 }
 
-function resetGame(){
+function resetGame() {
     clearAllTimers();
     gameState = {
         ...gameState,
-        currentQuarter: 1,
+        currentQuarter: gameState.currentQuarter,
         currentQuestionIndex: -1,
         rawScore: 0,
         responseTimes: [],
@@ -653,6 +802,8 @@ function resetGame(){
         postReadTimer: null,
         answerTimer: null,
         pausedPostReadTime: null,
+        bonusTimer: null,
+        bonusTimeLeft: null,
         pausedAnswerTime: null,
         wasReading: false,
         readingCharIndex: 0,
@@ -676,21 +827,24 @@ function resetGame(){
 
     // Pick question set depending on mode
     if (gameState.mode === 'full') {
-        // Full game: 10 Q1, 8 Q2, 1 category for Q3, 8 Q4
+        // Full game: use the master QUESTIONS object
         gameState.activeQ1 = shuffle([...QUESTIONS.q1]).slice(0, 10);
         gameState.activeQ2 = shuffle([...QUESTIONS.q2]).slice(0, 8);
         gameState.activeQ4 = shuffle([...QUESTIONS.q4]).slice(0, 8);
-        gameState.activeQ3 = [getRandomItem([...QUESTIONS.q3])]; // pick 1 random category
+        gameState.activeQ3 = [getRandomItem([...QUESTIONS.q3])];
     } else {
-        // Practice mode: use ALL questions
-        gameState.activeQ1 = shuffle([...QUESTIONS.q1]);
-        gameState.activeQ2 = shuffle([...QUESTIONS.q2]);
-        gameState.activeQ3 = shuffle([...QUESTIONS.q3]);
-        gameState.activeQ4 = shuffle([...QUESTIONS.q4]);
+        // Practice mode: use ONLY previously assigned question sets
+        // Do NOT reassign from master QUESTIONS!
+        // gameState.activeQ1, activeQ2, activeQ3, activeQ4 are already set by assignPracticeQuestionsFromSets()
+        // Just shuffle them again if you want random order:
+        if (Array.isArray(gameState.activeQ1)) gameState.activeQ1 = shuffle([...gameState.activeQ1]);
+        if (Array.isArray(gameState.activeQ2)) gameState.activeQ2 = shuffle([...gameState.activeQ2]);
+        if (Array.isArray(gameState.activeQ3)) gameState.activeQ3 = shuffle([...gameState.activeQ3]);
+        if (Array.isArray(gameState.activeQ4)) gameState.activeQ4 = shuffle([...gameState.activeQ4]);
     }
 
-    $('questionText').textContent = gameState.questionsLoaded ? 
-        "Click 'Next Question' to start!" : 
+    $('questionText').textContent = gameState.questionsLoaded ?
+        "Click 'Next Question' to start!" :
         "Questions failed to load";
     $('buzzerBtn').disabled = true;
     $('answerInput').disabled = true;
@@ -703,16 +857,34 @@ function resetGame(){
     clearFeedback();
 }
 
-function resetPracticeGame() {
+
+async function resetPracticeGame() {
     if (gameState.mode === 'full') {
         startFullGameFromMenu();
     } else {
-        resetGame();
-        updatePauseButtonVisibility();
-        if (gameState.mode === 'practice') {
-            if (promptPracticeQuarter()) {
-                nextQuestion();
-            }
+        gameState.mode = 'practice';
+        $('modeDisplay').textContent = 'Practice';
+        $('mainMenu').style.display = 'none';
+        $('gameArea').style.display = 'block';
+
+        // Prompt for set picker FIRST
+        const selectedFiles = await promptPracticeSet();
+        if (!selectedFiles) { backToMenu(); return; }
+        await loadAllQuestionSets(selectedFiles);
+        if (!QUESTIONS_SETS.length) {
+            alert("Failed to load selected question sets.");
+            backToMenu();
+            return;
+        }
+        assignPracticeQuestionsFromSets(QUESTIONS_SETS);
+
+        // THEN prompt for quarter
+        if (promptPracticeQuarter()) {
+            resetGame();
+            updatePauseButtonVisibility();
+            nextQuestion();
+        } else {
+            backToMenu();
         }
     }
 }
@@ -743,6 +915,7 @@ function nextQuestion() {
 
     clearAllTimers();
     clearFeedback();
+    $('showAnswerBtn').disabled = false;
 
     // Quarter 3: Category
     if (gameState.currentQuarter === 3) {
@@ -871,10 +1044,7 @@ function selectCategory(idx) {
 
     gameState.q3CategoryQuestions = QUESTIONS.q3[idx].questions
         .map(q => ({ ...q, userAnswer: "", isCorrect: false }));
-
-    if (gameState.mode === 'practice') {
-        gameState.q3CategoryQuestions.sort(() => Math.random() - 0.5);
-    }
+    // Remove the sort/shuffle line!
 
     gameState.q3CurrentQuestionIdx = 0;
     gameState.q3TimeLeft = 60;
@@ -904,6 +1074,7 @@ function stopQ3CategoryTimer() {
 }
 
 function finishQ3CategoryRound() {
+    const qArr = gameState.q3CategoryQuestions;
     stopQ3CategoryTimer();
     gameState.q3CategoryActive = false;
     $('answerInput').disabled = true;
@@ -913,8 +1084,20 @@ function finishQ3CategoryRound() {
     const correct = gameState.q3CategoryQuestions.filter(q => q.isCorrect).length;
     const points = correct * 10;
 
-    let resultHtml = `<strong>Time's up or all answered!</strong><br>`;
-    resultHtml += `You got <strong>${correct}/6</strong> correct (+${points} pts).<br><br>`;
+    let resultHtml = `<strong>Category complete!</strong><br>`;
+    resultHtml += `You got <strong>${correct}/${qArr.length}</strong> correct (+${points} pts).<br><br>`;
+    resultHtml += `<table style="width:100%;text-align:left;font-size:0.98em;background:#fff;"><thead><tr><th>#</th><th>Question</th><th>Your Answer</th><th>Correct Answer</th><th>✓</th></tr></thead><tbody>`;
+    qArr.forEach((q, i) => {
+        resultHtml += `<tr>
+            <td>${i+1}</td>
+            <td>${q.question}</td>
+            <td>${q.userAnswer || "---"}</td>
+            <td>${formatAnswer(q.answer)}</td>
+            <td style="color:${q.isCorrect ? '#38a169':'#e53e3e'};">${q.isCorrect ? '✔️':'❌'}</td>
+        </tr>`;
+    });
+    resultHtml += `</tbody></table>`;
+    $('questionText').innerHTML = resultHtml;
 
     $('questionText').innerHTML = resultHtml;
     updateScoreDisplays();
@@ -1097,8 +1280,10 @@ function buzz(){
     if (gameState.buzzed) return;
     gameState.buzzed = true;
     gameState.buzzTime = Date.now(); // Record buzz time for response time calculation
+    
 
     clearAllTimers();
+    $('showAnswerBtn').disabled = true;
     // Calculate buzz-in time: from questionStartTime to buzzTime
     if (gameState.questionStartTime && gameState.buzzTime) {
         const buzzInTime = (gameState.buzzTime - gameState.questionStartTime) / 1000;
@@ -1128,6 +1313,7 @@ function buzz(){
     }
 
     $('answerInput').disabled = false;
+    $('showAnswerBtn').disabled = true;
     $('answerInput').focus();
     $('buzzerBtn').disabled = true;
     updateScoreDisplays();
@@ -1143,6 +1329,7 @@ function buzz(){
             $('answerInput').disabled = true;
             $('timerDisplay').textContent = "Time expired";
             setFeedback("Time expired! No points awarded. The correct answer was: " + formatAnswer(gameState.currentAnswer), false);
+            startFeedbackCountdown(10);
             $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(()=> { 
                 nextQuestion(); 
@@ -1153,21 +1340,33 @@ function buzz(){
 
 /* ------------------ Show answer (for practice) ------------------ */
 function showAnswer(){
-    clearAllTimers(); // Stop reading, post-read, and answer timers
-    if (!gameState.currentAnswer) {
-        setFeedback("No current answer available.", false);
-        return;
-    }
+    if (gameState.isShowingAnswer) return;
+    gameState.isShowingAnswer = true;
+
+    clearAllTimers();
     setFeedback(`Answer: ${formatAnswer(gameState.currentAnswer)}`, true);
-    startFeedbackCountdown(10);
+
     $('questionText').textContent = gameState.currentQuestionText || '---';
-    setFeedback(`Answer: ${formatAnswer(gameState.currentAnswer)}`, true);
     $('buzzerBtn').disabled = true;
-    $('answerInput').disabled = true; // <-- Add this line!
-    // Automatically load next question after answer disappears
-    setTimeout(() => {
-        nextQuestion();
-    }, 10000);
+    $('answerInput').disabled = true;
+    $('answerInput').value = '';
+    $('showAnswerBtn').disabled = true;
+
+    let secs = 10;
+    $('timerDisplay').textContent = `Next question in: ${secs}`;
+    gameState.feedbackTimeLeft = secs; // <--- Ensure this is set
+    gameState.feedbackTimer = setInterval(() => {
+        secs--;
+        gameState.feedbackTimeLeft = secs; // <--- Update every tick
+        $('timerDisplay').textContent = `Next question in: ${secs}`;
+        if (secs <= 0) {
+            clearInterval(gameState.feedbackTimer);
+            gameState.feedbackTimer = null;
+            $('timerDisplay').textContent = '--';
+            gameState.isShowingAnswer = false;
+            nextQuestion();
+        }
+    }, 1000);
 }
 
 /* ------------------ Answer checking & scoring ------------------ */
@@ -1186,6 +1385,10 @@ function isStrictCorrect(given, answer) {
 
 function submitAnswer(){
     if ($('answerInput').disabled) return;
+    if(gameState.bonusTimer) {
+        clearInterval(gameState.bonusTimer);
+        gameState.bonusTimer = null;
+    }
 
     const given = $('answerInput').value.trim();
     if (!given){
@@ -1229,8 +1432,6 @@ function submitAnswer(){
             let ans = Array.isArray(qArr[idx].answer) ? qArr[idx].answer.join(', ') : qArr[idx].answer;
             msg = `❌ Incorrect. Correct: ${formatAnswer(qArr[idx].answer)}`;
         }
-        setFeedback(msg, qArr[idx].isCorrect);
-        if (!qArr[idx].isCorrect) startFeedbackCountdown(10);
 
         if (qArr.some(q => !q.userAnswer)) {
             let nextIdx = (idx + 1) % qArr.length;
@@ -1301,6 +1502,30 @@ function submitAnswer(){
                     $('answerInput').focus();
                     gameState.isAnsweringBonus = true;
                     gameState.questionStartTime = Date.now(); // Reset for bonus timing
+            
+                    // === START BONUS TIMER ===
+                    gameState.bonusTimeLeft = 20;
+                    $('timerDisplay').textContent = `Bonus time: ${gameState.bonusTimeLeft}`;
+                    gameState.bonusTimer = setInterval(() => {
+                        gameState.bonusTimeLeft--;
+                        $('timerDisplay').textContent = `Bonus time: ${gameState.bonusTimeLeft}`;
+                        if (gameState.bonusTimeLeft <= 0) {
+                            clearInterval(gameState.bonusTimer);
+                            gameState.bonusTimer = null;
+                            $('answerInput').disabled = true;
+                            $('timerDisplay').textContent = "Bonus expired";
+                            setFeedback(`Time expired! No points awarded. The correct answer was: ${formatAnswer(gameState.currentAnswer)}`, false);
+                            startFeedbackCountdown(10);
+                            $('questionText').textContent = gameState.currentBonus?.question || '';
+                            // Mark we're not answering bonus anymore
+                            gameState.currentBonus = null;
+                            gameState.isAnsweringBonus = false;
+                            setTimeout(()=> {
+                                nextQuestion();
+                            }, 10000);
+                        }
+                    }, 1000);
+                    // === END BONUS TIMER ===
                 }, 1000);
             } else {
                 setTimeout(()=> {
@@ -1310,7 +1535,7 @@ function submitAnswer(){
         } else {
             setFeedback(`Incorrect tossup. The correct answer was: ${formatAnswer(gameState.currentAnswer)}. (No bonus.)`, false);
             startFeedbackCountdown(10);
-            $('questionText').textContent = gameState.currentQuestionText;
+            $('questionText').textContent = gameState.currentBonus?.question || '';
             setTimeout(()=> {
                 nextQuestion();
             }, 10000);
@@ -1350,13 +1575,62 @@ function submitAnswer(){
         } else {
             setFeedback(`Incorrect bonus. The correct answer was: ${formatAnswer(gameState.currentAnswer)}`, false);
             startFeedbackCountdown(10);
-            $('questionText').textContent = gameState.currentQuestionText;
+            $('questionText').textContent = gameState.currentBonus?.question || '';
         }
         gameState.currentBonus = null;
         gameState.isAnsweringBonus = false;
         setTimeout(()=> {
             nextQuestion();
-        }, 10000);
+        }, bonusIsCorrect ? 1500 : 10000);
+    }
+}
+
+function showQ3FeedbackPopup(msg, correct) {
+    // Create modal if not exists
+    let modal = document.getElementById('q3FeedbackModal');
+    if (!modal) {
+        modal = document.createElement('div');
+        modal.id = 'q3FeedbackModal';
+        modal.style.position = 'fixed';
+        modal.style.top = '0';
+        modal.style.left = '0';
+        modal.style.width = '100vw';
+        modal.style.height = '100vh';
+        modal.style.background = 'rgba(0,0,0,0.3)';
+        modal.style.zIndex = '99999';
+        modal.style.display = 'flex';
+        modal.style.alignItems = 'center';
+        modal.style.justifyContent = 'center';
+        modal.innerHTML = `<div style="background:#fff;padding:32px;border-radius:12px;max-width:420px;">
+            <h3 style="color:${correct ? '#38a169':'#e53e3e'};">${correct ? 'Correct!' : 'Incorrect'}</h3>
+            <div>${msg}</div>
+            <div style="margin-top:18px;text-align:center">
+                <button onclick="closeQ3FeedbackPopup()" class="btn">Continue</button>
+            </div>
+        </div>`;
+        document.body.appendChild(modal);
+    } else {
+        modal.querySelector('h3').textContent = correct ? 'Correct!' : 'Incorrect';
+        modal.querySelector('h3').style.color = correct ? '#38a169':'#e53e3e';
+        modal.querySelector('div > div').textContent = msg;
+        modal.style.display = 'flex';
+    }
+}
+function closeQ3FeedbackPopup() {
+    let modal = document.getElementById('q3FeedbackModal');
+    if (modal) modal.style.display = 'none';
+    // After closing, go to next question or finish
+    const qArr = gameState.q3CategoryQuestions;
+    const idx = gameState.q3CurrentQuestionIdx;
+    if (qArr.some(q => !q.userAnswer)) {
+        let nextIdx = (idx + 1) % qArr.length;
+        while (qArr[nextIdx].userAnswer) {
+            nextIdx = (nextIdx + 1) % qArr.length;
+        }
+        gameState.q3CurrentQuestionIdx = nextIdx;
+        showQ3CategoryQuestion();
+    } else {
+        finishQ3CategoryRound();
     }
 }
 
@@ -1463,13 +1737,40 @@ async function renderGlobalLeaderboard() {
             return;
         }
 
-        scores.forEach((e, idx) => {
-            const d = document.createElement('div');
-            d.style.padding = '8px';
-            d.style.borderBottom = '1px solid #eef2f7';
-            d.innerHTML = `<strong>#${idx + 1}</strong> — ${e.name || "Anonymous"} — ${new Date(e.date).toLocaleString()} — Score: ${e.totalScore} — Avg Buzz-in: ${e.averageBuzzInTime ? e.averageBuzzInTime.toFixed(1) + 's' : 'N/A'}`;
-            container.appendChild(d);
-        });
+        // Sort scores by totalScore descending and take top 10
+        const topScores = scores
+          .sort((a, b) => b.totalScore - a.totalScore)
+          .slice(0, 10);
+        
+        container.innerHTML = `
+          <table style="width:100%;background:#fff;border-radius:8px;overflow:hidden;">
+            <thead style="background:#f3f4f6;">
+              <tr>
+                <th style="padding:8px;text-align:center;">#</th>
+                <th style="padding:8px;">Name</th>
+                <th style="padding:8px;">Date</th>
+                <th style="padding:8px;">Score</th>
+                <th style="padding:8px;">Avg Buzz-in</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${topScores.map((e, idx) => `
+                <tr style="border-bottom:1px solid #eef2f7;">
+                  <td style="padding:8px;text-align:center;">
+                    <span style="font-weight:bold;${idx < 3 ? 'color:#764ba2;font-size:1.3em;' : idx < 10 ? 'color:#2b6cb0;font-size:1.08em;' : ''}">
+                      ${idx + 1}
+                    </span>
+                  </td>
+                  <td style="padding:8px;">${e.name || "Anonymous"}</td>
+                  <td style="padding:8px;">${new Date(e.date).toLocaleString()}</td>
+                  <td style="padding:8px;font-weight:700;">${e.totalScore}</td>
+                  <td style="padding:8px;">${e.averageBuzzInTime ? e.averageBuzzInTime.toFixed(1) + 's' : 'N/A'}</td>
+                </tr>
+              `).join('')}
+            </tbody>
+          </table>
+          <div class="small muted" style="margin-top:8px;">Showing top 10 scores by total points.</div>
+        `;
     } catch (err) {
         console.error(err);
         container.textContent = 'Failed to load leaderboard.';
@@ -1496,6 +1797,34 @@ function renderQuestionsDisplay(){
         <p>Quarter 4: ${QUESTIONS.q4.length} questions</p>
     `;
     container.appendChild(summary);
+}
+
+function promptPracticeSet() {
+    // List of available filenames and display names
+    const availableFiles = [
+      {
+        year: "2014-2015",
+        sets: [
+          { name: "2014-2015 Round 1", file: "historybowlquestionsets/2014-2015/2014-2015HistoryBowlRound1.json" },
+          { name: "2014-2015 Round 2", file: "historybowlquestionsets/2014-2015/2014-2015HistoryBowlRound2.json" },
+          { name: "2014-2015 Round 3", file: "historybowlquestionsets/2014-2015/2014-2015HistoryBowlRound3.json" },
+          { name: "2014-2015 Round 4", file: "historybowlquestionsets/2014-2015/2014-2015HistoryBowlRound4.json" },
+          { name: "2014-2015 Round 5", file: "historybowlquestionsets/2014-2015/2014-2015HistoryBowlRound5.json" },
+          { name: "2014-2015 Round 6", file: "historybowlquestionsets/2014-2015/2014-2015HistoryBowlRound6.json" },
+          { name: "2014-2015 Round 7", file: "historybowlquestionsets/2014-2015/2014-2015HistoryBowlRound7.json" },
+          { name: "2014-2015 Round 8", file: "historybowlquestionsets/2014-2015/2014-2015HistoryBowlRound8.json" },
+          { name: "2014-2015 Round 9", file: "historybowlquestionsets/2014-2015/2014-2015HistoryBowlRound9.json" },
+          { name: "2014-2015 Extras", file: "historybowlquestionsets/2014-2015/2014-2015HistoryBowlExtras.json" },
+          // ...more 2014-2015 sets
+        ]
+      }
+      // Add more years as needed
+    ];
+
+    // Return a promise that resolves with the selected files
+    return new Promise(resolve => {
+        openSetPicker(availableFiles, files => resolve(files));
+    });
 }
 
 /* ------------------ Key handling ------------------ */
