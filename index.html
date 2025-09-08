@@ -809,6 +809,8 @@ function resetGame() {
         postReadTimer: null,
         answerTimer: null,
         pausedPostReadTime: null,
+        bonusTimer: null,
+        bonusTimeLeft: null,
         pausedAnswerTime: null,
         wasReading: false,
         readingCharIndex: 0,
@@ -1380,6 +1382,10 @@ function isStrictCorrect(given, answer) {
 
 function submitAnswer(){
     if ($('answerInput').disabled) return;
+    if(gameState.bonusTimer) {
+        clearInterval(gameState.bonusTimer);
+        gameState.bonusTimer = null;
+    }
 
     const given = $('answerInput').value.trim();
     if (!given){
@@ -1495,6 +1501,30 @@ function submitAnswer(){
                     $('answerInput').focus();
                     gameState.isAnsweringBonus = true;
                     gameState.questionStartTime = Date.now(); // Reset for bonus timing
+            
+                    // === START BONUS TIMER ===
+                    gameState.bonusTimeLeft = 20;
+                    $('timerDisplay').textContent = `Bonus time: ${gameState.bonusTimeLeft}`;
+                    gameState.bonusTimer = setInterval(() => {
+                        gameState.bonusTimeLeft--;
+                        $('timerDisplay').textContent = `Bonus time: ${gameState.bonusTimeLeft}`;
+                        if (gameState.bonusTimeLeft <= 0) {
+                            clearInterval(gameState.bonusTimer);
+                            gameState.bonusTimer = null;
+                            $('answerInput').disabled = true;
+                            $('timerDisplay').textContent = "Bonus expired";
+                            setFeedback(`Time expired! No points awarded. The correct answer was: ${formatAnswer(gameState.currentAnswer)}`, false);
+                            startFeedbackCountdown(10);
+                            $('questionText').textContent = gameState.currentQuestionText;
+                            // Mark we're not answering bonus anymore
+                            gameState.currentBonus = null;
+                            gameState.isAnsweringBonus = false;
+                            setTimeout(()=> {
+                                nextQuestion();
+                            }, 10000);
+                        }
+                    }, 1000);
+                    // === END BONUS TIMER ===
                 }, 1000);
             } else {
                 setTimeout(()=> {
