@@ -1754,19 +1754,27 @@ async function renderGlobalLeaderboard() {
               </tr>
             </thead>
             <tbody>
-              ${topScores.map((e, idx) => `
-                <tr style="border-bottom:1px solid #eef2f7;">
-                  <td style="padding:8px;text-align:center;">
-                    <span style="font-weight:bold;${idx < 3 ? 'color:#764ba2;font-size:1.3em;' : idx < 10 ? 'color:#2b6cb0;font-size:1.08em;' : ''}">
-                      ${idx + 1}
-                    </span>
-                  </td>
-                  <td style="padding:8px;">${e.name || "Anonymous"}</td>
-                  <td style="padding:8px;">${new Date(e.date).toLocaleString()}</td>
-                  <td style="padding:8px;font-weight:700;">${e.totalScore}</td>
-                  <td style="padding:8px;">${e.averageBuzzInTime ? e.averageBuzzInTime.toFixed(1) + 's' : 'N/A'}</td>
-                </tr>
-              `).join('')}
+              ${topScores.map((e, idx) => {
+                // Define the style string once for both rank and name
+                let style = '';
+                if (idx === 0) style = 'color:#8646C7;font-weight:bold;font-size:1.5em;';
+                else if (idx === 1) style = 'color:#7146C7;font-weight:bold;font-size:1.4em;';
+                else if (idx === 2) style = 'color:#4E59BC;font-weight:bold;font-size:1.3em;';
+                else if (idx === 3 || idx === 4) style = 'color:#457CB7;font-weight:600;font-size:1.2em;';
+                else if (idx >= 5 && idx < 10) style = 'color:#2F547C;font-weight:600;font-size:1.1em;';
+                
+                return `
+                  <tr style="border-bottom:1px solid #eef2f7;">
+                    <td style="padding:8px;text-align:center;">
+                      <span style="${style}">${idx + 1}</span>
+                    </td>
+                    <td style="padding:8px;${style}">${e.name || "Anonymous"}</td>
+                    <td style="padding:8px;">${new Date(e.date).toLocaleString()}</td>
+                    <td style="padding:8px;font-weight:700;">${e.totalScore}</td>
+                    <td style="padding:8px;">${e.averageBuzzInTime ? e.averageBuzzInTime.toFixed(1) + 's' : 'N/A'}</td>
+                  </tr>
+                `;
+              }).join('')}
             </tbody>
           </table>
           <div class="small muted" style="margin-top:8px;">Showing top 10 scores by total points.</div>
