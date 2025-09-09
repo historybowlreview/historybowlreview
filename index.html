@@ -1346,6 +1346,11 @@ function nextQuestion() {
     $('answerInput').disabled = true;
     $('answerInput').value = '';
     $('questionText').textContent = 'Get ready...';
+    console.log(
+      "DEBUG: Summary Q1:", gameState.activeQ1?.length,
+      "Counter Q1:", gameState.activeQ1?.length,
+      "Q1 Array sample:", gameState.activeQ1?.slice(0,2)
+    );
     $('questionCounter').textContent = computeQuestionCounterText();
     $('currentResponseTime').textContent = 'Response time: --';
     $('categorySelection').classList.add('hidden');
