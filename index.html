@@ -2309,13 +2309,26 @@ function renderQuestionsDisplay(){
     const container = $('questionsDisplay');
     container.innerHTML = '';
 
+    let q1count, q2count, q3count, q4count;
+    if (gameState.mode === 'practice') {
+        q1count = gameState.activeQ1?.length ?? 0;
+        q2count = gameState.activeQ2?.length ?? 0;
+        q3count = gameState.activeQ3?.length ?? 0;
+        q4count = gameState.activeQ4?.length ?? 0;
+    } else {
+        q1count = QUESTIONS.q1.length;
+        q2count = QUESTIONS.q2.length;
+        q3count = QUESTIONS.q3.length;
+        q4count = QUESTIONS.q4.length;
+    }
+
     const summary = document.createElement('div');
     summary.innerHTML = `
         <h4>Loaded Questions Summary:</h4>
-        <p>Quarter 1: ${QUESTIONS.q1.length} questions</p>
-        <p>Quarter 2: ${QUESTIONS.q2.length} questions</p>
-        <p>Quarter 3: ${QUESTIONS.q3.length} categories</p>
-        <p>Quarter 4: ${QUESTIONS.q4.length} questions</p>
+        <p>Quarter 1: ${q1count} questions</p>
+        <p>Quarter 2: ${q2count} questions</p>
+        <p>Quarter 3: ${q3count} categories</p>
+        <p>Quarter 4: ${q4count} questions</p>
     `;
     container.appendChild(summary);
 }
