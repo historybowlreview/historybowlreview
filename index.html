@@ -598,10 +598,19 @@ function openSetPicker(availableFiles, callback) {
     
         // Year-specific select/deselect all
         $('selectAllYearBtn').onclick = function() {
-          list.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = true);
+          // Mark all sets in this year as selected in _selectedSets
+          availableFiles[yearIdx].sets.forEach((set, setIdx) => {
+            _selectedSets[`${yearIdx}-${setIdx}`] = true;
+          });
+          renderSetList(yearIdx); // Update the UI
         };
+        
         $('deselectAllYearBtn').onclick = function() {
-          list.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
+          // Deselect all sets in this year in _selectedSets
+          availableFiles[yearIdx].sets.forEach((set, setIdx) => {
+            delete _selectedSets[`${yearIdx}-${setIdx}`];
+          });
+          renderSetList(yearIdx); // Update the UI
         };
     }
     $('setPickerModal').style.display = 'block';
