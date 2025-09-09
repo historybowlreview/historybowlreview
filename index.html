@@ -2023,21 +2023,10 @@ function closeQ3FeedbackPopup() {
 /* ------------------ Utility functions ------------------ */
 function computeQuestionCounterText(){
     const q = gameState.currentQuarter;
-    if (q === 1) return `Q ${Math.max(0, gameState.currentQuestionIndex+1)} / ${gameState.activeQ1.length}`;
-    if (q === 2) return `Q ${Math.max(0, gameState.currentQuestionIndex+1)} / ${gameState.activeQ2.length}`;
-    if (q === 3){
-        if (gameState.q3selectedCategory !== null && Array.isArray(gameState.q3CategoryQuestions)){
-            const current = (gameState.q3CurrentQuestionIdx ?? 0) + 1;
-            const total = gameState.q3CategoryQuestions.length;
-            return `Q ${current} / ${total}`;
-        }
-        return `Select category`;
-    }
-    if (q === 4) {
-        // If index < 0, show nothing or Q 0 / total
-        if (gameState.currentQuestionIndex < 0 || !gameState.activeQ4) return '';
-        return `Q ${gameState.currentQuestionIndex+1} / ${gameState.activeQ4.length}`;
-    }
+    if (q === 1) return `Q ${Math.max(0, gameState.currentQuestionIndex+1)} / ${gameState.activeQ1?.length || 0}`;
+    if (q === 2) return `Q ${Math.max(0, gameState.currentQuestionIndex+1)} / ${gameState.activeQ2?.length || 0}`;
+    if (q === 3) return ''; // Don't show Q3 total
+    if (q === 4) return `Q ${Math.max(0, gameState.currentQuestionIndex+1)} / ${gameState.activeQ4?.length || 0}`;
     return '';
 }
 
