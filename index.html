@@ -202,7 +202,7 @@
     .admin-panel{display:none;background:rgba(255,255,255,0.95);padding:20px;border-radius:16px;margin-top:16px;box-shadow:0 8px 24px rgba(0,0,0,0.12)}
     .question-list{background:white;padding:16px;border-radius:10px;max-height:260px;overflow:auto;margin-top:12px;border:1px solid #e2e8f0}
     .controls-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:12px}
-    .leaderboard{background:white;padding:16px;border-radius:10px;margin-top:12px;max-height:260px;overflow:auto;border:1px solid #e2e8f0;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+    .leaderboard{background:white;padding:16px;border-radius:10px;margin-top:12px;max-height:480px;overflow:auto;border:1px solid #e2e8f0;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
     .small{font-size:0.9rem;color:#444}
     .muted{color:#666;font-size:0.9rem}
     .tab-btn {
@@ -2115,9 +2115,7 @@ async function renderGlobalLeaderboard() {
        }
        
        // Sort scores by totalScore descending and take top 10
-       const topScores = scores
-           .sort((a, b) => b.totalScore - a.totalScore)
-           .slice(0, 10);
+       const topScores = scores.sort((a, b) => b.totalScore - a.totalScore);
        
        // Simple date formatting to "Sep 9 2025"
        const formatDate = (dateStr) => {
@@ -2137,26 +2135,26 @@ async function renderGlobalLeaderboard() {
            let borderColor = '#5a67d8';
            
            if (idx === 0) {
-               nameStyle = 'color:#8646C7;font-weight:bold;font-size:1.5em;';
+               nameStyle = 'color:#8646C7;font-weight:bold;font-size:1.3em;';
                rankStyle = 'color:#8646C7;font-weight:800;text-shadow:1px 1px 2px rgba(134,70,199,0.2);';
                borderColor = '#8646C7';
                medalEmoji = '🥇';
            } else if (idx === 1) {
-               nameStyle = 'color:#7146C7;font-weight:bold;font-size:1.4em;';
+               nameStyle = 'color:#7146C7;font-weight:bold;font-size:1.25em;';
                rankStyle = 'color:#7146C7;font-weight:800;text-shadow:1px 1px 2px rgba(113,70,199,0.2);';
                borderColor = '#7146C7';
                medalEmoji = '🥈';
            } else if (idx === 2) {
-               nameStyle = 'color:#4E59BC;font-weight:bold;font-size:1.3em;';
+               nameStyle = 'color:#4E59BC;font-weight:bold;font-size:1.2em;';
                rankStyle = 'color:#4E59BC;font-weight:800;text-shadow:1px 1px 2px rgba(78,89,188,0.2);';
                borderColor = '#4E59BC';
                medalEmoji = '🥉';
            } else if (idx === 3 || idx === 4) {
-               nameStyle = 'color:#457CB7;font-weight:600;font-size:1.2em;';
+               nameStyle = 'color:#457CB7;font-weight:600;font-size:1.1em;';
                rankStyle = 'color:#457CB7;font-weight:800;';
                borderColor = '#457CB7';
            } else if (idx >= 5 && idx < 10) {
-               nameStyle = 'color:#2F547C;font-weight:600;font-size:1.1em;';
+               nameStyle = 'color:#2F547C;font-weight:600;font-size:1.05em;';
                rankStyle = 'color:#2F547C;font-weight:800;';
                borderColor = '#2F547C';
            }
@@ -2174,54 +2172,54 @@ async function renderGlobalLeaderboard() {
                    display:flex;
                    align-items:center;
                    justify-content:space-between;
-                   padding:18px 22px;
-                   margin:10px 0;
+                   padding:12px 16px;
+                   margin:6px 0;
                    background:${backgroundGradient};
-                   border-radius:14px;
-                   border-left:5px solid ${borderColor};
-                   box-shadow:0 3px 12px rgba(0,0,0,0.08);
+                   border-radius:10px;
+                   border-left:4px solid ${borderColor};
+                   box-shadow:0 2px 8px rgba(0,0,0,0.06);
                    transition:all 0.3s ease;
                    backdrop-filter:blur(10px);
                    cursor:pointer;
                " 
-               onmouseover="this.style.transform='translateX(6px) translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(0,0,0,0.15)';this.style.background='rgba(255,255,255,0.98)'"
-               onmouseout="this.style.transform='translateX(0) translateY(0)';this.style.boxShadow='0 3px 12px rgba(0,0,0,0.08)';this.style.background='${backgroundGradient}'">
+               onmouseover="this.style.transform='translateX(4px) translateY(-1px)';this.style.boxShadow='0 4px 16px rgba(0,0,0,0.12)';this.style.background='rgba(255,255,255,0.98)'"
+               onmouseout="this.style.transform='translateX(0) translateY(0)';this.style.boxShadow='0 2px 8px rgba(0,0,0,0.06)';this.style.background='${backgroundGradient}'">
                    
-                   ${medalEmoji ? `<span style="font-size:1.8rem;margin-right:12px;">${medalEmoji}</span>` : ''}
+                   ${medalEmoji ? `<span style="font-size:1.4rem;margin-right:8px;">${medalEmoji}</span>` : ''}
                    
                    <span style="
                        ${rankStyle}
-                       font-size:1.3rem;
-                       min-width:45px;
+                       font-size:1.1rem;
+                       min-width:35px;
                        text-align:center;
-                       margin-right:16px;
+                       margin-right:12px;
                    ">${idx + 1}</span>
                    
-                   <div style="flex:1;margin:0 18px;">
-                       <div style="${nameStyle}margin-bottom:6px;line-height:1.2;">
+                   <div style="flex:1;margin:0 12px;">
+                       <div style="${nameStyle}margin-bottom:3px;line-height:1.1;">
                            ${e.name || "Anonymous"}
                        </div>
                        <div style="
-                           font-size:0.9rem;
+                           font-size:0.8rem;
                            color:#666;
                            display:flex;
-                           gap:16px;
+                           gap:10px;
                            flex-wrap:wrap;
                            align-items:center;
                        ">
                            <span style="
                                background:rgba(90,103,216,0.1);
-                               padding:3px 8px;
-                               border-radius:12px;
-                               font-size:0.85rem;
+                               padding:2px 6px;
+                               border-radius:8px;
+                               font-size:0.75rem;
                                font-weight:500;
                                color:#5a67d8;
-                           ">⚡ ${e.averageBuzzInTime ? e.averageBuzzInTime.toFixed(1) + 's avg' : 'N/A avg'}</span>
+                           ">⚡ ${e.averageBuzzInTime ? e.averageBuzzInTime.toFixed(1) + 's' : 'N/A'}</span>
                            <span style="
                                background:rgba(108,117,125,0.1);
-                               padding:3px 8px;
-                               border-radius:12px;
-                               font-size:0.85rem;
+                               padding:2px 6px;
+                               border-radius:8px;
+                               font-size:0.75rem;
                                font-weight:500;
                                color:#6c757d;
                            ">📅 ${formatDate(e.date)}</span>
@@ -2230,28 +2228,28 @@ async function renderGlobalLeaderboard() {
                    
                    <div style="
                        ${rankStyle}
-                       font-size:1.6rem;
+                       font-size:1.3rem;
                        font-weight:800;
                        text-align:right;
-                       min-width:70px;
+                       min-width:60px;
                        background:rgba(255,255,255,0.7);
-                       padding:8px 12px;
-                       border-radius:10px;
-                       box-shadow:0 2px 8px rgba(0,0,0,0.1);
+                       padding:6px 10px;
+                       border-radius:8px;
+                       box-shadow:0 1px 6px rgba(0,0,0,0.08);
                    ">${e.totalScore}</div>
                </div>
            `;
        }).join('') + `
            <div style="
                text-align:center;
-               margin-top:20px;
-               padding-top:16px;
+               margin-top:16px;
+               padding-top:12px;
                border-top:2px solid rgba(90,103,216,0.1);
                color:#666;
-               font-size:0.95rem;
+               font-size:0.9rem;
                font-weight:500;
            ">
-               🏆 Showing top ${topScores.length} players • Updated live
+               🏆 Showing ${topScores.length} scores • Updated live
            </div>
        `;
        
