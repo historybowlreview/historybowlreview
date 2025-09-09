@@ -474,7 +474,7 @@ async function loadQuestionsFromServer() {
         const q4Count = jsonData.q4.reduce((sum, group) => sum + group.parts.length, 0);
 
         updateQuestionsStatus(
-            `Successfully loaded: Q1(${jsonData.q1.length}) Q2(${jsonData.q2.length}) Q3(${q3Count}) Q4(${q4Count})`,
+            `Successfully loaded: Q1(${jsonData.q1.length}) Q2(${jsonData.q2.length}) Q3(${q3Count}) Q4(${q4Count/4})`,
             true
         );
 
