@@ -500,12 +500,12 @@ async function loadAllQuestionSets(files) {
 }
 
 function selectAllSets() {
-    const checkboxes = document.querySelectorAll('#setPickerList input[type=checkbox]');
+    const checkboxes = document.querySelectorAll('#setPickerModal input[type=checkbox]');
     checkboxes.forEach(cb => cb.checked = true);
 }
 
 function deselectAllSets() {
-    const checkboxes = document.querySelectorAll('#setPickerList input[type=checkbox]');
+    const checkboxes = document.querySelectorAll('#setPickerModal input[type=checkbox]');
     checkboxes.forEach(cb => cb.checked = false);
 }
 
