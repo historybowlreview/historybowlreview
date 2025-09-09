@@ -441,26 +441,40 @@ function calculateAverageResponseTime() {
 }
 
 function looseMatch(given, answer) {
-  const articles = ["the", "a", "an", "of"];
-  function tokenize(s) {
-    return s
-      .toLowerCase()
-      .replace(/[^a-z0-9' ]+/g, '')
-      .split(/\s+/)
-      .filter(w => w && !articles.includes(w));
-  }
-  const givenWords = tokenize(given);
+    // Acceptable extra words (articles/prepositions)
+    const allowedExtras = ["the", "a", "an", "of", "in", "on", "at", "for", "by", "to", "from", "with", "and", "or"];
+    function tokenize(s) {
+        return s
+            .toLowerCase()
+            .replace(/[^a-z0-9' ]+/g, '')
+            .split(/\s+/)
+            .filter(w => w); // keep all, filter blanks
+    }
 
-  let answerWordsArr = Array.isArray(answer)
-    ? answer.map(tokenize)
-    : [tokenize(answer)];
+    const givenWords = tokenize(given).filter(w => !allowedExtras.includes(w));
+    if (!givenWords.length) return false;
 
-  if (!givenWords.length) return false;
+    let answerWordsArr = Array.isArray(answer)
+        ? answer.map(tokenize)
+        : [tokenize(answer)];
 
-  return answerWordsArr.some(ansWords => {
-    // Accept if all givenWords are in ansWords (flexible)
-    return givenWords.every(w => ansWords.includes(w));
-  });
+    // For each possible answer, check:
+    // - All its non-prep words must be present in response
+    // - Response must not have extra non-prep words
+    return answerWordsArr.some(ansWords => {
+        const ansSet = new Set(ansWords.filter(w => !allowedExtras.includes(w)));
+        const givenSet = new Set(givenWords);
+
+        // All answer words must be present in response
+        for (let w of ansSet) {
+            if (!givenSet.has(w)) return false;
+        }
+        // All response words must be present in answer (no extra non-prep words)
+        for (let w of givenSet) {
+            if (!ansSet.has(w)) return false;
+        }
+        return true;
+    });
 }
 
 function setFeedback(text, ok=true){
@@ -1029,7 +1043,7 @@ function nextQuestion() {
     }
 
     // Prepare question UI
-    $('buzzerBtn').disabled = false;
+    $('buzzerBtn').disabled = true;
     $('answerInput').disabled = true;
     $('answerInput').value = '';
     $('questionText').textContent = 'Get ready...';
@@ -1458,6 +1472,7 @@ function submitAnswer(){
         }
         return;
     }
+    
     
 
     const submitTime = Date.now();
