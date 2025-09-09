@@ -474,7 +474,7 @@ async function loadQuestionsFromServer() {
         const q4Count = jsonData.q4.reduce((sum, group) => sum + group.parts.length, 0);
 
         updateQuestionsStatus(
-            `Successfully loaded: Q1(${jsonData.q1.length}) Q2(${jsonData.q2.length}) Q3(${q3Count}) Q4(${q4Count/4})`,
+            `Successfully loaded: Q1(${jsonData.q1.length}) Q2(${jsonData.q2.length}) Q3(${q3Count}) Q4(${q4Count})`,
             true
         );
 
@@ -825,7 +825,19 @@ function assignPracticeQuestionsFromSets(sets) {
 }
 
 function promptPracticeQuarter() {
-    const choice = prompt("Enter practice quarter (1,2,3,4) or 'q' to cancel:", "1");
+    const q1count = gameState.activeQ1 ? gameState.activeQ1.length : 0;
+    const q2count = gameState.activeQ2 ? gameState.activeQ2.length : 0;
+    const q3count = gameState.activeQ3 ? gameState.activeQ3.length : 0;
+    const q4count = gameState.activeQ4 ? gameState.activeQ4.length : 0;
+    
+    const promptText =
+      `Enter practice quarter (1,2,3,4) or 'q' to cancel:\n` +
+      `Q1: ${q1count} questions\n` +
+      `Q2: ${q2count} questions\n` +
+      `Q3: ${q3count} categories\n` +
+      `Q4: ${q4count} questions`;
+    
+    const choice = prompt(promptText, "1");
     if (!choice || choice.toLowerCase() === 'q') {
         backToMenu();
         return false;
