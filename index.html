@@ -2161,11 +2161,12 @@ async function renderGlobalLeaderboard() {
            
            // Background gradient based on rank
            let backgroundGradient = 'rgba(255,255,255,0.9)';
-           if (idx === 0) backgroundGradient = 'linear-gradient(135deg,rgba(134,70,199,0.1) 0%,rgba(255,255,255,0.95) 100%)';
-           else if (idx === 1) backgroundGradient = 'linear-gradient(135deg,rgba(113,70,199,0.08) 0%,rgba(255,255,255,0.95) 100%)';
-           else if (idx === 2) backgroundGradient = 'linear-gradient(135deg,rgba(78,89,188,0.08) 0%,rgba(255,255,255,0.95) 100%)';
-           else if (idx === 3 || idx === 4) backgroundGradient = 'linear-gradient(135deg,rgba(69,124,183,0.06) 0%,rgba(255,255,255,0.95) 100%)';
-           else if (idx >= 5) backgroundGradient = 'linear-gradient(135deg,rgba(47,84,124,0.06) 0%,rgba(255,255,255,0.95) 100%)';
+           if (idx === 0) backgroundGradient = 'linear-gradient(135deg,rgba(134,70,199,0.30) 0%,rgba(255,255,255,0.95) 100%)';
+           else if (idx === 1) backgroundGradient = 'linear-gradient(135deg,rgba(113,70,199,0.25) 0%,rgba(255,255,255,0.95) 100%)';
+           else if (idx === 2) backgroundGradient = 'linear-gradient(135deg,rgba(78,89,188,0.20) 0%,rgba(255,255,255,0.95) 100%)';
+           else if (idx === 3 || idx === 4) backgroundGradient = 'linear-gradient(135deg,rgba(69,124,183,0.15) 0%,rgba(255,255,255,0.95) 100%)';
+           else if (idx >= 5) backgroundGradient = 'linear-gradient(135deg,rgba(47,84,124,0.10) 0%,rgba(255,255,255,0.95) 100%)';
+           else if (idx >= 5 && idx < 10) backgroundGradient = 'linear-gradient(135deg,rgba(47,84,124,0.05) 0%,rgba(255,255,255,0.95) 100%)';
            
            return `
                <div style="
