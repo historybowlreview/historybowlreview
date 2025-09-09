@@ -441,7 +441,6 @@ function calculateAverageResponseTime() {
 }
 
 function looseMatch(given, answer) {
-    // Acceptable extra words (articles/prepositions)
     const allowedExtras = ["the", "a", "an", "of", "in", "on", "at", "for", "by", "to", "from", "with", "and", "or"];
     function tokenize(s) {
         return s
@@ -454,17 +453,20 @@ function looseMatch(given, answer) {
     const givenWords = tokenize(given).filter(w => !allowedExtras.includes(w));
     if (!givenWords.length) return false;
 
-    let answerWordsArr = Array.isArray(answer)
-        ? answer.map(tokenize)
-        : [tokenize(answer)];
+    // --- Fix: If answer is a string with commas, split it ---
+    let answerWordsArr;
+    if (Array.isArray(answer)) {
+        answerWordsArr = answer.map(tokenize);
+    } else if (typeof answer === "string" && answer.includes(",")) {
+        answerWordsArr = answer.split(",").map(a => tokenize(a));
+    } else {
+        answerWordsArr = [tokenize(answer)];
+    }
 
     // For each possible answer, check:
-    // - All its non-prep words must be present in response
-    // - Response must not have extra non-prep words
     return answerWordsArr.some(ansWords => {
         const ansSet = new Set(ansWords.filter(w => !allowedExtras.includes(w)));
         const givenSet = new Set(givenWords);
-
         // All answer words must be present in response
         for (let w of ansSet) {
             if (!givenSet.has(w)) return false;
