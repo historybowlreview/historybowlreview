@@ -2,7 +2,10 @@
   "q1": [
     {
       "question": "This man's opinion in Barron v. Baltimore refused to apply Bill of Rights protections to state\ngovernments. He was the target of Andrew Jackson's derisive remark \"now let him enforce it,\"\nand he asserted his Court's power in a case about \"midnight appointments.\" For 10 points, name\nthis Chief Justice whose ruling in Marbury v. Madison asserted the power of judicial review.",
-      "answer": "John Marshall, Marshall"
+      "answer": [
+        "John Marshall",
+        "Marshall"
+      ]
     },
     {
       "question": "Pope Leo I convinced Attila the Hun not to perform this kind of action. This kind of action\nwas done by Gauls following the 390 BC Battle of the Allia. In 410 AD, Alaric led an army of\nVisigoths in performing this action, which St. Jerome identified as the effective end of the\nEmpire. For 10 points, identify this action in which the \"eternal city\" is pillaged.",
@@ -10,7 +13,11 @@
     },
     {
       "question": "The formation of this institution triggered the Key West Agreement on its proper usage, which\nwas negotiated on its behalf by its first secretary, Stuart Symington. This organization conducted\nProject Blue Book, a study of UFOs, and it operates Area 51. For 10 points, name this branch of\nthe US military which operates B-52s, F-16s, and other fighter jets.",
-      "answer": "United States Air Force, Air Force, USAF"
+      "answer": [
+        "United States Air Force",
+        "Air Force",
+        "USAF"
+      ]
     },
     {
       "question": "In 1970, the concluding game of this event featured the dramatic entrance of an injured Willis\nReed. This event included the \"flu game\" in 1997 and an upset in 2011 that put a championship\nin the hands of Jason Terry, Shawn Marion, and Dirk Nowitski. For 10 points, name this annual\nJune event, which awards the Larry O'Brien trophy to teams such as the Bulls, Heat, or Lakers.",
@@ -22,27 +29,45 @@
     },
     {
       "question": "This instrument was invented by a Belgian seeking a solution to the problem of clarinets\nraising their pitch when overblown. This instrument was played by Cannonball Adderley as well\nas the composer of Giant Steps, John Coltrane. For 10 points, name this classical and jazz\ninstrument which has alto and tenor varieties and is a woodwind made out of brass.",
-      "answer": "saxophone, sax"
+      "answer": [
+        "saxophone",
+        "sax"
+      ]
     },
     {
       "question": "In 1985, this company sued Minolta over the distinctive crossed letters in its logo. This\ncompany is the descendent of Standard Oil of New Jersey, and it employed Joseph Hazelwood,\nwho was accused of being responsible for a 1989 disaster on Prince William Sound. For 10\npoints, name this company whose Valdez tanker caused a huge oil spill, eleven years before it\nmerged with Mobil.",
-      "answer": "Exxon, Exxon Mobil Corporation"
+      "answer": [
+        "Exxon",
+        "Exxon Mobil Corporation"
+      ]
     },
     {
       "question": "The first Church council named for this place endorsed ultramontanism and espoused the\ndoctrine of Papal infallibility. The second council named for this place introduced the vernacular\nmass and renounced anti-Semitism. For 10 points, identify this namesake of 1868 and 1962\nCatholic ecumenical councils, which is also the independent state where the Pope lives.",
-      "answer": "Vatican, Vatican City"
+      "answer": [
+        "Vatican",
+        "Vatican City"
+      ]
     },
     {
       "question": "This man refused to continue working on the film The Golden Age after denouncing his\ncollaborator, Luis Buñuel, for \"communism and atheism,\" three years after he completed Un\nChien Andalou (pr. uh shee-EN on-da-LOO) For 10 points, name this Spanish surrealist who\npainted The Persistence of Memory, which shows several melting watches.",
-      "answer": "Salvador Dali, Dali"
+      "answer": [
+        "Salvador Dali",
+        "Dali"
+      ]
     },
     {
       "question": "Nobility serving under this dynasty followed the \"Table of Ranks\" to determine bureaucratic\nadvancement. This royal house came to power after three different \"False Dmitris\" were\nsuppressed during the Time of Troubles. For 10 points, name this house founded by Mikhail I in\n1613, which remained in control of Russia until the twentieth century.",
-      "answer": "Romanov, Romanov Dynasty"
+      "answer": [
+        "Romanov",
+        "Romanov Dynasty"
+      ]
     },
     {
       "question": "(TIEBREAKER BONUS EXAMPLE) Whose nomination as Walter Mondale's running mate in 1984 made her the first\nwoman to be a major-party U.S. Vice-Presidential candidate?",
-      "answer": "Geraldine Ferraro, Ferraro"
+      "answer": [
+        "Geraldine Ferraro",
+        "Ferraro"
+      ]
     }
   ],
   "q2": [

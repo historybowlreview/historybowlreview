@@ -100,18 +100,15 @@
 
     <!-- Set Picker Modal -->
     <div id="setPickerModal" style="display:none;">
-      <div style="background:white;...">
+      <div>
         <h3>Select Practice Sets</h3>
-        <!-- Tabs go above -->
         <div id="setPickerTabs"></div>
-        <!-- Set list below tabs -->
-        <div id="setPickerList" style="max-height:300px;overflow-y:auto;margin-bottom:18px;"></div>
-        <!-- Buttons below set list -->
-        <button id="selectAllYearBtn">Select All This Year</button>
-        <button id="deselectAllYearBtn">Deselect All This Year</button>
         <button onclick="selectAllSets()">Select All</button>
         <button onclick="deselectAllSets()">Deselect All</button>
-        <button onclick="confirmSetPicker()">Confirm</button>
+        <div id="setPickerList" style="max-height:300px;overflow-y:auto;margin-bottom:18px;"></div>
+        <button id="selectAllYearBtn">Select All This Year</button>
+        <button id="deselectAllYearBtn">Deselect All This Year</button>
+        <button onclick="confirmSetPicker()" style="margin-left:4px;">Confirm</button>
         <button onclick="cancelSetPicker()" style="margin-left:12px;">Cancel</button>
       </div>
     </div>
@@ -286,23 +283,62 @@ function openSetPicker(availableFiles, callback) {
     function renderSetList(yearIdx) {
         list.innerHTML = '';
         const sets = availableFiles[yearIdx].sets;
+    
+        // Group sets by first letter (A, B, C)
+        const groups = {};
         sets.forEach((set, idx) => {
-            const div = document.createElement('div');
-            div.innerHTML = `<label><input type="checkbox" value="${yearIdx}-${idx}"> ${set.name}</label>`;
-            list.appendChild(div);
+            const match = set.file.match(/\/([A-Z])\d{4}-\d{4}/);
+            const group = match ? match[1] : 'Other';
+            if (!groups[group]) groups[group] = [];
+            groups[group].push({ ...set, idx });
         });
-
-        // Add select/deselect all for this year
-        $('selectAllYearBtn').onclick = () => {
-            list.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = true);
+    
+        Object.keys(groups).sort().forEach(group => {
+            // Collapsible section
+            const section = document.createElement('div');
+            section.style.marginBottom = '8px';
+    
+            // Header
+            const header = document.createElement('div');
+            header.textContent = `Set ${group}`;
+            header.style.cursor = 'pointer';
+            header.style.fontWeight = 'bold';
+            header.style.background = '#f3f4f6';
+            header.style.padding = '6px';
+            header.style.borderRadius = '6px 6px 0 0';
+            section.appendChild(header);
+    
+            // Content
+            const content = document.createElement('div');
+            content.style.padding = '8px';
+            content.style.border = '1px solid #e2e8f0';
+            content.style.borderTop = 'none';
+    
+            groups[group].forEach(set => {
+                const div = document.createElement('div');
+                div.innerHTML = `<label><input type="checkbox" value="${yearIdx}-${set.idx}"> ${set.name}</label>`;
+                content.appendChild(div);
+            });
+            section.appendChild(content);
+    
+            // Collapsible logic
+            header.onclick = () => {
+                content.style.display = (content.style.display === 'none') ? 'block' : 'none';
+            };
+            content.style.display = 'block';
+    
+            list.appendChild(section);
+        });
+    
+        // Year-specific select/deselect all
+        $('selectAllYearBtn').onclick = function() {
+          list.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = true);
         };
-        $('deselectAllYearBtn').onclick = () => {
-            list.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
+        $('deselectAllYearBtn').onclick = function() {
+          list.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
         };
     }
     $('setPickerModal').style.display = 'block';
-
-    // ...Modal open/close logic as before
 }
 
 function confirmSetPicker() {
@@ -441,26 +477,42 @@ function calculateAverageResponseTime() {
 }
 
 function looseMatch(given, answer) {
-  const articles = ["the", "a", "an", "of"];
-  function tokenize(s) {
-    return s
-      .toLowerCase()
-      .replace(/[^a-z0-9' ]+/g, '')
-      .split(/\s+/)
-      .filter(w => w && !articles.includes(w));
-  }
-  const givenWords = tokenize(given);
+    const allowedExtras = ["the", "a", "an", "of", "in", "on", "at", "for", "by", "to", "from", "with", "and", "or"];
+    function tokenize(s) {
+        return s
+            .toLowerCase()
+            .replace(/[^a-z0-9' ]+/g, '')
+            .split(/\s+/)
+            .filter(w => w); // keep all, filter blanks
+    }
 
-  let answerWordsArr = Array.isArray(answer)
-    ? answer.map(tokenize)
-    : [tokenize(answer)];
+    const givenWords = tokenize(given).filter(w => !allowedExtras.includes(w));
+    if (!givenWords.length) return false;
 
-  if (!givenWords.length) return false;
+    // --- Fix: If answer is a string with commas, split it ---
+    let answerWordsArr;
+    if (Array.isArray(answer)) {
+        answerWordsArr = answer.map(tokenize);
+    } else if (typeof answer === "string" && answer.includes(",")) {
+        answerWordsArr = answer.split(",").map(a => tokenize(a));
+    } else {
+        answerWordsArr = [tokenize(answer)];
+    }
 
-  return answerWordsArr.some(ansWords => {
-    // Accept if all givenWords are in ansWords (flexible)
-    return givenWords.every(w => ansWords.includes(w));
-  });
+    // For each possible answer, check:
+    return answerWordsArr.some(ansWords => {
+        const ansSet = new Set(ansWords.filter(w => !allowedExtras.includes(w)));
+        const givenSet = new Set(givenWords);
+        // All answer words must be present in response
+        for (let w of ansSet) {
+            if (!givenSet.has(w)) return false;
+        }
+        // All response words must be present in answer (no extra non-prep words)
+        for (let w of givenSet) {
+            if (!ansSet.has(w)) return false;
+        }
+        return true;
+    });
 }
 
 function setFeedback(text, ok=true){
@@ -1029,16 +1081,13 @@ function nextQuestion() {
     }
 
     // Prepare question UI
-    $('buzzerBtn').disabled = false;
+    $('buzzerBtn').disabled = true;
     $('answerInput').disabled = true;
     $('answerInput').value = '';
     $('questionText').textContent = 'Get ready...';
     $('questionCounter').textContent = computeQuestionCounterText();
     $('currentResponseTime').textContent = 'Response time: --';
     $('categorySelection').classList.add('hidden');
-
-    // Record question start time
-    gameState.questionStartTime = Date.now();
 
     // Start reading question
     setTimeout(() => startReading(), 800);
@@ -1233,6 +1282,8 @@ function showQ3CategoryQuestion() {
 
 /* ------------------ Reading / typing effect ------------------ */
 function startReading(){
+    gameState.questionStartTime = Date.now();
+    $('buzzerBtn').disabled = false;
     clearAllTimers();
     gameState.buzzed = false;
     gameState.multiplier = 1;
@@ -1320,6 +1371,12 @@ function startReading(){
                         setFeedback(`Time expired! No points awarded. The correct answer was: ${formatAnswer(gameState.currentAnswer)}`, false);
                         startFeedbackCountdown(10);
                         $('questionText').textContent = gameState.currentQuestionText;
+                        if (!gameState.buzzed) {
+                            // Reading time = time from questionStartTime to now
+                            const totalBuzzTime = (Date.now() - gameState.questionStartTime) / 1000;
+                            gameState.buzzInTimes.push(totalBuzzTime);
+                            updateScoreDisplays();
+                        }
                         setTimeout(()=> {
                             nextQuestion();
                         }, 10000); // 5 seconds to review
@@ -1459,6 +1516,7 @@ function submitAnswer(){
         }
         return;
     }
+    
     
 
     const submitTime = Date.now();
@@ -1880,28 +1938,32 @@ function renderQuestionsDisplay(){
 }
 
 function promptPracticeSet() {
-    // List of available filenames and display names
     const availableFiles = [
-      {
-        year: "2014-2015",
-        sets: [
-          { name: "2014-2015 Round 1", file: "historybowlquestionsets/2014-2015/2014-2015HistoryBowlRound1.json" },
-          { name: "2014-2015 Round 2", file: "historybowlquestionsets/2014-2015/2014-2015HistoryBowlRound2.json" },
-          { name: "2014-2015 Round 3", file: "historybowlquestionsets/2014-2015/2014-2015HistoryBowlRound3.json" },
-          { name: "2014-2015 Round 4", file: "historybowlquestionsets/2014-2015/2014-2015HistoryBowlRound4.json" },
-          { name: "2014-2015 Round 5", file: "historybowlquestionsets/2014-2015/2014-2015HistoryBowlRound5.json" },
-          { name: "2014-2015 Round 6", file: "historybowlquestionsets/2014-2015/2014-2015HistoryBowlRound6.json" },
-          { name: "2014-2015 Round 7", file: "historybowlquestionsets/2014-2015/2014-2015HistoryBowlRound7.json" },
-          { name: "2014-2015 Round 8", file: "historybowlquestionsets/2014-2015/2014-2015HistoryBowlRound8.json" },
-          { name: "2014-2015 Round 9", file: "historybowlquestionsets/2014-2015/2014-2015HistoryBowlRound9.json" },
-          { name: "2014-2015 Extras", file: "historybowlquestionsets/2014-2015/2014-2015HistoryBowlExtras.json" },
-          // ...more 2014-2015 sets
-        ]
-      }
-      // Add more years as needed
+        {
+            year: "2014-2015",
+            sets: [
+                { name: "Round 4", file: "historybowlquestionsets/2014-2015/B2014-2015HistoryBowlRound4.json" },
+                { name: "Round 5", file: "historybowlquestionsets/2014-2015/B2014-2015HistoryBowlRound5.json" },
+                { name: "Round 1", file: "historybowlquestionsets/2014-2015/C2014-2015HistoryBowlRound1.json" },
+                { name: "Round 2", file: "historybowlquestionsets/2014-2015/C2014-2015HistoryBowlRound2.json" },
+                { name: "Round 3", file: "historybowlquestionsets/2014-2015/C2014-2015HistoryBowlRound3.json" },
+                { name: "Round 4", file: "historybowlquestionsets/2014-2015/C2014-2015HistoryBowlRound4.json" },
+                { name: "Round 5", file: "historybowlquestionsets/2014-2015/C2014-2015HistoryBowlRound5.json" },
+                { name: "Round 6", file: "historybowlquestionsets/2014-2015/C2014-2015HistoryBowlRound6.json" },
+                { name: "Round 7", file: "historybowlquestionsets/2014-2015/C2014-2015HistoryBowlRound7.json" },
+                { name: "Round 8", file: "historybowlquestionsets/2014-2015/C2014-2015HistoryBowlRound8.json" },
+                { name: "Round 9", file: "historybowlquestionsets/2014-2015/C2014-2015HistoryBowlRound9.json" },
+                { name: "Extras", file: "historybowlquestionsets/2014-2015/C2014-2015HistoryBowlExtras.json" }
+            ]
+        },
+        {
+            year: "2015-2016",
+            sets: [
+                //{ name: "C2015-2016 Round XXX", file: "historybowlquestionsets/2015-2016/C2015-2016HistoryBowlRoundXXX.json" },
+                { name: "C2015-2016 Round 1", file: "historybowlquestionsets/2015-2016/C2015-2016HistoryBowlRound1.json" }
+            ]
+        }
     ];
-
-    // Return a promise that resolves with the selected files
     return new Promise(resolve => {
         openSetPicker(availableFiles, files => resolve(files));
     });

@@ -85,7 +85,10 @@
     {
       "tossup": {
         "question": "This woman was one of the first district attorneys in New York's Special Victims Bureau, and\nshe wrote the Democratic National Committee's rules on superdelegates. George H.W. Bush was\naccused of disrespecting her in a 1984 debate. For 10 points, name this first woman to run as a\nmajor-party Vice-Presidential candidate, appearing on the losing Walter Mondale ticket.",
-        "answer": "Geraldine Ferraro"
+        "answer": [
+          "Geraldine Ferraro",
+          "Ferraro"
+        ]
       },
       "bonus": {
         "question": "The Mondale-Ferraro ticket only won Washington, D.C. and what home state of\nMondale, which later elected Jesse Ventura governor?",

@@ -307,7 +307,7 @@
         
         <div class="form-group">
             <label for="json-file-input">Import Existing JSON File:</label>
-            <input type="file" id="json-file-input" accept=".json" onchange="importJSON()" style="margin-bottom: 10px; padding: 10px; border: 2px dashed #667eea; border-radius: 10px; background: #f8f9fa;">
+            <input type="file" id="json-file-input" accept=".json" multiple onchange="importJSON()" style="margin-bottom: 10px; padding: 10px; border: 2px dashed #667eea; border-radius: 10px; background: #f8f9fa;">
             <small style="color: #666; font-style: italic; display: block;">Select a JSON file to import and add to your current questions</small>
         </div>
 
@@ -329,6 +329,7 @@
             q3: [],
             q4: []
         };
+        updateOutput();
 
         function selectFormat(format) {
             // Update active button
@@ -511,52 +512,64 @@
 
         function importJSON() {
             const fileInput = document.getElementById('json-file-input');
-            const file = fileInput.files[0];
-            
-            if (!file) {
+            const files = fileInput.files;
+        
+            if (!files || files.length === 0) {
                 return;
             }
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const importedData = JSON.parse(e.target.result);
-                    
-                    // Validate the structure
-                    if (!importedData || typeof importedData !== 'object') {
-                        throw new Error('Invalid JSON structure');
+        
+            let filesProcessed = 0;
+            let anyImported = false;
+            let summary = [];
+        
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    try {
+                        const importedData = JSON.parse(e.target.result);
+        
+                        // Validate the structure
+                        if (!importedData || typeof importedData !== 'object') {
+                            throw new Error(`Invalid JSON structure in file: ${file.name}`);
+                        }
+        
+                        // Merge with existing data
+                        let added = {q1:0,q2:0,q3:0,q4:0};
+                        if (importedData.q1 && Array.isArray(importedData.q1)) {
+                            questionData.q1 = [...questionData.q1, ...importedData.q1];
+                            added.q1 = importedData.q1.length;
+                        }
+                        if (importedData.q2 && Array.isArray(importedData.q2)) {
+                            questionData.q2 = [...questionData.q2, ...importedData.q2];
+                            added.q2 = importedData.q2.length;
+                        }
+                        if (importedData.q3 && Array.isArray(importedData.q3)) {
+                            questionData.q3 = [...questionData.q3, ...importedData.q3];
+                            added.q3 = importedData.q3.length;
+                        }
+                        if (importedData.q4 && Array.isArray(importedData.q4)) {
+                            questionData.q4 = [...questionData.q4, ...importedData.q4];
+                            added.q4 = importedData.q4.length;
+                        }
+                        summary.push(
+                          `• <b>${file.name}</b>: Q&A: ${added.q1}, Tossup-Bonus: ${added.q2}, Categories: ${added.q3}, Multi-part: ${added.q4}`
+                        );
+                        anyImported = true;
+                    } catch (error) {
+                        alert(`Error importing JSON file "${file.name}".\n\n${error.message}`);
                     }
-                    
-                    // Merge with existing data
-                    if (importedData.q1 && Array.isArray(importedData.q1)) {
-                        questionData.q1 = [...questionData.q1, ...importedData.q1];
+                    filesProcessed++;
+                    if (filesProcessed === files.length) {
+                        updateOutput();
+                        if (anyImported) {
+                          alert("JSON file(s) imported:\n" + summary.join('\n'));
+                        }
+                        fileInput.value = '';
                     }
-                    if (importedData.q2 && Array.isArray(importedData.q2)) {
-                        questionData.q2 = [...questionData.q2, ...importedData.q2];
-                    }
-                    if (importedData.q3 && Array.isArray(importedData.q3)) {
-                        questionData.q3 = [...questionData.q3, ...importedData.q3];
-                    }
-                    if (importedData.q4 && Array.isArray(importedData.q4)) {
-                        questionData.q4 = [...questionData.q4, ...importedData.q4];
-                    }
-                    
-                    updateOutput();
-                    alert(`JSON file imported successfully! 
-                    - Simple Q&A: ${importedData.q1?.length || 0} questions added
-                    - Tossup-Bonus: ${importedData.q2?.length || 0} sets added  
-                    - Categories: ${importedData.q3?.length || 0} categories added
-                    - Multi-part: ${importedData.q4?.length || 0} questions added`);
-                    
-                } catch (error) {
-                    alert('Error importing JSON file. Please make sure it\'s a valid JSON file with the correct structure.\n\nError: ' + error.message);
-                }
-                
-                // Clear the file input
-                fileInput.value = '';
-            };
-            
-            reader.readAsText(file);
+                };
+                reader.readAsText(file);
+            }
         }
 
         function loadSampleData() {
@@ -633,8 +646,7 @@
             URL.revokeObjectURL(url);
         }
 
-        // Initialize with sample data
-        loadSampleData();
+        
     </script>
 </body>
 </html>
