@@ -592,7 +592,7 @@ function openSetPicker(availableFiles, callback) {
 
 function confirmSetPicker() {
     const modal = $('setPickerModal');
-    const checkboxes = $('setPickerList').querySelectorAll('input[type=checkbox]');
+    const checkboxes = document.querySelectorAll('#setPickerModal input[type=checkbox]');
     const selected = [];
     for (const cb of checkboxes) {
         if (cb.checked) {
