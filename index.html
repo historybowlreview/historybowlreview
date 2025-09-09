@@ -474,7 +474,7 @@ async function loadQuestionsFromServer() {
         const q4Count = jsonData.q4.reduce((sum, group) => sum + group.parts.length, 0);
 
         updateQuestionsStatus(
-            `Successfully loaded: Q1(${jsonData.q1.length}) Q2(${jsonData.q2.length}) Q3(${q3Count}) Q4(${q4Count/4})`,
+            `Successfully loaded: Q1(${jsonData.q1.length}) Q2(${jsonData.q2.length}) Q3(${q3Count}) Q4(${q4Count})`,
             true
         );
 
@@ -499,15 +499,22 @@ async function loadAllQuestionSets(files) {
     gameState.questionsLoaded = true; // <-- Add this line!
 }
 
+let _selectedSets = {}; // object to track "yearIdx-setIdx" => true/false
+
 function selectAllSets() {
-    const checkboxes = document.querySelectorAll('#setPickerList input[type=checkbox]');
-    checkboxes.forEach(cb => cb.checked = true);
+    window._setPickerFiles.forEach((yearGroup, yearIdx) => {
+        yearGroup.sets.forEach((set, setIdx) => {
+            _selectedSets[`${yearIdx}-${setIdx}`] = true;
+        });
+    });
+    renderSetList(window._setPickerCurrentYearIdx);
 }
 
 function deselectAllSets() {
-    const checkboxes = document.querySelectorAll('#setPickerList input[type=checkbox]');
-    checkboxes.forEach(cb => cb.checked = false);
+    _selectedSets = {};
+    renderSetList(window._setPickerCurrentYearIdx);
 }
+
 
 function openSetPicker(availableFiles, callback) {
     window._setPickerCallback = callback;
@@ -565,8 +572,18 @@ function openSetPicker(availableFiles, callback) {
     
             groups[group].forEach(set => {
                 const div = document.createElement('div');
-                div.innerHTML = `<label><input type="checkbox" value="${yearIdx}-${set.idx}"> ${set.name}</label>`;
+                div.innerHTML = `<label>
+                    <input type="checkbox" value="${yearIdx}-${set.idx}" ${_selectedSets[`${yearIdx}-${set.idx}`] ? "checked" : ""}>
+                    ${set.name}
+                </label>`;
                 content.appendChild(div);
+                
+                // Add this:
+                const input = div.querySelector('input[type=checkbox]');
+                input.checked = !!_selectedSets[`${yearIdx}-${set.idx}`];
+                input.onchange = function() {
+                    _selectedSets[`${yearIdx}-${set.idx}`] = input.checked;
+                };
             });
             section.appendChild(content);
     
@@ -581,10 +598,19 @@ function openSetPicker(availableFiles, callback) {
     
         // Year-specific select/deselect all
         $('selectAllYearBtn').onclick = function() {
-          list.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = true);
+          // Mark all sets in this year as selected in _selectedSets
+          availableFiles[yearIdx].sets.forEach((set, setIdx) => {
+            _selectedSets[`${yearIdx}-${setIdx}`] = true;
+          });
+          renderSetList(yearIdx); // Update the UI
         };
+        
         $('deselectAllYearBtn').onclick = function() {
-          list.querySelectorAll('input[type=checkbox]').forEach(cb => cb.checked = false);
+          // Deselect all sets in this year in _selectedSets
+          availableFiles[yearIdx].sets.forEach((set, setIdx) => {
+            delete _selectedSets[`${yearIdx}-${setIdx}`];
+          });
+          renderSetList(yearIdx); // Update the UI
         };
     }
     $('setPickerModal').style.display = 'block';
@@ -592,16 +618,14 @@ function openSetPicker(availableFiles, callback) {
 
 function confirmSetPicker() {
     const modal = $('setPickerModal');
-    const checkboxes = $('setPickerList').querySelectorAll('input[type=checkbox]');
     const selected = [];
-    for (const cb of checkboxes) {
-        if (cb.checked) {
-            // cb.value is "yearIdx-setIdx"
-            const [yearIdx, setIdx] = cb.value.split('-').map(Number);
+    Object.keys(_selectedSets).forEach(key => {
+        if (_selectedSets[key]) {
+            const [yearIdx, setIdx] = key.split('-').map(Number);
             const file = window._setPickerFiles[yearIdx].sets[setIdx].file;
             selected.push(file);
         }
-    }
+    });
     if (selected.length === 0) {
         alert('Please select at least one set.');
         return;
@@ -825,7 +849,19 @@ function assignPracticeQuestionsFromSets(sets) {
 }
 
 function promptPracticeQuarter() {
-    const choice = prompt("Enter practice quarter (1,2,3,4) or 'q' to cancel:", "1");
+    const q1count = gameState.activeQ1 ? gameState.activeQ1.length : 0;
+    const q2count = gameState.activeQ2 ? gameState.activeQ2.length : 0;
+    const q3count = gameState.activeQ3 ? gameState.activeQ3.length : 0;
+    const q4count = gameState.activeQ4 ? gameState.activeQ4.length : 0;
+    
+    const promptText =
+      `Enter practice quarter (1,2,3,4) or 'q' to cancel:\n` +
+      `Q1: ${q1count} questions\n` +
+      `Q2: ${q2count} questions\n` +
+      `Q3: ${q3count} categories\n` +
+      `Q4: ${q4count} questions`;
+    
+    const choice = prompt(promptText, "1");
     if (!choice || choice.toLowerCase() === 'q') {
         backToMenu();
         return false;
@@ -1334,6 +1370,11 @@ function nextQuestion() {
     $('answerInput').disabled = true;
     $('answerInput').value = '';
     $('questionText').textContent = 'Get ready...';
+    console.log(
+      "DEBUG: Summary Q1:", gameState.activeQ1?.length,
+      "Counter Q1:", gameState.activeQ1?.length,
+      "Q1 Array sample:", gameState.activeQ1?.slice(0,2)
+    );
     $('questionCounter').textContent = computeQuestionCounterText();
     $('currentResponseTime').textContent = 'Response time: --';
     $('categorySelection').classList.add('hidden');
@@ -2011,21 +2052,10 @@ function closeQ3FeedbackPopup() {
 /* ------------------ Utility functions ------------------ */
 function computeQuestionCounterText(){
     const q = gameState.currentQuarter;
-    if (q === 1) return `Q ${Math.max(0, gameState.currentQuestionIndex+1)} / ${gameState.activeQ1.length}`;
-    if (q === 2) return `Q ${Math.max(0, gameState.currentQuestionIndex+1)} / ${gameState.activeQ2.length}`;
-    if (q === 3){
-        if (gameState.q3selectedCategory !== null && Array.isArray(gameState.q3CategoryQuestions)){
-            const current = (gameState.q3CurrentQuestionIdx ?? 0) + 1;
-            const total = gameState.q3CategoryQuestions.length;
-            return `Q ${current} / ${total}`;
-        }
-        return `Select category`;
-    }
-    if (q === 4) {
-        // If index < 0, show nothing or Q 0 / total
-        if (gameState.currentQuestionIndex < 0 || !gameState.activeQ4) return '';
-        return `Q ${gameState.currentQuestionIndex+1} / ${gameState.activeQ4.length}`;
-    }
+    if (q === 1) return `Q ${Math.max(0, gameState.currentQuestionIndex+1)} / ${gameState.activeQ1?.length || 0}`;
+    if (q === 2) return `Q ${Math.max(0, gameState.currentQuestionIndex+1)} / ${gameState.activeQ2?.length || 0}`;
+    if (q === 3) return ''; // Don't show Q3 total
+    if (q === 4) return `Q ${Math.max(0, gameState.currentQuestionIndex+1)} / ${gameState.activeQ4?.length || 0}`;
     return '';
 }
 
@@ -2297,13 +2327,26 @@ function renderQuestionsDisplay(){
     const container = $('questionsDisplay');
     container.innerHTML = '';
 
+    let q1count, q2count, q3count, q4count;
+    if (gameState.mode === 'practice') {
+        q1count = gameState.activeQ1?.length ?? 0;
+        q2count = gameState.activeQ2?.length ?? 0;
+        q3count = gameState.activeQ3?.length ?? 0;
+        q4count = gameState.activeQ4?.length ?? 0;
+    } else {
+        q1count = QUESTIONS.q1.length;
+        q2count = QUESTIONS.q2.length;
+        q3count = QUESTIONS.q3.length;
+        q4count = QUESTIONS.q4.length;
+    }
+
     const summary = document.createElement('div');
     summary.innerHTML = `
         <h4>Loaded Questions Summary:</h4>
-        <p>Quarter 1: ${QUESTIONS.q1.length} questions</p>
-        <p>Quarter 2: ${QUESTIONS.q2.length} questions</p>
-        <p>Quarter 3: ${QUESTIONS.q3.length} categories</p>
-        <p>Quarter 4: ${QUESTIONS.q4.length} questions</p>
+        <p>Quarter 1: ${q1count} questions</p>
+        <p>Quarter 2: ${q2count} questions</p>
+        <p>Quarter 3: ${q3count} categories</p>
+        <p>Quarter 4: ${q4count} questions</p>
     `;
     container.appendChild(summary);
 }
