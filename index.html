@@ -1037,9 +1037,6 @@ function nextQuestion() {
     $('currentResponseTime').textContent = 'Response time: --';
     $('categorySelection').classList.add('hidden');
 
-    // Record question start time
-    gameState.questionStartTime = Date.now();
-
     // Start reading question
     setTimeout(() => startReading(), 800);
 }
@@ -1233,6 +1230,8 @@ function showQ3CategoryQuestion() {
 
 /* ------------------ Reading / typing effect ------------------ */
 function startReading(){
+    gameState.questionStartTime = Date.now();
+    $('buzzerBtn').disabled = false;
     clearAllTimers();
     gameState.buzzed = false;
     gameState.multiplier = 1;
