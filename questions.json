@@ -2,7 +2,10 @@
   "q1": [
     {
       "question": "This man's opinion in Barron v. Baltimore refused to apply Bill of Rights protections to state\ngovernments. He was the target of Andrew Jackson's derisive remark \"now let him enforce it,\"\nand he asserted his Court's power in a case about \"midnight appointments.\" For 10 points, name\nthis Chief Justice whose ruling in Marbury v. Madison asserted the power of judicial review.",
-      "answer": "John Marshall, Marshall"
+      "answer": [
+        "John Marshall",
+        "Marshall"
+      ]
     },
     {
       "question": "Pope Leo I convinced Attila the Hun not to perform this kind of action. This kind of action\nwas done by Gauls following the 390 BC Battle of the Allia. In 410 AD, Alaric led an army of\nVisigoths in performing this action, which St. Jerome identified as the effective end of the\nEmpire. For 10 points, identify this action in which the \"eternal city\" is pillaged.",
@@ -10,7 +13,11 @@
     },
     {
       "question": "The formation of this institution triggered the Key West Agreement on its proper usage, which\nwas negotiated on its behalf by its first secretary, Stuart Symington. This organization conducted\nProject Blue Book, a study of UFOs, and it operates Area 51. For 10 points, name this branch of\nthe US military which operates B-52s, F-16s, and other fighter jets.",
-      "answer": "United States Air Force, Air Force, USAF"
+      "answer": [
+        "United States Air Force",
+        "Air Force",
+        "USAF"
+      ]
     },
     {
       "question": "In 1970, the concluding game of this event featured the dramatic entrance of an injured Willis\nReed. This event included the \"flu game\" in 1997 and an upset in 2011 that put a championship\nin the hands of Jason Terry, Shawn Marion, and Dirk Nowitski. For 10 points, name this annual\nJune event, which awards the Larry O'Brien trophy to teams such as the Bulls, Heat, or Lakers.",
@@ -22,27 +29,45 @@
     },
     {
       "question": "This instrument was invented by a Belgian seeking a solution to the problem of clarinets\nraising their pitch when overblown. This instrument was played by Cannonball Adderley as well\nas the composer of Giant Steps, John Coltrane. For 10 points, name this classical and jazz\ninstrument which has alto and tenor varieties and is a woodwind made out of brass.",
-      "answer": "saxophone, sax"
+      "answer": [
+        "saxophone",
+        "sax"
+      ]
     },
     {
       "question": "In 1985, this company sued Minolta over the distinctive crossed letters in its logo. This\ncompany is the descendent of Standard Oil of New Jersey, and it employed Joseph Hazelwood,\nwho was accused of being responsible for a 1989 disaster on Prince William Sound. For 10\npoints, name this company whose Valdez tanker caused a huge oil spill, eleven years before it\nmerged with Mobil.",
-      "answer": "Exxon, Exxon Mobil Corporation"
+      "answer": [
+        "Exxon",
+        "Exxon Mobil Corporation"
+      ]
     },
     {
       "question": "The first Church council named for this place endorsed ultramontanism and espoused the\ndoctrine of Papal infallibility. The second council named for this place introduced the vernacular\nmass and renounced anti-Semitism. For 10 points, identify this namesake of 1868 and 1962\nCatholic ecumenical councils, which is also the independent state where the Pope lives.",
-      "answer": "Vatican, Vatican City"
+      "answer": [
+        "Vatican",
+        "Vatican City"
+      ]
     },
     {
       "question": "This man refused to continue working on the film The Golden Age after denouncing his\ncollaborator, Luis Buñuel, for \"communism and atheism,\" three years after he completed Un\nChien Andalou (pr. uh shee-EN on-da-LOO) For 10 points, name this Spanish surrealist who\npainted The Persistence of Memory, which shows several melting watches.",
-      "answer": "Salvador Dali, Dali"
+      "answer": [
+        "Salvador Dali",
+        "Dali"
+      ]
     },
     {
       "question": "Nobility serving under this dynasty followed the \"Table of Ranks\" to determine bureaucratic\nadvancement. This royal house came to power after three different \"False Dmitris\" were\nsuppressed during the Time of Troubles. For 10 points, name this house founded by Mikhail I in\n1613, which remained in control of Russia until the twentieth century.",
-      "answer": "Romanov, Romanov Dynasty"
+      "answer": [
+        "Romanov",
+        "Romanov Dynasty"
+      ]
     },
     {
       "question": "(TIEBREAKER BONUS EXAMPLE) Whose nomination as Walter Mondale's running mate in 1984 made her the first\nwoman to be a major-party U.S. Vice-Presidential candidate?",
-      "answer": "Geraldine Ferraro, Ferraro"
+      "answer": [
+        "Geraldine Ferraro",
+        "Ferraro"
+      ]
     },
     {
       "question": "The city of Bagram was originally the capital of an ethnically Greek state that practiced this\nreligion. Two statues of this religion's founder at Bamiyan (pr. BAY-mee-yahn) were destroyed\nby the Taliban. For 10 points, name this religion whose Vajryana (pr. VAHJ-rye-AH-nuh) form\nis practiced in Tibet by followers of the Dalai Lama.",
@@ -50,11 +75,18 @@
     },
     {
       "question": "Near the end of his life, this man gave a speech identifying the \"three boxes\" as the source of\nrights. This man was nominated for Vice-President by the Equal Rights Party on the Victoria\nWoodhull ticket. This orator gave a speech asking \"what, to the slave, is the Fourth of July\" after\nfounding The North Star. This author of My Bondage and My Freedom wrote about his escape\nfrom Mr. Covey in Maryland. For 10 points, name this former slave turned abolitionist.",
-      "answer": "Frederick Douglass, Douglass"
+      "answer": [
+        "Frederick Douglass",
+        "Douglass"
+      ]
     },
     {
-      "question": "Along with Henry David Thoreau, this thinker was cited as the chief Western influence on\nGandhi. His pacifist tome The Kingdom of God is Within You made him the leader of dissenting\nChristians in early twentieth century Russia. For 10 points, name this man who viewed his\ntheological work as more important than his novels, such as Anna Karenina",
-      "answer": "Leo Tolstoy, Tolstoy, Lev Nikolayevich Tolstoy"
+      "question": "Along with Henry David Thoreau, this thinker was cited as the chief Western influence on\nGandhi. His pacifist tome The Kingdom of God is Within You made him the leader of dissenting\nChristians in early twentieth century Russia. For 10 points, name this man who viewed his\ntheological work as more important than his novels, such as Anna Karenina. ",
+      "answer": [
+        "Leo Tolstoy",
+        "Tolstoy",
+        "Leo Nikolayevich Tolstoy"
+      ]
     },
     {
       "question": "This event was set in motion when Abel Corbin introduced its two plotters to the President,\nand Daniel Butterfield agreed to pass along inside information. This 1869 event tainted the Grant\nadministration and was an attempt by James Fisk and Jay Gould to \"corner\" the gold market. For\n10 points, identify this day, which shares its name with a post-Thanksgiving shopping event.",
@@ -66,11 +98,17 @@
     },
     {
       "question": "This man headed the Firebird and GTO projects while he was chief engineer of Pontiac, prior\nto starting his own namesake company. In 1982, he was arrested for participating in a cocaine\ndeal, which he was acquitted of at trial after arguing entrapment. For 10 points, identify this man\nwhose car firm produced a gull-winged, unpainted steel car used in Back to the Future.",
-      "answer": "John DeLorean, DeLorean"
+      "answer": [
+        "John Delorean",
+        "Delorean"
+      ]
     },
     {
       "question": "This party was victimized by the Zinoviev letter hoax, which purported to show Soviet control\nof its operations and brought down its first prime minister, Ramsay Macdonald. This party was\nfirst represented in Parliament by Scottish coal miner Keir Hardie. For 10 points, name this\nparty, now the more left-wing of the two largest political parties in the United Kingdom.",
-      "answer": "Labour Party, Labour"
+      "answer": [
+        "Labour Party",
+        "Labour"
+      ]
     },
     {
       "question": "Zacharias Janssen may have invented the first version of this device, which was first used in\nbiology by Anton van Leeuwenhoek (pr. LAY-ven-hoke). In 1932, Ernst Ruska pioneered the\n\"electron\" type of this device, which was used to discover cells in cork by Robert Hooke. For 10\npoints, identify this device which lens-grinders created to peer at tiny objects.",
@@ -78,15 +116,25 @@
     },
     {
       "question": "This man's prominent depiction on the cover of When the Word Is Given offended his\nsuperiors, as did his commentary that the John F. Kennedy assassination was \"a case of chickens\ncoming home to roost.\" He was killed at the Audubon Ballroom, most likely by agents of Elijah\nMuhammad. For 10 points, name this chief spokesman for the Nation of Islam.",
-      "answer": "Malcom X, Malcolm Little, Little"
+      "answer": [
+        "Malcolm X",
+        "Malcolm Little",
+        "Little"
+      ]
     },
     {
       "question": "In the autumn of 1649, this man led armies which sacked Drogheda (pr. DRAH-huh-dah),\nleading to his reputation as a cruel conqueror of Ireland. He was succeeded by his son Richard\nafter his death. For 10 points, name this leader of the New Model Army who attained supreme\npower as \"Lord Protector of England\" after the Civil War.",
-      "answer": "Oliver Cromwell, Cromwell"
+      "answer": [
+        "Oliver Cromwell",
+        "Cromwell"
+      ]
     },
     {
       "question": "(TIEBREAKER BONUS EXAMPLE) What President of Germany, who appointed Hitler Chancellor in 1933, was the\nnamesake of a zeppelin that caught fire above New Jersey in 1937?",
-      "answer": "Paul von Hindenburg, Hindenburg"
+      "answer": [
+        "Paul von Hindenburg",
+        "Hindenburg"
+      ]
     },
     {
       "question": "When applied to an entire country, this process is known as an \"interdict,\" which was notably\nused against England under King John. This process was applied to Holy Roman Emperor Henry\nIV, who had to kneel in the snow at Canossa to have it reversed by Pope Gregory VII. For 10\npoints, identify this process of withholding sacraments from a person who has offended Catholic\nlaw.",
@@ -858,7 +906,10 @@
     {
       "tossup": {
         "question": "This woman was one of the first district attorneys in New York's Special Victims Bureau, and\nshe wrote the Democratic National Committee's rules on superdelegates. George H.W. Bush was\naccused of disrespecting her in a 1984 debate. For 10 points, name this first woman to run as a\nmajor-party Vice-Presidential candidate, appearing on the losing Walter Mondale ticket.",
-        "answer": "Geraldine Ferraro"
+        "answer": [
+          "Geraldine Ferraro",
+          "Ferraro"
+        ]
       },
       "bonus": {
         "question": "The Mondale-Ferraro ticket only won Washington, D.C. and what home state of\nMondale, which later elected Jesse Ventura governor?",
@@ -1198,7 +1249,7 @@
     {
       "tossup": {
         "question": "In this African country, the Orange Democratic Movement arose following political\nfragmentation when Daniel arap Moi retired. This country's independence came shortly after\nGeneral China led the Mau Mau Rebellion against British rule here. For 10 points, name this\ncountry where the Leakey family's research on human origins took place at Olduvai Gorge.",
-        "answer": "Republic of Kenya"
+        "answer": "Republic of Kenya, Kenya"
       },
       "bonus": {
         "question": "What author of Facing Mount Kenya became Kenya's first prime minister upon\nindependence and is the father of the current Kenyan president?",
@@ -2206,7 +2257,7 @@
           "answer": "Spain"
         },
         {
-          "question": "Middle East ethnic group who have tried to break off from Turkey and have autonomy within\nIraq",
+          "question": "Middle East ethnic group who have tried to break off from Turkey and have autonomy within\nIraq?",
           "answer": [
             "Kurds",
             "Kurdish"
