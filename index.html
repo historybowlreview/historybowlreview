@@ -1335,9 +1335,8 @@ function startReading(){
                         $('questionText').textContent = gameState.currentQuestionText;
                         if (!gameState.buzzed) {
                             // Reading time = time from questionStartTime to now
-                            const readingTime = (Date.now() - gameState.questionStartTime) / 1000;
-                            const buzzWindow = 5; // Or your variable
-                            gameState.buzzInTimes.push(readingTime + buzzWindow);
+                            const totalBuzzTime = (Date.now() - gameState.questionStartTime) / 1000;
+                            gameState.buzzInTimes.push(totalBuzzTime);
                             updateScoreDisplays();
                         }
                         setTimeout(()=> {
