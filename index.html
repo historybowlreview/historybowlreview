@@ -501,8 +501,6 @@ async function loadAllQuestionSets(files) {
 
 let _selectedSets = {}; // object to track "yearIdx-setIdx" => true/false
 
-let _selectedSets = {}; // yearIdx-setIdx: true/false
-
 function selectAllSets() {
     window._setPickerFiles.forEach((yearGroup, yearIdx) => {
         yearGroup.sets.forEach((set, setIdx) => {
