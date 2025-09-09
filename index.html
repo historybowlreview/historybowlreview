@@ -8,8 +8,9 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>History Bowl Study Program 💚🤍</title>
+
 <style>
-    /* --------- Visual styles (kept from your original, adjusted slightly) ---------- */
+    /* --------- Visual styles (enhanced with consistent button styling) ---------- */
     *{box-sizing:border-box;margin:0;padding:0}
     body{
         font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
@@ -21,71 +22,244 @@
       position: fixed;
       top: 0; left: 0; right: 0; bottom: 0;
       z-index: 9999;
-      background: rgba(0,0,0,0.35);
+      background: rgba(0,0,0,0.4);
       display: none;
+      backdrop-filter: blur(4px);
     }
     #setPickerModal > div {
       position: absolute;
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
       background: white;
-      padding: 28px;
-      border-radius: 16px;
-      box-shadow: 0 10px 40px rgba(60,40,80,0.25);
-      min-width: 320px;
+      padding: 32px;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(60,40,80,0.3);
+      min-width: 400px;
       max-width: 96vw;
+    }
+    #setPickerModal h3 {
+      margin-bottom: 20px;
+      color: #5a67d8;
+      font-size: 1.4rem;
+      text-align: center;
     }
     .header{text-align:center;color:#fff;margin-bottom:20px}
     .header h1{font-size:2.2rem;text-shadow:2px 2px 4px rgba(0,0,0,0.25)}
     .menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:16px}
-    .card{background:rgba(255,255,255,0.95);padding:18px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.12);cursor:pointer}
+    .card{background:rgba(255,255,255,0.95);padding:18px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.12);cursor:pointer;transition:transform 0.2s,box-shadow 0.2s}
+    .card:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(0,0,0,0.18)}
     .card h3{color:#5a67d8;margin-bottom:8px}
-    .btn{background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);color:white;border:none;padding:10px 14px;border-radius:8px;cursor:pointer;font-weight:600}
-    .btn.secondary{background:#6c757d;margin-left:8px}
+    .btn{
+        background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+        color:white;
+        border:none;
+        padding:10px 16px;
+        border-radius:8px;
+        cursor:pointer;
+        font-weight:600;
+        transition:all 0.2s ease;
+        font-size:14px;
+        box-shadow:0 2px 8px rgba(102,126,234,0.3);
+    }
+    .btn:hover{
+        transform:translateY(-1px);
+        box-shadow:0 4px 12px rgba(102,126,234,0.4);
+    }
+    .btn:active{
+        transform:translateY(0);
+    }
+    .btn.secondary{
+        background:linear-gradient(135deg,#6c757d 0%,#5a6268 100%);
+        box-shadow:0 2px 8px rgba(108,117,125,0.3);
+        margin-left:8px;
+    }
+    .btn.secondary:hover{
+        box-shadow:0 4px 12px rgba(108,117,125,0.4);
+    }
+    .btn.success{
+        background:linear-gradient(135deg,#28a745 0%,#20c997 100%);
+        box-shadow:0 2px 8px rgba(40,167,69,0.3);
+    }
+    .btn.success:hover{
+        box-shadow:0 4px 12px rgba(40,167,69,0.4);
+    }
+    .btn.outline{
+        background:transparent;
+        color:#5a67d8;
+        border:2px solid #5a67d8;
+        box-shadow:none;
+    }
+    .btn.outline:hover{
+        background:#5a67d8;
+        color:white;
+        box-shadow:0 4px 12px rgba(90,103,216,0.3);
+    }
+    .btn.danger{
+        background:linear-gradient(135deg,#dc3545 0%,#c82333 100%);
+        box-shadow:0 2px 8px rgba(220,53,69,0.3);
+    }
+    .btn.danger:hover{
+        box-shadow:0 4px 12px rgba(220,53,69,0.4);
+    }
+    .modal-btn-group{
+        display:flex;
+        gap:12px;
+        margin-bottom:16px;
+        flex-wrap:wrap;
+    }
+    .modal-btn-group .btn{
+        margin:0;
+        flex:1;
+        min-width:120px;
+    }
+    .modal-confirm-group{
+        display:flex;
+        gap:12px;
+        justify-content:center;
+        margin-top:20px;
+    }
+    .modal-confirm-group .btn{
+        min-width:100px;
+    }
+    .year-btn-group{
+        display:flex;
+        gap:8px;
+        margin:12px 0;
+        justify-content:center;
+    }
     .game-area{display:none;margin-bottom:18px}
-    .scoreboard{display:flex;gap:12px;align-items:center;background:#f8f9fa;padding:12px;border-radius:10px;margin-bottom:12px}
-    .team-score{flex:1;text-align:center;padding:8px;background:white;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
-    .team-name{font-weight:700;color:#5a67d8}
-    .score{font-size:1.6rem;font-weight:800}
-    .question-area{background:#f8f9fa;padding:16px;border-left:6px solid #5a67d8;border-radius:8px;min-height:110px}
-    .question-text{font-size:1.05rem;color:#2d3748;min-height:62px}
-    .controls{display:flex;gap:8px;align-items:center;margin-top:12px;flex-wrap:wrap}
-    .buzzer-btn{background:#e53e3e;color:white;padding:12px 22px;border-radius:999px;border:none;font-size:16px;font-weight:700;cursor:pointer}
-    .buzzer-btn:disabled{background:#a0aec0;cursor:not-allowed}
-    .answer-input{padding:10px;border-radius:8px;border:2px solid #e2e8f0;font-size:15px;width:100%;max-width:520px}
-    .feedback{margin-top:10px;padding:12px;border-radius:8px;font-weight:700;display:none}
-    .feedback.correct{background:#c6f6d5;color:#22543d;border:1px solid #9ae6b4}
-    .feedback.incorrect{background:#fed7d7;color:#742a2a;border:1px solid #fc8181}
+    .scoreboard{display:flex;gap:12px;align-items:center;background:rgba(255,255,255,0.95);padding:16px;border-radius:12px;margin-bottom:12px;box-shadow:0 4px 16px rgba(0,0,0,0.1)}
+    .team-score{flex:1;text-align:center;padding:12px;background:linear-gradient(135deg,#f8f9fa 0%,#ffffff 100%);border-radius:10px;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+    .team-name{font-weight:700;color:#5a67d8;margin-bottom:4px}
+    .score{font-size:1.6rem;font-weight:800;color:#2d3748}
+    .question-area{background:rgba(255,255,255,0.95);padding:20px;border-left:6px solid #5a67d8;border-radius:12px;min-height:110px;box-shadow:0 4px 16px rgba(0,0,0,0.1)}
+    .question-text{font-size:1.05rem;color:#2d3748;min-height:62px;line-height:1.5}
+    .controls{display:flex;gap:12px;align-items:center;margin-top:16px;flex-wrap:wrap}
+    .buzzer-btn{
+        background:linear-gradient(135deg,#e53e3e 0%,#c53030 100%);
+        color:white;
+        padding:14px 24px;
+        border-radius:50px;
+        border:none;
+        font-size:16px;
+        font-weight:700;
+        cursor:pointer;
+        transition:all 0.2s ease;
+        box-shadow:0 4px 12px rgba(229,62,62,0.3);
+    }
+    .buzzer-btn:hover:not(:disabled){
+        transform:translateY(-2px);
+        box-shadow:0 6px 16px rgba(229,62,62,0.4);
+    }
+    .buzzer-btn:disabled{
+        background:#a0aec0;
+        cursor:not-allowed;
+        box-shadow:none;
+        transform:none;
+    }
+    .answer-input{
+        padding:12px 16px;
+        border-radius:10px;
+        border:2px solid #e2e8f0;
+        font-size:15px;
+        width:100%;
+        max-width:520px;
+        transition:border-color 0.2s;
+        background:white;
+    }
+    .answer-input:focus{
+        border-color:#5a67d8;
+        outline:none;
+        box-shadow:0 0 0 3px rgba(90,103,216,0.1);
+    }
+    .feedback{margin-top:12px;padding:12px 16px;border-radius:10px;font-weight:600;display:none;box-shadow:0 2px 8px rgba(0,0,0,0.1)}
+    .feedback.correct{background:linear-gradient(135deg,#c6f6d5 0%,#9ae6b4 100%);color:#22543d;border:1px solid #9ae6b4}
+    .feedback.incorrect{background:linear-gradient(135deg,#fed7d7 0%,#fc8181 100%);color:#742a2a;border:1px solid #fc8181}
     .hidden{display:none}
-    .categories{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:12px}
-    .category-btn{padding:12px;border-radius:8px;background:white;border:1px solid #e2e8f0;cursor:pointer;text-align:center}
-    .category-btn.selected{background:#5a67d8;color:white;border-color:#5a67d8}
-    .admin-panel{display:none;background:rgba(255,255,255,0.95);padding:16px;border-radius:12px;margin-top:12px}
-    .question-list{background:white;padding:12px;border-radius:8px;max-height:260px;overflow:auto;margin-top:8px}
-    .controls-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:10px}
-    .leaderboard{background:#fff;padding:12px;border-radius:8px;margin-top:12px;max-height:260px;overflow:auto}
-    .small{font-size:0.9rem;color:#444}
-    .muted{color:#666;font-size:0.9rem}
+    .categories{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-top:16px}
+    .category-btn{
+        padding:14px 16px;
+        border-radius:10px;
+        background:white;
+        border:2px solid #e2e8f0;
+        cursor:pointer;
+        text-align:center;
+        transition:all 0.2s ease;
+        font-weight:500;
+        box-shadow:0 2px 8px rgba(0,0,0,0.06);
+    }
+    .category-btn:hover{
+        border-color:#5a67d8;
+        transform:translateY(-1px);
+        box-shadow:0 4px 12px rgba(0,0,0,0.1);
+    }
+    .category-btn.selected{
+        background:linear-gradient(135deg,#5a67d8 0%,#764ba2 100%);
+        color:white;
+        border-color:#5a67d8;
+        box-shadow:0 4px 12px rgba(90,103,216,0.3);
+    }
+    .admin-panel{display:none;background:rgba(255,255,255,0.95);padding:20px;border-radius:16px;margin-top:16px;box-shadow:0 8px 24px rgba(0,0,0,0.12)}
+    .question-list{background:white;padding:16px;border-radius:10px;max-height:260px;overflow:auto;margin-top:12px;border:1px solid #e2e8f0}
+    .controls-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-top:12px}
+    .leaderboard{background:white;padding:16px;border-radius:10px;margin-top:12px;max-height:480px;overflow:auto;border:1px solid #e2e8f0;box-shadow:0 2px 8px rgba(0,0,0,0.06)}
+    .small{font-size:0.9rem;color:#000}
+    .muted{color:#000;font-size:0.9rem}
     .tab-btn {
         background: #f3f4f6;
         color: #5a67d8;
         border: none;
-        border-radius: 6px 6px 0 0;
-        padding: 8px 16px;
-        margin-right: 4px;
+        border-radius: 8px 8px 0 0;
+        padding: 10px 18px;
+        margin-right: 6px;
         cursor: pointer;
         font-weight: 600;
+        transition: all 0.2s ease;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .tab-btn:hover {
+        background: #e5e7eb;
+        transform: translateY(-1px);
     }
     .tab-btn.active {
-        background: #5a67d8;
+        background: linear-gradient(135deg,#5a67d8 0%,#764ba2 100%);
         color: white;
+        box-shadow: 0 4px 8px rgba(90,103,216,0.3);
     }
     .categories.hidden {
       display: none !important;
     }
-    .error{color:#e53e3e;background:#fed7d7;padding:8px;border-radius:8px;margin:8px 0}
-    footer{margin-top:18px;color:#fff;text-align:center;font-size:0.9rem}
-    @media (max-width:700px){.scoreboard{flex-direction:column}}
+    .error{
+        color:#e53e3e;
+        background:linear-gradient(135deg,#fed7d7 0%,#fc8181 100%);
+        padding:12px 16px;
+        border-radius:10px;
+        margin:12px 0;
+        border:1px solid #fc8181;
+        box-shadow:0 2px 8px rgba(229,62,62,0.2);
+    }
+    #playerNameInput {
+        padding: 10px 16px;
+        border-radius: 10px;
+        border: 2px solid #e2e8f0;
+        font-size: 14px;
+        width: 240px;
+        transition: all 0.2s ease;
+        background: white;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+    #playerNameInput:focus {
+        border-color: #5a67d8;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(90,103,216,0.1);
+    }
+    footer{margin-top:24px;color:#fff;text-align:center;font-size:0.9rem;text-shadow:1px 1px 2px rgba(0,0,0,0.2)}
+    @media (max-width:700px){
+        .scoreboard{flex-direction:column}
+        .modal-btn-group{flex-direction:column}
+        .modal-btn-group .btn{min-width:auto}
+        #setPickerModal > div{min-width:300px;padding:24px}
+    }
 </style>
 </head>
 <body>
@@ -102,14 +276,20 @@
     <div id="setPickerModal" style="display:none;">
       <div>
         <h3>Select Practice Sets</h3>
+        <div class="modal-btn-group">
+          <button class="btn success" onclick="selectAllSets()">Select All</button>
+          <button class="btn outline" onclick="deselectAllSets()">Deselect All</button>
+        </div>
         <div id="setPickerTabs"></div>
-        <button onclick="selectAllSets()">Select All</button>
-        <button onclick="deselectAllSets()">Deselect All</button>
         <div id="setPickerList" style="max-height:300px;overflow-y:auto;margin-bottom:18px;"></div>
-        <button id="selectAllYearBtn">Select All This Year</button>
-        <button id="deselectAllYearBtn">Deselect All This Year</button>
-        <button onclick="confirmSetPicker()" style="margin-left:4px;">Confirm</button>
-        <button onclick="cancelSetPicker()" style="margin-left:12px;">Cancel</button>
+        <div class="year-btn-group">
+          <button class="btn secondary" id="selectAllYearBtn">Select All This Year</button>
+          <button class="btn outline" id="deselectAllYearBtn">Deselect All This Year</button>
+        </div>
+        <div class="modal-confirm-group">
+          <button class="btn" onclick="confirmSetPicker()">Confirm</button>
+          <button class="btn secondary" onclick="cancelSetPicker()">Cancel</button>
+        </div>
       </div>
     </div>
 
@@ -132,7 +312,7 @@
       </div>
       <!-- Player Name Input -->
       <div id="playerNameContainer" style="margin-bottom: 10px;">
-        <input type="text" id="playerNameInput" placeholder="Enter your name" maxlength="20" style="padding: 5px; width: 200px;">
+        <input type="text" id="playerNameInput" placeholder="Enter your name" maxlength="20">
       </div>
     </div>
 
@@ -189,13 +369,82 @@
 
     <!-- Leaderboard Panel -->
     <div id="leaderboardPanel" class="admin-panel hidden">
-      <h3>Global Leaderboard (all attempts)</h3>
-      <div style="display:flex;gap:8px;margin-bottom:8px;align-items:center">
+      <h3 style="text-align:center;color:#5a67d8;margin-bottom:20px;font-size:1.6rem">🏅 Global Leaderboard</h3>
+      <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center;justify-content:center">
         <button class="btn secondary" onclick="backToMenu()">Back to Menu</button>
       </div>
-      <div class="leaderboard" id="leaderboardList"></div>
+      <div class="leaderboard" id="leaderboardList">
+        <!-- Sample leaderboard entries for demonstration -->
+        <div class="leaderboard-entry">
+          <span class="leaderboard-medal">🥇</span>
+          <span class="leaderboard-rank">1</span>
+          <div class="leaderboard-info">
+            <div class="leaderboard-name">Austin Escudero</div>
+            <div class="leaderboard-details">
+              <span>4.2s avg</span>
+              <span>92% accuracy</span>
+              <span>Jan 15, 2025</span>
+            </div>
+          </div>
+          <div class="leaderboard-score">485</div>
+        </div>
+        <div class="leaderboard-entry">
+          <span class="leaderboard-medal">🥈</span>
+          <span class="leaderboard-rank">2</span>
+          <div class="leaderboard-info">
+            <div class="leaderboard-name">Amalia Perez</div>
+            <div class="leaderboard-details">
+              <span>3.8s avg</span>
+              <span>89% accuracy</span>
+              <span>Jan 12, 2025</span>
+            </div>
+          </div>
+          <div class="leaderboard-score">462</div>
+        </div>
+        <div class="leaderboard-entry">
+          <span class="leaderboard-medal">🥉</span>
+          <span class="leaderboard-rank">3</span>
+          <div class="leaderboard-info">
+            <div class="leaderboard-name">Kaitlyn Cabral</div>
+            <div class="leaderboard-details">
+              <span>5.1s avg</span>
+              <span>85% accuracy</span>
+              <span>Jan 10, 2025</span>
+            </div>
+          </div>
+          <div class="leaderboard-score">441</div>
+        </div>
+        <div class="leaderboard-entry">
+          <span class="leaderboard-rank">4</span>
+          <div class="leaderboard-info">
+            <div class="leaderboard-name">Camila Bisio</div>
+            <div class="leaderboard-details">
+              <span>4.7s avg</span>
+              <span>82% accuracy</span>
+              <span>Jan 8, 2025</span>
+            </div>
+          </div>
+          <div class="leaderboard-score">418</div>
+        </div>
+        <div class="leaderboard-entry">
+          <span class="leaderboard-rank">5</span>
+          <div class="leaderboard-info">
+            <div class="leaderboard-name">Emma Rozo</div>
+            <div class="leaderboard-details">
+              <span>6.2s avg</span>
+              <span>78% accuracy</span>
+              <span>Jan 5, 2025</span>
+            </div>
+          </div>
+          <div class="leaderboard-score">395</div>
+        </div>
+      </div>
     </div>
 
+    <footer>
+      <p><i>Made by Matias</i></p>
+    </footer>
+  </div>
 <script>
 /* ================================================================
    Game state & helpers
@@ -225,7 +474,7 @@ async function loadQuestionsFromServer() {
         const q4Count = jsonData.q4.reduce((sum, group) => sum + group.parts.length, 0);
 
         updateQuestionsStatus(
-            `Successfully loaded: Q1(${jsonData.q1.length}) Q2(${jsonData.q2.length}) Q3(${q3Count}) Q4(${q4Count})`,
+            `Successfully loaded: Q1(${jsonData.q1.length}) Q2(${jsonData.q2.length}) Q3(${q3Count}) Q4(${q4Count/4})`,
             true
         );
 
@@ -1851,68 +2100,190 @@ async function saveScoreToGlobalLeaderboard(entry) {
 
 /* ------------------ Render global leaderboard ------------------ */
 async function renderGlobalLeaderboard() {
-    const WORKER_URL = "https://patient-base-c952.javalutionization.workers.dev";
-    const container = $('leaderboardList');
-    container.innerHTML = 'Loading...';
-
-    try {
-        const res = await fetch(WORKER_URL, { method: "GET" });
-        if (!res.ok) throw new Error(`Failed to fetch leaderboard: ${res.status} ${res.statusText}`);
-        const scores = await res.json();
-
-
-        container.innerHTML = '';
-        if (!scores.length) {
-            container.textContent = 'No scores yet.';
-            return;
-        }
-
-        // Sort scores by totalScore descending and take top 10
-        const topScores = scores
-          .sort((a, b) => b.totalScore - a.totalScore)
-          .slice(0, 10);
-        
-        container.innerHTML = `
-          <table style="width:100%;background:#fff;border-radius:8px;overflow:hidden;">
-            <thead style="background:#f3f4f6;">
-              <tr>
-                <th style="padding:8px;text-align:center;">#</th>
-                <th style="padding:8px;">Name</th>
-                <th style="padding:8px;">Date</th>
-                <th style="padding:8px;">Score</th>
-                <th style="padding:8px;">Avg Buzz-in</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${topScores.map((e, idx) => {
-                // Define the style string once for both rank and name
-                let style = '';
-                if (idx === 0) style = 'color:#8646C7;font-weight:bold;font-size:1.5em;';
-                else if (idx === 1) style = 'color:#7146C7;font-weight:bold;font-size:1.4em;';
-                else if (idx === 2) style = 'color:#4E59BC;font-weight:bold;font-size:1.3em;';
-                else if (idx === 3 || idx === 4) style = 'color:#457CB7;font-weight:600;font-size:1.2em;';
-                else if (idx >= 5 && idx < 10) style = 'color:#2F547C;font-weight:600;font-size:1.1em;';
-                
-                return `
-                  <tr style="border-bottom:1px solid #eef2f7;">
-                    <td style="padding:8px;text-align:center;">
-                      <span style="${style}">${idx + 1}</span>
-                    </td>
-                    <td style="padding:8px;${style}">${e.name || "Anonymous"}</td>
-                    <td style="padding:8px;">${new Date(e.date).toLocaleString()}</td>
-                    <td style="padding:8px;font-weight:700;">${e.totalScore}</td>
-                    <td style="padding:8px;">${e.averageBuzzInTime ? e.averageBuzzInTime.toFixed(1) + 's' : 'N/A'}</td>
-                  </tr>
-                `;
-              }).join('')}
-            </tbody>
-          </table>
-          <div class="small muted" style="margin-top:8px;">Showing top 10 scores by total points.</div>
-        `;
-    } catch (err) {
-        console.error(err);
-        container.textContent = 'Failed to load leaderboard.';
-    }
+   const WORKER_URL = "https://patient-base-c952.javalutionization.workers.dev";
+   const container = document.getElementById('leaderboardList');
+   container.innerHTML = '<div style="text-align:center;padding:30px;color:#666;"><div style="display:inline-block;width:20px;height:20px;border:3px solid #5a67d8;border-top:3px solid transparent;border-radius:50%;animation:spin 1s linear infinite;"></div><div style="margin-top:10px;">Loading leaderboard...</div></div>';
+   
+   try {
+       const res = await fetch(WORKER_URL, { method: "GET" });
+       if (!res.ok) throw new Error(`Failed to fetch leaderboard: ${res.status} ${res.statusText}`);
+       const scores = await res.json();
+       
+       if (!scores.length) {
+           container.innerHTML = '<div style="text-align:center;padding:40px;color:#666;font-size:1.1rem;">🏆 No scores yet - be the first!</div>';
+           return;
+       }
+       
+       // Sort scores by totalScore descending and take top 10
+       const topScores = scores.sort((a, b) => b.totalScore - a.totalScore);
+       
+       // Simple date formatting to "Sep 9 2025"
+       const formatDate = (dateStr) => {
+           const date = new Date(dateStr);
+           return date.toLocaleDateString('en-US', { 
+               month: 'short', 
+               day: 'numeric',
+               year: 'numeric'
+           });
+       };
+       
+       container.innerHTML = topScores.map((e, idx) => {
+           // Define styling based on rank (keeping your exact colors)
+           let nameStyle = '';
+           let rankStyle = '';
+           let medalEmoji = '';
+           let borderColor = '#5a67d8';
+           
+           if (idx === 0) {
+               nameStyle = 'color:#8646C7;font-weight:bold;font-size:1.3em;';
+               rankStyle = 'color:#8646C7;font-weight:800;text-shadow:1px 1px 2px rgba(134,70,199,0.2);';
+               borderColor = '#8646C7';
+               medalEmoji = '🥇';
+           } else if (idx === 1) {
+               nameStyle = 'color:#7146C7;font-weight:bold;font-size:1.25em;';
+               rankStyle = 'color:#7146C7;font-weight:800;text-shadow:1px 1px 2px rgba(113,70,199,0.2);';
+               borderColor = '#7146C7';
+               medalEmoji = '🥈';
+           } else if (idx === 2) {
+               nameStyle = 'color:#4E59BC;font-weight:bold;font-size:1.2em;';
+               rankStyle = 'color:#4E59BC;font-weight:800;text-shadow:1px 1px 2px rgba(78,89,188,0.2);';
+               borderColor = '#4E59BC';
+               medalEmoji = '🥉';
+           } else if (idx === 3 || idx === 4) {
+               nameStyle = 'color:#457CB7;font-weight:600;font-size:1.1em;';
+               rankStyle = 'color:#457CB7;font-weight:800;';
+               borderColor = '#457CB7';
+           } else if (idx >= 5 && idx < 10) {
+               nameStyle = 'color:#2F547C;font-weight:600;font-size:1.05em;';
+               rankStyle = 'color:#2F547C;font-weight:800;';
+               borderColor = '#2F547C';
+           }
+           
+           // Background gradient based on rank
+           let backgroundGradient = 'rgba(255,255,255,0.9)';
+           if (idx === 0) backgroundGradient = 'linear-gradient(135deg,rgba(134,70,199,0.30) 0%,rgba(255,255,255,0.95) 100%)';
+           else if (idx === 1) backgroundGradient = 'linear-gradient(135deg,rgba(113,70,199,0.25) 0%,rgba(255,255,255,0.95) 100%)';
+           else if (idx === 2) backgroundGradient = 'linear-gradient(135deg,rgba(78,89,188,0.20) 0%,rgba(255,255,255,0.95) 100%)';
+           else if (idx === 3 || idx === 4) backgroundGradient = 'linear-gradient(135deg,rgba(69,124,183,0.15) 0%,rgba(255,255,255,0.95) 100%)';
+           else if (idx >= 5) backgroundGradient = 'linear-gradient(135deg,rgba(47,84,124,0.10) 0%,rgba(255,255,255,0.95) 100%)';
+           else if (idx >= 5 && idx < 10) backgroundGradient = 'linear-gradient(135deg,rgba(47,84,124,0.05) 0%,rgba(255,255,255,0.95) 100%)';
+           
+           return `
+               <div style="
+                   display:flex;
+                   align-items:center;
+                   justify-content:space-between;
+                   padding:12px 16px;
+                   margin:6px 0;
+                   background:${backgroundGradient};
+                   border-radius:10px;
+                   border-left:4px solid ${borderColor};
+                   box-shadow:0 2px 8px rgba(0,0,0,0.06);
+                   transition:all 0.3s ease;
+                   backdrop-filter:blur(10px);
+                   cursor:pointer;
+               " 
+               onmouseover="this.style.transform='translateX(4px) translateY(-1px)';this.style.boxShadow='0 4px 16px rgba(0,0,0,0.12)';this.style.background='rgba(255,255,255,0.98)'"
+               onmouseout="this.style.transform='translateX(0) translateY(0)';this.style.boxShadow='0 2px 8px rgba(0,0,0,0.06)';this.style.background='${backgroundGradient}'">
+                   
+                   ${medalEmoji ? `<span style="font-size:1.4rem;margin-right:8px;">${medalEmoji}</span>` : ''}
+                   
+                   <span style="
+                       ${rankStyle}
+                       font-size:1.1rem;
+                       min-width:35px;
+                       text-align:center;
+                       margin-right:12px;
+                   ">${idx + 1}</span>
+                   
+                   <div style="flex:1;margin:0 12px;">
+                       <div style="${nameStyle}margin-bottom:3px;line-height:1.1;">
+                           ${e.name || "Anonymous"}
+                       </div>
+                       <div style="
+                           font-size:0.8rem;
+                           color:#666;
+                           display:flex;
+                           gap:10px;
+                           flex-wrap:wrap;
+                           align-items:center;
+                       ">
+                           <span style="
+                               background:rgba(90,103,216,0.1);
+                               padding:2px 6px;
+                               border-radius:8px;
+                               font-size:0.75rem;
+                               font-weight:500;
+                               color:#5a67d8;
+                           ">⚡ ${e.averageBuzzInTime ? e.averageBuzzInTime.toFixed(1) + 's' : 'N/A'}</span>
+                           <span style="
+                               background:rgba(108,117,125,0.1);
+                               padding:2px 6px;
+                               border-radius:8px;
+                               font-size:0.75rem;
+                               font-weight:500;
+                               color:#6c757d;
+                           ">📅 ${formatDate(e.date)}</span>
+                       </div>
+                   </div>
+                   
+                   <div style="
+                       ${rankStyle}
+                       font-size:1.3rem;
+                       font-weight:800;
+                       text-align:right;
+                       min-width:60px;
+                       background:rgba(255,255,255,0.7);
+                       padding:6px 10px;
+                       border-radius:8px;
+                       box-shadow:0 1px 6px rgba(0,0,0,0.08);
+                   ">${e.totalScore}</div>
+               </div>
+           `;
+       }).join('') + `
+           <div style="
+               text-align:center;
+               margin-top:16px;
+               padding-top:12px;
+               border-top:2px solid rgba(90,103,216,0.1);
+               color:#666;
+               font-size:0.9rem;
+               font-weight:500;
+           ">
+               🏆 Showing ${topScores.length} scores • Updated live
+           </div>
+       `;
+       
+       // Add spinning animation keyframes if not already added
+       if (!document.getElementById('leaderboard-animations')) {
+           const style = document.createElement('style');
+           style.id = 'leaderboard-animations';
+           style.textContent = `
+               @keyframes spin {
+                   0% { transform: rotate(0deg); }
+                   100% { transform: rotate(360deg); }
+               }
+           `;
+           document.head.appendChild(style);
+       }
+       
+   } catch (err) {
+       console.error(err);
+       container.innerHTML = `
+           <div style="
+               text-align:center;
+               padding:40px;
+               color:#e53e3e;
+               font-size:1.1rem;
+               background:linear-gradient(135deg,rgba(229,62,62,0.1) 0%,rgba(255,255,255,0.95) 100%);
+               border-radius:12px;
+               border:2px solid rgba(229,62,62,0.2);
+           ">
+               ⚠️ Failed to load leaderboard<br>
+               <span style="font-size:0.9rem;color:#666;margin-top:8px;display:block;">Please try again later</span>
+           </div>
+       `;
+   }
 }
 
 
