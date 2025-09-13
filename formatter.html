@@ -261,12 +261,6 @@
                 </div>
                 <div class="category-questions" id="category-questions">
                     <div class="question-item">
-                        <label>Question:</label>
-                        <textarea class="cat-question" placeholder="Enter question..."></textarea>
-                        <label>Answer:</label>
-                        <input type="text" class="cat-answer" placeholder="Enter answer (separate multiple with commas)...">
-                        <small style="color: #666; font-style: italic; display: block; margin-top: 5px;">Use commas for multiple acceptable answers</small>
-                        <button class="remove-btn" onclick="removeQuestion(this)">Remove</button>
                     </div>
                 </div>
                 <button class="add-btn" onclick="addCategoryQuestion()">Add Another Question</button>
@@ -322,6 +316,9 @@
     </div>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            renderEightCategoryQuestions();
+        });
         let currentFormat = 'simple';
         let questionData = {
             q1: [],
@@ -335,6 +332,9 @@
             // Update active button
             document.querySelectorAll('.format-card').forEach(card => card.classList.remove('active'));
             event.target.classList.add('active');
+            if (format === 'category') {
+                renderEightCategoryQuestions();
+            }
             
             // Hide all forms
             document.querySelectorAll('[id$="-form"]').forEach(form => form.classList.add('hidden'));
@@ -422,7 +422,7 @@
             // Clear inputs
             document.getElementById('category-name').value = '';
             document.getElementById('category-prompt').value = '';
-            document.getElementById('category-questions').innerHTML = `
+            renderEightCategoryQuestions();
                 <div class="question-item">
                     <label>Question:</label>
                     <textarea class="cat-question" placeholder="Enter question..."></textarea>
@@ -468,7 +468,7 @@
         }
 
         function addCategoryQuestion() {
-            const container = document.getElementById('category-questions');
+            renderEightCategoryQuestions();
             const newQuestion = document.createElement('div');
             newQuestion.className = 'question-item';
             newQuestion.innerHTML = `
@@ -616,7 +616,7 @@
                     {
                         "parts": [
                             "(30 pts) This 19th-century American novelist wrote an epic tale of obsession and the sea (20 pts) ",
-                            "This author wrote 'Moby-Dick', which features Captain Ahab (10 pts) ",
+                            "This author wrote 'Moby-*****', which features Captain Ahab (10 pts) ",
                             "Name the author of 'Billy Budd' as well"
                         ],
                         "answer": ["Herman Melville", "Melville"]
@@ -625,7 +625,24 @@
             };
             updateOutput();
         }
-
+        function renderEightCategoryQuestions() {
+            const container = document.getElementById('category-questions');
+            container.innerHTML = '';
+            for (let i = 0; i < 8; i++) {
+                const newQuestion = document.createElement('div');
+                newQuestion.className = 'question-item';
+                newQuestion.innerHTML = `
+                    <label>Question ${i + 1}:</label>
+                    <textarea class="cat-question" placeholder="Enter question..."></textarea>
+                    <label>Answer:</label>
+                    <input type="text" class="cat-answer" placeholder="Enter answer (separate multiple with commas)...">
+                    <small style="color: #666; font-style: italic; display: block; margin-top: 5px;">Use commas for multiple acceptable answers</small>
+                    <button class="remove-btn" onclick="removeQuestion(this)">Remove</button>
+                `;
+                container.appendChild(newQuestion);
+            }
+        }
+        
         function copyToClipboard() {
             const output = document.getElementById('output').textContent;
             navigator.clipboard.writeText(output).then(() => {
