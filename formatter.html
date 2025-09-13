@@ -423,15 +423,6 @@
             document.getElementById('category-name').value = '';
             document.getElementById('category-prompt').value = '';
             renderEightCategoryQuestions();
-                <div class="question-item">
-                    <label>Question:</label>
-                    <textarea class="cat-question" placeholder="Enter question..."></textarea>
-                    <label>Answer:</label>
-                    <input type="text" class="cat-answer" placeholder="Enter answer (separate multiple with commas)...">
-                    <small style="color: #666; font-style: italic; display: block; margin-top: 5px;">Use commas for multiple acceptable answers</small>
-                    <button class="remove-btn" onclick="removeQuestion(this)">Remove</button>
-                </div>
-            `;
         
             updateOutput();
         }
