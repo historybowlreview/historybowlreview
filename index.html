@@ -810,9 +810,13 @@ function looseMatch(given, answer) {
 
     // Add plural-insensitive helper
     function pluralInsensitiveSet(words) {
+        let expanded = [];
+        for (const w of words) {
+            expanded.push(...getPluralForms(w));
+        }
         return new Set(
-            words
-                .map(stripPluralS)
+            expanded
+                .map(w => w.toLowerCase())
                 .map(normalizeSaint)
                 .map(normalizeNumber)
                 .filter(w => !allowedExtras.includes(w))
@@ -1832,6 +1836,29 @@ function showAnswer(){
 /* ------------------ Answer checking & scoring ------------------ */
 function normalize(s){
     return (s || "").toString().trim().toLowerCase();
+}
+
+function getPluralForms(word) {
+    let forms = [word];
+    if (word.endsWith('y') && word.length > 2) {
+        forms.push(word.slice(0, -1) + 'ies'); // party <-> parties
+    }
+    if (word.endsWith('ies') && word.length > 3) {
+        forms.push(word.slice(0, -3) + 'y'); // parties <-> party
+    }
+    if (word.endsWith('s') && word.length > 2) {
+        forms.push(word.slice(0, -1)); // cats <-> cat
+    } else {
+        forms.push(word + 's');
+    }
+    // Optionally also handle 'es'
+    if (!word.endsWith('es')) {
+        forms.push(word + 'es');
+    }
+    if (word.endsWith('es') && word.length > 2) {
+        forms.push(word.slice(0, -2));
+    }
+    return Array.from(new Set(forms));
 }
 
 function isStrictCorrect(given, answer) {
