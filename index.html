@@ -1424,8 +1424,8 @@ function selectCategory(idx) {
     gameState.q3categoryProgress = 0;
     gameState.q3categoryCorrectCount = 0;
 
-    gameState.q3CategoryQuestions = gameState.activeQ3[idx].questions.map(...);
-    // Remove the sort/shuffle line!
+    gameState.q3CategoryQuestions = gameState.activeQ3[idx].questions
+    .map(q => ({ ...q, userAnswer: "", isCorrect: false }));
 
     gameState.q3CurrentQuestionIdx = 0;
     gameState.q3TimeLeft = 60;
