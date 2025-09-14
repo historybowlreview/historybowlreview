@@ -758,7 +758,10 @@ function stripPluralS(word) {
 }
 
 function looseMatch(given, answer) {
-    const allowedExtras = ["the", "a", "an", "of", "in", "on", "at", "for", "by", "to", "from", "with", "and", "or"];
+    const allowedExtras = [
+        "the", "a", "an", "of", "in", "on", "at", "for", "by", "to", "from",
+        "with", "and", "or", "el", "la", "los", "las"
+    ];
     function tokenize(s) {
         return s
             .toLowerCase()
