@@ -541,7 +541,7 @@ function openSetPicker(availableFiles, callback) {
 function renderSetList(yearIdx) {
     const list = $('setPickerList');
     list.innerHTML = '';
-    const sets = availableFiles[yearIdx].sets;
+    const sets = window._setPickerFiles[yearIdx].sets;
     
      // Group sets by first letter (A, B, C)
      const groups = {};
