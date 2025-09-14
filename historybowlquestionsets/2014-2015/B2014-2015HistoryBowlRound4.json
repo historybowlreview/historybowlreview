@@ -10,8 +10,7 @@
     {
       "question": "A prominent player of this instrument was surreptitiously recorded on the obscene \"Bus\nTapes.\" Jo Jones played this instrument in the Count Basie Orchestra, and it was played by the\nleader of the Jazz Messengers, Art Blakey. For 10 points, name this jazz instrument played by\nJoe Morello of the Dave Brubeck Quartet, Max Roach and Buddy Rich, who used sticks while\nplaying.",
       "answer": [
-        "drums",
-        "drum"
+        "drums"
       ]
     },
     {
@@ -68,7 +67,6 @@
         "question": "This ethnicity respected administrators called yangban under a state known in Western sources\nas the \"hermit kingdom.\" This group defeated an invasion by Toyotomi Hideyoshi at Noryang.\nFrom 1910 to 1945, Japan occupied this group's land after deposing the Joseon dynasty. For 10\npoints, name this Asian ethnicity which now lives on a divided peninsula northeast of China.",
         "answer": [
           "Koreans",
-          "Korean",
           "Hanguk-im",
           "Hanguk"
         ]
@@ -77,7 +75,6 @@
         "question": "Korea rebuffed Hideyoshi using what large ships with covered hulls, which could blow\nsmoke out of a decorative dragon head at the prow?",
         "answer": [
           "turtle ships",
-          "turtle ship",
           "gobukseon"
         ]
       }
@@ -137,7 +134,6 @@
         "question": "Hadrian’s construction of the Aelia Capitolina caused a 132 A.D. revolt directed by\nthis Simon bar Kokhba, a member of this religious group.",
         "answer": [
           "Jews",
-          "Jew",
           "Jewish",
           "Judaism"
         ]
@@ -175,7 +171,7 @@
         ]
       },
       "bonus": {
-        "question": "What Florida senator of Cuban descent, sometimes mentioned as a possible 2016\npresidential candidate, criticized the recent agreement to partially lift sanctions against Cuba?",
+        "question": "What Florida senator of Cuban descent, sometimes mentioned as a possible 2016\npresidential candidate, criticized the 2014 agreement to partially lift sanctions against Cuba?",
         "answer": [
           "Marco Rubio",
           "Rubio"
@@ -308,73 +304,49 @@
         {
           "question": "A witness's right not to testify against himself?",
           "answer": [
-            "Fifth",
-            "5",
-            "five",
-            "5th"
+            "Fifth"
           ]
         },
         {
           "question": "Any case discussing the right to trial by jury in criminal matters?",
           "answer": [
-            "Sixth",
-            "6",
-            "six",
-            "6th"
+            "Sixth"
           ]
         },
         {
           "question": "The 1993 case in which Santeria worshippers asserted their religious right to sacrifice\nanimals?",
           "answer": [
-            "First",
-            "1",
-            "one",
-            "1st"
+            "First"
           ]
         },
         {
           "question": "Cases invoking the \"equal protection\" clause?",
           "answer": [
-            "Fourteenth",
-            "14",
-            "fourteen",
-            "14th"
+            "Fourteenth"
           ]
         },
         {
           "question": "Mapp v. Ohio and other exclusionary rule cases?",
           "answer": [
-            "Fourth",
-            "4",
-            "four",
-            "4th"
+            "Fourth"
           ]
         },
         {
           "question": "Cases arguing that the military draft constitutes involuntary servitude?",
           "answer": [
-            "Thirteenth",
-            "13",
-            "thirteen",
-            "13th"
+            "Thirteenth"
           ]
         },
         {
           "question": "U.S. v Lopez which claimed \"reserved powers\" for state governments?",
           "answer": [
-            "Tenth",
-            "10",
-            "ten",
-            "10th"
+            "Tenth"
           ]
         },
         {
           "question": "2008's DC v. Heller and 2010's McDonald v. Chicago?",
           "answer": [
-            "Second",
-            "2",
-            "two",
-            "2nd"
+            "Second"
           ]
         }
       ]
