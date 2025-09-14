@@ -539,6 +539,7 @@ function openSetPicker(availableFiles, callback) {
 }
     
 function renderSetList(yearIdx) {
+    window._setPickerCurrentYearIdx = yearIdx;
     const list = $('setPickerList');
     list.innerHTML = '';
     const sets = window._setPickerFiles[yearIdx].sets;
@@ -602,7 +603,7 @@ function renderSetList(yearIdx) {
      // Year-specific select/deselect all
      $('selectAllYearBtn').onclick = function() {
        // Mark all sets in this year as selected in _selectedSets
-       availableFiles[yearIdx].sets.forEach((set, setIdx) => {
+       window._setPickerFiles[yearIdx].sets.forEach((set, setIdx) => {
          _selectedSets[`${yearIdx}-${setIdx}`] = true;
        });
        renderSetList(yearIdx); // Update the UI
@@ -610,7 +611,7 @@ function renderSetList(yearIdx) {
         
      $('deselectAllYearBtn').onclick = function() {
        // Deselect all sets in this year in _selectedSets
-       availableFiles[yearIdx].sets.forEach((set, setIdx) => {
+       window._setPickerFiles[yearIdx].sets.forEach((set, setIdx) => {
         delete _selectedSets[`${yearIdx}-${setIdx}`];
        });
        renderSetList(yearIdx); // Update the UI
