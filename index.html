@@ -1401,8 +1401,8 @@ function showCategorySelection(){
     container.innerHTML = `<h4 style="width:100%">Select a Category</h4>`;
     container.classList.remove('hidden');
     
-    // Select 3 random categories
-    let categories = QUESTIONS.q3;
+    // Use the Q3 categories from the currently active practice sets
+    let categories = gameState.activeQ3;
     let pairs = categories.map((cat, idx) => ({cat, idx}));
     let selected = pairs.sort(() => Math.random() - 0.5).slice(0, 3);
 
