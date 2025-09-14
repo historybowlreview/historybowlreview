@@ -769,10 +769,54 @@ function looseMatch(given, answer) {
             .split(/\s+/)
             .filter(w => w); // keep all, filter blanks
     }
+    function normalizeSaint(word) {
+        if (word === "st" || word === "st.") return "saint";
+        return word;
+    }
+    const numberWords = {
+      "1": "one", "1st": "one", "first": "one",
+      "2": "two", "2nd": "two", "second": "two",
+      "3": "three", "3rd": "three", "third": "three",
+      "4": "four", "4th": "four", "fourth": "four",
+      "5": "five", "5th": "five", "fifth": "five",
+      "6": "six", "6th": "six", "sixth": "six",
+      "7": "seven", "7th": "seven", "seventh": "seven",
+      "8": "eight", "8th": "eight", "eighth": "eight",
+      "9": "nine", "9th": "nine", "ninth": "nine",
+      "10": "ten", "10th": "ten", "tenth": "ten",
+      "11": "eleven", "11th": "eleven", "eleventh": "eleven",
+      "12": "twelve", "12th": "twelve", "twelfth": "twelve",
+      "13": "thirteen", "13th": "thirteen", "thirteenth": "thirteen",
+      "14": "fourteen", "14th": "fourteen", "fourteenth": "fourteen",
+      "15": "fifteen", "15th": "fifteen", "fifteenth": "fifteen",
+      "16": "sixteen", "16th": "sixteen", "sixteenth": "sixteen",
+      "17": "seventeen", "17th": "seventeen", "seventeenth": "seventeen",
+      "18": "eighteen", "18th": "eighteen", "eighteenth": "eighteen",
+      "19": "nineteen", "19th": "nineteen", "nineteenth": "nineteen",
+      "20": "twenty", "20th": "twenty", "twentieth": "twenty",
+      "21": "twenty-one", "21st": "twenty-one", "twenty first": "twenty-one", "twenty-first": "twenty-one",
+      "22": "twenty-two", "22nd": "twenty-two", "twenty second": "twenty-two", "twenty-second": "twenty-two",
+      "23": "twenty-three", "23rd": "twenty-three", "twenty third": "twenty-three", "twenty-third": "twenty-three",
+      "24": "twenty-four", "24th": "twenty-four", "twenty fourth": "twenty-four", "twenty-fourth": "twenty-four",
+      "25": "twenty-five", "25th": "twenty-five", "twenty fifth": "twenty-five", "twenty-fifth": "twenty-five",
+      "26": "twenty-six", "26th": "twenty-six", "twenty sixth": "twenty-six", "twenty-sixth": "twenty-six",
+      "27": "twenty-seven", "27th": "twenty-seven", "twenty seventh": "twenty-seven", "twenty-seventh": "twenty-seven"
+    };
+    function normalizeNumber(word) {
+        // Lowercase for safety
+        word = word.toLowerCase();
+        return numberWords[word] || word;
+    }
 
     // Add plural-insensitive helper
     function pluralInsensitiveSet(words) {
-        return new Set(words.map(stripPluralS).filter(w => !allowedExtras.includes(w)));
+        return new Set(
+            words
+                .map(stripPluralS)
+                .map(normalizeSaint)
+                .map(normalizeNumber)
+                .filter(w => !allowedExtras.includes(w))
+        );
     }
 
     const givenWords = tokenize(given);
