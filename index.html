@@ -537,7 +537,25 @@ function openSetPicker(availableFiles, callback) {
     renderSetList(0);
     $('setPickerModal').style.display = 'block';
 }
-    
+
+function confirmSetPicker() {
+    const modal = $('setPickerModal');
+    const selected = [];
+    Object.keys(_selectedSets).forEach(key => {
+        if (_selectedSets[key]) {
+            const [yearIdx, setIdx] = key.split('-').map(Number);
+            const file = window._setPickerFiles[yearIdx].sets[setIdx].file;
+            selected.push(file);
+        }
+    });
+    if (selected.length === 0) {
+        alert('Please select at least one set.');
+        return;
+    }
+    modal.style.display = 'none';
+    window._setPickerCallback(selected);
+}
+
 function renderSetList(yearIdx) {
     window._setPickerCurrentYearIdx = yearIdx;
     const list = $('setPickerList');
@@ -616,24 +634,6 @@ function renderSetList(yearIdx) {
        });
        renderSetList(yearIdx); // Update the UI
     };
-}
-
-function confirmSetPicker() {
-    const modal = $('setPickerModal');
-    const selected = [];
-    Object.keys(_selectedSets).forEach(key => {
-        if (_selectedSets[key]) {
-            const [yearIdx, setIdx] = key.split('-').map(Number);
-            const file = window._setPickerFiles[yearIdx].sets[setIdx].file;
-            selected.push(file);
-        }
-    });
-    if (selected.length === 0) {
-        alert('Please select at least one set.');
-        return;
-    }
-    modal.style.display = 'none';
-    window._setPickerCallback(selected);
 }
 
 function cancelSetPicker() {
@@ -751,8 +751,19 @@ function calculateAverageResponseTime() {
     return sum / gameState.responseTimes.length;
 }
 
+function stripPluralS(word) {
+    // Remove trailing 's' if present, but not for very short words
+    if (word.length > 2 && word.endsWith('s')) {
+        return word.slice(0, -1);
+    }
+    return word;
+}
+
 function looseMatch(given, answer) {
-    const allowedExtras = ["the", "a", "an", "of", "in", "on", "at", "for", "by", "to", "from", "with", "and", "or"];
+    const allowedExtras = [
+        "the", "a", "an", "of", "in", "on", "at", "for", "by", "to", "from",
+        "with", "and", "or", "el", "la", "los", "las"
+    ];
     function tokenize(s) {
         return s
             .toLowerCase()
@@ -760,9 +771,62 @@ function looseMatch(given, answer) {
             .split(/\s+/)
             .filter(w => w); // keep all, filter blanks
     }
+    function normalizeSaint(word) {
+        if (word === "st" || word === "st.") return "saint";
+        return word;
+    }
+    const numberWords = {
+      "1": "one", "1st": "one", "first": "one",
+      "2": "two", "2nd": "two", "second": "two",
+      "3": "three", "3rd": "three", "third": "three",
+      "4": "four", "4th": "four", "fourth": "four",
+      "5": "five", "5th": "five", "fifth": "five",
+      "6": "six", "6th": "six", "sixth": "six",
+      "7": "seven", "7th": "seven", "seventh": "seven",
+      "8": "eight", "8th": "eight", "eighth": "eight",
+      "9": "nine", "9th": "nine", "ninth": "nine",
+      "10": "ten", "10th": "ten", "tenth": "ten",
+      "11": "eleven", "11th": "eleven", "eleventh": "eleven",
+      "12": "twelve", "12th": "twelve", "twelfth": "twelve",
+      "13": "thirteen", "13th": "thirteen", "thirteenth": "thirteen",
+      "14": "fourteen", "14th": "fourteen", "fourteenth": "fourteen",
+      "15": "fifteen", "15th": "fifteen", "fifteenth": "fifteen",
+      "16": "sixteen", "16th": "sixteen", "sixteenth": "sixteen",
+      "17": "seventeen", "17th": "seventeen", "seventeenth": "seventeen",
+      "18": "eighteen", "18th": "eighteen", "eighteenth": "eighteen",
+      "19": "nineteen", "19th": "nineteen", "nineteenth": "nineteen",
+      "20": "twenty", "20th": "twenty", "twentieth": "twenty",
+      "21": "twenty-one", "21st": "twenty-one", "twenty first": "twenty-one", "twenty-first": "twenty-one",
+      "22": "twenty-two", "22nd": "twenty-two", "twenty second": "twenty-two", "twenty-second": "twenty-two",
+      "23": "twenty-three", "23rd": "twenty-three", "twenty third": "twenty-three", "twenty-third": "twenty-three",
+      "24": "twenty-four", "24th": "twenty-four", "twenty fourth": "twenty-four", "twenty-fourth": "twenty-four",
+      "25": "twenty-five", "25th": "twenty-five", "twenty fifth": "twenty-five", "twenty-fifth": "twenty-five",
+      "26": "twenty-six", "26th": "twenty-six", "twenty sixth": "twenty-six", "twenty-sixth": "twenty-six",
+      "27": "twenty-seven", "27th": "twenty-seven", "twenty seventh": "twenty-seven", "twenty-seventh": "twenty-seven"
+    };
+    function normalizeNumber(word) {
+        // Lowercase for safety
+        word = word.toLowerCase();
+        return numberWords[word] || word;
+    }
 
-    const givenWords = tokenize(given).filter(w => !allowedExtras.includes(w));
-    if (!givenWords.length) return false;
+    // Add plural-insensitive helper
+    function pluralInsensitiveSet(words) {
+        let expanded = [];
+        for (const w of words) {
+            expanded.push(...getPluralForms(w));
+        }
+        return new Set(
+            expanded
+                .map(w => w.toLowerCase())
+                .map(normalizeSaint)
+                .map(normalizeNumber)
+                .filter(w => !allowedExtras.includes(w))
+        );
+    }
+
+    const givenWords = tokenize(given);
+    const givenSet = pluralInsensitiveSet(givenWords);
 
     // --- Fix: If answer is a string with commas, split it ---
     let answerWordsArr;
@@ -776,8 +840,7 @@ function looseMatch(given, answer) {
 
     // For each possible answer, check:
     return answerWordsArr.some(ansWords => {
-        const ansSet = new Set(ansWords.filter(w => !allowedExtras.includes(w)));
-        const givenSet = new Set(givenWords);
+        const ansSet = pluralInsensitiveSet(ansWords);
         // All answer words must be present in response
         for (let w of ansSet) {
             if (!givenSet.has(w)) return false;
@@ -1297,7 +1360,7 @@ function nextQuestion() {
             QUESTIONS.q3 = gameState.activeQ3;
         }
 
-        const cat = QUESTIONS.q3[gameState.q3selectedCategory];
+        const cat = gameState.activeQ3[gameState.q3selectedCategory];
         if (!cat || !cat.questions || cat.questions.length === 0){
             $('questionText').textContent = "No questions in this category.";
             return;
@@ -1391,8 +1454,8 @@ function showCategorySelection(){
     container.innerHTML = `<h4 style="width:100%">Select a Category</h4>`;
     container.classList.remove('hidden');
     
-    // Select 3 random categories
-    let categories = QUESTIONS.q3;
+    // Use the Q3 categories from the currently active practice sets
+    let categories = gameState.activeQ3;
     let pairs = categories.map((cat, idx) => ({cat, idx}));
     let selected = pairs.sort(() => Math.random() - 0.5).slice(0, 3);
 
@@ -1414,9 +1477,8 @@ function selectCategory(idx) {
     gameState.q3categoryProgress = 0;
     gameState.q3categoryCorrectCount = 0;
 
-    gameState.q3CategoryQuestions = QUESTIONS.q3[idx].questions
-        .map(q => ({ ...q, userAnswer: "", isCorrect: false }));
-    // Remove the sort/shuffle line!
+    gameState.q3CategoryQuestions = gameState.activeQ3[idx].questions
+    .map(q => ({ ...q, userAnswer: "", isCorrect: false }));
 
     gameState.q3CurrentQuestionIdx = 0;
     gameState.q3TimeLeft = 60;
@@ -1424,7 +1486,7 @@ function selectCategory(idx) {
 
     $('categorySelection').classList.add('hidden');
     // Show prompt first, then proceed to questions
-    const cat = QUESTIONS.q3[idx];
+    const cat = gameState.activeQ3[gameState.q3selectedCategory];
     const prefix = cat.prompt || "Millard Fillmore is or was...";
     $('q3PrefixBox').textContent = prefix;
     $('q3PrefixBox').classList.remove('hidden');
@@ -1514,7 +1576,7 @@ function showQ3CategoryQuestion() {
     if (document.getElementById('skipBtn')) {
         document.getElementById('skipBtn').remove();
     }
-    const cat = QUESTIONS.q3[gameState.q3selectedCategory];
+    const cat = gameState.activeQ3[gameState.q3selectedCategory];
     const prefix = cat.prompt || "Millard Fillmore is or was...";
     $('q3PrefixBox').textContent = prefix;
     $('q3PrefixBox').classList.remove('hidden');
@@ -1596,7 +1658,7 @@ function startReading(){
         correctAnswer = q ? q.tossup.answer : "";
         gameState.currentBonus = q ? q.bonus : null;
     } else if (gameState.currentQuarter === 3){
-        const cat = QUESTIONS.q3[gameState.q3selectedCategory];
+        const cat = gameState.activeQ3[gameState.q3selectedCategory];
         const qIndex = gameState.q3categoryProgress;
         const q = cat && cat.questions ? cat.questions[qIndex] : null;
         questionText = q ? q.question : "";
@@ -1778,6 +1840,29 @@ function normalize(s){
     return (s || "").toString().trim().toLowerCase();
 }
 
+function getPluralForms(word) {
+    let forms = [word];
+    if (word.endsWith('y') && word.length > 2) {
+        forms.push(word.slice(0, -1) + 'ies'); // party <-> parties
+    }
+    if (word.endsWith('ies') && word.length > 3) {
+        forms.push(word.slice(0, -3) + 'y'); // parties <-> party
+    }
+    if (word.endsWith('s') && word.length > 2) {
+        forms.push(word.slice(0, -1)); // cats <-> cat
+    } else {
+        forms.push(word + 's');
+    }
+    // Optionally also handle 'es'
+    if (!word.endsWith('es')) {
+        forms.push(word + 'es');
+    }
+    if (word.endsWith('es') && word.length > 2) {
+        forms.push(word.slice(0, -2));
+    }
+    return Array.from(new Set(forms));
+}
+
 function isStrictCorrect(given, answer) {
     const normGiven = normalize(given);
     if (Array.isArray(answer)) {
@@ -1793,13 +1878,6 @@ function normalizeAnswerArray(ans) {
 }
 
 function submitAnswer(){
-    if (gameState.currentQuarter === 2 && gameState.isAnsweringBonus) {
-        // ... handle the bonus only, return after
-        // (your bonus logic here)
-        const given = $('answerInput').value.trim();
-        // ... (copy bonus handling code from below)
-        return; // prevent the rest of submitAnswer from running
-    }
     if ($('answerInput').disabled) return;
     if(gameState.bonusTimer) {
         clearInterval(gameState.bonusTimer);
@@ -2382,8 +2460,16 @@ function promptPracticeSet() {
         {
             year: "2015-2016",
             sets: [
-                //{ name: "C2015-2016 Round XXX", file: "historybowlquestionsets/2015-2016/C2015-2016HistoryBowlRoundXXX.json" },
-                { name: "C2015-2016 Round 1", file: "historybowlquestionsets/2015-2016/C2015-2016HistoryBowlRound1.json" }
+                { name: "Round 1", file: "historybowlquestionsets/2015-2016/C2015-2016HistoryBowlRound1.json" },
+                { name: "Round 2", file: "historybowlquestionsets/2015-2016/C2015-2016HistoryBowlRound2.json" },
+                { name: "Round 3", file: "historybowlquestionsets/2015-2016/C2015-2016HistoryBowlRound3.json" },
+                { name: "Round 4", file: "historybowlquestionsets/2015-2016/C2015-2016HistoryBowlRound4.json" },
+                { name: "Round 5", file: "historybowlquestionsets/2015-2016/C2015-2016HistoryBowlRound5.json" },
+                { name: "Round 6", file: "historybowlquestionsets/2015-2016/C2015-2016HistoryBowlRound6.json" },
+                { name: "Round 7", file: "historybowlquestionsets/2015-2016/C2015-2016HistoryBowlRound7.json" },
+                { name: "Round 8", file: "historybowlquestionsets/2015-2016/C2015-2016HistoryBowlRound8.json" },
+                { name: "Round 9", file: "historybowlquestionsets/2015-2016/C2015-2016HistoryBowlRound9.json" },
+                { name: "Round 10", file: "historybowlquestionsets/2015-2016/C2015-2016HistoryBowlRound10.json" }
             ]
         }
     ];
