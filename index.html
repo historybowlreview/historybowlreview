@@ -1307,7 +1307,7 @@ function nextQuestion() {
             QUESTIONS.q3 = gameState.activeQ3;
         }
 
-        const cat = QUESTIONS.q3[gameState.q3selectedCategory];
+        const cat = gameState.activeQ3[gameState.q3selectedCategory];
         if (!cat || !cat.questions || cat.questions.length === 0){
             $('questionText').textContent = "No questions in this category.";
             return;
@@ -1424,8 +1424,7 @@ function selectCategory(idx) {
     gameState.q3categoryProgress = 0;
     gameState.q3categoryCorrectCount = 0;
 
-    gameState.q3CategoryQuestions = QUESTIONS.q3[idx].questions
-        .map(q => ({ ...q, userAnswer: "", isCorrect: false }));
+    gameState.q3CategoryQuestions = gameState.activeQ3[idx].questions.map(...);
     // Remove the sort/shuffle line!
 
     gameState.q3CurrentQuestionIdx = 0;
@@ -1434,7 +1433,7 @@ function selectCategory(idx) {
 
     $('categorySelection').classList.add('hidden');
     // Show prompt first, then proceed to questions
-    const cat = QUESTIONS.q3[idx];
+    const cat = gameState.activeQ3[gameState.q3selectedCategory];
     const prefix = cat.prompt || "Millard Fillmore is or was...";
     $('q3PrefixBox').textContent = prefix;
     $('q3PrefixBox').classList.remove('hidden');
@@ -1524,7 +1523,7 @@ function showQ3CategoryQuestion() {
     if (document.getElementById('skipBtn')) {
         document.getElementById('skipBtn').remove();
     }
-    const cat = QUESTIONS.q3[gameState.q3selectedCategory];
+    const cat = gameState.activeQ3[gameState.q3selectedCategory];
     const prefix = cat.prompt || "Millard Fillmore is or was...";
     $('q3PrefixBox').textContent = prefix;
     $('q3PrefixBox').classList.remove('hidden');
@@ -1606,7 +1605,7 @@ function startReading(){
         correctAnswer = q ? q.tossup.answer : "";
         gameState.currentBonus = q ? q.bonus : null;
     } else if (gameState.currentQuarter === 3){
-        const cat = QUESTIONS.q3[gameState.q3selectedCategory];
+        const cat = gameState.activeQ3[gameState.q3selectedCategory];
         const qIndex = gameState.q3categoryProgress;
         const q = cat && cat.questions ? cat.questions[qIndex] : null;
         questionText = q ? q.question : "";
