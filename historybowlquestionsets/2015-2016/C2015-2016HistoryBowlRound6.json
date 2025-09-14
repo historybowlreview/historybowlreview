@@ -144,8 +144,7 @@
       "bonus": {
         "question": "Admiral Fisher also championed the uses of torpedoes on these smaller ships for defense against\nsubmarines. These fast ships typically escorted and screened larger ships.",
         "answer": [
-          "Destroyers",
-          "Destroyer"
+          "Destroyers"
         ]
       }
     },
@@ -290,7 +289,6 @@
           "question": "The religious images banned by Leo III in the 8th century?",
           "answer": [
             "Icons",
-            "Icon",
             "Iconoclasm"
           ]
         },
@@ -298,7 +296,6 @@
           "question": "Germanic tribe conquered by Belisarius in north Africa, whose name now refers to general destruction\nof property?",
           "answer": [
             "Vandals",
-            "Vandal",
             "vandalism"
           ]
         },
@@ -346,8 +343,7 @@
         {
           "question": "The wooden ships with three banks of oars that formed the “Wooden Wall” of Athens?",
           "answer": [
-            "Triremes",
-            "Trireme"
+            "Triremes"
           ]
         },
         {
