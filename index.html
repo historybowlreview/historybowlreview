@@ -749,6 +749,14 @@ function calculateAverageResponseTime() {
     return sum / gameState.responseTimes.length;
 }
 
+function stripPluralS(word) {
+    // Remove trailing 's' if present, but not for very short words
+    if (word.length > 2 && word.endsWith('s')) {
+        return word.slice(0, -1);
+    }
+    return word;
+}
+
 function looseMatch(given, answer) {
     const allowedExtras = ["the", "a", "an", "of", "in", "on", "at", "for", "by", "to", "from", "with", "and", "or"];
     function tokenize(s) {
@@ -759,8 +767,13 @@ function looseMatch(given, answer) {
             .filter(w => w); // keep all, filter blanks
     }
 
-    const givenWords = tokenize(given).filter(w => !allowedExtras.includes(w));
-    if (!givenWords.length) return false;
+    // Add plural-insensitive helper
+    function pluralInsensitiveSet(words) {
+        return new Set(words.map(stripPluralS).filter(w => !allowedExtras.includes(w)));
+    }
+
+    const givenWords = tokenize(given);
+    const givenSet = pluralInsensitiveSet(givenWords);
 
     // --- Fix: If answer is a string with commas, split it ---
     let answerWordsArr;
@@ -774,8 +787,7 @@ function looseMatch(given, answer) {
 
     // For each possible answer, check:
     return answerWordsArr.some(ansWords => {
-        const ansSet = new Set(ansWords.filter(w => !allowedExtras.includes(w)));
-        const givenSet = new Set(givenWords);
+        const ansSet = pluralInsensitiveSet(ansWords);
         // All answer words must be present in response
         for (let w of ansSet) {
             if (!givenSet.has(w)) return false;
