@@ -2472,6 +2472,13 @@ function promptPracticeSet() {
                 { name: "Round 10", file: "historybowlquestionsets/2015-2016/C2015-2016HistoryBowlRound10.json" }
             ]
         }
+        {
+            year: "2016-2017",
+            sets: [
+                { name: "Round 1", file: "historybowlquestionsets/2016-2017/C2016-2017HistoryBowlRound1.json" },
+                { name: "Round 2", file: "historybowlquestionsets/2016-2017/C2016-2017HistoryBowlRound2.json" }
+            ]
+        }
     ];
     return new Promise(resolve => {
         openSetPicker(availableFiles, files => resolve(files));
