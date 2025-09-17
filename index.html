@@ -760,97 +760,81 @@ function stripPluralS(word) {
 }
 
 function looseMatch(given, answer) {
+    // Words to ignore in matching
     const allowedExtras = [
         "the", "a", "an", "of", "in", "on", "at", "for", "by", "to", "from",
         "with", "and", "or", "el", "la", "los", "las"
     ];
-    function tokenize(s) {
+
+    // Map for number normalization (both ways)
+    const numberMap = {
+        "1":"one","one":"1","first":"1",
+        "2":"two","two":"2","second":"2",
+        "3":"three","three":"3","third":"3",
+        "4":"four","four":"4","fourth":"4",
+        "5":"five","five":"5","fifth":"5",
+        "6":"six","six":"6","sixth":"6",
+        "7":"seven","seven":"7","seventh":"7",
+        "8":"eight","eight":"8","eighth":"8",
+        "9":"nine","nine":"9","ninth":"9",
+        "10":"ten","ten":"10","tenth":"10",
+        "11":"eleven","eleven":"11","eleventh":"11",
+        "12":"twelve","twelve":"12","twelfth":"12",
+        "13":"thirteen","thirteen":"13","thirteenth":"13",
+        "14":"fourteen","fourteen":"14","fourteenth":"14",
+        "15":"fifteen","fifteen":"15","fifteenth":"15",
+        "16":"sixteen","sixteen":"16","sixteenth":"16",
+        "17":"seventeen","seventeen":"17","seventeenth":"17",
+        "18":"eighteen","eighteen":"18","eighteenth":"18",
+        "19":"nineteen","nineteen":"19","nineteenth":"19",
+        "20":"twenty","twenty":"20","twentieth":"20"
+        // add more if needed
+    };
+
+    function normalizeWord(word) {
+        word = word.toLowerCase();
+        if (numberMap[word]) return numberMap[word];
+        return word;
+    }
+
+    function tokenizeAndNormalize(s) {
         return s
             .toLowerCase()
             .replace(/[^a-z0-9' ]+/g, '')
             .split(/\s+/)
-            .filter(w => w); // keep all, filter blanks
-    }
-    function normalizeSaint(word) {
-        if (word === "st" || word === "st.") return "saint";
-        return word;
-    }
-    const numberWords = {
-      "1": "one", "1st": "one", "first": "one",
-      "2": "two", "2nd": "two", "second": "two",
-      "3": "three", "3rd": "three", "third": "three",
-      "4": "four", "4th": "four", "fourth": "four",
-      "5": "five", "5th": "five", "fifth": "five",
-      "6": "six", "6th": "six", "sixth": "six",
-      "7": "seven", "7th": "seven", "seventh": "seven",
-      "8": "eight", "8th": "eight", "eighth": "eight",
-      "9": "nine", "9th": "nine", "ninth": "nine",
-      "10": "ten", "10th": "ten", "tenth": "ten",
-      "11": "eleven", "11th": "eleven", "eleventh": "eleven",
-      "12": "twelve", "12th": "twelve", "twelfth": "twelve",
-      "13": "thirteen", "13th": "thirteen", "thirteenth": "thirteen",
-      "14": "fourteen", "14th": "fourteen", "fourteenth": "fourteen",
-      "15": "fifteen", "15th": "fifteen", "fifteenth": "fifteen",
-      "16": "sixteen", "16th": "sixteen", "sixteenth": "sixteen",
-      "17": "seventeen", "17th": "seventeen", "seventeenth": "seventeen",
-      "18": "eighteen", "18th": "eighteen", "eighteenth": "eighteen",
-      "19": "nineteen", "19th": "nineteen", "nineteenth": "nineteen",
-      "20": "twenty", "20th": "twenty", "twentieth": "twenty",
-      "21": "twenty-one", "21st": "twenty-one", "twenty first": "twenty-one", "twenty-first": "twenty-one",
-      "22": "twenty-two", "22nd": "twenty-two", "twenty second": "twenty-two", "twenty-second": "twenty-two",
-      "23": "twenty-three", "23rd": "twenty-three", "twenty third": "twenty-three", "twenty-third": "twenty-three",
-      "24": "twenty-four", "24th": "twenty-four", "twenty fourth": "twenty-four", "twenty-fourth": "twenty-four",
-      "25": "twenty-five", "25th": "twenty-five", "twenty fifth": "twenty-five", "twenty-fifth": "twenty-five",
-      "26": "twenty-six", "26th": "twenty-six", "twenty sixth": "twenty-six", "twenty-sixth": "twenty-six",
-      "27": "twenty-seven", "27th": "twenty-seven", "twenty seventh": "twenty-seven", "twenty-seventh": "twenty-seven"
-    };
-    function normalizeNumber(word) {
-        // Lowercase for safety
-        word = word.toLowerCase();
-        return numberWords[word] || word;
+            .filter(w => w && !allowedExtras.includes(w))
+            .map(normalizeWord);
     }
 
-    // Add plural-insensitive helper
-    function pluralInsensitiveSet(words) {
-        let expanded = [];
-        for (const w of words) {
-            expanded.push(...getPluralForms(w));
+    // Accept answer being string or array or comma list
+    function possibleAnswers(ans) {
+        if (Array.isArray(ans)) return ans;
+        if (typeof ans === "string" && ans.includes(",")) return ans.split(",").map(s => s.trim());
+        return [ans];
+    }
+
+    const givenNorm = tokenizeAndNormalize(given);
+    for (let ans of possibleAnswers(answer)) {
+        const ansNorm = tokenizeAndNormalize(ans);
+
+        // If both lists are same length and every word matches (order-insensitive)
+        if (
+            givenNorm.length === ansNorm.length &&
+            givenNorm.every(w => ansNorm.includes(w)) &&
+            ansNorm.every(w => givenNorm.includes(w))
+        ) {
+            return true;
         }
-        return new Set(
-            expanded
-                .map(w => w.toLowerCase())
-                .map(normalizeSaint)
-                .map(normalizeNumber)
-                .filter(w => !allowedExtras.includes(w))
-        );
-    }
-
-    const givenWords = tokenize(given);
-    const givenSet = pluralInsensitiveSet(givenWords);
-
-    // --- Fix: If answer is a string with commas, split it ---
-    let answerWordsArr;
-    if (Array.isArray(answer)) {
-        answerWordsArr = answer.map(tokenize);
-    } else if (typeof answer === "string" && answer.includes(",")) {
-        answerWordsArr = answer.split(",").map(a => tokenize(a));
-    } else {
-        answerWordsArr = [tokenize(answer)];
-    }
-
-    // For each possible answer, check:
-    return answerWordsArr.some(ansWords => {
-        const ansSet = pluralInsensitiveSet(ansWords);
-        // All answer words must be present in response
-        for (let w of ansSet) {
-            if (!givenSet.has(w)) return false;
+        // Accept if sets are equal except for allowed extras
+        if (
+            givenNorm.length &&
+            ansNorm.length &&
+            givenNorm.join(" ") === ansNorm.join(" ")
+        ) {
+            return true;
         }
-        // All response words must be present in answer (no extra non-prep words)
-        for (let w of givenSet) {
-            if (!ansSet.has(w)) return false;
-        }
-        return true;
-    });
+    }
+    return false;
 }
 
 function setFeedback(text, ok=true){
@@ -1789,18 +1773,21 @@ function buzz(){
     gameState.answerTimer = setInterval(()=>{
         gameState.answerTimeLeft--;
         $('timerDisplay').textContent = `Answer time: ${gameState.answerTimeLeft}`;
-        if (gameState.answerTimeLeft <= 0){
-            clearInterval(gameState.answerTimer);
-            gameState.answerTimer = null;
-            $('answerInput').disabled = true;
-            $('timerDisplay').textContent = "Time expired";
-            setFeedback("Time expired! No points awarded. The correct answer was: " + formatAnswer(gameState.currentAnswer), false);
-            startFeedbackCountdown(10);
-            $('questionText').textContent = gameState.currentQuestionText;
-            setTimeout(()=> { 
-                nextQuestion(); 
-            }, 10000);
-        }
+            if (gameState.answerTimeLeft <= 0){
+                clearInterval(gameState.answerTimer);
+                gameState.answerTimer = null;
+                // Auto-submit whatever is in the input
+                if (!$('answerInput').disabled && $('answerInput').value.trim()) {
+                    submitAnswer();
+                } else {
+                    $('answerInput').disabled = true;
+                    $('timerDisplay').textContent = "Time expired";
+                    setFeedback("Time expired! No points awarded. The correct answer was: " + formatAnswer(gameState.currentAnswer), false);
+                    startFeedbackCountdown(10);
+                    $('questionText').textContent = gameState.currentQuestionText;
+                    setTimeout(()=> { nextQuestion(); }, 10000);
+                }
+            }
     }, 1000);
 }
 
