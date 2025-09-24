@@ -768,27 +768,36 @@ function looseMatch(given, answer) {
 
     // Map for number normalization (both ways)
     const numberMap = {
-        "1":"one","one":"1","first":"1",
-        "2":"two","two":"2","second":"2",
-        "3":"three","three":"3","third":"3",
-        "4":"four","four":"4","fourth":"4",
-        "5":"five","five":"5","fifth":"5",
-        "6":"six","six":"6","sixth":"6",
-        "7":"seven","seven":"7","seventh":"7",
-        "8":"eight","eight":"8","eighth":"8",
-        "9":"nine","nine":"9","ninth":"9",
-        "10":"ten","ten":"10","tenth":"10",
-        "11":"eleven","eleven":"11","eleventh":"11",
-        "12":"twelve","twelve":"12","twelfth":"12",
-        "13":"thirteen","thirteen":"13","thirteenth":"13",
-        "14":"fourteen","fourteen":"14","fourteenth":"14",
-        "15":"fifteen","fifteen":"15","fifteenth":"15",
-        "16":"sixteen","sixteen":"16","sixteenth":"16",
-        "17":"seventeen","seventeen":"17","seventeenth":"17",
-        "18":"eighteen","eighteen":"18","eighteenth":"18",
-        "19":"nineteen","nineteen":"19","nineteenth":"19",
-        "20":"twenty","twenty":"20","twentieth":"20"
-        // add more if needed
+        "1":"one","one":"1","first":"1st",
+        "2":"two","two":"2","second":"2nd",
+        "3":"three","three":"3","third":"3rd",
+        "4":"four","four":"4","fourth":"4th",
+        "5":"five","five":"5","fifth":"5th",
+        "6":"six","six":"6","sixth":"6th",
+        "7":"seven","seven":"7","seventh":"7th",
+        "8":"eight","eight":"8","eighth":"8th",
+        "9":"nine","nine":"9","ninth":"9th",
+        "10":"ten","ten":"10","tenth":"10th",
+        "11":"eleven","eleven":"11","eleventh":"11th",
+        "12":"twelve","twelve":"12","twelfth":"12th",
+        "13":"thirteen","thirteen":"13","thirteenth":"13th",
+        "14":"fourteen","fourteen":"14","fourteenth":"14th",
+        "15":"fifteen","fifteen":"15","fifteenth":"15th",
+        "16":"sixteen","sixteen":"16","sixteenth":"16th",
+        "17":"seventeen","seventeen":"17","seventeenth":"17th",
+        "18":"eighteen","eighteen":"18","eighteenth":"18th",
+        "19":"nineteen","nineteen":"19","nineteenth":"19th",
+        "20":"twenty","twenty":"20","twentieth":"20th",
+        "21":"twenty-one","twenty-one":"21","twenty-first":"21st",
+        "22":"twenty-two","twenty-two":"22","twenty-second":"22nd",
+        "23":"twenty-three","twenty-three":"23","twenty-third":"23rd",
+        "24":"twenty-four","twenty-four":"24","twenty-fourth":"24th",
+        "25":"twenty-five","twenty-five":"25","twenty-fifth":"25th",
+        "26":"twenty-six","twenty-six":"26","twenty-sixth":"26th",
+        "27":"twenty-seven","twenty-seven":"27","twenty-seventh":"27th",
+        "28":"twenty-eight","twenty-eight":"28","twenty-eighth":"28th",
+        "29":"twenty-nine","twenty-nine":"29","twenty-ninth":"29th",
+        "30":"thirty","thirty":"30","thirtieth":"30th"
     };
 
     function normalizeWord(word) {
@@ -801,7 +810,7 @@ function looseMatch(given, answer) {
         return s
             .toLowerCase()
             .replace(/[^a-z0-9' ]+/g, '')
-            .split(/\s+/)
+            .split(/[\s]+/)
             .filter(w => w && !allowedExtras.includes(w))
             .map(normalizeWord);
     }
@@ -827,8 +836,8 @@ function looseMatch(given, answer) {
         }
         // Accept if sets are equal except for allowed extras
         if (
-            givenNorm.length &&
-            ansNorm.length &&
+            givenNorm.length && 
+            ansNorm.length && 
             givenNorm.join(" ") === ansNorm.join(" ")
         ) {
             return true;
@@ -836,6 +845,13 @@ function looseMatch(given, answer) {
     }
     return false;
 }
+
+function normalizeSaint(word) {
+    if (word === "st" || word === "st.") return "saint";
+    return word;
+}
+
+
 
 function setFeedback(text, ok=true){
     const f = $('feedback');
