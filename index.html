@@ -1498,7 +1498,7 @@ function selectCategory(idx) {
         return;
     }
 
-    // Set up the questions for this category
+    // Set up the questions for this category - FIXED
     gameState.q3CategoryQuestions = categoryData.questions
     .map(q => ({ ...q, userAnswer: "", isCorrect: false }));
 
@@ -1523,6 +1523,7 @@ function selectCategory(idx) {
         showQ3CategoryQuestion();
     }, 2000);
 }
+
 
 function startQ3CategoryTimer() {
     $('timerDisplay').textContent = `Time left: ${gameState.q3TimeLeft}s`;
@@ -1599,6 +1600,7 @@ function showQ3CategoryQuestion() {
         document.getElementById('skipBtn').remove();
     }
     
+    // Get the current category data to show prompt
     const cat = gameState.activeQ3[gameState.q3selectedCategory];
     const prefix = cat.prompt || "Millard Fillmore is or was...";
     $('q3PrefixBox').textContent = prefix;
