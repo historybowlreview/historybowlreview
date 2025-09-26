@@ -1488,21 +1488,23 @@ function showCategorySelection(){
         container.appendChild(btn);
     });
 }
-function selectCategory(idx) {
-    gameState.q3selectedCategory = idx;
+function selectCategory(displayIdx) {
+    // Get the actual category from the displayed categories
+    const categoryData = gameState.q3DisplayedCategories[displayIdx];
+    
+    // Store the selected category data directly
+    gameState.q3SelectedCategoryData = categoryData;
     gameState.q3categoryProgress = 0;
     gameState.q3categoryCorrectCount = 0;
 
-    // Get the actual category data
-    const categoryData = gameState.activeQ3[idx];
     if (!categoryData || !categoryData.questions) {
         console.error("Invalid category data:", categoryData);
         return;
     }
 
-    // Set up the questions for this category - FIXED
+    // Set up the questions for this category
     gameState.q3CategoryQuestions = categoryData.questions
-    .map(q => ({ ...q, userAnswer: "", isCorrect: false }));
+        .map(q => ({ ...q, userAnswer: "", isCorrect: false }));
 
     gameState.q3CurrentQuestionIdx = 0;
     gameState.q3TimeLeft = 60;
