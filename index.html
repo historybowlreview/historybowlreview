@@ -813,7 +813,7 @@ function looseMatch(given, answer) {
             .toLowerCase()
             .replace(/[^a-z0-9' ]+/g, '')
             .split(/[\\s]+/)
-            .filter(w => w && !allowedExtras.includes(w)) // Remove "saint" from allowed extras
+            .filter(w => w && !allowedExtras.includes(w))
             .map(normalizeWord);
     }
 
@@ -825,9 +825,15 @@ function looseMatch(given, answer) {
     }
 
     const givenNorm = tokenizeAndNormalize(given);
+    
+    // Special handling for possessive forms - remove apostrophes for comparison
+    function normalizePossessive(s) {
+        return s.replace(/'s/g, '').replace(/'/g, '');
+    }
+    
     for (let ans of possibleAnswers(answer)) {
         const ansNorm = tokenizeAndNormalize(ans);
-
+        
         // If both lists are same length and every word matches (order-insensitive)
         if (
             givenNorm.length === ansNorm.length &&
@@ -836,6 +842,7 @@ function looseMatch(given, answer) {
         ) {
             return true;
         }
+        
         // Accept if sets are equal except for allowed extras
         if (
             givenNorm.length && 
@@ -844,9 +851,37 @@ function looseMatch(given, answer) {
         ) {
             return true;
         }
+        
+        // Handle possessive forms - check without apostrophes
+        const givenNoApostrophe = tokenizeAndNormalize(normalizePossessive(given));
+        const ansNoApostrophe = tokenizeAndNormalize(normalizePossessive(ans));
+        
+        if (
+            givenNoApostrophe.length === ansNoApostrophe.length &&
+            givenNoApostrophe.every(w => ansNoApostrophe.includes(w)) &&
+            ansNoApostrophe.every(w => givenNoApostrophe.includes(w))
+        ) {
+            return true;
+        }
+        
+        // Handle joint-stock company variations
+        if (ans.includes("joint-stock company") || ans.includes("joint stock company")) {
+            const normalizedGiven = normalizePossessive(given).toLowerCase();
+            const normalizedAns = normalizePossessive(ans).toLowerCase();
+            
+            if (normalizedGiven.includes("joint stock company") && normalizedAns.includes("joint-stock company")) {
+                return true;
+            }
+            if (normalizedGiven.includes("joint-stock company") && normalizedAns.includes("joint stock company")) {
+                return true;
+            }
+        }
     }
     return false;
 }
+
+
+
 
 function normalizeSaint(word) {
     if (word === "st" || word === "st.") return "saint";
