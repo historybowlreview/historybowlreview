@@ -763,7 +763,7 @@ function looseMatch(given, answer) {
     // Words to ignore in matching
     const allowedExtras = [
         "the", "a", "an", "of", "in", "on", "at", "for", "by", "to", "from",
-        "with", "and", "or", "el", "la", "los", "las"
+        "with", "and", "or", "el", "la", "los", "las", "saint", "st"
     ];
 
     // Map for number normalization (both ways)
@@ -803,6 +803,8 @@ function looseMatch(given, answer) {
     function normalizeWord(word) {
         word = word.toLowerCase();
         if (numberMap[word]) return numberMap[word];
+        // Handle "saint" and "st" as equivalent
+        if (word === "saint" || word === "st") return "saint";
         return word;
     }
 
@@ -810,8 +812,8 @@ function looseMatch(given, answer) {
         return s
             .toLowerCase()
             .replace(/[^a-z0-9' ]+/g, '')
-            .split(/[\s]+/)
-            .filter(w => w && !allowedExtras.includes(w))
+            .split(/[\\s]+/)
+            .filter(w => w && !allowedExtras.includes(w)) // Remove "saint" from allowed extras
             .map(normalizeWord);
     }
 
@@ -1912,10 +1914,38 @@ function getPluralForms(word) {
 
 function isStrictCorrect(given, answer) {
     const normGiven = normalize(given);
+    
+    // Handle Saint Valentine vs Valentine
     if (Array.isArray(answer)) {
-        return answer.some(a => normalize(a) === normGiven);
+        return answer.some(a => {
+            const normA = normalize(a);
+            // Check for Saint Valentine variants
+            if (normA === "saint valentine" || normA === "st valentine") {
+                return normGiven === "saint valentine" || 
+                       normGiven === "st valentine" || 
+                       normGiven === "valentine";
+            }
+            // Check for joint-stock company variants
+            if (normA === "joint-stock company" || normA === "joint stock company") {
+                return normGiven === "joint-stock company" || 
+                       normGiven === "joint stock company";
+            }
+            return normA === normGiven;
+        });
     } else {
-        return normalize(answer) === normGiven;
+        const normA = normalize(answer);
+        // Check for Saint Valentine variants
+        if (normA === "saint valentine" || normA === "st valentine") {
+            return normGiven === "saint valentine" || 
+                   normGiven === "st valentine" || 
+                   normGiven === "valentine";
+        }
+        // Check for joint-stock company variants
+        if (normA === "joint-stock company" || normA === "joint stock company") {
+            return normGiven === "joint-stock company" || 
+                   normGiven === "joint stock company";
+        }
+        return normA === normGiven;
     }
 }
 
