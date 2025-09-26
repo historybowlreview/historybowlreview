@@ -1250,7 +1250,8 @@ function resetGame() {
         isPaused: false,
         savedIntervals: {},
         multiplier: 1,
-        q3selectedCategory: null,
+        q3SelectedCategoryData: null,
+        q3DisplayedCategories: null,
         q3categoryProgress: 0,
         q3categoryCorrectCount: 0,
         q3Swept: false,
@@ -1262,16 +1263,14 @@ function resetGame() {
 
     // Pick question set depending on mode
     if (gameState.mode === 'full') {
-        // Full game: use the master QUESTIONS object
+        // Full game: use the master QUESTIONS object - FIXED to provide multiple categories
         gameState.activeQ1 = shuffle([...QUESTIONS.q1]).slice(0, 10);
         gameState.activeQ2 = shuffle([...QUESTIONS.q2]).slice(0, 8);
         gameState.activeQ4 = shuffle([...QUESTIONS.q4]).slice(0, 8);
-        gameState.activeQ3 = [getRandomItem([...QUESTIONS.q3])];
+        // FIXED: Provide all categories so user can choose from 3 random ones
+        gameState.activeQ3 = shuffle([...QUESTIONS.q3]);
     } else {
         // Practice mode: use ONLY previously assigned question sets
-        // Do NOT reassign from master QUESTIONS!
-        // gameState.activeQ1, activeQ2, activeQ3, activeQ4 are already set by assignPracticeQuestionsFromSets()
-        // Just shuffle them again if you want random order:
         if (Array.isArray(gameState.activeQ1)) gameState.activeQ1 = shuffle([...gameState.activeQ1]);
         if (Array.isArray(gameState.activeQ2)) gameState.activeQ2 = shuffle([...gameState.activeQ2]);
         if (Array.isArray(gameState.activeQ3)) gameState.activeQ3 = shuffle([...gameState.activeQ3]);
@@ -1291,7 +1290,6 @@ function resetGame() {
     updateScoreDisplays();
     clearFeedback();
 }
-
 
 async function resetPracticeGame() {
     if (gameState.mode === 'full') {
@@ -1473,7 +1471,7 @@ function showCategorySelection(){
     let shuffled = [...categories].sort(() => Math.random() - 0.5);
     let selected = shuffled.slice(0, 3);
 
-    // Store the selected categories so we can reference them correctly
+    // Store the displayed categories so we can reference them correctly
     gameState.q3DisplayedCategories = selected;
 
     selected.forEach((cat, idx) => {
@@ -1488,9 +1486,12 @@ function showCategorySelection(){
         container.appendChild(btn);
     });
 }
+  
 function selectCategory(displayIdx) {
     // Get the actual category from the displayed categories
     const categoryData = gameState.q3DisplayedCategories[displayIdx];
+    
+    console.log("Selected category data:", categoryData);
     
     // Store the selected category data directly
     gameState.q3SelectedCategoryData = categoryData;
@@ -1520,6 +1521,8 @@ function selectCategory(displayIdx) {
     $('answerInput').disabled = true;
     $('buzzerBtn').disabled = true;
     $('showAnswerBtn').disabled = true;
+    
+    console.log("About to start Q3 category timer and show first question");
     
     // After 2 seconds, start timer and show first question
     setTimeout(() => {
@@ -1604,8 +1607,13 @@ function showQ3CategoryQuestion() {
         document.getElementById('skipBtn').remove();
     }
     
-    // Get the current category data to show prompt
-    const cat = gameState.activeQ3[gameState.q3selectedCategory];
+    // Get the current category data to show prompt - use the stored selected category data
+    const cat = gameState.q3SelectedCategoryData;
+    if (!cat) {
+        console.error("No selected category data available");
+        return;
+    }
+    
     const prefix = cat.prompt || "Millard Fillmore is or was...";
     $('q3PrefixBox').textContent = prefix;
     $('q3PrefixBox').classList.remove('hidden');
@@ -1629,11 +1637,16 @@ function showQ3CategoryQuestion() {
 
     $('questionCounter').textContent = computeQuestionCounterText();
     $('questionText').textContent = `(${idx + 1}/${qArr.length}) ${qArr[idx].question}`;
+    
+    // CRITICAL FIX: Make sure input is enabled and focused
     $('answerInput').disabled = false;
     $('answerInput').value = '';
     $('answerInput').focus();
+    
     $('buzzerBtn').disabled = true;
     $('showAnswerBtn').disabled = true;
+
+    console.log("Q3 question displayed, input should be enabled");
 
     if (!document.getElementById('skipBtn')) {
         const skipBtn = document.createElement('button');
