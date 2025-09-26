@@ -1456,8 +1456,10 @@ function showCategorySelection(){
     
     // Use the Q3 categories from the currently active practice sets
     let categories = gameState.activeQ3;
-    let pairs = categories.map((cat, idx) => ({cat, idx}));
-    let selected = pairs.sort(() => Math.random() - 0.5).slice(0, 3);
+    
+    // Shuffle and select 3 random categories
+    let shuffled = [...categories].sort(() => Math.random() - 0.5);
+    let selected = shuffled.slice(0, 3);
 
     selected.forEach(({cat, idx}) => {
         const btn = document.createElement('div');
@@ -1896,18 +1898,14 @@ function submitAnswer(){
         }
         return;
     }
-    
-    
 
     const submitTime = Date.now();
 
     // Calculate response time
     let responseTime = null;
     if (gameState.currentQuarter === 3 && gameState.q3CategoryActive) {
-        // For Q3, use time since question was shown
         responseTime = (submitTime - gameState.questionStartTime) / 1000;
     } else if (gameState.buzzTime) {
-        // For other quarters, use time from buzz to submit
         responseTime = (submitTime - gameState.buzzTime) / 1000;
     }
 
@@ -1921,13 +1919,13 @@ function submitAnswer(){
         const idx = gameState.q3CurrentQuestionIdx;
         const qArr = gameState.q3CategoryQuestions;
         qArr[idx].userAnswer = given;
-    
+
         // CHECK the answer and set isCorrect!
         const correct =
             isStrictCorrect(given, qArr[idx].answer) ||
             looseMatch(given, qArr[idx].answer);
         qArr[idx].isCorrect = correct;
-    
+
         let msg;
         if (correct) {
             msg = `✔️ Correct! +10 pts`;
@@ -2009,7 +2007,7 @@ function submitAnswer(){
                     $('answerInput').focus();
                     gameState.isAnsweringBonus = true;
                     gameState.questionStartTime = Date.now(); // Reset for bonus timing
-            
+
                     // === START BONUS TIMER ===
                     gameState.bonusTimeLeft = 20;
                     $('timerDisplay').textContent = `Bonus time: ${gameState.bonusTimeLeft}`;
