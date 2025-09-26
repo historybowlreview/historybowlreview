@@ -1473,19 +1473,21 @@ function showCategorySelection(){
     let shuffled = [...categories].sort(() => Math.random() - 0.5);
     let selected = shuffled.slice(0, 3);
 
+    // Store the selected categories so we can reference them correctly
+    gameState.q3DisplayedCategories = selected;
+
     selected.forEach((cat, idx) => {
         const btn = document.createElement('div');
         btn.className = 'category-btn';
         btn.textContent = cat.category;
         btn.onclick = () => {
-            console.log("Category selected: ", idx);
+            console.log("Category selected: ", idx, "Category name:", cat.category);
             container.classList.add('hidden');
             selectCategory(idx);
         };
         container.appendChild(btn);
     });
 }
-
 function selectCategory(idx) {
     gameState.q3selectedCategory = idx;
     gameState.q3categoryProgress = 0;
