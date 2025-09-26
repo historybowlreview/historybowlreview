@@ -1491,7 +1491,15 @@ function selectCategory(idx) {
     gameState.q3categoryProgress = 0;
     gameState.q3categoryCorrectCount = 0;
 
-    gameState.q3CategoryQuestions = gameState.activeQ3[idx].questions
+    // Get the actual category data
+    const categoryData = gameState.activeQ3[idx];
+    if (!categoryData || !categoryData.questions) {
+        console.error("Invalid category data:", categoryData);
+        return;
+    }
+
+    // Set up the questions for this category
+    gameState.q3CategoryQuestions = categoryData.questions
     .map(q => ({ ...q, userAnswer: "", isCorrect: false }));
 
     gameState.q3CurrentQuestionIdx = 0;
@@ -1499,9 +1507,9 @@ function selectCategory(idx) {
     gameState.q3CategoryActive = true;
 
     $('categorySelection').classList.add('hidden');
+    
     // Show prompt first, then proceed to questions
-    const cat = gameState.activeQ3[gameState.q3selectedCategory];
-    const prefix = cat.prompt || "Millard Fillmore is or was...";
+    const prefix = categoryData.prompt || "Millard Fillmore is or was...";
     $('q3PrefixBox').textContent = prefix;
     $('q3PrefixBox').classList.remove('hidden');
     $('questionText').textContent = prefix;
@@ -1590,10 +1598,12 @@ function showQ3CategoryQuestion() {
     if (document.getElementById('skipBtn')) {
         document.getElementById('skipBtn').remove();
     }
+    
     const cat = gameState.activeQ3[gameState.q3selectedCategory];
     const prefix = cat.prompt || "Millard Fillmore is or was...";
     $('q3PrefixBox').textContent = prefix;
     $('q3PrefixBox').classList.remove('hidden');
+    
     let idx = gameState.q3CurrentQuestionIdx;
     let cnt = 0;
     while (qArr[idx] && qArr[idx].userAnswer && cnt < qArr.length) {
@@ -1606,7 +1616,7 @@ function showQ3CategoryQuestion() {
         return;
     }
 
-    gameState.q3CurrentQuestionIdx = idx; // <-- Move this here!
+    gameState.q3CurrentQuestionIdx = idx;
 
     // Record question start time for Q3
     gameState.questionStartTime = Date.now();
