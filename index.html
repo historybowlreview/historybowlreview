@@ -838,15 +838,24 @@ function looseMatch(given, answer) {
         });
     }
     
+    // Enhanced matching function that handles word order independence
+    function matchWithWordOrderIndependence(givenTokens, answerTokens) {
+        // If both lists are same length and every word matches (order-insensitive)
+        if (
+            givenTokens.length === answerTokens.length &&
+            givenTokens.every(w => answerTokens.includes(w)) &&
+            answerTokens.every(w => givenTokens.includes(w))
+        ) {
+            return true;
+        }
+        return false;
+    }
+    
     for (let ans of possibleAnswers(answer)) {
         const ansNorm = tokenizeAndNormalize(ans);
         
         // If both lists are same length and every word matches (order-insensitive)
-        if (
-            givenNorm.length === ansNorm.length &&
-            givenNorm.every(w => ansNorm.includes(w)) &&
-            ansNorm.every(w => givenNorm.includes(w))
-        ) {
+        if (matchWithWordOrderIndependence(givenNorm, ansNorm)) {
             return true;
         }
         
@@ -863,11 +872,7 @@ function looseMatch(given, answer) {
         const givenNoApostrophe = tokenizeAndNormalize(normalizePossessive(given));
         const ansNoApostrophe = tokenizeAndNormalize(normalizePossessive(ans));
         
-        if (
-            givenNoApostrophe.length === ansNoApostrophe.length &&
-            givenNoApostrophe.every(w => ansNoApostrophe.includes(w)) &&
-            ansNoApostrophe.every(w => givenNoApostrophe.includes(w))
-        ) {
+        if (matchWithWordOrderIndependence(givenNoApostrophe, ansNoApostrophe)) {
             return true;
         }
         
@@ -890,12 +895,18 @@ function looseMatch(given, answer) {
         const givenCapNorm = tokenizeAndNormalize(givenCapitalized);
         const ansCapNorm = tokenizeAndNormalize(ansCapitalized);
         
-        if (
-            givenCapNorm.length === ansCapNorm.length &&
-            givenCapNorm.every(w => ansCapNorm.includes(w)) &&
-            ansCapNorm.every(w => givenCapNorm.includes(w))
-        ) {
+        if (matchWithWordOrderIndependence(givenCapNorm, ansCapNorm)) {
             return true;
+        }
+        
+        // Handle case where words are in different order (like "baptist southern" vs "Southern Baptist")
+        if (givenNorm.length === ansNorm.length) {
+            // Try to match with different order
+            const givenSorted = [...givenNorm].sort();
+            const ansSorted = [...ansNorm].sort();
+            if (givenSorted.join(" ") === ansSorted.join(" ")) {
+                return true;
+            }
         }
     }
     return false;
