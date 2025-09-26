@@ -831,6 +831,13 @@ function looseMatch(given, answer) {
         return s.replace(/'s/g, '').replace(/'/g, '');
     }
     
+    // Special handling for capitalization differences
+    function normalizeCapitalization(s) {
+        return s.replace(/\\b\\w+/g, function(word) {
+            return word.charAt(0).toUpperCase() + word.substr(1).toLowerCase();
+        });
+    }
+    
     for (let ans of possibleAnswers(answer)) {
         const ansNorm = tokenizeAndNormalize(ans);
         
@@ -875,6 +882,20 @@ function looseMatch(given, answer) {
             if (normalizedGiven.includes("joint-stock company") && normalizedAns.includes("joint stock company")) {
                 return true;
             }
+        }
+        
+        // Handle capitalization differences
+        const givenCapitalized = normalizeCapitalization(given);
+        const ansCapitalized = normalizeCapitalization(ans);
+        const givenCapNorm = tokenizeAndNormalize(givenCapitalized);
+        const ansCapNorm = tokenizeAndNormalize(ansCapitalized);
+        
+        if (
+            givenCapNorm.length === ansCapNorm.length &&
+            givenCapNorm.every(w => ansCapNorm.includes(w)) &&
+            ansCapNorm.every(w => givenCapNorm.includes(w))
+        ) {
+            return true;
         }
     }
     return false;
