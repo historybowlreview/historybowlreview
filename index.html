@@ -911,6 +911,12 @@ function assignPracticeQuestionsFromSets(sets) {
     gameState.activeQ2 = sets.flatMap(set => set.q2 || []);
     gameState.activeQ3 = sets.flatMap(set => set.q3 || []);
     gameState.activeQ4 = sets.flatMap(set => set.q4 || []);
+    
+    // Ensure we have at least one category for Q3 practice
+    if (gameState.activeQ3 && gameState.activeQ3.length > 0) {
+        // Shuffle the categories for practice
+        gameState.activeQ3 = [...gameState.activeQ3].sort(() => Math.random() - 0.5);
+    }
 }
 
 function promptPracticeQuarter() {
@@ -1343,7 +1349,7 @@ function nextQuestion() {
     }
 
     clearAllTimers();
-        if (gameState.currentQuarter !== 3) {
+    if (gameState.currentQuarter !== 3) {
         $('q3PrefixBox').classList.add('hidden');
         $('q3PrefixBox').textContent = '';
     }
@@ -1457,11 +1463,17 @@ function showCategorySelection(){
     // Use the Q3 categories from the currently active practice sets
     let categories = gameState.activeQ3;
     
+    // Handle case where categories might be undefined or empty
+    if (!categories || !Array.isArray(categories) || categories.length === 0) {
+        container.innerHTML = '<h4 style="width:100%">No categories available</h4>';
+        return;
+    }
+    
     // Shuffle and select 3 random categories
     let shuffled = [...categories].sort(() => Math.random() - 0.5);
     let selected = shuffled.slice(0, 3);
 
-    selected.forEach(({cat, idx}) => {
+    selected.forEach((cat, idx) => {
         const btn = document.createElement('div');
         btn.className = 'category-btn';
         btn.textContent = cat.category;
