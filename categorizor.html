@@ -530,9 +530,11 @@
       }
       // --- Q2 (tossup/bonus) ---
       else if (qi.quarter === 'q2') {
-        document.getElementById('questionText').textContent = qi.tossup?.question || '';
-        document.getElementById('answerText').innerHTML = `<strong>Answer:</strong> ${Array.isArray(qi.tossup?.answer) ? qi.tossup.answer.join(', ') : qi.tossup?.answer || ''}`;
+        const tq = qi.questions?.[0]?.tossup;
+        document.getElementById('questionText').textContent = tq?.question || '';
+        document.getElementById('answerText').innerHTML = `<strong>Answer:</strong> ${Array.isArray(tq?.answer) ? tq.answer.join(', ') : tq?.answer || ''}`;
       }
+
       // --- Q4 (parts) ---
       else if (qi.quarter === 'q4') {
         document.getElementById('questionText').textContent = qi.parts?.join(' ') || '';
