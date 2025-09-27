@@ -463,43 +463,64 @@
       document.getElementById('questionCounter').textContent = `Item ${currentQuestionIndex + 1} of ${questions.length}`;
       document.getElementById('quarterInfo').textContent = `Quarter ${qi.quarter.toUpperCase()}`;
 
-      // For q3: show category name and list all sub-questions with answers
-      if (qi.quarter === 'q3') {
-        const headerHtml = `
-          <div>
-            <strong>Category: ${escapeHtml(qi.categoryName)}</strong><br>
-            (${qi.questions.length} sub-question${qi.questions.length === 1 ? '' : 's'})
+    // For q3: show category name and list all sub-questions with answers
+    if (qi.quarter === 'q3') {
+      const headerHtml = `
+        <div>
+          <strong>Category: ${escapeHtml(qi.categoryName)}</strong><br>
+          (${qi.questions.length} sub-question${qi.questions.length === 1 ? '' : 's'})
+        </div>
+      `;
+    
+      let listHtml = '';
+      qi.questions.forEach((sub, i) => {
+        const ans = Array.isArray(sub.answer) ? sub.answer.join(', ') : (sub.answer || '');
+        listHtml += `
+          <div style="margin-top:10px;">
+            <div><strong>Q${i+1}:</strong> ${escapeHtml(sub.question)}</div>
+            <div><em>Answer:</em> ${escapeHtml(ans)}</div>
           </div>
         `;
-      
-        let listHtml = '';
-        qi.questions.forEach((sub, i) => {
-          const ans = Array.isArray(sub.answer) ? sub.answer.join(', ') : (sub.answer || '');
-          listHtml += `
-            <div style="margin-top:8px;">
-              Q${i+1}: ${escapeHtml(sub.question)}<br>
-              <em>Answer:</em> ${escapeHtml(ans)}
-            </div>
-          `;
-        });
-      
-        document.getElementById('questionText').innerHTML = headerHtml + listHtml;
-        document.getElementById('answerText').innerHTML = `<strong>Block:</strong> ${escapeHtml(qi.categoryName)}`;
-      }
-        document.getElementById('answerText').innerHTML = `<strong>Block:</strong> ${qi.categoryName}`;
-      } else if (qi.quarter === 'q2') {
-        document.getElementById('questionText').textContent = qi.question;
-        document.getElementById('answerText').innerHTML = `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : qi.answer}`;
-      } else if (qi.quarter === 'q1') {
-        document.getElementById('questionText').textContent = qi.question;
-        document.getElementById('answerText').innerHTML = `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : qi.answer}`;
-      } else if (qi.quarter === 'q4') {
-        document.getElementById('questionText').textContent = qi.parts.join(' ');
-        document.getElementById('answerText').innerHTML = `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : qi.answer}`;
-      } else {
-        document.getElementById('questionText').textContent = qi.question || '';
-        document.getElementById('answerText').innerHTML = `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : qi.answer || ''}`;
-      }
+      });
+    
+      document.getElementById('questionText').innerHTML = headerHtml + listHtml;
+      document.getElementById('answerText').innerHTML = `<strong>Block:</strong> ${escapeHtml(qi.categoryName)}`;
+    }
+    
+    // For q2: show both tossup and bonus
+    else if (qi.quarter === 'q2') {
+      let html = `
+        <div><strong>Tossup:</strong> ${escapeHtml(qi.tossup.question)}</div>
+        <div><em>Answer:</em> ${escapeHtml(Array.isArray(qi.tossup.answer) ? qi.tossup.answer.join(', ') : qi.tossup.answer)}</div>
+        <br>
+        <div><strong>Bonus:</strong> ${escapeHtml(qi.bonus.question)}</div>
+        <div><em>Answer:</em> ${escapeHtml(Array.isArray(qi.bonus.answer) ? qi.bonus.answer.join(', ') : qi.bonus.answer)}</div>
+      `;
+      document.getElementById('questionText').innerHTML = html;
+      document.getElementById('answerText').innerHTML = `<strong>Block:</strong> Tossup & Bonus`;
+    }
+    
+    // For q1: standard single question/answer
+    else if (qi.quarter === 'q1') {
+      document.getElementById('questionText').textContent = qi.question;
+      document.getElementById('answerText').innerHTML =
+        `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : qi.answer}`;
+    }
+    
+    // For q4: multi-part
+    else if (qi.quarter === 'q4') {
+      document.getElementById('questionText').textContent = qi.parts.join(' ');
+      document.getElementById('answerText').innerHTML =
+        `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : qi.answer}`;
+    }
+    
+    // Fallback
+    else {
+      document.getElementById('questionText').textContent = qi.question || '';
+      document.getElementById('answerText').innerHTML =
+        `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : (qi.answer || '')}`;
+    }
+
 
       // Clear previous selection
       document.querySelectorAll('.category-btn').forEach(btn => { btn.classList.remove('selected'); });
