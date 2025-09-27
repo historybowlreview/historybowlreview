@@ -485,93 +485,81 @@
       document.getElementById('questionCard').style.display = 'block';
       displayCurrentQuestion();
     }
-
+    
     // Display logic updated to handle q3 blocks
     function displayCurrentQuestion() {
       if (currentQuestionIndex >= questions.length) {
         showResults();
         return;
       }
-
+    
       const qi = questions[currentQuestionIndex];
-
+    
+      // Update counters
       document.getElementById('questionCounter').textContent = `Item ${currentQuestionIndex + 1} of ${questions.length}`;
       document.getElementById('quarterInfo').textContent = `Quarter ${qi.quarter.toUpperCase()}`;
-
-    // For q3: show category name and list all sub-questions with answers
-    if (qi.quarter === 'q3') {
-      const headerHtml = `
-        <div>
-          <strong>Category: ${escapeHtml(qi.categoryName)}</strong><br>
-          (${qi.questions.length} sub-question${qi.questions.length === 1 ? '' : 's'})
-        </div>
-      `;
     
-      let listHtml = '';
-      qi.questions.forEach((sub, i) => {
-        const ans = Array.isArray(sub.answer) ? sub.answer.join(', ') : (sub.answer || '');
-        listHtml += `
-          <div style="margin-top:10px;">
-            <div><strong>Q${i+1}:</strong> ${escapeHtml(sub.question)}</div>
-            <div><em>Answer:</em> ${escapeHtml(ans)}</div>
+      // --- Q3 block (category with sub-questions) ---
+      if (qi.quarter === 'q3') {
+        const headerHtml = `
+          <div>
+            <strong>Category: ${escapeHtml(qi.categoryName)}</strong><br>
+            (${qi.questions.length} sub-question${qi.questions.length === 1 ? '' : 's'})
           </div>
         `;
-      });
     
-      document.getElementById('questionText').innerHTML = headerHtml + listHtml;
-      document.getElementById('answerText').innerHTML = `<strong>Block:</strong> ${escapeHtml(qi.categoryName)}`;
-    }
+        let listHtml = '';
+        qi.questions.forEach((sub, i) => {
+          const ans = Array.isArray(sub.answer) ? sub.answer.join(', ') : (sub.answer || '');
+          listHtml += `
+            <div style="margin-top:8px;">
+              Q${i+1}: ${escapeHtml(sub.question)}<br>
+              <em>Answer:</em> <span class="q3-chip">${escapeHtml(ans)}</span>
+              <button class="q3-btn" style="margin-left:8px" onclick="copyQ3Answer(event, ${currentQuestionIndex}, ${i})">Copy</button>
+            </div>
+          `;
+        });
     
-    // For q2: show both tossup and bonus
-    else if (qi.quarter === 'q2') {
-      let html = `
-        <div><strong>Tossup:</strong> ${escapeHtml(qi.tossup.question)}</div>
-        <div><em>Answer:</em> ${escapeHtml(Array.isArray(qi.tossup.answer) ? qi.tossup.answer.join(', ') : qi.tossup.answer)}</div>
-        <br>
-        <div><strong>Bonus:</strong> ${escapeHtml(qi.bonus.question)}</div>
-        <div><em>Answer:</em> ${escapeHtml(Array.isArray(qi.bonus.answer) ? qi.bonus.answer.join(', ') : qi.bonus.answer)}</div>
-      `;
-      document.getElementById('questionText').innerHTML = html;
-      document.getElementById('answerText').innerHTML = `<strong>Block:</strong> Tossup & Bonus`;
-    }
+        document.getElementById('questionText').innerHTML = headerHtml + listHtml;
+        document.getElementById('answerText').innerHTML = `<strong>Block:</strong> ${escapeHtml(qi.categoryName)}`;
+      }
+      // --- Q1 ---
+      else if (qi.quarter === 'q1') {
+        document.getElementById('questionText').textContent = qi.question || '';
+        document.getElementById('answerText').innerHTML = `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : qi.answer || ''}`;
+      }
+      // --- Q2 (tossup/bonus) ---
+      else if (qi.quarter === 'q2') {
+        document.getElementById('questionText').textContent = qi.tossup?.question || '';
+        document.getElementById('answerText').innerHTML = `<strong>Answer:</strong> ${Array.isArray(qi.tossup?.answer) ? qi.tossup.answer.join(', ') : qi.tossup?.answer || ''}`;
+      }
+      // --- Q4 (parts) ---
+      else if (qi.quarter === 'q4') {
+        document.getElementById('questionText').textContent = qi.parts?.join(' ') || '';
+        document.getElementById('answerText').innerHTML = `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : qi.answer || ''}`;
+      }
+      // --- fallback ---
+      else {
+        document.getElementById('questionText').textContent = qi.question || '';
+        document.getElementById('answerText').innerHTML = `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : qi.answer || ''}`;
+      }
     
-    // For q1: standard single question/answer
-    else if (qi.quarter === 'q1') {
-      document.getElementById('questionText').textContent = qi.question;
-      document.getElementById('answerText').innerHTML =
-        `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : qi.answer}`;
-    }
-    
-    // For q4: multi-part
-    else if (qi.quarter === 'q4') {
-      document.getElementById('questionText').textContent = qi.parts.join(' ');
-      document.getElementById('answerText').innerHTML =
-        `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : qi.answer}`;
-    }
-    
-    // Fallback
-    else {
-      document.getElementById('questionText').textContent = qi.question || '';
-      document.getElementById('answerText').innerHTML =
-        `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : (qi.answer || '')}`;
-    }
-
-
       // Clear previous selection
       document.querySelectorAll('.category-btn').forEach(btn => { btn.classList.remove('selected'); });
-
+    
       // Show selected category if present
       if (qi.category) {
         const selectedBtn = document.querySelector(`[data-category="${qi.category}"]`);
         if (selectedBtn) selectedBtn.classList.add('selected');
       }
-
+    
       // Update navigation
       document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
       document.getElementById('nextBtn').disabled = !qi.category;
-
+    
       updateProgress();
     }
+
 
     function selectCategory(category) {
       const qi = questions[currentQuestionIndex];
