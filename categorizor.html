@@ -764,6 +764,12 @@
         document.getElementById('exportAllBtn').addEventListener('click', exportAllCategories);
         document.getElementById('startOverBtn').addEventListener('click', startOver);
         
+        // Import button fix
+        document.getElementById('importCategoriesBtn').addEventListener('click', function() {
+            alert('Import existing categories functionality would go here');
+            // In a real implementation, this would open a file dialog to import existing category data
+        });
+        
         // Category buttons
         document.querySelectorAll('.category-btn').forEach(btn => {
             btn.addEventListener('click', () => {
