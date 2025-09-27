@@ -671,9 +671,9 @@
       if (q.quarter === 'q1') {
         return { question: q.question, answer: q.answer };
       } else if (q.quarter === 'q2') {
-        return { tossup: { question: q.question, answer: q.answer }, bonus: q.bonus };
+        // return tossup and bonus exactly as in JSON
+        return { tossup: q.tossup, bonus: q.bonus };
       } else if (q.quarter === 'q3') {
-        // return block: category name and questions array
         return { category: q.categoryName, questions: q.questions };
       } else if (q.quarter === 'q4') {
         return { parts: q.parts, answer: q.answer };
