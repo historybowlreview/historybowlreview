@@ -673,10 +673,20 @@
       if (q.quarter === 'q1') {
         return { question: q.question, answer: q.answer };
       } else if (q.quarter === 'q2') {
-        // return tossup and bonus exactly as in JSON
-        return { tossup: q.tossup, bonus: q.bonus };
+        // Get the original Q2 data from jsonData using the index
+        const originalQ2 = jsonData.q2[q.index];
+        return {
+          tossup: originalQ2.tossup,
+          bonus: originalQ2.bonus
+        };
       } else if (q.quarter === 'q3') {
-        return { category: q.categoryName, questions: q.questions };
+        // Get the original Q3 data from jsonData using the categoryIndex
+        const originalQ3 = jsonData.q3[q.categoryIndex];
+        return {
+          category: originalQ3.category,
+          prompt: originalQ3.prompt, // Include the prompt field
+          questions: originalQ3.questions
+        };
       } else if (q.quarter === 'q4') {
         return { parts: q.parts, answer: q.answer };
       } else {
