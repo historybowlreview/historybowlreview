@@ -63,14 +63,6 @@
   ],
   "q2": [
     {
-      "tossup": {
-        "question": "This ethnicity respected administrators called yangban under a state known in Western sources\nas the \"hermit kingdom.\" This group defeated an invasion by Toyotomi Hideyoshi at Noryang.\nFrom 1910 to 1945, Japan occupied this group's land after deposing the Joseon dynasty. For 10\npoints, name this Asian ethnicity which now lives on a divided peninsula northeast of China.",
-        "answer": [
-          "Koreans",
-          "Hanguk-im",
-          "Hanguk"
-        ]
-      },
       "bonus": {
         "question": "Korea rebuffed Hideyoshi using what large ships with covered hulls, which could blow\nsmoke out of a decorative dragon head at the prow?",
         "answer": [
@@ -80,26 +72,12 @@
       }
     },
     {
-      "tossup": {
-        "question": "This woman was one of the first district attorneys in New York's Special Victims Bureau, and\nshe wrote the Democratic National Committee's rules on superdelegates. George H.W. Bush was\naccused of disrespecting her in a 1984 debate. For 10 points, name this first woman to run as a\nmajor-party Vice-Presidential candidate, appearing on the losing Walter Mondale ticket.",
-        "answer": [
-          "Geraldine Ferraro",
-          "Ferraro"
-        ]
-      },
       "bonus": {
         "question": "The Mondale-Ferraro ticket only won Washington, D.C. and what home state of\nMondale, which later elected Jesse Ventura governor?",
         "answer": "Minnesota"
       }
     },
     {
-      "tossup": {
-        "question": "In October 2014, a court case was filed regarding a Firestone rubber plantation in this\ncountry's town of Harbel. This country was the origin of Thomas Eric Duncan, who infected two\nnurses after arriving in Dallas with ebola. For 10 points, name this country where president Ellen\nJohnson Sirleaf governs the descendants of resettled American slaves.",
-        "answer": [
-          "Liberia",
-          "Republic of Liberia"
-        ]
-      },
       "bonus": {
         "question": "The 2014 ebola outbreak began in what northern neighbor of Liberia with capital at\nConakry, which had its first-ever democratic presidential election in 2010?",
         "answer": [
@@ -109,10 +87,6 @@
       }
     },
     {
-      "tossup": {
-        "question": "This city has for decades been the center of the least populated metro area to be the home of a\nmajor American professional sports team. This city’s team is notable for its ownership structure,\nwhich consists of numerous shareholders and a stock sale in 1998 to help renovate its notoriously\ncold stadium at Lambeau (LAM-boe) Field. This city’s team name references an industry that\nwas criticized in Upton Sinclair’s The Jungle. For 10 points, name this Wisconsin city on an arm\nof Lake Michigan, with a highly successful National Football League team.",
-        "answer": "Green Bay"
-      },
       "bonus": {
         "question": "Which former Green Bay quarterback had a role in the 1998 Farrelly brothers comedy\nfilm, There’s Something About Mary?",
         "answer": [
@@ -122,14 +96,6 @@
       }
     },
     {
-      "tossup": {
-        "question": "This man’s wife Vibia Sabina may have had an affair with his secretary, the historian\nSuetonius. He made Marcius Turbo Praetorian Prefect and employed the frumentarii as secret\npolice. This third of the Five Good Emperors was succeeded by Antoninus Pius. For 10 points,\nname this Roman emperor who demarcated the northern limit of Roman Britain with his\nnamesake wall.",
-        "answer": [
-          "Hadrian",
-          "Publius Aelius Hadrianus Augustus",
-          "Hadrianus"
-        ]
-      },
       "bonus": {
         "question": "Hadrian’s construction of the Aelia Capitolina caused a 132 A.D. revolt directed by\nthis Simon bar Kokhba, a member of this religious group.",
         "answer": [
@@ -140,36 +106,18 @@
       }
     },
     {
-      "tossup": {
-        "question": "This event was enflamed when a court-martial acquitted Ferdinand Esterhazy. One person\ninvolved in this scandal was imprisoned on Devil’s Island until key evidence against him was\nrevealed to be forged. Emile Zola wrote the letter J’Accuse supporting that prisoner. For 10\npoints, name this scandal in which a Jewish French army captain was framed for treason.",
-        "answer": [
-          "Dreyfus affair",
-          "Dreyfus"
-        ]
-      },
       "bonus": {
         "question": "Another 19th century French political scandal concerned Ferdinand de Lesseps’\nattempts to build what structure?",
         "answer": "Panama Canal"
       }
     },
     {
-      "tossup": {
-        "question": "This color names a \"democratic movement\" which supports former Kenyan prime minister\nRaila Odinga (rah-EE-luh oh-DING-guh). A river separating both Namibia and Lesotho from\nSouth Africa is named for this color, which inspired a \"free state\" in pre-union South Africa. For\n10 points, name this color also used for the Dutch royal house and a citrus fruit.",
-        "answer": "orange"
-      },
       "bonus": {
         "question": "The 2004 Orange Revolution protested vote-rigging by Viktor Yanukovych (YAHnik-oh-vitch) in what country?",
         "answer": "Ukraine"
       }
     },
     {
-      "tossup": {
-        "question": "This event was a failure of Brigade 2506, which landed at Playa Giron (hee-ROAN). Allen\nDulles took most of the blame for this event, which was a CIA operation with inadequate\nmilitary support. This event relied mostly on exiles and prompted its target to formally ally with\nthe Soviets. For 10 points, name this failed 1961 invasion of Cuba authorized by JFK.",
-        "answer": [
-          "Bay of Pigs invasion",
-          "Bay of Pigs"
-        ]
-      },
       "bonus": {
         "question": "What Florida senator of Cuban descent, sometimes mentioned as a possible 2016\npresidential candidate, criticized the 2014 agreement to partially lift sanctions against Cuba?",
         "answer": [
@@ -182,7 +130,6 @@
   "q3": [
     {
       "category": "LEWIS AND CLARK",
-      "prompt": "The Lewis and Clark expedition...",
       "questions": [
         {
           "question": "Was intended to explore what large acquisition of land made in 1803?",
@@ -236,7 +183,6 @@
     },
     {
       "category": "PEOPLE OF 1968",
-      "prompt": "In 1968, who...",
       "questions": [
         {
           "question": "Was killed by James Earl Ray in Memphis after leading a civil rights action?",
@@ -299,7 +245,6 @@
     },
     {
       "category": "AMENDMENTS",
-      "prompt": "What U.S. Constitutional amendment is or was the chief subject of...",
       "questions": [
         {
           "question": "A witness's right not to testify against himself?",
