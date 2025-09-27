@@ -465,27 +465,26 @@
 
       // For q3: show category name and list all sub-questions with answers
       if (qi.quarter === 'q3') {
-        const header = `Category: ${qi.categoryName} — (${qi.questions.length} sub-questions)`;
-        let html = `<strong>${header}</strong>\n\n`;
+        const headerHtml = `
+          <div>
+            <strong>Category: ${escapeHtml(qi.categoryName)}</strong><br>
+            (${qi.questions.length} sub-question${qi.questions.length === 1 ? '' : 's'})
+          </div>
+        `;
+      
+        let listHtml = '';
         qi.questions.forEach((sub, i) => {
-          const ans = Array.isArray(sub.answer) ? sub.answer.join(', ') : sub.answer;
-          html += `Q${i+1}: ${sub.question}\n\nAnswer: ${ans}\n\n`;
+          const ans = Array.isArray(sub.answer) ? sub.answer.join(', ') : (sub.answer || '');
+          listHtml += `
+            <div style="margin-top:8px;">
+              Q${i+1}: ${escapeHtml(sub.question)}<br>
+              <em>Answer:</em> ${escapeHtml(ans)}
+            </div>
+          `;
         });
-        document.getElementById('questionText').textContent = html;
-        // show a compact answer text for the whole block (categoryName)
-        document.getElementById('answerText').innerHTML = `<strong>Block:</strong> ${qi.categoryName}`;
-      } else if (qi.quarter === 'q2') {
-        document.getElementById('questionText').textContent = qi.question;
-        document.getElementById('answerText').innerHTML = `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : qi.answer}`;
-      } else if (qi.quarter === 'q1') {
-        document.getElementById('questionText').textContent = qi.question;
-        document.getElementById('answerText').innerHTML = `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : qi.answer}`;
-      } else if (qi.quarter === 'q4') {
-        document.getElementById('questionText').textContent = qi.parts.join(' ');
-        document.getElementById('answerText').innerHTML = `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : qi.answer}`;
-      } else {
-        document.getElementById('questionText').textContent = qi.question || '';
-        document.getElementById('answerText').innerHTML = `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : qi.answer || ''}`;
+      
+        document.getElementById('questionText').innerHTML = headerHtml + listHtml;
+        document.getElementById('answerText').innerHTML = `<strong>Block:</strong> ${escapeHtml(qi.categoryName)}`;
       }
 
       // Clear previous selection
