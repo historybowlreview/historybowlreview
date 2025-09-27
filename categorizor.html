@@ -63,37 +63,6 @@
     .import-status.success { color:#059669; font-weight:500; }
     .import-status.error { color:#dc2626; font-weight:500; }
     .import-modal-footer { display:flex; gap:15px; justify-content:center; padding-top:20px; border-top:2px solid #f1f5f9; }
-    .q3-block-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 12px;
-      padding: 12px 14px;
-      border-radius: 10px;
-      background: linear-gradient(90deg, rgba(90,103,216,0.08), rgba(118,75,162,0.04));
-      border: 1px solid rgba(90,103,216,0.08);
-      margin-bottom: 12px;
-    }
-    .q3-block-title { font-weight:700; color:#3b3872; font-size:1.05rem; }
-    .q3-subcount { color:#64748b; font-size:0.9rem; }
-    
-    /* questions list */
-    .q3-list { list-style: decimal; padding-left: 18px; margin: 10px 0 0 0; }
-    .q3-list li { margin: 12px 0; line-height:1.45; }
-    .q3-question { font-weight:600; color:#111827; display:block; margin-bottom:6px; }
-    .q3-answer { display:none; font-weight:600; background:#eef2ff; padding:6px 8px; border-radius:8px; border-left:3px solid #5a67d8; color:#1e40af; font-size:0.95rem; }
-    
-    /* visible state when answers toggled */
-    .q3-answers-visible .q3-answer { display:inline-block; }
-    
-    /* little helper row with toggle/copy */
-    .q3-controls { display:flex; gap:10px; margin-top:10px; }
-    .q3-btn {
-      padding:6px 10px; border-radius:8px; font-weight:600;
-      border:1px solid rgba(59,130,246,0.12); background:transparent; cursor:pointer;
-    }
-    .q3-btn.primary { background: linear-gradient(90deg,#667eea,#764ba2); color:white; border:none; }
-    .q3-chip { display:inline-flex; gap:6px; align-items:center; padding:4px 8px; border-radius:999px; background:#f1f5ff; border:1px solid rgba(99,102,241,0.08); font-size:0.92rem; }
   </style>
 </head>
 <body>
@@ -494,41 +463,30 @@
       document.getElementById('questionCounter').textContent = `Item ${currentQuestionIndex + 1} of ${questions.length}`;
       document.getElementById('quarterInfo').textContent = `Quarter ${qi.quarter.toUpperCase()}`;
 
-      // --- Replace the q3 branch in displayCurrentQuestion() with this ---
+      // For q3: show category name and list all sub-questions with answers
       if (qi.quarter === 'q3') {
-        // build a clean header + list of subquestions
-        const headerHtml = `
-          <div class="q3-block-header">
-            <div>
-              <div class="q3-block-title">Category: ${escapeHtml(qi.categoryName)}</div>
-              <div class="q3-subcount">${qi.questions.length} sub-question${qi.questions.length === 1 ? '' : 's'}</div>
-            </div>
-            <div style="display:flex;gap:8px;align-items:center;">
-              <button class="q3-btn q3-toggle-btn" onclick="toggleAnswersForQ3(this)">Reveal answers</button>
-            </div>
-          </div>
-        `;
-      
-        let listHtml = '<ol class="q3-list">';
+        const header = `Category: ${qi.categoryName} — (${qi.questions.length} sub-questions)`;
+        let html = `<strong>${header}</strong>\n\n`;
         qi.questions.forEach((sub, i) => {
-          const ans = Array.isArray(sub.answer) ? sub.answer.join(', ') : (sub.answer || '');
-          listHtml += `
-            <li>
-              <span class="q3-question">Q${i+1}: ${escapeHtml(sub.question)}</span>
-              <div class="q3-answer" data-sub-index="${i}">
-                <span class="q3-chip">${escapeHtml(ans)}</span>
-                <button class="q3-btn" style="margin-left:8px" onclick="copyQ3Answer(event, ${currentQuestionIndex}, ${i})">Copy</button>
-              </div>
-            </li>
-          `;
+          const ans = Array.isArray(sub.answer) ? sub.answer.join(', ') : sub.answer;
+          html += `Q${i+1}: ${sub.question}\n\nAnswer: ${ans}\n\n`;
         });
-        listHtml += '</ol>';
-      
-        document.getElementById('questionText').innerHTML = headerHtml + listHtml;
-        // compact label in the answer area for the whole block
-        document.getElementById('answerText').innerHTML = `<strong>Block:</strong> ${escapeHtml(qi.categoryName)}`;
+        document.getElementById('questionText').textContent = html;
+        // show a compact answer text for the whole block (categoryName)
+        document.getElementById('answerText').innerHTML = `<strong>Block:</strong> ${qi.categoryName}`;
+      } else if (qi.quarter === 'q2') {
+        document.getElementById('questionText').textContent = qi.question;
+        document.getElementById('answerText').innerHTML = `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : qi.answer}`;
+      } else if (qi.quarter === 'q1') {
+        document.getElementById('questionText').textContent = qi.question;
+        document.getElementById('answerText').innerHTML = `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : qi.answer}`;
+      } else if (qi.quarter === 'q4') {
+        document.getElementById('questionText').textContent = qi.parts.join(' ');
+        document.getElementById('answerText').innerHTML = `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : qi.answer}`;
+      } else {
+        document.getElementById('questionText').textContent = qi.question || '';
+        document.getElementById('answerText').innerHTML = `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : qi.answer || ''}`;
       }
-
 
       // Clear previous selection
       document.querySelectorAll('.category-btn').forEach(btn => { btn.classList.remove('selected'); });
@@ -737,43 +695,6 @@
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-    }
-
-    // escapes text for safe HTML insertion (avoid XSS with user JSON)
-    function escapeHtml(str){
-      if (str === null || str === undefined) return '';
-      return String(str)
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&#39;');
-    }
-    
-    // toggles answers display for the current q3 block
-    function toggleAnswersForQ3(btn){
-      const card = document.getElementById('questionText');
-      const showing = card.classList.toggle('q3-answers-visible');
-      btn.textContent = showing ? 'Hide answers' : 'Reveal answers';
-      btn.classList.toggle('primary', showing);
-    }
-    
-    // copy one q3 answer into the clipboard
-    function copyQ3Answer(event, reviewIndex, subIndex){
-      event.stopPropagation();
-      // find the stored text from questions array
-      const item = questions[reviewIndex];
-      if (!item || !item.questions || !item.questions[subIndex]) return;
-      const ans = Array.isArray(item.questions[subIndex].answer) ? item.questions[subIndex].answer.join(', ') : item.questions[subIndex].answer || '';
-      navigator.clipboard?.writeText(ans).then(()=> {
-        // tiny visual feedback
-        const b = event.currentTarget;
-        const old = b.textContent;
-        b.textContent = 'Copied!';
-        setTimeout(()=> b.textContent = old, 900);
-      }).catch(()=> {
-        alert('Copy failed — your browser may not allow clipboard writes.');
-      });
     }
 
     function startOver() {
