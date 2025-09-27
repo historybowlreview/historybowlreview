@@ -486,6 +486,20 @@
         document.getElementById('questionText').innerHTML = headerHtml + listHtml;
         document.getElementById('answerText').innerHTML = `<strong>Block:</strong> ${escapeHtml(qi.categoryName)}`;
       }
+        document.getElementById('answerText').innerHTML = `<strong>Block:</strong> ${qi.categoryName}`;
+      } else if (qi.quarter === 'q2') {
+        document.getElementById('questionText').textContent = qi.question;
+        document.getElementById('answerText').innerHTML = `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : qi.answer}`;
+      } else if (qi.quarter === 'q1') {
+        document.getElementById('questionText').textContent = qi.question;
+        document.getElementById('answerText').innerHTML = `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : qi.answer}`;
+      } else if (qi.quarter === 'q4') {
+        document.getElementById('questionText').textContent = qi.parts.join(' ');
+        document.getElementById('answerText').innerHTML = `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : qi.answer}`;
+      } else {
+        document.getElementById('questionText').textContent = qi.question || '';
+        document.getElementById('answerText').innerHTML = `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : qi.answer || ''}`;
+      }
 
       // Clear previous selection
       document.querySelectorAll('.category-btn').forEach(btn => { btn.classList.remove('selected'); });
