@@ -5,7 +5,116 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>History Bowl Question Categorizer</title>
     <style>
-        /* ... existing styles ... */
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+            min-height:100vh;color:#222;padding:24px;
+        }
+        .container{max-width:1100px;margin:0 auto;background:transparent}
+        .upload-section{
+            background:rgba(255,255,255,0.95);padding:20px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.12);margin-bottom:20px
+        }
+        .btn{
+            background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+            color:white;
+            border:none;
+            padding:10px 16px;
+            border-radius:8px;
+            cursor:pointer;
+            font-weight:600;
+            transition:all 0.2s ease;
+            font-size:14px;
+            box-shadow:0 2px 8px rgba(102,126,234,0.3);
+            margin:5px;
+        }
+        .btn:hover{
+            transform:translateY(-1px);
+            box-shadow:0 4px 12px rgba(102,126,234,0.4);
+        }
+        .btn.secondary{
+            background:linear-gradient(135deg,#6c757d 0%,#5a6268 100%);
+            box-shadow:0 2px 8px rgba(108,117,125,0.3);
+        }
+        .btn.success{
+            background:linear-gradient(135deg,#28a745 0%,#20c997 100%);
+            box-shadow:0 2px 8px rgba(40,167,69,0.3);
+        }
+        .progress-section{
+            background:rgba(255,255,255,0.95);padding:20px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.12);margin-bottom:20px;display:none
+        }
+        .progress-bar{
+            height:20px;background:#e2e8f0;border-radius:10px;overflow:hidden;margin:15px 0
+        }
+        .progress-fill{
+            height:100%;background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);border-radius:10px;width:0;transition:width 0.3s ease
+        }
+        .question-card{
+            background:rgba(255,255,255,0.95);padding:25px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.12);margin-bottom:20px
+        }
+        .question-header{
+            display:flex;justify-content:space-between;align-items:center;margin-bottom:20px
+        }
+        .question-counter{
+            font-weight:700;font-size:1.1rem;color:#5a67d8
+        }
+        .question-text{
+            font-size:1.05rem;color:#2d3748;min-height:62px;line-height:1.5;margin-bottom:15px
+        }
+        .answer-text{
+            font-weight:600;color:#2d3748;margin-bottom:20px
+        }
+        .skip-info{
+            color:#64748b;font-size:0.9rem;margin-bottom:20px
+        }
+        .categories-grid{
+            display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;margin-bottom:20px
+        }
+        .category-btn{
+            padding:14px 16px;border-radius:10px;background:white;border:2px solid #e2e8f0;cursor:pointer;text-align:center;transition:all 0.2s ease;font-weight:500;box-shadow:0 2px 8px rgba(0,0,0,0.06);
+        }
+        .category-btn:hover{
+            border-color:#5a67d8;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,0,0,0.1);
+        }
+        .category-btn.selected{
+            background:linear-gradient(135deg,#5a67d8 0%,#764ba2 100%);color:white;border-color:#5a67d8;box-shadow:0 4px 12px rgba(90,103,216,0.3);
+        }
+        .navigation-buttons{
+            display:flex;gap:10px;justify-content:flex-end;margin-top:20px
+        }
+        .results-section{
+            background:rgba(255,255,255,0.95);padding:25px;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.12);display:none
+        }
+        .category-summary{
+            display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:15px;margin-bottom:30px
+        }
+        .summary-card{
+            background:linear-gradient(135deg,#f8f9fa 0%,#ffffff 100%);padding:20px;border-radius:10px;text-align:center;box-shadow:0 4px 12px rgba(0,0,0,0.06)
+        }
+        .summary-count{
+            font-size:2rem;font-weight:800;color:#5a67d8;margin-bottom:10px
+        }
+        .summary-label{
+            font-weight:600;color:#2d3748;font-size:1.1rem
+        }
+        .export-buttons{
+            display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin-bottom:25px
+        }
+        .file-input{
+            display:flex;align-items:center;gap:10px;margin-bottom:15px
+        }
+        .file-label{
+            background:linear-gradient(135deg,#667eea 0%,#764ba2 100%);
+            color:white;
+            padding:10px 16px;
+            border-radius:8px;
+            cursor:pointer;
+            font-weight:600;
+            transition:all 0.2s ease;
+        }
+        #jsonFile{
+            display:none
+        }
         .category-header {
             background: #f8f9ff;
             padding: 15px;
@@ -44,6 +153,11 @@
             background: #f8f9ff;
             border-radius: 8px;
             margin-top: 15px;
+        }
+        @media (max-width:700px){
+            .question-header{flex-direction:column;gap:10px;text-align:center}
+            .navigation-buttons{flex-direction:column}
+            .navigation-buttons .btn{width:100%}
         }
     </style>
 </head>
@@ -178,8 +292,7 @@
     </div>
 
     <script>
-        // ... existing code ...
-        
+        // Global variables
         let questions = [];
         let currentQuestionIndex = 0;
         let categorizedQuestions = {};
@@ -190,15 +303,51 @@
         let categoryQuestions = [];
         let isCategorizingCategories = false;
         
-        // ... existing code ...
+        // Category mappings
+        const categories = {
+            "us-history": "US History",
+            "european-history": "European History", 
+            "world-history": "World History",
+            "ancient-history": "Ancient History",
+            "other-history": "Other History",
+            "pop-culture-sports": "Pop Culture/Sports",
+            "social-science": "Social Science/Philosophy",
+            "recent-history": "Recent History (2000-Present)",
+            "literature-history": "Literature History",
+            "fine-arts": "Fine Arts History",
+            "geographical-history": "Geographical History",
+            "math-science": "Math and Science History",
+            "mythology": "Mythology"
+        };
         
-        // Add new event listeners for category navigation
-        document.getElementById('skipCategoryBtn').addEventListener('click', skipCategory);
-        document.getElementById('prevCategoryBtn').addEventListener('click', previousCategory);
-        document.getElementById('nextCategoryBtn').addEventListener('click', nextCategory);
+        // Initialize categorized questions structure
+        Object.keys(categories).forEach(key => {
+            categorizedQuestions[key] = { q1: [], q2: [], q3: [], q4: [] };
+        });
         
-        // ... existing code ...
+        // File upload handling
+        document.getElementById('jsonFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    jsonData = JSON.parse(e.target.result);
+                    parseQuestions();
+                    showProgress();
+                    showQuestion();
+                    document.getElementById('fileInfo').textContent = 
+                        `Loaded: ${questions.length} questions from ${file.name}`;
+                } catch (err) {
+                    document.getElementById('fileInfo').textContent = 
+                        `Error loading file: ${err.message}`;
+                }
+            };
+            reader.readAsText(file);
+        });
         
+        // Parse questions from JSON data
         function parseQuestions() {
             questions = [];
             categorizedCategories = {};
@@ -271,6 +420,96 @@
             }
         }
         
+        // Show progress bar
+        function showProgress() {
+            document.getElementById('progressSection').style.display = 'block';
+            updateProgress();
+        }
+        
+        // Update progress bar
+        function updateProgress() {
+            const categorized = questions.filter(q => q.category).length;
+            const total = questions.length;
+            const percentage = total > 0 ? (categorized / total) * 100 : 0;
+            
+            document.getElementById('progressFill').style.width = `${percentage}%`;
+            document.getElementById('progressText').textContent = 
+                `${categorized} of ${total} questions categorized (${Math.round(percentage)}%)`;
+        }
+        
+        // Show current question
+        function showQuestion() {
+            document.getElementById('questionCard').style.display = 'block';
+            document.getElementById('categoryCard').style.display = 'none';
+            
+            const q = questions[currentQuestionIndex];
+            document.getElementById('questionText').textContent = q.question;
+            document.getElementById('answerText').innerHTML = `<strong>Answer:</strong> ${Array.isArray(q.answer) ? q.answer.join(', ') : q.answer}`;
+            document.getElementById('questionCounter').textContent = 
+                `Question ${currentQuestionIndex + 1} of ${questions.length}`;
+            document.getElementById('quarterInfo').textContent = 
+                `Quarter ${q.quarter.charAt(1)}`;
+            
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
+            document.getElementById('nextBtn').disabled = currentQuestionIndex === questions.length - 1;
+        }
+        
+        // Select category for a question
+        function selectCategory(category) {
+            const q = questions[currentQuestionIndex];
+            q.category = category;
+            
+            // For Q2 questions, also categorize the bonus
+            if (q.quarter === 'q2' && q.bonus) {
+                // Bonus questions should be categorized with tossup
+                // We'll handle this by including bonus in same category
+            }
+            
+            updateProgress();
+            
+            // Move to next question
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                showQuestion();
+            } else {
+                // Check if we need to categorize categories
+                if (Object.keys(categorizedCategories).length > 0) {
+                    isCategorizingCategories = true;
+                    currentCategoryIndex = 0;
+                    showCategoryCategorization();
+                } else {
+                    showResults();
+                }
+            }
+        }
+        
+        // Skip current question
+        function skipQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                showQuestion();
+            } else {
+                showResults();
+            }
+        }
+        
+        // Navigation functions
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                showQuestion();
+            }
+        }
+        
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                showQuestion();
+            }
+        }
+        
+        // Category-level categorization functions
         function showCategoryCategorization() {
             if (currentCategoryIndex >= Object.keys(categorizedCategories).length) {
                 showResults();
@@ -413,7 +652,119 @@
             }
         }
         
-        // Add event listeners for category buttons
+        function displaySummary() {
+            const summaryContainer = document.getElementById('categorySummary');
+            summaryContainer.innerHTML = '';
+            
+            Object.keys(categories).forEach(categoryKey => {
+                const categoryData = categorizedQuestions[categoryKey];
+                const total = categoryData.q1.length + categoryData.q2.length + 
+                             categoryData.q3.length + categoryData.q4.length;
+                
+                if (total > 0) {
+                    const card = document.createElement('div');
+                    card.className = 'summary-card';
+                    card.innerHTML = `
+                        <div class="summary-count">${total}</div>
+                        <div class="summary-label">${categories[categoryKey]}</div>
+                    `;
+                    summaryContainer.appendChild(card);
+                }
+            });
+        }
+        
+        function displayExportButtons() {
+            const container = document.getElementById('exportButtons');
+            container.innerHTML = '';
+            
+            Object.keys(categories).forEach(categoryKey => {
+                const categoryData = categorizedQuestions[categoryKey];
+                const total = categoryData.q1.length + categoryData.q2.length + 
+                             categoryData.q3.length + categoryData.q4.length;
+                
+                if (total > 0) {
+                    const btn = document.createElement('button');
+                    btn.className = 'btn';
+                    btn.textContent = `Export ${categories[categoryKey]} (${total})`;
+                    btn.onclick = () => exportCategory(categoryKey);
+                    container.appendChild(btn);
+                }
+            });
+        }
+        
+        function exportCategory(categoryKey) {
+            // Merge imported questions with newly categorized ones
+            const mergedData = {
+                q1: [...categorizedQuestions[categoryKey].q1],
+                q2: [...categorizedQuestions[categoryKey].q2], 
+                q3: [...categorizedQuestions[categoryKey].q3],
+                q4: [...categorizedQuestions[categoryKey].q4]
+            };
+            
+            const filename = `${categoryKey.replace(/-/g, '_')}_questions.json`;
+            downloadJSON(mergedData, filename);
+        }
+        
+        function exportAllCategories() {
+            Object.keys(categories).forEach(categoryKey => {
+                const categoryData = categorizedQuestions[categoryKey];
+                const total = categoryData.q1.length + categoryData.q2.length + 
+                             categoryData.q3.length + categoryData.q4.length;
+                
+                if (total > 0) {
+                    setTimeout(() => exportCategory(categoryKey), 100);
+                }
+            });
+        }
+        
+        function downloadJSON(data, filename) {
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        function startOver() {
+            questions = [];
+            currentQuestionIndex = 0;
+            categorizedQuestions = {};
+            importedCategories = {};
+            jsonData = null;
+            
+            // Reset categories
+            Object.keys(categories).forEach(key => {
+                categorizedQuestions[key] = { q1: [], q2: [], q3: [], q4: [] };
+                importedCategories[key] = { q1: [], q2: [], q3: [], q4: [] };
+            });
+            
+            // Reset UI
+            document.getElementById('jsonFile').value = '';
+            document.getElementById('fileInfo').textContent = '';
+            document.getElementById('progressSection').style.display = 'none';
+            document.getElementById('questionCard').style.display = 'none';
+            document.getElementById('resultsSection').style.display = 'none';
+        }
+        
+        // Event listeners
+        document.getElementById('skipBtn').addEventListener('click', skipQuestion);
+        document.getElementById('prevBtn').addEventListener('click', previousQuestion);
+        document.getElementById('nextBtn').addEventListener('click', nextQuestion);
+        
+        // Category navigation
+        document.getElementById('skipCategoryBtn').addEventListener('click', skipCategory);
+        document.getElementById('prevCategoryBtn').addEventListener('click', previousCategory);
+        document.getElementById('nextCategoryBtn').addEventListener('click', nextCategory);
+        
+        // Export buttons
+        document.getElementById('exportAllBtn').addEventListener('click', exportAllCategories);
+        document.getElementById('startOverBtn').addEventListener('click', startOver);
+        
+        // Category buttons
         document.querySelectorAll('.category-btn').forEach(btn => {
             btn.addEventListener('click', () => {
                 if (isCategorizingCategories) {
@@ -424,8 +775,8 @@
             });
         });
         
-        // Add key press handling for category categorization
-        function handleKeyPress(event) {
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
             if (document.getElementById('questionCard').style.display === 'none' && 
                 document.getElementById('categoryCard').style.display === 'none') {
                 return;
@@ -471,9 +822,15 @@
                 event.preventDefault();
                 nextQuestion();
             }
-        }
+        });
         
-        // ... rest of existing code ...
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize categorized questions structure
+            Object.keys(categories).forEach(key => {
+                categorizedQuestions[key] = { q1: [], q2: [], q3: [], q4: [] };
+            });
+        });
     </script>
 </body>
 </html>
