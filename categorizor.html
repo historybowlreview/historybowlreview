@@ -530,10 +530,12 @@
       }
       // --- Q2 (tossup/bonus) ---
       else if (qi.quarter === 'q2') {
-        const tq = qi.questions?.[0]?.tossup;
-        document.getElementById('questionText').textContent = tq?.question || '';
-        document.getElementById('answerText').innerHTML = `<strong>Answer:</strong> ${Array.isArray(tq?.answer) ? tq.answer.join(', ') : tq?.answer || ''}`;
+          document.getElementById('questionText').textContent = qi.question || '';
+          const bonusText = qi.bonus ? ` <br><em>Bonus:</em> ${qi.bonus.question}` : '';
+          const bonusAnswer = qi.bonus ? ` <br><em>Bonus Answer:</em> ${Array.isArray(qi.bonus.answer) ? qi.bonus.answer.join(', ') : qi.bonus.answer}` : '';
+          document.getElementById('answerText').innerHTML = `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : qi.answer || ''}${bonusText}${bonusAnswer}`;
       }
+
 
       // --- Q4 (parts) ---
       else if (qi.quarter === 'q4') {
@@ -762,18 +764,21 @@
       categorizedQuestions = {};
       importedCategories = {};
       jsonData = null;
+    
+      // Reinitialize categories
       Object.keys(categories).forEach(key => {
         categorizedQuestions[key] = { q1: [], q2: [], q3: [], q4: [] };
         importedCategories[key] = { q1: [], q2: [], q3: [], q4: [] };
       });
+    
+      // Reset file input and UI
       document.getElementById('jsonFile').value = '';
       document.getElementById('fileInfo').textContent = '';
       document.getElementById('progressSection').style.display = 'none';
       document.getElementById('questionCard').style.display = 'none';
       document.getElementById('resultsSection').style.display = 'none';
-      clearAllImports();
-      hideImportModal();
     }
+
 
   </script>
 </body>
