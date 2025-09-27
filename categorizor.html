@@ -439,6 +439,41 @@
         });
       }
     }
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+    
+    // toggles answers display for the current q3 block
+    function toggleAnswersForQ3(btn){
+      const card = document.getElementById('questionText');
+      const showing = card.classList.toggle('q3-answers-visible');
+      btn.textContent = showing ? 'Hide answers' : 'Reveal answers';
+      btn.classList.toggle('primary', showing);
+    }
+    
+    // copy one q3 answer into the clipboard
+    function copyQ3Answer(event, reviewIndex, subIndex){
+      event.stopPropagation();
+      // find the stored text from questions array
+      const item = questions[reviewIndex];
+      if (!item || !item.questions || !item.questions[subIndex]) return;
+      const ans = Array.isArray(item.questions[subIndex].answer) ? item.questions[subIndex].answer.join(', ') : item.questions[subIndex].answer || '';
+      navigator.clipboard?.writeText(ans).then(()=> {
+        // tiny visual feedback
+        const b = event.currentTarget;
+        const old = b.textContent;
+        b.textContent = 'Copied!';
+        setTimeout(()=> b.textContent = old, 900);
+      }).catch(()=> {
+        alert('Copy failed — your browser may not allow clipboard writes.');
+      });
+    }
 
     function showProgressSection() {
       document.getElementById('progressSection').style.display = 'block';
