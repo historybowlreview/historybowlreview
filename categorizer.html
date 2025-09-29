@@ -79,11 +79,6 @@
       <div style="margin:15px 0;">
         <button id="importCategoriesBtn" class="btn secondary">Import Existing Categories</button>
       </div>
-      <div style="margin:15px 0;">
-        <button id="loadProgressBtn" class="btn secondary">Load Progress</button>
-        <button id="saveProgressBtn" class="btn secondary">Save Progress</button>
-        <button id="clearProgressBtn" class="btn secondary">Clear Progress</button>
-      </div>
       <div id="fileInfo" style="margin-top:15px; color:#64748b;"></div>
     </div>
 
@@ -91,7 +86,6 @@
       <h3>Categorization Progress</h3>
       <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
       <p id="progressText">0 of 0 questions categorized</p>
-      <div id="categoryCounts" style="margin-top:15px; display:flex; flex-wrap:wrap; gap:10px;"></div>
     </div>
 
     <div id="questionCard" class="question-card">
@@ -269,11 +263,7 @@
     document.getElementById('closeImportModal').addEventListener('click', hideImportModal);
     document.getElementById('clearAllImports').addEventListener('click', clearAllImports);
     document.getElementById('confirmImports').addEventListener('click', confirmImports);
-    document.getElementById('loadProgressBtn').addEventListener('click', loadProgress);
     document.addEventListener('keydown', handleKeyPress);
-    document.getElementById('saveProgressBtn').addEventListener('click', saveProgress);
-    document.getElementById('clearProgressBtn').addEventListener('click', clearSavedProgress);
-
 
     // Category button event listeners
     document.querySelectorAll('.category-btn').forEach(btn => {
@@ -382,68 +372,72 @@
 
     // ------ IMPORTANT CHANGE: build 'questions' so q3 is a block per category ------
     function parseQuestions() {
-        questions = [];
+      questions = [];
 
-        // q1: each entry becomes a review item (unchanged)
-        if (jsonData.q1) {
-            jsonData.q1.forEach((q, index) => {
-                questions.push({
-                    quarter: 'q1',
-                    index: index,
-                    question: q.question,
-                    answer: q.answer,
-                    category: null
-                });
-            });
-        }
+      // q1: each entry becomes a review item (unchanged)
+      if (jsonData.q1) {
+        jsonData.q1.forEach((q, index) => {
+          questions.push({
+            quarter: 'q1',
+            index: index,
+            question: q.question,
+            answer: q.answer,
+            category: null
+          });
+        });
+      }
 
-        // q2: each tossup becomes a review item (unchanged)
-        if (jsonData.q2) {
-            jsonData.q2.forEach((q, index) => {
-                questions.push({
-                    quarter: 'q2',
-                    index: index,
-                    question: q.tossup.question,
-                    answer: q.tossup.answer,
-                    bonus: q.bonus,
-                    category: null
-                });
-            });
-        }
+      // q2: each tossup becomes a review item (unchanged)
+      if (jsonData.q2) {
+        jsonData.q2.forEach((q, index) => {
+          questions.push({
+            quarter: 'q2',
+            index: index,
+            question: q.tossup.question,
+            answer: q.tossup.answer,
+            bonus: q.bonus,
+            category: null
+          });
+        });
+      }
 
-        // q3: **FIXED** - Create one review item per category block
-        if (jsonData.q3) {
-            jsonData.q3.forEach((cat, catIndex) => {
-                // Safely extract questions from category
-                const qList = Array.isArray(cat.questions) ? 
-                    cat.questions.map(q => ({
-                        question: q.question,
-                        answer: q.answer
-                    })) : [];
-                
-                questions.push({
-                    quarter: 'q3',
-                    categoryIndex: catIndex,
-                    categoryName: cat.category || `Category ${catIndex+1}`,
-                    questions: qList,
-                    category: null
-                });
-            });
-        }
+      // q3: **CRITICAL CHANGE**
+      // Instead of flattening every inner question into its own review item,
+      // create ONE review item per q3 category. That item contains:
+      //   - categoryName (e.g. "LEWIS AND CLARK")
+      //   - questions: an array of the sub-questions with their answers
+      // The UI will display all sub-questions/answers and let the user categorize the whole block.
+      if (jsonData.q3) {
+        jsonData.q3.forEach((cat, catIndex) => {
+          // guard: if structure is unexpected, skip gracefully
+          const qList = Array.isArray(cat.questions) ? cat.questions.map(q => ({
+            question: q.question,
+            answer: q.answer
+          })) : [];
 
-        // q4: each multi-part group is a review item (unchanged)
-        if (jsonData.q4) {
-            jsonData.q4.forEach((group, groupIndex) => {
-                questions.push({
-                    quarter: 'q4',
-                    index: groupIndex,
-                    question: group.parts.join(' '),
-                    answer: group.answer,
-                    parts: group.parts,
-                    category: null
-                });
-            });
-        }
+          questions.push({
+            quarter: 'q3',
+            categoryIndex: catIndex,
+            categoryName: cat.category || `Category ${catIndex+1}`,
+            questions: qList,
+            category: null
+          });
+        });
+      }
+
+      // q4: each multi-part group is a review item (unchanged)
+      if (jsonData.q4) {
+        jsonData.q4.forEach((group, groupIndex) => {
+          questions.push({
+            quarter: 'q4',
+            index: groupIndex,
+            question: group.parts.join(' '),
+            answer: group.answer,
+            parts: group.parts,
+            category: null
+          });
+        });
+      }
     }
     function escapeHtml(str) {
       if (!str) return '';
@@ -484,22 +478,18 @@
     function showProgressSection() {
       document.getElementById('progressSection').style.display = 'block';
       updateProgress();
-      updateCategoryCounts();
     }
 
     function showFirstQuestion() {
       currentQuestionIndex = 0;
       document.getElementById('questionCard').style.display = 'block';
       displayCurrentQuestion();
-      updateCategoryCounts();
     }
     
     // Display logic updated to handle q3 blocks
     function displayCurrentQuestion() {
       if (currentQuestionIndex >= questions.length) {
         showResults();
-        updateProgress();
-        updateCategoryCounts();
         return;
       }
     
@@ -584,7 +574,6 @@
       document.querySelector(`[data-category="${category}"]`).classList.add('selected');
 
       document.getElementById('nextBtn').disabled = false;
-      updateCategoryCounts();
 
       // Auto-advance after short delay
       setTimeout(() => { nextQuestion(); }, 400);
@@ -594,7 +583,6 @@
       // leave category null and advance
       currentQuestionIndex++;
       displayCurrentQuestion();
-      updateCategoryCounts();
     }
 
     function nextQuestion() {
@@ -682,45 +670,28 @@
 
     // For q3 blocks, return the block with all its sub-questions
     function getOriginalQuestionData(q) {
-        if (q.quarter === 'q1') {
-            // For q1, we need to find the original question by index in jsonData.q1
-            if (jsonData.q1 && jsonData.q1[q.index] !== undefined) {
-                return { question: jsonData.q1[q.index].question, answer: jsonData.q1[q.index].answer };
-            }
-            return { question: q.question, answer: q.answer };
-        } else if (q.quarter === 'q2') {
-            // For q2, we need to find the original tossup/bonus by index in jsonData.q2
-            if (jsonData.q2 && jsonData.q2[q.index] !== undefined) {
-                return {
-                    tossup: jsonData.q2[q.index].tossup,
-                    bonus: jsonData.q2[q.index].bonus
-                };
-            }
-            return { question: q.question, answer: q.answer, bonus: q.bonus };
-        } else if (q.quarter === 'q3') {
-            // For q3, we need to find the original category by categoryIndex in jsonData.q3
-            if (jsonData.q3 && jsonData.q3[q.categoryIndex] !== undefined) {
-                return {
-                    category: jsonData.q3[q.categoryIndex].category,
-                    prompt: jsonData.q3[q.categoryIndex].prompt,
-                    questions: jsonData.q3[q.categoryIndex].questions
-                };
-            }
-            // If we can't find original, return what we have
-            return {
-                category: q.categoryName,
-                prompt: q.prompt || "",
-                questions: q.questions || []
-            };
-        } else if (q.quarter === 'q4') {
-            // For q4, we need to find the original parts/answer by index in jsonData.q4
-            if (jsonData.q4 && jsonData.q4[q.index] !== undefined) {
-                return { parts: jsonData.q4[q.index].parts, answer: jsonData.q4[q.index].answer };
-            }
-            return { parts: q.parts, answer: q.answer };
-        } else {
-            return { question: q.question, answer: q.answer };
-        }
+      if (q.quarter === 'q1') {
+        return { question: q.question, answer: q.answer };
+      } else if (q.quarter === 'q2') {
+        // Get the original Q2 data from jsonData using the index
+        const originalQ2 = jsonData.q2[q.index];
+        return {
+          tossup: originalQ2.tossup,
+          bonus: originalQ2.bonus
+        };
+      } else if (q.quarter === 'q3') {
+        // Get the original Q3 data from jsonData using the categoryIndex
+        const originalQ3 = jsonData.q3[q.categoryIndex];
+        return {
+          category: originalQ3.category,
+          prompt: originalQ3.prompt, // Include the prompt field
+          questions: originalQ3.questions
+        };
+      } else if (q.quarter === 'q4') {
+        return { parts: q.parts, answer: q.answer };
+      } else {
+        return { question: q.question, answer: q.answer };
+      }
     }
 
     function displaySummary() {
@@ -817,94 +788,8 @@
       document.getElementById('questionCard').style.display = 'none';
       document.getElementById('resultsSection').style.display = 'none';
     }
-function saveProgress() {
-  const progressData = {
-    questions,
-    currentQuestionIndex,
-    categorizedQuestions,
-    importedCategories
-  };
-  localStorage.setItem('historyCategorizerProgress', JSON.stringify(progressData));
-  alert('Progress saved!');
-}
 
-function loadProgress() {
-  const saved = localStorage.getItem('historyCategorizerProgress');
-  if (saved) {
-    try {
-      const data = JSON.parse(saved);
-      questions = data.questions || [];
-      currentQuestionIndex = data.currentQuestionIndex || 0;
-      categorizedQuestions = data.categorizedQuestions || {};
-      importedCategories = data.importedCategories || {};
-      showProgressSection();
-      document.getElementById('questionCard').style.display = 'block';
-      displayCurrentQuestion();
-      updateCategoryCounts();
-      alert('Progress loaded!');
-    } catch(e) {
-      console.error('Failed to load progress:', e);
-      alert('Failed to load progress');
-    }
-  } else {
-    alert('No saved progress found');
-  }
-}
 
-function clearSavedProgress() {
-  if (confirm('Are you sure you want to clear all saved progress?')) {
-    localStorage.removeItem('historyCategorizerProgress');
-    alert('Progress cleared');
-  }
-}
-
-function selectCategory(category) {
-  const qi = questions[currentQuestionIndex];
-  qi.category = category;
-
-  document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('selected'));
-  document.querySelector(`[data-category="${category}"]`).classList.add('selected');
-
-  document.getElementById('nextBtn').disabled = false;
-
-  updateProgress();
-  updateCategoryCounts(); // <-- update counts live
-
-  setTimeout(() => { nextQuestion(); }, 400);
-}
-
-function skipQuestion() {
-  currentQuestionIndex++;
-  displayCurrentQuestion();
-  updateCategoryCounts(); // <-- update counts live even on skip
-}
-
-function updateCategoryCounts() {
-  const container = document.getElementById('categoryCounts');
-  container.innerHTML = '';
-  updateCategoryCounts();
-
-  Object.keys(categories).forEach(key => {
-    const count = questions.filter(q => q.category === key).length;
-    const importedCount = importedCategories[key] ? 
-      (importedCategories[key].q1.length + importedCategories[key].q2.length + 
-       importedCategories[key].q3.length + importedCategories[key].q4.length) : 0;
-    const totalCount = count + importedCount;
-    
-    const badge = document.createElement('div');
-    badge.style.padding = '6px 12px';
-    badge.style.background = '#f1f5f9';
-    badge.style.borderRadius = '8px';
-    badge.style.borderLeft = '4px solid #5a67d8';
-    badge.style.fontWeight = '600';
-    badge.style.minWidth = '120px';
-    badge.style.textAlign = 'center';
-    badge.textContent = `${categories[key]}: ${totalCount} (${count} new)`;
-    container.appendChild(badge);
-  });
-}
-
-    
   </script>
 </body>
 </html>
