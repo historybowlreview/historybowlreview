@@ -79,6 +79,9 @@
       <div style="margin:15px 0;">
         <button id="importCategoriesBtn" class="btn secondary">Import Existing Categories</button>
       </div>
+      <div style="margin:15px 0;">
+        <button id="loadProgressBtn" class="btn secondary" style="margin-left:10px;">Load Progress</button>
+      </div>
       <div id="fileInfo" style="margin-top:15px; color:#64748b;"></div>
     </div>
 
@@ -86,6 +89,7 @@
       <h3>Categorization Progress</h3>
       <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
       <p id="progressText">0 of 0 questions categorized</p>
+      <div id="categoryCounts" style="margin-top:15px; display:flex; flex-wrap:wrap; gap:10px;"></div>
     </div>
 
     <div id="questionCard" class="question-card">
@@ -263,6 +267,7 @@
     document.getElementById('closeImportModal').addEventListener('click', hideImportModal);
     document.getElementById('clearAllImports').addEventListener('click', clearAllImports);
     document.getElementById('confirmImports').addEventListener('click', confirmImports);
+    document.getElementById('loadProgressBtn').addEventListener('click', loadProgress);
     document.addEventListener('keydown', handleKeyPress);
 
     // Category button event listeners
@@ -490,6 +495,8 @@
     function displayCurrentQuestion() {
       if (currentQuestionIndex >= questions.length) {
         showResults();
+        updateProgress();
+        updateCategoryCounts();
         return;
       }
     
@@ -788,8 +795,74 @@
       document.getElementById('questionCard').style.display = 'none';
       document.getElementById('resultsSection').style.display = 'none';
     }
+    function saveProgress() {
+  const progressData = {
+    questions,
+    currentQuestionIndex,
+    categorizedQuestions
+  };
+  localStorage.setItem('historyCategorizerProgress', JSON.stringify(progressData));
+}
 
+function loadProgress() {
+  const saved = localStorage.getItem('historyCategorizerProgress');
+  if (saved) {
+    try {
+      const data = JSON.parse(saved);
+      questions = data.questions || [];
+      currentQuestionIndex = data.currentQuestionIndex || 0;
+      categorizedQuestions = data.categorizedQuestions || {};
+      showProgressSection();
+      document.getElementById('questionCard').style.display = 'block';
+      displayCurrentQuestion();
+      alert('Progress loaded!');
+    } catch(e) {
+      console.error('Failed to load progress:', e);
+    }
+  }
+}
 
+function clearSavedProgress() {
+  localStorage.removeItem('historyCategorizerProgress');
+}
+
+function selectCategory(category) {
+  const qi = questions[currentQuestionIndex];
+  qi.category = category;
+
+  document.querySelectorAll('.category-btn').forEach(btn => { btn.classList.remove('selected'); });
+  document.querySelector(`[data-category="${category}"]`).classList.add('selected');
+
+  document.getElementById('nextBtn').disabled = false;
+
+  saveProgress(); // <-- save after selection
+
+  setTimeout(() => { nextQuestion(); }, 400);
+}
+
+function skipQuestion() {
+  currentQuestionIndex++;
+  saveProgress(); // <-- save after skipping
+  displayCurrentQuestion();
+}
+
+    function updateCategoryCounts() {
+  const container = document.getElementById('categoryCounts');
+  container.innerHTML = '';
+  Object.keys(categories).forEach(key => {
+    const count = questions.filter(q => q.category === key).length;
+    const total = questions.filter(q => q.quarter).length; // or total per category if you want
+    const div = document.createElement('div');
+    div.style.padding = '6px 10px';
+    div.style.borderRadius = '6px';
+    div.style.background = '#f0f4ff';
+    div.style.border = '1px solid #5a67d8';
+    div.style.fontSize = '0.85rem';
+    div.textContent = `${categories[key]}: ${count}`;
+    container.appendChild(div);
+  });
+}
+    
   </script>
 </body>
 </html>
