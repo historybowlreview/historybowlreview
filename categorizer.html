@@ -81,6 +81,8 @@
       </div>
       <div style="margin:15px 0;">
         <button id="loadProgressBtn" class="btn secondary" style="margin-left:10px;">Load Progress</button>
+        <button id="saveProgressBtn" class="btn secondary" style="margin-left:10px;">Save Progress</button>
+        <button id="clearProgressBtn" class="btn secondary" style="margin-left:10px;">Clear Progress</button>
       </div>
       <div id="fileInfo" style="margin-top:15px; color:#64748b;"></div>
     </div>
@@ -268,6 +270,8 @@
     document.getElementById('clearAllImports').addEventListener('click', clearAllImports);
     document.getElementById('confirmImports').addEventListener('click', confirmImports);
     document.getElementById('loadProgressBtn').addEventListener('click', loadProgress);
+    document.getElementById('saveProgressBtn').addEventListener('click', saveProgress);
+    document.getElementById('clearProgressBtn').addEventListener('click', clearProgress);
     document.addEventListener('keydown', handleKeyPress);
 
     // Category button event listeners
@@ -798,34 +802,52 @@
       document.getElementById('resultsSection').style.display = 'none';
     }
     function saveProgress() {
-  const progressData = {
-    questions,
-    currentQuestionIndex,
-    categorizedQuestions
-  };
-  localStorage.setItem('historyCategorizerProgress', JSON.stringify(progressData));
-}
-
-function loadProgress() {
-  const saved = localStorage.getItem('historyCategorizerProgress');
-  if (saved) {
-    try {
-      const data = JSON.parse(saved);
-      questions = data.questions || [];
-      currentQuestionIndex = data.currentQuestionIndex || 0;
-      categorizedQuestions = data.categorizedQuestions || {};
-      showProgressSection();
-      document.getElementById('questionCard').style.display = 'block';
-      displayCurrentQuestion();
-      alert('Progress loaded!');
-    } catch(e) {
-      console.error('Failed to load progress:', e);
+      // Save the current categorized choices and current question index
+      const progress = {
+        currentQuestionIndex,
+        questions: questions.map(q => ({ category: q.category }))
+      };
+      localStorage.setItem('historyBowlProgress', JSON.stringify(progress));
+      alert('Progress saved!');
     }
-  }
-}
 
-function clearSavedProgress() {
-  localStorage.removeItem('historyCategorizerProgress');
+    function loadProgress() {
+      const saved = localStorage.getItem('historyBowlProgress');
+      if (!saved) {
+        alert('No saved progress found.');
+        return;
+      }
+    
+      try {
+        const progress = JSON.parse(saved);
+        currentQuestionIndex = progress.currentQuestionIndex || 0;
+    
+        // Apply saved categories
+        if (progress.questions && Array.isArray(progress.questions)) {
+          progress.questions.forEach((q, i) => {
+            if (questions[i]) questions[i].category = q.category || null;
+          });
+        }
+    
+        displayCurrentQuestion();
+        updateProgress();
+        updateCategoryCounts();
+        alert('Progress loaded!');
+      } catch (err) {
+        alert('Error loading saved progress: ' + err.message);
+      }
+    }
+
+function clearProgress() {
+  if (confirm('Are you sure you want to clear all progress? This cannot be undone.')) {
+    localStorage.removeItem('historyBowlProgress');
+    questions.forEach(q => q.category = null);
+    currentQuestionIndex = 0;
+    displayCurrentQuestion();
+    updateProgress();
+    updateCategoryCounts();
+    alert('Progress cleared!');
+  }
 }
 
 function selectCategory(category) {
