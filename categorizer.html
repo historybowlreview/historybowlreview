@@ -362,26 +362,73 @@
     }
 
     function handleFileUpload(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        try {
-          jsonData = JSON.parse(e.target.result);
-          parseQuestions();
-          document.getElementById('fileInfo').textContent = `Loaded: ${file.name} (${questions.length} review items total)`;
-          showProgressSection();
-          showFirstQuestion();
-        } catch (error) {
-          alert('Error parsing JSON file: ' + error.message);
+        const file = event.target.files[0];
+        if (!file) {
+            alert('No file selected!');
+            return;
         }
-      };
-      reader.readAsText(file);
+    
+        const reader = new FileReader();
+    
+        reader.onload = function(e) {
+            try {
+                // Parse the JSON
+                jsonData = JSON.parse(e.target.result);
+    
+                // Make sure it's an object
+                if (typeof jsonData !== 'object' || jsonData === null) {
+                    alert('Invalid JSON structure!');
+                    return;
+                }
+    
+                console.log('JSON successfully loaded:', jsonData);
+    
+                // Parse questions
+                const questions = parseQuestions(jsonData);
+                console.log('Parsed questions:', questions);
+    
+                // You can now pass `questions` to your categorization function
+            } catch (err) {
+                console.error(err);
+                alert('Error parsing JSON: ' + err.message);
+            }
+        };
+    
+        reader.onerror = function(err) {
+            console.error(err);
+            alert('Error reading file: ' + err.message);
+        };
+    
+        reader.readAsText(file);
     }
-
-    // ------ IMPORTANT CHANGE: build 'questions' so q3 is a block per category ------
-    function parseQuestions() {
-      questions = [];
+    
+    function parseQuestions(data) {
+        const allQuestions = [];
+    
+        // Use empty arrays if missing
+        data.q1 = data.q1 || [];
+        data.q2 = data.q2 || [];
+        data.q3 = data.q3 || [];
+        data.q4 = data.q4 || [];
+    
+        // Flatten q1
+        data.q1.forEach(q => allQuestions.push({question: q.question, answer: q.answer, quarter: 'q1'}));
+    
+        // Flatten q2
+        data.q2.forEach(q => allQuestions.push({question: q.question, answer: q.answer, quarter: 'q2'}));
+    
+        // Flatten q3
+        data.q3.forEach(q => {
+            if (q.questions && Array.isArray(q.questions)) {
+                q.questions.forEach(subq => allQuestions.push({question: subq.question, answer: subq.answer, quarter: 'q3', category: q.category}));
+            }
+        });
+    
+        // Flatten q4
+        data.q4.forEach(q => allQuestions.push({question: q.parts ? q.parts.join(' ') : q.question, answer: q.answer, quarter: 'q4'}));
+    
+        return allQuestions;
+    }
 
       // q1: each entry becomes a review item (unchanged)
       if (jsonData.q1) {
