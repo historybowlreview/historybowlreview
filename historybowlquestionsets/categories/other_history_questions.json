@@ -114,16 +114,6 @@
     },
     {
       "tossup": {
-        "question": "(TIEBREAKER EXAMPLE QUESTION) This man was able to return to his hometown following negotiations with the tribe of the Quraish\n(pr. koo-RYE-eesh) at the Treaty of Hudaybiyyah (pr. hoo-dah-BEE-ah). This man was buried\nnext to an empty tomb which is reserved for the returned Jesus after he died in the home of his\nwife Aisha (pr. eye-EE-shuh). For ten points, name this man who received a \"recitation\" from\nthe angel Jibril (pr. jib-REEL) which became the Quran, and was the founder of Islam.",
-        "answer": "Muhammad"
-      },
-      "bonus": {
-        "question": "What largest island in the North Atlantic had its capital officially renamed from\nGodthab to Nuuk (pr. noo-ook)?",
-        "answer": "Greenland"
-      }
-    },
-    {
-      "tossup": {
         "question": "In the twentieth century, some groups modified this holiday to use a \"cup of Miriam\" to\nsymbolize women and an orange to symbolize homosexuals. This holiday also changed in the\ntwelfth century, when its service was collected as the \"haggadah\" (pr. hah-GUH-duh). For 10\npoints, name this Jewish holiday on which the \"seder\" (pr. SAY-dur) meal includes matzah\n(MAHT-suh).",
         "answer": [
           "Passover",
@@ -567,7 +557,7 @@
     },
     {
       "parts": [
-        "(30 pts) This crop is freeze dried and eaten as chu˜no [choo-nyo] by the Quechua people, and\nhas been since at least the 13th century. This crop arrived in Europe via Spanish sailors\nreturning from the (20 pts) ",
+        "(30 pts) This crop is freeze dried and eaten as chuno [choo-nyo] by the Quechua people, and\nhas been since at least the 13th century. This crop arrived in Europe via Spanish sailors\nreturning from the (20 pts) ",
         "Andes Mountains in Peru. An 1845 infestation of phytophthora\n[fi-tow-tho-ra] caused a serious (10 pts) ",
         "blight on this crop, dooming over a million people to famine in\nIreland. For ten points, name this starch, densely nutritious food that, in American cuisine, is commonly\nbaked, mashed, or cooked into French fries."
       ],
@@ -575,6 +565,14 @@
         "potatoes",
         "potato"
       ]
+    },
+    {
+      "parts": [
+        "(30 pts) (TIEBREAKER EXAMPLE QUESTION) This man was able to return to his hometown following negotiations with the tribe of the Quraish (pr. koo-RYE-eesh) at the Treaty of Hudaybiyyah (pr. hoo-dah-BEE-ah). (20 pts) ",
+        "This man was buried next to an empty tomb which is reserved for the returned Jesus after he died in the home of his wife Aisha (pr. eye-EE-shuh). (10 pts) ",
+        "For ten points, name this man who received a \"recitation\" from the angel Jibril (pr. jib-REEL) which became the Quran, and was the founder of Islam."
+      ],
+      "answer": "Muhammad"
     }
   ]
 }

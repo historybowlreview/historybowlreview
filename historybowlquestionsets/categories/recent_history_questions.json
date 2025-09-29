@@ -1,7 +1,7 @@
 {
   "q1": [
     {
-      "question": "Donald Trump claimed that this organization had opened a hotel and that he was “in\ncompetition with them.” This group was driven out of Tikrit after massacring unarmed Air Force cadets\nat Camp Speicher. The Bataclan was targeted by this group in a November 2015 attack in Paris. For ten\npoints, name this extremist Islamic terrorist group that arose from an offshoot of Al-Qaeda and which\ncontrols territory in Iraq and Syria.",
+      "question": "Donald Trump claimed that this organization had opened a hotel and that he was “in\ncompetition with them.” This group was driven out of Tikrit after massacring unarmed Air Force cadets\nat Camp Speicher. The Bataclan was targeted by this group in a November 2015 attack in Paris. For ten\npoints, name this extremist Islamic terrorist group that arose from an offshoot of Al-Qaeda and which\ncontrolled territory in Iraq and Syria.",
       "answer": [
         "Islamic State of Iraq and Syria",
         "Islamac State",
@@ -124,6 +124,17 @@
     },
     {
       "parts": [
+        "(30 pts) Senate Bill 3225 was an attempt to disclose the full text of this treaty. A humorous\nwebsite dedicated to this treaty directs the reader to stopfasttrack.com. One politician\nclaimed that this treaty “is much more than a (20 pts) ",
+        "free trade agreement,” and this\nagreement is the successor to the TPSEP. (10 pts) ",
+        "In 2015, Vietnam, Australia, Canada, and the United\nStates were in talks regarding, for ten points, what proposed trade agreement between twelve Pacific Rim\ncountries?"
+      ],
+      "answer": [
+        "Trans-Pacific-Partnership",
+        "TPP"
+      ]
+    },
+    {
+      "parts": [
         "(30 pts) Some of this company’s Turbocharged Direct Injection, or TDI, engines controversially\ndid not require the use of AdBlue urea solution to control the production of (20 pts) ",
         "nitrogen\noxides. In September 2015, this company’s use of “defeat device” software was revealed\nwhen the EPA charged this company with (10 pts) ",
         "cheating on emission testing with hundreds of\nthousands of its diesel-powered cars. For ten points, name this German automaker of the Golf, Jetta, and\nBeetle, whose name loosely translates to “People’s Car.”"
@@ -143,9 +154,9 @@
     },
     {
       "parts": [
-        "(30 pts) Executives for this country’s flag-carrying airline were attacked after announcing nearly\n3,000 job cuts. In June, its CNIL threatened Google with fines if they did not apply the\nright to be forgotten to their global searches. During this country’s elections for the (20 pts) ",
-        "European Parliament, the right-wing National Front seized 25% of the vote, while its\ndomestic government is led by (10 pts) ",
-        "Socialist Prime Minister Manuel Valls. For ten points, name this\nEuropean country whose President, also a Socialist, is Francois Hollande."
+        "(30 pts) In 2015, Executives for this country’s flag-carrying airline were attacked after announcing nearly\n3,000 job cuts. In June, its CNIL threatened Google with fines if they did not apply the\nright to be forgotten to their global searches. During this country’s elections for the (20 pts) ",
+        "European Parliament, the right-wing National Front seized 25% of the vote, while its\ndomestic government was led by (10 pts) ",
+        "Socialist Prime Minister Manuel Valls. For ten points, name this\nEuropean country whose President in 2015, also a Socialist, was Francois Hollande."
       ],
       "answer": "France"
     },
