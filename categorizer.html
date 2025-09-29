@@ -483,12 +483,14 @@
     function showProgressSection() {
       document.getElementById('progressSection').style.display = 'block';
       updateProgress();
+      updateCategoryCounts();
     }
 
     function showFirstQuestion() {
       currentQuestionIndex = 0;
       document.getElementById('questionCard').style.display = 'block';
       displayCurrentQuestion();
+      updateCategoryCounts();
     }
     
     // Display logic updated to handle q3 blocks
@@ -830,36 +832,39 @@ function selectCategory(category) {
   const qi = questions[currentQuestionIndex];
   qi.category = category;
 
-  document.querySelectorAll('.category-btn').forEach(btn => { btn.classList.remove('selected'); });
+  document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('selected'));
   document.querySelector(`[data-category="${category}"]`).classList.add('selected');
 
   document.getElementById('nextBtn').disabled = false;
 
-  saveProgress(); // <-- save after selection
+  updateProgress();
+  updateCategoryCounts(); // <-- update counts live
 
   setTimeout(() => { nextQuestion(); }, 400);
 }
 
 function skipQuestion() {
   currentQuestionIndex++;
-  saveProgress(); // <-- save after skipping
   displayCurrentQuestion();
+  updateCategoryCounts(); // <-- update counts live even on skip
 }
 
-    function updateCategoryCounts() {
+function updateCategoryCounts() {
   const container = document.getElementById('categoryCounts');
   container.innerHTML = '';
+
   Object.keys(categories).forEach(key => {
     const count = questions.filter(q => q.category === key).length;
-    const total = questions.filter(q => q.quarter).length; // or total per category if you want
-    const div = document.createElement('div');
-    div.style.padding = '6px 10px';
-    div.style.borderRadius = '6px';
-    div.style.background = '#f0f4ff';
-    div.style.border = '1px solid #5a67d8';
-    div.style.fontSize = '0.85rem';
-    div.textContent = `${categories[key]}: ${count}`;
-    container.appendChild(div);
+    const badge = document.createElement('div');
+    badge.style.padding = '6px 12px';
+    badge.style.background = '#f1f5f9';
+    badge.style.borderRadius = '8px';
+    badge.style.borderLeft = '4px solid #5a67d8';
+    badge.style.fontWeight = '600';
+    badge.style.minWidth = '120px';
+    badge.style.textAlign = 'center';
+    badge.textContent = `${categories[key]}: ${count}`;
+    container.appendChild(badge);
   });
 }
     
