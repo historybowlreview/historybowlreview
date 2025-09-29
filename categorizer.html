@@ -801,54 +801,85 @@
       document.getElementById('questionCard').style.display = 'none';
       document.getElementById('resultsSection').style.display = 'none';
     }
-    function saveProgress() {
-      // Save the current categorized choices and current question index
-      const progress = {
-        currentQuestionIndex,
-        questions: questions.map(q => ({ category: q.category }))
-      };
-      localStorage.setItem('historyBowlProgress', JSON.stringify(progress));
-      alert('Progress saved!');
+function saveProgress() {
+  // Count questions per category
+  const categoryCounts = {};
+  questions.forEach(q => {
+    if (q.category) {
+      categoryCounts[q.category] = (categoryCounts[q.category] || 0) + 1;
+    }
+  });
+
+  // Multiply each category count by 8
+  for (const key in categoryCounts) {
+    categoryCounts[key] *= 8;
+  }
+
+  // Save the current categorized choices, question index, and category counts
+  const progress = {
+    currentQuestionIndex,
+    questions: questions.map(q => ({ category: q.category })),
+    categoryCounts
+  };
+
+  localStorage.setItem('historyBowlProgress', JSON.stringify(progress));
+  alert('Progress saved!');
+}
+
+
+function loadProgress() {
+  const saved = localStorage.getItem('historyBowlProgress');
+  if (!saved) {
+    alert('No saved progress found.');
+    return;
+  }
+
+  try {
+    const progress = JSON.parse(saved);
+    currentQuestionIndex = progress.currentQuestionIndex || 0;
+
+    // Apply saved categories
+    if (progress.questions && Array.isArray(progress.questions)) {
+      progress.questions.forEach((q, i) => {
+        if (questions[i]) questions[i].category = q.category || null;
+      });
     }
 
-    function loadProgress() {
-      const saved = localStorage.getItem('historyBowlProgress');
-      if (!saved) {
-        alert('No saved progress found.');
-        return;
-      }
-    
-      try {
-        const progress = JSON.parse(saved);
-        currentQuestionIndex = progress.currentQuestionIndex || 0;
-    
-        // Apply saved categories
-        if (progress.questions && Array.isArray(progress.questions)) {
-          progress.questions.forEach((q, i) => {
-            if (questions[i]) questions[i].category = q.category || null;
-          });
-        }
-    
-        displayCurrentQuestion();
-        updateProgress();
-        updateCategoryCounts();
-        alert('Progress loaded!');
-      } catch (err) {
-        alert('Error loading saved progress: ' + err.message);
+    // Update category counts if present
+    if (progress.categoryCounts) {
+      for (const cat in progress.categoryCounts) {
+        // Assuming you have a function or variable that displays these counts
+        // Example: updateCategoryDisplay(cat, progress.categoryCounts[cat]);
+        console.log(`Category ${cat}: ${progress.categoryCounts[cat]} questions`);
       }
     }
+
+    displayCurrentQuestion();
+    updateProgress();
+    updateCategoryCounts();
+    alert('Progress loaded!');
+  } catch (err) {
+    alert('Error loading saved progress: ' + err.message);
+  }
+}
+
 
 function clearProgress() {
   if (confirm('Are you sure you want to clear all progress? This cannot be undone.')) {
     localStorage.removeItem('historyBowlProgress');
     questions.forEach(q => q.category = null);
     currentQuestionIndex = 0;
+
+    // Optionally reset displayed counts
+    // Example: resetCategoryDisplay();
+
     displayCurrentQuestion();
     updateProgress();
     updateCategoryCounts();
     alert('Progress cleared!');
   }
 }
+
 
 function selectCategory(category) {
   const qi = questions[currentQuestionIndex];
@@ -872,22 +903,35 @@ function skipQuestion() {
 }
 
 function updateCategoryCounts() {
-  const container = document.getElementById('categoryCounts');
-  container.innerHTML = '';
+  const counts = {};
 
-  Object.keys(categories).forEach(key => {
-    const count = questions.filter(q => q.category === key).length;
-    const badge = document.createElement('div');
-    badge.style.padding = '6px 12px';
-    badge.style.background = '#f1f5f9';
-    badge.style.borderRadius = '8px';
-    badge.style.borderLeft = '4px solid #5a67d8';
-    badge.style.fontWeight = '600';
-    badge.style.minWidth = '120px';
-    badge.style.textAlign = 'center';
-    badge.textContent = `${categories[key]}: ${count}`;
-    container.appendChild(badge);
+  // Count categories in current session
+  questions.forEach(q => {
+    if (q.category) {
+      counts[q.category] = (counts[q.category] || 0) + 1;
+    }
   });
+
+  // Include imported questions
+  importedQuestions.forEach(q => {
+    if (q.category) {
+      counts[q.category] = (counts[q.category] || 0) + 1;
+    }
+  });
+
+  // Multiply by 8 for totals
+  const displayedCounts = {};
+  for (const cat in counts) {
+    displayedCounts[cat] = counts[cat] * 8;
+  }
+
+  // Update your UI elements
+  for (const cat in displayedCounts) {
+    const el = document.getElementById(`category-${cat}-count`);
+    if (el) el.textContent = displayedCounts[cat];
+  }
+
+  return displayedCounts; // optional: useful if you need counts elsewhere
 }
     
   </script>
