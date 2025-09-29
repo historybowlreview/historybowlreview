@@ -80,7 +80,9 @@
         <button id="importCategoriesBtn" class="btn secondary">Import Existing Categories</button>
       </div>
       <div style="margin:15px 0;">
-        <button id="loadProgressBtn" class="btn secondary" style="margin-left:10px;">Load Progress</button>
+        <button id="loadProgressBtn" class="btn secondary">Load Progress</button>
+        <button id="saveProgressBtn" class="btn secondary">Save Progress</button>
+        <button id="clearProgressBtn" class="btn secondary">Clear Progress</button>
       </div>
       <div id="fileInfo" style="margin-top:15px; color:#64748b;"></div>
     </div>
@@ -269,6 +271,9 @@
     document.getElementById('confirmImports').addEventListener('click', confirmImports);
     document.getElementById('loadProgressBtn').addEventListener('click', loadProgress);
     document.addEventListener('keydown', handleKeyPress);
+    document.getElementById('saveProgressBtn').addEventListener('click', saveProgress);
+    document.getElementById('clearProgressBtn').addEventListener('click', clearSavedProgress);
+
 
     // Category button event listeners
     document.querySelectorAll('.category-btn').forEach(btn => {
@@ -583,6 +588,7 @@
       document.querySelector(`[data-category="${category}"]`).classList.add('selected');
 
       document.getElementById('nextBtn').disabled = false;
+      updateCategoryCounts();
 
       // Auto-advance after short delay
       setTimeout(() => { nextQuestion(); }, 400);
@@ -592,6 +598,7 @@
       // leave category null and advance
       currentQuestionIndex++;
       displayCurrentQuestion();
+      updateCategoryCounts();
     }
 
     function nextQuestion() {
@@ -797,13 +804,15 @@
       document.getElementById('questionCard').style.display = 'none';
       document.getElementById('resultsSection').style.display = 'none';
     }
-    function saveProgress() {
+function saveProgress() {
   const progressData = {
     questions,
     currentQuestionIndex,
-    categorizedQuestions
+    categorizedQuestions,
+    importedCategories
   };
   localStorage.setItem('historyCategorizerProgress', JSON.stringify(progressData));
+  alert('Progress saved!');
 }
 
 function loadProgress() {
@@ -814,18 +823,26 @@ function loadProgress() {
       questions = data.questions || [];
       currentQuestionIndex = data.currentQuestionIndex || 0;
       categorizedQuestions = data.categorizedQuestions || {};
+      importedCategories = data.importedCategories || {};
       showProgressSection();
       document.getElementById('questionCard').style.display = 'block';
       displayCurrentQuestion();
+      updateCategoryCounts();
       alert('Progress loaded!');
     } catch(e) {
       console.error('Failed to load progress:', e);
+      alert('Failed to load progress');
     }
+  } else {
+    alert('No saved progress found');
   }
 }
 
 function clearSavedProgress() {
-  localStorage.removeItem('historyCategorizerProgress');
+  if (confirm('Are you sure you want to clear all saved progress?')) {
+    localStorage.removeItem('historyCategorizerProgress');
+    alert('Progress cleared');
+  }
 }
 
 function selectCategory(category) {
@@ -852,9 +869,15 @@ function skipQuestion() {
 function updateCategoryCounts() {
   const container = document.getElementById('categoryCounts');
   container.innerHTML = '';
+  updateCategoryCounts();
 
   Object.keys(categories).forEach(key => {
     const count = questions.filter(q => q.category === key).length;
+    const importedCount = importedCategories[key] ? 
+      (importedCategories[key].q1.length + importedCategories[key].q2.length + 
+       importedCategories[key].q3.length + importedCategories[key].q4.length) : 0;
+    const totalCount = count + importedCount;
+    
     const badge = document.createElement('div');
     badge.style.padding = '6px 12px';
     badge.style.background = '#f1f5f9';
@@ -863,10 +886,11 @@ function updateCategoryCounts() {
     badge.style.fontWeight = '600';
     badge.style.minWidth = '120px';
     badge.style.textAlign = 'center';
-    badge.textContent = `${categories[key]}: ${count}`;
+    badge.textContent = `${categories[key]}: ${totalCount} (${count} new)`;
     container.appendChild(badge);
   });
 }
+
     
   </script>
 </body>
