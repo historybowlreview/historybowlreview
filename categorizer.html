@@ -81,8 +81,6 @@
       </div>
       <div style="margin:15px 0;">
         <button id="loadProgressBtn" class="btn secondary" style="margin-left:10px;">Load Progress</button>
-        <button id="saveProgressBtn" class="btn secondary" style="margin-left:10px;">Save Progress</button>
-        <button id="clearProgressBtn" class="btn secondary" style="margin-left:10px;">Clear Progress</button>
       </div>
       <div id="fileInfo" style="margin-top:15px; color:#64748b;"></div>
     </div>
@@ -270,8 +268,6 @@
     document.getElementById('clearAllImports').addEventListener('click', clearAllImports);
     document.getElementById('confirmImports').addEventListener('click', confirmImports);
     document.getElementById('loadProgressBtn').addEventListener('click', loadProgress);
-    document.getElementById('saveProgressBtn').addEventListener('click', saveProgress);
-    document.getElementById('clearProgressBtn').addEventListener('click', clearProgress);
     document.addEventListener('keydown', handleKeyPress);
 
     // Category button event listeners
@@ -362,73 +358,26 @@
     }
 
     function handleFileUpload(event) {
-        const file = event.target.files[0];
-        if (!file) {
-            alert('No file selected!');
-            return;
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          jsonData = JSON.parse(e.target.result);
+          parseQuestions();
+          document.getElementById('fileInfo').textContent = `Loaded: ${file.name} (${questions.length} review items total)`;
+          showProgressSection();
+          showFirstQuestion();
+        } catch (error) {
+          alert('Error parsing JSON file: ' + error.message);
         }
-    
-        const reader = new FileReader();
-    
-        reader.onload = function(e) {
-            try {
-                // Parse the JSON
-                jsonData = JSON.parse(e.target.result);
-    
-                // Make sure it's an object
-                if (typeof jsonData !== 'object' || jsonData === null) {
-                    alert('Invalid JSON structure!');
-                    return;
-                }
-    
-                console.log('JSON successfully loaded:', jsonData);
-    
-                // Parse questions
-                const questions = parseQuestions(jsonData);
-                console.log('Parsed questions:', questions);
-    
-                // You can now pass `questions` to your categorization function
-            } catch (err) {
-                console.error(err);
-                alert('Error parsing JSON: ' + err.message);
-            }
-        };
-    
-        reader.onerror = function(err) {
-            console.error(err);
-            alert('Error reading file: ' + err.message);
-        };
-    
-        reader.readAsText(file);
+      };
+      reader.readAsText(file);
     }
-    
-    function parseQuestions(data) {
-        const allQuestions = [];
-    
-        // Use empty arrays if missing
-        data.q1 = data.q1 || [];
-        data.q2 = data.q2 || [];
-        data.q3 = data.q3 || [];
-        data.q4 = data.q4 || [];
-    
-        // Flatten q1
-        data.q1.forEach(q => allQuestions.push({question: q.question, answer: q.answer, quarter: 'q1'}));
-    
-        // Flatten q2
-        data.q2.forEach(q => allQuestions.push({question: q.question, answer: q.answer, quarter: 'q2'}));
-    
-        // Flatten q3
-        data.q3.forEach(q => {
-            if (q.questions && Array.isArray(q.questions)) {
-                q.questions.forEach(subq => allQuestions.push({question: subq.question, answer: subq.answer, quarter: 'q3', category: q.category}));
-            }
-        });
-    
-        // Flatten q4
-        data.q4.forEach(q => allQuestions.push({question: q.parts ? q.parts.join(' ') : q.question, answer: q.answer, quarter: 'q4'}));
-    
-        return allQuestions;
-    }
+
+    // ------ IMPORTANT CHANGE: build 'questions' so q3 is a block per category ------
+    function parseQuestions() {
+      questions = [];
 
       // q1: each entry becomes a review item (unchanged)
       if (jsonData.q1) {
@@ -494,6 +443,7 @@
           });
         });
       }
+    }
     function escapeHtml(str) {
       if (!str) return '';
       return String(str)
@@ -847,85 +797,36 @@
       document.getElementById('questionCard').style.display = 'none';
       document.getElementById('resultsSection').style.display = 'none';
     }
-function saveProgress() {
-  // Count questions per category
-  const categoryCounts = {};
-  questions.forEach(q => {
-    if (q.category) {
-      categoryCounts[q.category] = (categoryCounts[q.category] || 0) + 1;
-    }
-  });
-
-  // Multiply each category count by 8
-  for (const key in categoryCounts) {
-    categoryCounts[key] *= 8;
-  }
-
-  // Save the current categorized choices, question index, and category counts
-  const progress = {
+    function saveProgress() {
+  const progressData = {
+    questions,
     currentQuestionIndex,
-    questions: questions.map(q => ({ category: q.category })),
-    categoryCounts
+    categorizedQuestions
   };
-
-  localStorage.setItem('historyBowlProgress', JSON.stringify(progress));
-  alert('Progress saved!');
+  localStorage.setItem('historyCategorizerProgress', JSON.stringify(progressData));
 }
-
 
 function loadProgress() {
-  const saved = localStorage.getItem('historyBowlProgress');
-  if (!saved) {
-    alert('No saved progress found.');
-    return;
-  }
-
-  try {
-    const progress = JSON.parse(saved);
-    currentQuestionIndex = progress.currentQuestionIndex || 0;
-
-    // Apply saved categories
-    if (progress.questions && Array.isArray(progress.questions)) {
-      progress.questions.forEach((q, i) => {
-        if (questions[i]) questions[i].category = q.category || null;
-      });
+  const saved = localStorage.getItem('historyCategorizerProgress');
+  if (saved) {
+    try {
+      const data = JSON.parse(saved);
+      questions = data.questions || [];
+      currentQuestionIndex = data.currentQuestionIndex || 0;
+      categorizedQuestions = data.categorizedQuestions || {};
+      showProgressSection();
+      document.getElementById('questionCard').style.display = 'block';
+      displayCurrentQuestion();
+      alert('Progress loaded!');
+    } catch(e) {
+      console.error('Failed to load progress:', e);
     }
-
-    // Update category counts if present
-    if (progress.categoryCounts) {
-      for (const cat in progress.categoryCounts) {
-        // Assuming you have a function or variable that displays these counts
-        // Example: updateCategoryDisplay(cat, progress.categoryCounts[cat]);
-        console.log(`Category ${cat}: ${progress.categoryCounts[cat]} questions`);
-      }
-    }
-
-    displayCurrentQuestion();
-    updateProgress();
-    updateCategoryCounts();
-    alert('Progress loaded!');
-  } catch (err) {
-    alert('Error loading saved progress: ' + err.message);
   }
 }
 
-
-function clearProgress() {
-  if (confirm('Are you sure you want to clear all progress? This cannot be undone.')) {
-    localStorage.removeItem('historyBowlProgress');
-    questions.forEach(q => q.category = null);
-    currentQuestionIndex = 0;
-
-    // Optionally reset displayed counts
-    // Example: resetCategoryDisplay();
-
-    displayCurrentQuestion();
-    updateProgress();
-    updateCategoryCounts();
-    alert('Progress cleared!');
-  }
+function clearSavedProgress() {
+  localStorage.removeItem('historyCategorizerProgress');
 }
-
 
 function selectCategory(category) {
   const qi = questions[currentQuestionIndex];
@@ -949,35 +850,22 @@ function skipQuestion() {
 }
 
 function updateCategoryCounts() {
-  const counts = {};
+  const container = document.getElementById('categoryCounts');
+  container.innerHTML = '';
 
-  // Count categories in current session
-  questions.forEach(q => {
-    if (q.category) {
-      counts[q.category] = (counts[q.category] || 0) + 1;
-    }
+  Object.keys(categories).forEach(key => {
+    const count = questions.filter(q => q.category === key).length;
+    const badge = document.createElement('div');
+    badge.style.padding = '6px 12px';
+    badge.style.background = '#f1f5f9';
+    badge.style.borderRadius = '8px';
+    badge.style.borderLeft = '4px solid #5a67d8';
+    badge.style.fontWeight = '600';
+    badge.style.minWidth = '120px';
+    badge.style.textAlign = 'center';
+    badge.textContent = `${categories[key]}: ${count}`;
+    container.appendChild(badge);
   });
-
-  // Include imported questions
-  importedQuestions.forEach(q => {
-    if (q.category) {
-      counts[q.category] = (counts[q.category] || 0) + 1;
-    }
-  });
-
-  // Multiply by 8 for totals
-  const displayedCounts = {};
-  for (const cat in counts) {
-    displayedCounts[cat] = counts[cat] * 8;
-  }
-
-  // Update your UI elements
-  for (const cat in displayedCounts) {
-    const el = document.getElementById(`category-${cat}-count`);
-    if (el) el.textContent = displayedCounts[cat];
-  }
-
-  return displayedCounts; // optional: useful if you need counts elsewhere
 }
     
   </script>
