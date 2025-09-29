@@ -63,8 +63,6 @@
     .import-status.success { color:#059669; font-weight:500; }
     .import-status.error { color:#dc2626; font-weight:500; }
     .import-modal-footer { display:flex; gap:15px; justify-content:center; padding-top:20px; border-top:2px solid #f1f5f9; }
-    .save-section { display:flex; justify-content:center; gap:15px; margin:20px 0; }
-    .save-section .btn { padding:10px 20px; font-size:13px; }
   </style>
 </head>
 <body>
@@ -81,20 +79,17 @@
       <div style="margin:15px 0;">
         <button id="importCategoriesBtn" class="btn secondary">Import Existing Categories</button>
       </div>
+      <div style="margin:15px 0;">
+        <button id="loadProgressBtn" class="btn secondary" style="margin-left:10px;">Load Progress</button>
+      </div>
       <div id="fileInfo" style="margin-top:15px; color:#64748b;"></div>
-    </div>
-
-    <div class="save-section">
-      <button id="saveProgressBtn" class="btn secondary">Save Progress</button>
-      <button id="loadProgressBtn" class="btn secondary">Load Progress</button>
-      <button id="resetProgressBtn" class="btn secondary">Reset Progress</button>
     </div>
 
     <div id="progressSection" class="progress-section">
       <h3>Categorization Progress</h3>
       <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
       <p id="progressText">0 of 0 questions categorized</p>
-      <div id="categoryProgress" style="margin-top:10px; font-size:0.9rem; color:#64748b;"></div>
+      <div id="categoryCounts" style="margin-top:15px; display:flex; flex-wrap:wrap; gap:10px;"></div>
     </div>
 
     <div id="questionCard" class="question-card">
@@ -244,7 +239,6 @@
     let categorizedQuestions = {};
     let jsonData = null;
     let importedCategories = {};
-    let savedProgress = null;
 
     const categories = {
       'us-history': 'US History',
@@ -273,10 +267,8 @@
     document.getElementById('closeImportModal').addEventListener('click', hideImportModal);
     document.getElementById('clearAllImports').addEventListener('click', clearAllImports);
     document.getElementById('confirmImports').addEventListener('click', confirmImports);
-    document.addEventListener('keydown', handleKeyPress);
-    document.getElementById('saveProgressBtn').addEventListener('click', saveProgress);
     document.getElementById('loadProgressBtn').addEventListener('click', loadProgress);
-    document.getElementById('resetProgressBtn').addEventListener('click', resetProgress);
+    document.addEventListener('keydown', handleKeyPress);
 
     // Category button event listeners
     document.querySelectorAll('.category-btn').forEach(btn => {
@@ -503,15 +495,17 @@
     function displayCurrentQuestion() {
       if (currentQuestionIndex >= questions.length) {
         showResults();
+        updateProgress();
+        updateCategoryCounts();
         return;
       }
-
+    
       const qi = questions[currentQuestionIndex];
-
+    
       // Update counters
       document.getElementById('questionCounter').textContent = `Item ${currentQuestionIndex + 1} of ${questions.length}`;
       document.getElementById('quarterInfo').textContent = `Quarter ${qi.quarter.toUpperCase()}`;
-
+    
       // --- Q3 block (category with sub-questions) ---
       if (qi.quarter === 'q3') {
         const headerHtml = `
@@ -520,7 +514,7 @@
             (${qi.questions.length} sub-question${qi.questions.length === 1 ? '' : 's'})
           </div>
         `;
-
+    
         let listHtml = '';
         qi.questions.forEach((sub, i) => {
           const ans = Array.isArray(sub.answer) ? sub.answer.join(', ') : (sub.answer || '');
@@ -532,7 +526,7 @@
             </div>
           `;
         });
-
+    
         document.getElementById('questionText').innerHTML = headerHtml + listHtml;
         document.getElementById('answerText').innerHTML = `<strong>Block:</strong> ${escapeHtml(qi.categoryName)}`;
       }
@@ -560,20 +554,20 @@
         document.getElementById('questionText').textContent = qi.question || '';
         document.getElementById('answerText').innerHTML = `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : qi.answer || ''}`;
       }
-
+    
       // Clear previous selection
       document.querySelectorAll('.category-btn').forEach(btn => { btn.classList.remove('selected'); });
-
+    
       // Show selected category if present
       if (qi.category) {
         const selectedBtn = document.querySelector(`[data-category="${qi.category}"]`);
         if (selectedBtn) selectedBtn.classList.add('selected');
       }
-
+    
       // Update navigation
       document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
       document.getElementById('nextBtn').disabled = !qi.category;
-
+    
       updateProgress();
     }
 
@@ -656,60 +650,6 @@
       const percentage = total > 0 ? (categorized / total) * 100 : 0;
       document.getElementById('progressFill').style.width = `${percentage}%`;
       document.getElementById('progressText').textContent = `${categorized} of ${total} items categorized (${Math.round(percentage)}%)`;
-      
-      // Update category progress
-      updateCategoryProgress();
-    }
-
-    function updateCategoryProgress() {
-      const categoryProgress = document.getElementById('categoryProgress');
-      if (!categoryProgress) return;
-      
-      let totalItems = 0;
-      let categorizedItems = 0;
-      let categoryCounts = {};
-      
-      // Count items per category including imported data
-      Object.keys(categories).forEach(categoryKey => {
-        const categoryData = categorizedQuestions[categoryKey];
-        const importedData = importedCategories[categoryKey];
-        
-        // Count q1, q2, q4 items directly
-        const q1Count = (categoryData.q1 ? categoryData.q1.length : 0) + (importedData.q1 ? importedData.q1.length : 0);
-        const q2Count = (categoryData.q2 ? categoryData.q2.length : 0) + (importedData.q2 ? importedData.q2.length : 0);
-        const q4Count = (categoryData.q4 ? categoryData.q4.length : 0) + (importedData.q4 ? importedData.q4.length : 0);
-        
-        // For q3, count blocks and multiply by 8 for actual questions
-        let q3Count = (categoryData.q3 ? categoryData.q3.length : 0) + (importedData.q3 ? importedData.q3.length : 0);
-        q3Count = q3Count * 8; // Each q3 block has 8 questions
-        
-        const totalCount = q1Count + q2Count + q3Count + q4Count;
-        categoryCounts[categoryKey] = totalCount;
-        totalItems += totalCount;
-        
-        // Count categorized items
-        const categorizedQ1 = (categoryData.q1 ? categoryData.q1.length : 0);
-        const categorizedQ2 = (categoryData.q2 ? categoryData.q2.length : 0);
-        const categorizedQ3 = (categoryData.q3 ? categoryData.q3.length : 0);
-        const categorizedQ4 = (categoryData.q4 ? categoryData.q4.length : 0);
-        
-        categorizedItems += categorizedQ1 + categorizedQ2 + categorizedQ3 + categorizedQ4;
-      });
-      
-      // Create progress text
-      let progressText = '';
-      Object.keys(categories).forEach(categoryKey => {
-        const count = categoryCounts[categoryKey];
-        if (count > 0) {
-          const categorized = categorizedQuestions[categoryKey].q1.length + 
-                              categorizedQuestions[categoryKey].q2.length + 
-                              categorizedQuestions[categoryKey].q3.length + 
-                              categorizedQuestions[categoryKey].q4.length;
-          progressText += `<div>${categories[categoryKey]}: ${categorized}/${count} questions</div>`;
-        }
-      });
-      
-      categoryProgress.innerHTML = progressText;
     }
 
     // When finishing, categorizedQuestions get blocks pushed appropriately
@@ -841,90 +781,88 @@
       categorizedQuestions = {};
       importedCategories = {};
       jsonData = null;
-      
+    
       // Reinitialize categories
       Object.keys(categories).forEach(key => {
         categorizedQuestions[key] = { q1: [], q2: [], q3: [], q4: [] };
         importedCategories[key] = { q1: [], q2: [], q3: [], q4: [] };
       });
-      
+    
       // Reset file input and UI
       document.getElementById('jsonFile').value = '';
       document.getElementById('fileInfo').textContent = '';
       document.getElementById('progressSection').style.display = 'none';
       document.getElementById('questionCard').style.display = 'none';
       document.getElementById('resultsSection').style.display = 'none';
-      document.getElementById('saveProgressBtn').disabled = true;
-      document.getElementById('loadProgressBtn').disabled = false;
-      document.getElementById('resetProgressBtn').disabled = true;
     }
-
-    // Save progress to localStorage
     function saveProgress() {
-      const progressData = {
-        questions: questions,
-        currentQuestionIndex: currentQuestionIndex,
-        categorizedQuestions: categorizedQuestions,
-        importedCategories: importedCategories,
-        jsonData: jsonData
-      };
-      
-      localStorage.setItem('historyBowlCategorizerProgress', JSON.stringify(progressData));
-      alert('Progress saved successfully!');
+  const progressData = {
+    questions,
+    currentQuestionIndex,
+    categorizedQuestions
+  };
+  localStorage.setItem('historyCategorizerProgress', JSON.stringify(progressData));
+}
+
+function loadProgress() {
+  const saved = localStorage.getItem('historyCategorizerProgress');
+  if (saved) {
+    try {
+      const data = JSON.parse(saved);
+      questions = data.questions || [];
+      currentQuestionIndex = data.currentQuestionIndex || 0;
+      categorizedQuestions = data.categorizedQuestions || {};
+      showProgressSection();
+      document.getElementById('questionCard').style.display = 'block';
+      displayCurrentQuestion();
+      alert('Progress loaded!');
+    } catch(e) {
+      console.error('Failed to load progress:', e);
     }
+  }
+}
 
-    // Load progress from localStorage
-    function loadProgress() {
-      const savedData = localStorage.getItem('historyBowlCategorizerProgress');
-      
-      if (!savedData) {
-        alert('No saved progress found.');
-        return;
-      }
-      
-      try {
-        const progressData = JSON.parse(savedData);
-        
-        questions = progressData.questions;
-        currentQuestionIndex = progressData.currentQuestionIndex;
-        categorizedQuestions = progressData.categorizedQuestions;
-        importedCategories = progressData.importedCategories;
-        jsonData = progressData.jsonData;
-        
-        document.getElementById('fileInfo').textContent = 'Loaded progress from previous session';
-        document.getElementById('progressSection').style.display = 'block';
-        document.getElementById('questionCard').style.display = 'block';
-        displayCurrentQuestion();
-        updateProgress();
-        document.getElementById('saveProgressBtn').disabled = false;
-        document.getElementById('loadProgressBtn').disabled = false;
-        document.getElementById('resetProgressBtn').disabled = false;
-        
-        alert('Progress loaded successfully!');
-      } catch (error) {
-        alert('Error loading progress: ' + error.message);
-      }
-    }
+function clearSavedProgress() {
+  localStorage.removeItem('historyCategorizerProgress');
+}
 
-    // Reset progress
-    function resetProgress() {
-      if (confirm('Are you sure you want to reset all progress?')) {
-        localStorage.removeItem('historyBowlCategorizerProgress');
-        startOver();
-        document.getElementById('saveProgressBtn').disabled = true;
-        document.getElementById('loadProgressBtn').disabled = false;
-        document.getElementById('resetProgressBtn').disabled = true;
-        alert('Progress reset successfully!');
-      }
-    }
+function selectCategory(category) {
+  const qi = questions[currentQuestionIndex];
+  qi.category = category;
 
-    // Initialize button states
-    document.addEventListener('DOMContentLoaded', function() {
-      document.getElementById('saveProgressBtn').disabled = true;
-      document.getElementById('loadProgressBtn').disabled = false;
-      document.getElementById('resetProgressBtn').disabled = true;
-    });
+  document.querySelectorAll('.category-btn').forEach(btn => { btn.classList.remove('selected'); });
+  document.querySelector(`[data-category="${category}"]`).classList.add('selected');
 
+  document.getElementById('nextBtn').disabled = false;
+
+  saveProgress(); // <-- save after selection
+
+  setTimeout(() => { nextQuestion(); }, 400);
+}
+
+function skipQuestion() {
+  currentQuestionIndex++;
+  saveProgress(); // <-- save after skipping
+  displayCurrentQuestion();
+}
+
+    function updateCategoryCounts() {
+  const container = document.getElementById('categoryCounts');
+  container.innerHTML = '';
+  Object.keys(categories).forEach(key => {
+    const count = questions.filter(q => q.category === key).length;
+    const total = questions.filter(q => q.quarter).length; // or total per category if you want
+    const div = document.createElement('div');
+    div.style.padding = '6px 10px';
+    div.style.borderRadius = '6px';
+    div.style.background = '#f0f4ff';
+    div.style.border = '1px solid #5a67d8';
+    div.style.fontSize = '0.85rem';
+    div.textContent = `${categories[key]}: ${count}`;
+    container.appendChild(div);
+  });
+}
+    
   </script>
 </body>
 </html>
