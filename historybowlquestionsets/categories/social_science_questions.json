@@ -79,6 +79,19 @@
     },
     {
       "tossup": {
+        "question": "When setting up skeletons of this species for display, museums frequently used the skull of\nCamarasaurus. That practice perpetuated Othniel Charles Marsh's belief that this species was not\nidentical to a skeleton unearthed in 1885. For 10 points, identify this dinosaur species which\nMarsh erroneously identified as separate from the fictitious \"brontosaurus.\"",
+        "answer": "apatosaurus"
+      },
+      "bonus": {
+        "question": "The apatosaurus flourished during what middle period of the Mesozoic era?",
+        "answer": [
+          "Jurassic Period",
+          "Jurassic"
+        ]
+      }
+    },
+    {
+      "tossup": {
         "question": "Nicholas Reeves has controversially suggested using radar in this location to find hidden rooms. Pierre\nLacau supervised a study of this location funded by Lord Carnavon who died of mosquito-borne disease\nshortly after it was opened. This location, officially designated KV62, was discovered in 1922 by Howard\nCarter. For ten points, name this surprisingly well-preserved burial site of a boy pharaoh.",
         "answer": [
           "the tomb of King Tutankhamun",
