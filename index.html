@@ -839,7 +839,7 @@ function looseMatch(given, answer) {
     
     // Enhanced matching function that handles word order independence and subset matching
     function matchWordSets(givenTokens, answerTokens) {
-        // Exact match with order independence
+        // Exact match with order independence (same words, any order)
         if (
             givenTokens.length === answerTokens.length &&
             givenTokens.every(w => answerTokens.includes(w)) &&
@@ -847,6 +847,9 @@ function looseMatch(given, answer) {
         ) {
             return true;
         }
+        
+        return false;
+    }
         
         // Allow subset matching: if given words are all contained in answer
         // This handles cases like "joan arc" vs "joan of arc"
