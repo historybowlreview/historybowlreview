@@ -757,6 +757,10 @@ function calculateAverageResponseTime() {
 }
 
 function stripPluralS(word) {
+    // Handle "ies" ending (plural of words ending in 'y')
+    if (word.length > 3 && word.endsWith('ies')) {
+        return word.slice(0, -3) + 'y';
+    }
     // Remove trailing 's' if present, but not for very short words
     if (word.length > 2 && word.endsWith('s')) {
         return word.slice(0, -1);
@@ -812,7 +816,8 @@ function looseMatch(given, answer) {
         if (numberMap[word]) return numberMap[word];
         // Handle "saint" and "st" as equivalent
         if (word === "saint" || word === "st" || word === "st.") return "saint";
-        return word;
+        // Strip plural 's' from the word
+        return stripPluralS(word);
     }
 
     function tokenizeAndNormalize(s) {
