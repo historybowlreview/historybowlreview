@@ -2192,24 +2192,28 @@ function submitAnswer(){
         if (bonusIsCorrect){
             const bonusPoints = 10;
             gameState.rawScore += bonusPoints;
-            // Calculate bonus response time from when bonus was shown
             const bonusResponseTime = (submitTime - gameState.questionStartTime) / 1000;
             gameState.responseTimes.push(bonusResponseTime);
             $('currentResponseTime').textContent = `Response time: ${bonusResponseTime.toFixed(1)}s`;
             updateScoreDisplays();
             setFeedback(`Correct bonus! +${bonusPoints} points (${bonusResponseTime.toFixed(1)}s)`, true);
+            gameState.currentBonus = null;
+            gameState.isAnsweringBonus = false;
+            setTimeout(()=> {
+                nextQuestion();
+            }, 1500);
         } else {
             setFeedback(`Incorrect bonus. The correct answer was: ${formatAnswer(gameState.currentAnswer)}`, false);
             startFeedbackCountdown(10);
             $('questionText').textContent = gameState.currentBonus?.question || '';
+            gameState.currentBonus = null;
+            gameState.isAnsweringBonus = false;
+            setTimeout(()=> {
+                nextQuestion();
+            }, 10000);
         }
-        gameState.currentBonus = null;
-        gameState.isAnsweringBonus = false;
-        setTimeout(()=> {
-            nextQuestion();
-        }, bonusIsCorrect ? 1500 : 10000);
     }
-}
+ }
 
 function showQ3FeedbackPopup(msg, correct) {
     // Create modal if not exists
