@@ -776,57 +776,44 @@ function looseMatch(given, answer) {
         "du", "des", "le", "les", "un", "une", "van", "von", "der", "die", "das"
     ];
 
-    // Enhanced number normalization (both ways)
-    const numberMap = {
-        "1":"one","one":"1","first":"1st","1st":"first","first":"1",
-        "2":"two","two":"2","second":"2nd","2nd":"second","second":"2",
-        "3":"three","three":"3","third":"3rd","3rd":"third","third":"3",
-        "4":"four","four":"4","fourth":"4th","4th":"fourth","fourth":"4",
-        "5":"five","five":"5","fifth":"5th","5th":"fifth","fifth":"5",
-        "6":"six","six":"6","sixth":"6th","6th":"sixth","sixth":"6",
-        "7":"seven","seven":"7","seventh":"7th","7th":"seventh","seventh":"7",
-        "8":"eight","eight":"8","eighth":"8th","8th":"eighth","eighth":"8",
-        "9":"nine","nine":"9","ninth":"9th","9th":"ninth","ninth":"9",
-        "10":"ten","ten":"10","tenth":"10th","10th":"tenth","tenth":"10",
-        "11":"eleven","eleven":"11","eleventh":"11th","11th":"eleventh","eleventh":"11",
-        "12":"twelve","twelve":"12","twelfth":"12th","12th":"twelfth","twelfth":"12",
-        "13":"thirteen","thirteen":"13","thirteenth":"13th","13th":"thirteenth","thirteenth":"13",
-        "14":"fourteen","fourteen":"14","fourteenth":"14th","14th":"fourteenth","fourteenth":"14",
-        "15":"fifteen","fifteen":"15","fifteenth":"15th","15th":"fifteenth","fifteenth":"15",
-        "16":"sixteen","sixteen":"16","sixteenth":"16th","16th":"sixteenth","sixteenth":"16",
-        "17":"seventeen","seventeen":"17","seventeenth":"17th","17th":"seventeenth","seventeenth":"17",
-        "18":"eighteen","eighteen":"18","eighteenth":"18th","18th":"eighteenth","eighteenth":"18",
-        "19":"nineteen","nineteen":"19","nineteenth":"19th","19th":"nineteenth","nineteenth":"19",
-        "20":"twenty","twenty":"20","twentieth":"20th","20th":"twentieth","twentieth":"20",
-        "21":"twenty-one","twenty-one":"21","twenty-first":"21st","21st":"twenty-first",
-        "22":"twenty-two","twenty-two":"22","twenty-second":"22nd","22nd":"twenty-second",
-        "23":"twenty-three","twenty-three":"23","twenty-third":"23rd","23rd":"twenty-third",
-        "24":"twenty-four","twenty-four":"24","twenty-fourth":"24th","24th":"twenty-fourth",
-        "25":"twenty-five","twenty-five":"25","twenty-fifth":"25th","25th":"twenty-fifth",
-        "26":"twenty-six","twenty-six":"26","twenty-sixth":"26th","26th":"twenty-sixth",
-        "27":"twenty-seven","twenty-seven":"27","twenty-seventh":"27th","27th":"twenty-seventh",
-        "28":"twenty-eight","twenty-eight":"28","twenty-eighth":"28th","28th":"twenty-eighth",
-        "29":"twenty-nine","twenty-nine":"29","twenty-ninth":"29th","29th":"twenty-ninth",
-        "30":"thirty","thirty":"30","thirtieth":"30th","30th":"thirtieth","thirtieth":"30"
-    };
-
     function normalizeWord(word) {
         word = word.toLowerCase().replace(/[.,;:!?]/g, '');
         
         // Handle "saint" and "st" as equivalent
         if (word === "saint" || word === "st" || word === "st.") return "saint";
         
-        // Handle number normalization - apply multiple times to get to base form
-        let normalized = word;
-        let previousNormalized = null;
-        
-        // Keep normalizing until we reach a stable state
-        while (normalized !== previousNormalized && numberMap[normalized]) {
-            previousNormalized = normalized;
-            normalized = numberMap[normalized];
+        // Normalize all number variants to the numeric form (e.g., "1", "2", "3")
+        // Check ordinal forms first (1st, 2nd, 3rd, 4th, etc.)
+        if (word.endsWith('st') || word.endsWith('nd') || word.endsWith('rd') || word.endsWith('th')) {
+            const numPart = word.slice(0, -2);
+            if (!isNaN(numPart) && numPart !== '') return numPart;
         }
         
-        if (normalized !== word) return normalized;
+        // Map word forms to numbers
+        const wordToNum = {
+            "one": "1", "first": "1",
+            "two": "2", "second": "2",
+            "three": "3", "third": "3",
+            "four": "4", "fourth": "4",
+            "five": "5", "fifth": "5",
+            "six": "6", "sixth": "6",
+            "seven": "7", "seventh": "7",
+            "eight": "8", "eighth": "8",
+            "nine": "9", "ninth": "9",
+            "ten": "10", "tenth": "10",
+            "eleven": "11", "eleventh": "11",
+            "twelve": "12", "twelfth": "12",
+            "thirteen": "13", "thirteenth": "13",
+            "fourteen": "14", "fourteenth": "14",
+            "fifteen": "15", "fifteenth": "15",
+            "sixteen": "16", "sixteenth": "16",
+            "seventeen": "17", "seventeenth": "17",
+            "eighteen": "18", "eighteenth": "18",
+            "nineteen": "19", "nineteenth": "19",
+            "twenty": "20", "twentieth": "20"
+        };
+        
+        if (wordToNum[word]) return wordToNum[word];
         
         // Strip plural 's' from the word
         return stripPluralS(word);
@@ -835,7 +822,7 @@ function looseMatch(given, answer) {
     function tokenizeAndNormalize(s) {
         return s
             .toLowerCase()
-            .replace(/[^a-z0-9' -]/g, ' ')  // Replace punctuation with spaces
+            .replace(/[^a-z0-9' -]/g, ' ')
             .split(/\s+/)
             .filter(w => w && !allowedExtras.includes(w.replace(/[.,;:!?]/g, '')))
             .map(normalizeWord);
@@ -913,15 +900,6 @@ function looseMatch(given, answer) {
     }
     return false;
 }
-
-
-
-function normalizeSaint(word) {
-    if (word === "st" || word === "st.") return "saint";
-    return word;
-}
-
-
 
 function setFeedback(text, ok=true){
     const f = $('feedback');
