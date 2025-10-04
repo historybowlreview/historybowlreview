@@ -812,10 +812,22 @@ function looseMatch(given, answer) {
 
     function normalizeWord(word) {
         word = word.toLowerCase().replace(/[.,;:!?]/g, '');
-        // Handle number normalization
-        if (numberMap[word]) return numberMap[word];
+        
         // Handle "saint" and "st" as equivalent
         if (word === "saint" || word === "st" || word === "st.") return "saint";
+        
+        // Handle number normalization - apply multiple times to get to base form
+        let normalized = word;
+        let previousNormalized = null;
+        
+        // Keep normalizing until we reach a stable state
+        while (normalized !== previousNormalized && numberMap[normalized]) {
+            previousNormalized = normalized;
+            normalized = numberMap[normalized];
+        }
+        
+        if (normalized !== word) return normalized;
+        
         // Strip plural 's' from the word
         return stripPluralS(word);
     }
