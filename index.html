@@ -837,35 +837,12 @@ function looseMatch(given, answer) {
 
     const givenNorm = tokenizeAndNormalize(given);
     
-    // Enhanced matching function that handles word order independence and subset matching
+    // Enhanced matching function that handles word order independence
     function matchWordSets(givenTokens, answerTokens) {
         // Exact match with order independence (same words, any order)
         if (
             givenTokens.length === answerTokens.length &&
             givenTokens.every(w => answerTokens.includes(w)) &&
-            answerTokens.every(w => givenTokens.includes(w))
-        ) {
-            return true;
-        }
-        
-        return false;
-    }
-        
-        // Allow subset matching: if given words are all contained in answer
-        // This handles cases like "joan arc" vs "joan of arc"
-        if (
-            givenTokens.length > 0 &&
-            givenTokens.length <= answerTokens.length &&
-            givenTokens.every(w => answerTokens.includes(w))
-        ) {
-            return true;
-        }
-        
-        // Allow superset matching: if answer words are all contained in given
-        // This handles cases where user provides more detail than needed
-        if (
-            answerTokens.length > 0 &&
-            answerTokens.length <= givenTokens.length &&
             answerTokens.every(w => givenTokens.includes(w))
         ) {
             return true;
