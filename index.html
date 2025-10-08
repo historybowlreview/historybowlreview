@@ -801,8 +801,13 @@ function looseMatch(given, answer) {
         
         if (wordToNum[word]) return wordToNum[word];
         
-        // NEW: Generate all plural/singular variations
-        return generateWordVariations(word);
+        // Generate all plural/singular variations
+        const variations = generateWordVariations(word);
+        console.log('Variations for', word, ':', variations);
+        
+        // IMPORTANT: If only one variation (the word itself), return string
+        // Otherwise return the array so flattenVariations can process it
+        return variations.length === 1 ? variations[0] : variations;
     }
     
     // NEW HELPER FUNCTION
