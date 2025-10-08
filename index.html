@@ -756,18 +756,6 @@ function calculateAverageResponseTime() {
     return sum / gameState.responseTimes.length;
 }
 
-function stripPluralS(word) {
-    // Handle "ies" ending (plural of words ending in 'y')
-    if (word.length > 3 && word.endsWith('ies')) {
-        return word.slice(0, -3) + 'y';
-    }
-    // Remove trailing 's' if present, but not for very short words
-    if (word.length > 2 && word.endsWith('s')) {
-        return word.slice(0, -1);
-    }
-    return word;
-}
-
 function looseMatch(given, answer) {
     // Words to ignore in matching (expanded prepositions list)
     const allowedExtras = [
@@ -782,14 +770,12 @@ function looseMatch(given, answer) {
         // Handle "saint" and "st" as equivalent
         if (word === "saint" || word === "st" || word === "st.") return "saint";
         
-        // Normalize all number variants to the numeric form (e.g., "1", "2", "3")
-        // Check ordinal forms first (1st, 2nd, 3rd, 4th, etc.)
+        // Normalize all number variants
         if (word.endsWith('st') || word.endsWith('nd') || word.endsWith('rd') || word.endsWith('th')) {
             const numPart = word.slice(0, -2);
             if (!isNaN(numPart) && numPart !== '') return numPart;
         }
         
-        // Map word forms to numbers
         const wordToNum = {
             "one": "1", "first": "1",
             "two": "2", "second": "2",
@@ -815,8 +801,44 @@ function looseMatch(given, answer) {
         
         if (wordToNum[word]) return wordToNum[word];
         
-        // Strip plural 's' from the word
-        return stripPluralS(word);
+        // NEW: Generate all plural/singular variations
+        return generateWordVariations(word);
+    }
+    
+    // NEW HELPER FUNCTION
+    function generateWordVariations(word) {
+        const variations = new Set([word]);
+        
+        // Handle "ies" ending - convert to 'y'
+        if (word.length > 3 && word.endsWith('ies')) {
+            variations.add(word.slice(0, -3) + 'y');
+        }
+        
+        // Handle "es" ending - remove it
+        if (word.length > 2 && word.endsWith('es')) {
+            variations.add(word.slice(0, -2));
+        }
+        
+        // Handle "s" ending - remove it
+        if (word.length > 2 && word.endsWith('s')) {
+            variations.add(word.slice(0, -1));
+        }
+        
+        // Add 's'
+        variations.add(word + 's');
+        
+        // Add 'es' (but not if word ends in 'y')
+        if (!word.endsWith('y')) {
+            variations.add(word + 'es');
+        }
+        
+        // If ends in 'y', convert to 'ies'
+        if (word.length > 1 && word.endsWith('y')) {
+            variations.add(word.slice(0, -1) + 'ies');
+        }
+        
+        // Return all variations as a special array that matches any of them
+        return Array.from(variations);
     }
 
     function tokenizeAndNormalize(s) {
@@ -837,18 +859,30 @@ function looseMatch(given, answer) {
 
     const givenNorm = tokenizeAndNormalize(given);
     
-    // Enhanced matching function that handles word order independence
+    // Enhanced matching function that handles word order independence and subset matching
     function matchWordSets(givenTokens, answerTokens) {
-        // Exact match with order independence (same words, any order)
-        if (
-            givenTokens.length === answerTokens.length &&
-            givenTokens.every(w => answerTokens.includes(w)) &&
-            answerTokens.every(w => givenTokens.includes(w))
-        ) {
-            return true;
-        }
+        // Flatten any variation arrays
+        const flattenVariations = (tokens) => {
+            const result = [];
+            tokens.forEach(token => {
+                if (Array.isArray(token)) {
+                    result.push(...token);
+                } else {
+                    result.push(token);
+                }
+            });
+            return result;
+        };
         
-        return false;
+        const givenFlat = flattenVariations(givenTokens);
+        const answerFlat = flattenVariations(answerTokens);
+        
+        // Check if all answer words are present in given (subset matching)
+        // OR all given words are present in answer (superset matching)
+        const allAnswerWordsInGiven = answerFlat.every(a => givenFlat.includes(a));
+        const allGivenWordsInAnswer = givenFlat.every(g => answerFlat.includes(g));
+        
+        return allAnswerWordsInGiven || allGivenWordsInAnswer;
     }
     
     for (let ans of possibleAnswers(answer)) {
