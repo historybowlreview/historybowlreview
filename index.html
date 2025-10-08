@@ -882,20 +882,19 @@ function looseMatch(given, answer) {
         const givenFlat = flattenVariations(givenTokens);
         const answerFlat = flattenVariations(answerTokens);
         
-        // ONLY allow matching if:
-        // 1. Exact match (same words, any order)
-        // 2. Given has ALL answer words (answer is subset of given - user gave more detail)
+        // Count unique "word groups" (how many original tokens, not variations)
+        const givenWordCount = givenTokens.length;
+        const answerWordCount = answerTokens.length;
         
-        // Check if same length and all words match
-        if (givenFlat.length === answerFlat.length) {
-            const allMatch = givenFlat.every(g => answerFlat.includes(g)) &&
-                            answerFlat.every(a => givenFlat.includes(a));
-            if (allMatch) return true;
+        // Check if lengths match (accounting for original word count, not variations)
+        if (givenWordCount === answerWordCount) {
+            // For same-length answers, check if they share common variations
+            const hasOverlap = givenFlat.some(g => answerFlat.includes(g));
+            if (hasOverlap) return true;
         }
         
-        // Only allow if user gave MORE words than needed (answer is subset of given)
-        // This prevents "perpetual" matching "perpetual motion machine"
-        if (answerFlat.length < givenFlat.length) {
+        // Allow if user gave MORE words than needed (answer is subset of given)
+        if (answerWordCount < givenWordCount) {
             const allAnswerWordsInGiven = answerFlat.every(a => givenFlat.includes(a));
             if (allAnswerWordsInGiven) return true;
         }
