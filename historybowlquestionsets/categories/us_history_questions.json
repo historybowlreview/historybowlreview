@@ -478,6 +478,49 @@
         "1st Amendment",
         "1st"
       ]
+    },
+    {
+      "question": "In this election year, a primary campaign suffered in South Carolina due to flyers suggesting he\nfathered an illegitimate black child. This election year featured John McCain’s first campaign for the\npresidency, and its outcome may have been affected by the use of confusing “butterfly ballots” in Palm\nBeach County, Florida. For ten points, name this election year in which the popular vote was won by Al\nGore, but the electoral college named George W. Bush U.S. President.",
+      "answer": [
+        "2000 US Presidential Election",
+        "2000"
+      ]
+    },
+    {
+      "question": "The 1951 Accord restored this organization’s independence after years of wartime restrictions that\ncaused the CPI to outpace this organization’s guidelines. In 1933, an Open Market Committee was added\nto this organization, which serves as the “lender of last resort.” Janet Yellen currently chairs, for ten\npoints, what central banking system of the United States?",
+      "answer": [
+        "Federal Reserve System",
+        "Fed"
+      ]
+    },
+    {
+      "question": "With Johanna Bethune and Isabella Graham, this man’s wife co-founded an organization that is now\nGraham Windham, a youth-focused non-profit; this man’s wife also assisted Dolley Madison with finding\nfunds for the Washington Monument. For ten points, name this husband of Elizabeth Schuyler [skyler],\nan American founding father whose biographer, Ron Chernow, inspired Lin-Manuel Miranda to write a\nBroadway musical.",
+      "answer": [
+        "Alexander Hamilton",
+        "Hamilton"
+      ]
+    },
+    {
+      "question": "One war in this state began with an attack on Fort Myers, while another was triggered by the\nDade Massacre. This state, purchased as part of the Adams-Onis Treaty, was home to a Native American\ntribe led by Osceola that fought Winfield Scott and Andrew Jackson. The Seminole Wars were fought in,\nfor ten points, what southern U.S. state where the Spanish founded St. Augustine on the peninsula and\nPensacola on the panhandle?",
+      "answer": "Florida"
+    },
+    {
+      "question": "This phrase was coined in an 1845 article that argued that foreign nations should stop “thwarting our policy and hampering our power” and allow the annexation of Texas. This phrase was used again by John O’Sullivan in debate over the border of the Oregon Country. This concept inspired Democrats who called for war with Mexico, as well as settlers who set off on the Oregon Trail. For ten points, name this belief that the United States was meant to expand westward to the Pacific Ocean.",
+      "answer": "Manifest Destiny"
+    },
+    {
+      "question": "A treaty agreed to during this man’s presidency revolutionized diplomacy by requiring arbitration to settle disputes over the American-Canadian border. During this man’s presidency, the popular Pinckney’s Treaty with Spain and the unpopular Jay’s Treaty with Great Britain were both signed. He urged the United States to resist “entangling” alliances with Europe and avoid political parties in his farewell address. Thomas Jefferson served as the Secretary of State to, for ten points, what first U.S. President?",
+      "answer": [
+        "George Washington",
+        "Washington"
+      ]
+    },
+    {
+      "question": "(TIEBREAKER BONUS QUESTION) What term describes someone who vigorously supports their country and was used, in\nacronym form, to name a 2001 American law that allows roving wiretaps and other anti-terrorist\nmeasures?",
+      "answer": [
+        "Patriot",
+        "PATRIOT Act"
+      ]
     }
   ],
   "q2": [
@@ -937,6 +980,73 @@
         "answer": [
           "RMS Lusitania",
           "Lusitania"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "One holder of this position fought the Battle of Reed Rules in order to eliminate the disappearing\nquorum. The longest holder of this position was Sam Rayburn, and the only holder of this position to later\nbecome President has been James Polk. This position controls appointments to the Rules Committee and\nis second in the presidential succession. Nancy Pelosi was the first female holder of, for ten points, what\npolitical position, currently held by Paul Ryan, that leads the lower house of U.S. Congress?",
+        "answer": [
+          "Speaker of the U.S. House of Representatives",
+          "Speaker",
+          "Speaker of the House"
+        ]
+      },
+      "bonus": {
+        "question": "This Speaker of the House proposed the “Contract with America” as minority whip in 1994,\nbringing Republicans into the House majority for the first time in forty years.",
+        "answer": [
+          "Newt Gingrich",
+          "Gingrich"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "In this decade, the Emergency Tariff and Fordney-McCuber Tariff were passed to support American\nagriculture. Charles Lindbergh flew The Spirit of St. Louis during this decade, which began with the\npassage of the 19th Amendment and included the Harlem Renaissance. For ten points, name this decade\nof American prosperity, often described by the phrase “Roaring,” that was ended by a Wall Street crash\non Black Tuesday.",
+        "answer": [
+          "1920s",
+          "20s"
+        ]
+      },
+      "bonus": {
+        "question": "This proposed amendment to the Constitution was first introduced in the 1920s. It was meant to\nforbid discrimination based on gender, but was ratified by only thirty-five states before its 1979 deadline.",
+        "answer": [
+          "Equal Rights Amendment",
+          "Equal Rights",
+          "ERA"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "This man was nearly assassinated at the funeral of Warren Davis by Richard Lawrence. Under this\npresident, the US debt was paid off for the only time in history. This president had Levi Woodbury require\ngovernment land to be bought with gold or silver in the Specie Circular, and he created “pet” banks after\na veto. This man decried a “corrupt bargain” that he claimed cost him the Election of 1824. For ten\npoints, name this seventh President of the United States.",
+        "answer": [
+          "Andrew Jackson",
+          "Jackson"
+        ]
+      },
+      "bonus": {
+        "question": "The Election of 1824 was decided in the House of Representatives when this Speaker threw his\nsupport to John Quincy Adams, who later appointed this man Secretary of State.",
+        "answer": [
+          "Henry Clay",
+          "Clay"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "This man was shot by members of the Standing Rock Agency in 1890. This leader did not agree to the\nTreaty of Fort Laramie after fighting in Red Cloud’s War. After returning from Canada and performing in\nBuffalo Bill’s Wild West show, this man was killed for supporting the Ghost Dance movement. In 1876,\nthis man fought alongside Crazy Horse at a location known as the Greasy Grass. For ten points, name\nthis Lakota leader and victor at the Battle of Little Bighorn.",
+        "answer": [
+          "Sitting Bull",
+          "Thathanjka Iyotake"
+        ]
+      },
+      "bonus": {
+        "question": "In the Battle of Little Bighorn, Sitting Bull defeated this rash cavalry commander, who lost his\nentire force after a famous “last stand.”",
+        "answer": [
+          "George Armstrong Custer",
+          "Custer",
+          "Custer's last stand"
         ]
       }
     }
@@ -2040,6 +2150,133 @@
           ]
         }
       ]
+    },
+    {
+      "category": "HENRY FORD",
+      "prompt": "Name the...",
+      "questions": [
+        {
+          "question": "Car that his company mass produced from 1908 to 1927, then replaced by the Model A.",
+          "answer": [
+            "Model T",
+            "T"
+          ]
+        },
+        {
+          "question": "Color that, starting in 1914, was used for every one of those cars.",
+          "answer": "black"
+        },
+        {
+          "question": "Michigan city that became the home of his company and the center of the American auto industry.",
+          "answer": "Detroit"
+        },
+        {
+          "question": "Inventor of the incandescent lightbulb, who Ford started working for at the beginning of his career.",
+          "answer": [
+            "Thomas Edison",
+            "Edison"
+          ]
+        },
+        {
+          "question": "Economic concept that Ford set at $5, allowing his workers to buy his cars.",
+          "answer": [
+            "minimum daily wage",
+            "wage",
+            "minimum wage"
+          ]
+        },
+        {
+          "question": "Type of airplanes produced at Ford’s Willow Run facility, including the B-24 Liberator.",
+          "answer": [
+            "bombers",
+            "combat airplanes"
+          ]
+        },
+        {
+          "question": "Successor as head of Ford Motors, Henry Ford’s son and the namesake of a “lemon” released in 1958.",
+          "answer": [
+            "Edsel Ford",
+            "Edsel"
+          ]
+        },
+        {
+          "question": "Religious group Ford railed against in The Dearborn Independent.",
+          "answer": [
+            "Jewish people",
+            "Jew"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "THE CONSTITUTIONAL CONVENTION",
+      "prompt": "Name the...",
+      "questions": [
+        {
+          "question": "Pennsylvanian member of the Grand Committee who now appears on the $100 bill.",
+          "answer": [
+            "Benjamin Franklin",
+            "Franklin"
+          ]
+        },
+        {
+          "question": "Fractional amount that a slave counted for in the population when determining representation in the\nHouse.",
+          "answer": [
+            "three-fifths",
+            "0.6",
+            "3/5s"
+          ]
+        },
+        {
+          "question": "”Large State” plan that proposed that states would receive seats in Congress based on their\npopulation.",
+          "answer": [
+            "Virginia Plan",
+            "Randolph Plan",
+            "Virginia",
+            "Randolph"
+          ]
+        },
+        {
+          "question": "Competing “Small State” plan in which each state would receive the same number of seats in Congress.",
+          "answer": [
+            "New Jersey Plan",
+            "New Jersey",
+            "Paterson Plan",
+            "Paterson"
+          ]
+        },
+        {
+          "question": "Compromise between those two plans that proposed the modern House and Senate.",
+          "answer": [
+            "Connecticut Compromise",
+            "Connecticut",
+            "Sherman's Compromise",
+            "Sherman",
+            "Great Compromise of 1787",
+            "Great"
+          ]
+        },
+        {
+          "question": "State that boycotted the Convention, sending no delegates.",
+          "answer": "Rhode Island"
+        },
+        {
+          "question": "Delegate from Massachusetts who now lends his name to the practice of manipulating district\nboundaries for political gain.",
+          "answer": [
+            "Elbridge Gerry",
+            "Gerry",
+            "gerrymandering"
+          ]
+        },
+        {
+          "question": "Shared last name of two pro-slavery delegates from South Carolina, one of which lost the elections of\n1804 and 1808 as a Federalist.",
+          "answer": [
+            "Pinckney",
+            "Charles Cotesworth Pinckney",
+            "Charles Pinckney"
+          ]
+        }
+      ]
     }
   ],
   "q4": [
@@ -2642,6 +2879,59 @@
         "MLK",
         "Martin Luther King"
       ]
+    },
+    {
+      "parts": [
+        "(30 pts) Description acceptable. Samuel DuPont chaired a commission that planned this strategy.\nThe H. L. Hunley, the first submarine to sink another ship, did so while opposing this\nstrategy. David Farragut said “Damn the (20 pts) ",
+        "torpedoes, full speed ahead” to capture the\nport of Mobile as part of this strategy. Raphael Semmes proposed swift runners to defeat\nthis strategy and bring (10 pts) ",
+        "cotton to Bermuda. For ten points, name this strategy, a part of the\nUnion’s Anaconda Plan that prevented the Confederacy from conducting overseas trade."
+      ],
+      "answer": [
+        "Union blockade",
+        "blockade"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) This diplomat re-assigned Archer Blood within his department, rather than respond to\nthe Blood Telegram warning of genocide during the Bangladesh War. This Cabinet member\nbegan the policy of d´etente with the (20 pts) ",
+        "USSR and worked to normalize relations with\nChina. This man was co-recognized with Le Duc Tho for their work on the Paris Peace\nAccords; Le Duc Tho refused that Nobel Peace Prize, as the (10 pts) ",
+        "Vietnam War had not actually\nended. For ten points, name this Secretary of State under Presidents Nixon and Ford."
+      ],
+      "answer": [
+        "Henry Kissinger",
+        "Kissinger"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) During one of these events, Barton Stone organized a large camp meeting at Cane\nRidge, Kentucky. During the second of these events, western New York was “burned over,”\nleaving no remaining population for this event to (20 pts) ",
+        "convert. During the first of these\nevents, a speaker was inspired by the verse “Their Foot shall slide in due Time” to deliver (10 pts) ",
+        "“Sinners in the Hands of an Angry God.” Jonathan Edwards, was a popular Reformed preacher\nduring the first of, for ten points, what religious revivals that swept through America in the 18th and 19th\ncenturies?"
+      ],
+      "answer": [
+        "Great Awakenings",
+        "First Great Awakening",
+        "Second Great Awakening"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) The first draft of this document was written by John Dickinson, who chaired an attempt\nto fix this document at Annapolis. The eleventh section of this document promised Canada\nautomatic (20 pts) ",
+        "admission, should they wish to join the United States. This document left\nthe government unable to deal with (10 pts) ",
+        "Shays’ Rebellion, since it denied Congress the power to levy\ntaxes or maintain an army. For ten points, name this predecessor to the U.S. Constitution, a document\nthat provided for a weak federal government."
+      ],
+      "answer": [
+        "Articles of Confederation and Perpetual Union",
+        "Articles of Confederation"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) A leader who used this system, William Still, claimed that coded messages like “four\nlarge hams and two small hams” referred to four adults and two children. The song “Follow\nthe (20 pts) ",
+        "Drinkin’ Gourd” is sometimes interpreted as directions used in this system. Code\nphrases in this system included “the River Jordan,” which meant the Ohio River, and\n“the Promised Land,” which meant (10 pts) ",
+        "Canada, two destinations within this system. Numerous\n“conductors” like Harriet Tubman served as guides in, for ten points, what system that helped numerous\nescaped slaves journey to freedom?"
+      ],
+      "answer": "Underground Railroad"
     }
   ]
 }

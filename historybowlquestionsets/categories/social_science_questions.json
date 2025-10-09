@@ -51,6 +51,26 @@
     {
       "question": "A work about these people is divided into sections concerning “History,” “Psychology,” and “Biology”\nand argues that these people have become a passive “Other.” One philosopher distinguished these people\nfrom barbarians and the uneducated to argue for their suffrage. J.S. Mill wrote about the Subjection of,\nfor ten points, name what group of people, the subjects of Simone Beauvoir’s The Second Sex?",
       "answer": "women"
+    },
+    {
+      "question": "George Miller’s work on this process and its “magic number” was criticized by later experiments\nthat demonstrated the value of “chunking” in this process. The ancient Greek and Roman “method of\nloci” was used to improve this process, and autistic savants are frequently mentioned for their ability to\nperform extreme feats of this process. For ten points, name this mental process that consists of encoding,\nstoring, and retrieving information about past events.",
+      "answer": "memory"
+    },
+    {
+      "question": "One of these policies named for Walker improved relations with Great Britain after the repeal of the\nCorn Laws. One of these policies was described as an abomination and led to the Nullification Crisis, while\nthe Smoot-Hawley example made the Great Depression worse by slowing global trade. NAFTA restricts\nCanada, Mexico, and the United States from using, for ten points, what type of tax on imported goods?",
+      "answer": [
+        "tariff",
+        "Walker Tariff",
+        "Tariff of Abominations",
+        "Smoot-Hawley Tariff"
+      ]
+    },
+    {
+      "question": "Margaret Thatcher claimed to have carried a copy of this man’s most famous work in her handbag\nat all times. This thinker rejects the “benevolence of the butcher, baker, and brewer” as the reason that\ndinner is expected and, in his most famous work, describes a metaphor about the unintended social\nbenefits of private, selfish actions as the “invisible hand.” For ten points, name this Scottish “Father of\nEconomics,” the author of The Wealth of Nations.",
+      "answer": [
+        "Adam Smith",
+        "Smith"
+      ]
     }
   ],
   "q2": [
@@ -144,6 +164,32 @@
         "answer": [
           "Paul Krugman",
           "Krugman"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "The Corona program was created to perform this action from outer space. Klaus Fuchs was a scientist\nwho performed this action. In 1960, Gary Powers was shot down while attempting to perform this action\nin a U2 plane whose cameras were recovered by the Soviets. For ten points, name this type of covert action\nperformed by the CIA against the Soviet Union during the Cold War to gain information.",
+        "answer": [
+          "spying",
+          "espionage"
+        ]
+      },
+      "bonus": {
+        "question": "Julius and Ethel, a married couple with this last name, were executed in 1953 after being\nconvicted of spying for the Soviet Union.",
+        "answer": "the Rosenbergs"
+      }
+    },
+    {
+      "tossup": {
+        "question": "Claims made about a social class in this work were later revised in its author’s Theories of Surplus\nValue. This work introduces the concept of historical materialism. A “holy alliance” created to “exorcise\nthis specter” is the focus of the first section of this work, which concludes by calling for the “workers of\nthe world” to “unite!.” For ten points, name this 1848 political pamphlet co-written by Friedrich Engels\nand Karl Marx.",
+        "answer": "The Communist Manifesto"
+      },
+      "bonus": {
+        "question": "Marx’s idea that history repeats itself “first as tragedy, then as farce” was written about the\ncoup of this historical figure, the nephew of an earlier French dictator with a much more successful coup.",
+        "answer": [
+          "Napoleon III",
+          "Louis-Napoleon"
         ]
       }
     }

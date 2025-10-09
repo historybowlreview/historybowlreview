@@ -77,6 +77,10 @@
     {
       "question": "(TIEBREAKER BONUS QUESTION) What largest island in the North Atlantic had its capital officially renamed from Godthab to Nuuk (pr. noo-ook)?",
       "answer": "Greenland"
+    },
+    {
+      "question": "The “Buena Vista Tract” in this city features streets named for Mexican War generals. To make room\nfor this city’s Civic Arena, many blocks of its African-American Hill District were demolished. This city’s\nPoint State Park preserves the site of a fort that was targeted by General Braddock in the French and\nIndian War. Fort Duquesne [do-kane] was built at the confluence of the Monogahela and Allegheny Rivers\nin what is now, for ten points, what city in western Pennsylvania?",
+      "answer": "Pittsburgh"
     }
   ],
   "q2": [
@@ -206,6 +210,32 @@
         "answer": [
           "Notre Dame de Paris",
           "Notre Dame"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "A man in this region claimed to be the Mahdi, the redeemer in Islam, and fought the Battle of\nOmdurman against the British. This region was the site of a coup by Omar al-Bashir. Chinese Gordon\ndied in this region while defending a city near the confluence of the Blue and White Nile. For ten points,\nname this geographic region of Africa south of Egypt, home to a country whose southern portion gained\nindependence in 2011, and whose remaining portion has its capital at Khartoum.",
+        "answer": "the Sudan"
+      },
+      "bonus": {
+        "question": "Since 2003, this western sub-region of Sudan has been the site of brutal violence, as Janjaweed\nmilitia have supported Omar al-Bashir’s forces.",
+        "answer": "Darfur"
+      }
+    },
+    {
+      "tossup": {
+        "question": "The upper portion of this waterway was known as the Grand River until 1921. The Alamo Canal, built\nto irrigate the Imperial Valley with this river’s water, failed in 1905, creating the Salton Sea. Construction\nof the Glen Canyon Dam created Lake Powell on this river, which often failed to flow all the way to the\nGulf of California. For ten points, name this river in the western United States that flows through the\nGrand Canyon.",
+        "answer": [
+          "Colorado River",
+          "Colorado"
+        ]
+      },
+      "bonus": {
+        "question": "This structure, once called Boulder Dam, was built on the Colorado River during the Great\nDepression. Lake Mead filled behind this structure, which is named for a former President.",
+        "answer": [
+          "Hoover Dam",
+          "Hoover"
         ]
       }
     }
@@ -457,6 +487,17 @@
         "Warnings about the oncoming of these events are issued from a center in Hawai’i.\nFor ten points, floods in Japanese coastal cities are often due to what kind of very large wave that is\ntypically caused by an earthquake?"
       ],
       "answer": "tsunami"
+    },
+    {
+      "parts": [
+        "(30 pts) Edwin Lutyens designed a section of this city near the Lodhi Gardens that is home\nto hundreds of bungalows for public officials. This city’s (20 pts) ",
+        "Raisina Hill is home to the\nRashtrapati Bhavan mansion and estate, formerly known as the Viceroy’s House. In 1911,\nthe British (10 pts) ",
+        "Raj moved its government to this city, a more central site than the original, eastern\nCalcutta. For ten points, name this city, home to the National Capital Territory of India."
+      ],
+      "answer": [
+        "New Delhi",
+        "Delhi"
+      ]
     }
   ]
 }

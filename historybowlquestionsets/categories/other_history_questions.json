@@ -76,6 +76,40 @@
     {
       "question": "A group that performed this action in 19th century New York, called the “Big Six,” used a symbolic\nBengal tiger that was adopted by Boss Tweed. Marcus Licinius Crassus led a Roman group that refused\nto perform this action if the customers refused to pay, after which he often purchased the ruins. In\nPhiladelphia, Ben Franklin organized a “bucket brigade” to perform this action. For ten points, name this\npublic service provided by professional groups like the FDNY in New York, which protect structures from\ncombustive destruction.",
       "answer": "firefighting"
+    },
+    {
+      "question": "This plant arrived in the New World thanks to Beatriz de Bobadilla, who gave cuttings of it to\nChristopher Columbus. Boiling houses converted the juice of this plant into a raw material that could\nthen be shaped into a loaf. In the late 18th century, the beet provided a European-based replacement for\nthis crop, which was grown by slave-based plantations throughout the Caribbean. For ten points, name\nthis grass crop that produces stalks rich in sucrose that can be refined into a popular sweetener.",
+      "answer": [
+        "sugarcane",
+        "sugar cane"
+      ]
+    },
+    {
+      "question": "This action was avoided by Elvis Presley for two months to film King Creole, but his eventual\nperformance of this action inspired the musical Bye Bye Birdie. Muhammad Ali was banned from boxing\nfor 3 years for refusing to engage in this activity. Britain’s Prince Harry started the Invictus Games for\npeople injured in this activity after he did it in Afghanistan. For ten points, name this action which people\nare drafted into through Selective Service.",
+      "answer": [
+        "military service",
+        "conscription",
+        "service"
+      ]
+    },
+    {
+      "question": "The production of this item names a group of 18th century nationalist revolutionaries in Italy.\nDuring the Industrial Revolution, the complete deforestation of Britain may have been prevented when\nblacksmiths replaced this item with coke. A companion company founded by Henry Ford produced this\ngood out of byproducts from its car manufacturing; that company is now called Kingsford. For ten points,\nname this hot-burning, wood-based, solid carbon fuel, commonly used in blacksmith forges and barbecue\ngrills.",
+      "answer": "charcoal"
+    },
+    {
+      "question": "(TIEBREAKER BONUS QUESTION) In what 1973 conflict did Egyptian forces assault the Bar Lev line while Israel was\nobserved the Jewish day of atonement?",
+      "answer": [
+        "Yom Kippur Wa",
+        "Yom Kippur"
+      ]
+    },
+    {
+      "question": "This man gathered a small handful of early followers at a deer park near Sarnath. During one sermon, this man was not understood by anyone except Mahakashyapa, who smiled when this man held up a white lotus. After this figure’s enlightenment, he described the Eightfold Path as a method of escaping samsara and attaining nirvana. For ten points, name this religious figure whose teachings form the basis for an Asian religion.",
+      "answer": [
+        "Siddhartha Gautama",
+        "Gautama",
+        "the Buddha"
+      ]
     }
   ],
   "q2": [
@@ -472,6 +506,150 @@
           "answer": "Skylab"
         }
       ]
+    },
+    {
+      "category": "THE INDUSTRIAL REVOLUTION",
+      "prompt": "Name the...",
+      "questions": [
+        {
+          "question": "European nation with capital London where the Industrial Revolution began.",
+          "answer": [
+            "United Kingdom",
+            "UK",
+            "Great Britain",
+            "Britain",
+            "England"
+          ]
+        },
+        {
+          "question": "Industry where revolution led to increased crop output and a growing population.",
+          "answer": [
+            "agriculture",
+            "farming",
+            "farm"
+          ]
+        },
+        {
+          "question": "Invention that powered many plants when moving water was unavaliable, invented by James Watt.",
+          "answer": "steam engine"
+        },
+        {
+          "question": "The crop sourced from Egypt, India, and the American South, which fueled textile mills.",
+          "answer": "cotton"
+        },
+        {
+          "question": "Metal that was tempered into steel and used to build stronger buildings.",
+          "answer": "iron"
+        },
+        {
+          "question": "Industrial process used to create steel from otherwise unhelpful smelting byproducts by blowing air\nto remove impurities.",
+          "answer": [
+            "Bessemer process",
+            "Bessemer"
+          ]
+        },
+        {
+          "question": "The multi-spindle frame, invented in the 1760s, that allowed for the mass production of yarn.",
+          "answer": "spinning jenny"
+        },
+        {
+          "question": "Engineer who designed the Great Western Railway, as well as pre-fabricated hospitals for the Crimean\nWar effort.",
+          "answer": [
+            "Isambard Kingdom Brunel",
+            "Brunel"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "THE CRADLES OF CIVILIZATION",
+      "prompt": "Name the...",
+      "questions": [
+        {
+          "question": "Age in which the first civilizations developed, often named for a material more primitive than bronze\nor iron.",
+          "answer": [
+            "Stone Age",
+            "Stone",
+            "Neolithic Age",
+            "Neolithic"
+          ]
+        },
+        {
+          "question": "Modern African country where civilization developed around the Nile River.",
+          "answer": "Egypt"
+        },
+        {
+          "question": "Modern Asian country where tea drinking developed and civilization grew around the Yellow and\nYangtze rivers.",
+          "answer": "China"
+        },
+        {
+          "question": "Civilization that developed around a river in modern Pakistan and included the city of Harappa.",
+          "answer": [
+            "Indus River Valley civilizaiton",
+            "Indus"
+          ]
+        },
+        {
+          "question": "Region between the Tigris and Euphrates rivers, in the eastern part of the Fertile Crescent in modern\nIraq.",
+          "answer": "Mesopotamia"
+        },
+        {
+          "question": "Civilization that developed in that Iraqi region whose cities included Uruk.",
+          "answer": [
+            "Sumeria",
+            "Sumer"
+          ]
+        },
+        {
+          "question": "Anatolian marauders who sailed the Mediterranean, rampaging early cities, but lost the Battle of the\nDelta on the Nile.",
+          "answer": "Sea Peoples"
+        },
+        {
+          "question": "Ancient proto-Greek civilization whose fall triggered the Greek Dark Ages.",
+          "answer": [
+            "Mycenaean culture",
+            "Mycenae"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "POLITICAL UPHEAVAL AROUND THE WORLD",
+      "prompt": "Which country was the site of the coup d’etat of...",
+      "questions": [
+        {
+          "question": "Ioannis Metaxas, who restored order to the streets of Athens in 1936?",
+          "answer": "Greece"
+        },
+        {
+          "question": "A CIA-MI5 alliance that installed a pro-western Shah in Tehran?",
+          "answer": "Iran"
+        },
+        {
+          "question": "anti-Erdogan [air-doh-wan] protesters, who were fought back by tanks in Istanbul in 2016?",
+          "answer": "Turkey"
+        },
+        {
+          "question": "1945’s Kyujo incident, in which officers wanted to stop this country from surrendering World War II?",
+          "answer": "Japan"
+        },
+        {
+          "question": "Hafez al-Assad, who established a Baathist government in 1963 that is now led by his son, Bashar?",
+          "answer": "Syria"
+        },
+        {
+          "question": "Getulio Vargas, who started the Estado Novo dictatorship?",
+          "answer": "Brazil"
+        },
+        {
+          "question": "Generals seeking to enforce lese majeste [lez mah-jest-ay] laws that protected Rama IX [ninth] in\nSoutheast Asia?",
+          "answer": "Thailand"
+        },
+        {
+          "question": "Alberto Fujimori, who defeated the communist Shining Path insurgency in South America?",
+          "answer": "Peru"
+        }
+      ]
     }
   ],
   "q4": [
@@ -570,6 +748,21 @@
         "For ten points, name this man who received a \"recitation\" from the angel Jibril (pr. jib-REEL) which became the Quran, and was the founder of Islam."
       ],
       "answer": "Muhammad"
+    },
+    {
+      "parts": [
+        "(30 pts) A use of this technology by the Kingdom of Mysore was refined by William Congreve.\nThe introduction of another form of this technology allowed Hongi Hika to win inter-tribal\nwars among the (20 pts) ",
+        "Maori on New Zealand. Ottoman Janissaries were trained in using this\ntechnology under Mehmed the Conqueror. (10 pts) ",
+        "Guy Fawkes’s failed plot to destroy Parliament\ninvolved barrels of, for ten points, what volatile material, a mixture of saltpeter, sulfur, and charcoal\nwhose invention in 9th century China led to the development of hand cannons and modern projectile\nweapons?"
+      ],
+      "answer": [
+        "gunpowder",
+        "black powder",
+        "Congreve rockets",
+        "rocket",
+        "Musket War",
+        "Musket"
+      ]
     }
   ]
 }

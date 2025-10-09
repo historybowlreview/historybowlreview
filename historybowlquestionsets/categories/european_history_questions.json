@@ -287,6 +287,40 @@
         "Russian Empire",
         "Russia"
       ]
+    },
+    {
+      "question": "This man consolidated his power when his rival Harry von Arnim was caught pilfering secret\ngovernment records. This leader provoked a war in which his nation gained Alsace-Lorraine after the\nbattles of Sedan and Metz. Leo von Caprivi succeeded this editor of the Ems Dispatch, who espoused the\npolicy of realpolitik [real-pol-ih-teek] in the “Blood and Iron” speech. For ten points, name this instigator\nof the Franco-Prussian War, an “Iron Chancellor” credited with unifying the German states.",
+      "answer": [
+        "Otto von Bismarck",
+        "Bismarck"
+      ]
+    },
+    {
+      "question": "The Sultanate of Rum failed to stop this campaign, in part because the Danishmends had tied up the\nforces of Alp Arslan. Peter the Hermit inspired the poor to aid this campaign, whose participants rallied\naround the the cry “Deus vult!” Following the Battle of Manzikert, Alexius Comnemnus was forced to\nrequest this campaign to counteract the power of the Seljuk Turks. Pope Urban II’s Council of Clermont\nbegan, for ten points, what Christian campaign that retook Jerusalem from the Muslims in 1099?",
+      "answer": "First Crusade"
+    },
+    {
+      "question": "This war’s French theater included a victory for the Duc d’Enghien [”duke” don-GYEN] at the Battle\nof Rocroi [roh-CWAH]. The Bohemian phase of this war ended with the Battle of White Mountain and\nthe defeat of the Winter King. Wallenstein and the Count of Tilly served as Imperial generals during this\nwar, in which Gustavus Adolphus was killed. The Peace of Westphalia ended, for ten points, what war\nfought over religion in modern-day Germany that lasted from 1618 to 1648?",
+      "answer": [
+        "Thirty Years’ War",
+        "Thirty Years"
+      ]
+    },
+    {
+      "question": "This ruler resolved territorial disputes with Nader Shah by signing the Treaty of Resht and failed to\nform an alliance with William III. This man employed Patrick Gordon to capture Azov, which he later\ngave back to Ahmed III. He gave civil service a structured hierarchy via the Table of Ranks as part of an\neffort to reform the bureaucracy, and he disbanded the streltsy. The boyars lost both political power and\ntheir beards under the reign of, for ten points, what “Great” modernizing tsar of Russia?",
+      "answer": [
+        "Peter the Great",
+        "Peter I"
+      ]
+    },
+    {
+      "question": "This man exiled a rival to Compiegne after she tried to have this man dismissed in the Day\nof the Dupes. This rival of Marie de Medici and founder of the Academie Francaise engineered the siege of La Rochelle and French participation in the Thirty Years’ War, and was known as the “Red Eminence”. For ten points, name this cardinal and chief minister to Louis XIII.",
+      "answer": [
+        "Cardinal Richelieu",
+        "Richelieu",
+        "Armand Jean du Plessis",
+        "du Plessis"
+      ]
     }
   ],
   "q2": [
@@ -722,6 +756,79 @@
         "answer": [
           "Democratic Republic of Afghanistan",
           "Afghanistan"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "This ruler was able to lift trading restrictions after signing the Treaty of Kucuk Kaynarca [koo-chook\nkai-nar-ka]. This ruler descended from the royal family of Anhalt and founded the Hermitage. Cossacks\ntargeted this patron of Voltaire during Pugachev’s Rebellion. Fake villages to show prosperity were\nconstructed by this ruler’s lover, Grigory Potemkin. For ten points, name this enlightened despot and\n18th century Empress of Russia.",
+        "answer": [
+          "Catherine the Great",
+          "Catherine II"
+        ]
+      },
+      "bonus": {
+        "question": "Catherine the Great collaborated with Prussia and Austria in the first of three partitions of this\ncountry. This country would not become independent again until after World War I.",
+        "answer": [
+          "Poland-Lithuania",
+          "Poland"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "Marco Antonio Bragadin was flayed alive after surrendering Famagusta in the name of this city. This\ncity’s Arsenale [ar-seh-NAH-lay] was said to be able to produce a warship a day, helping it repel multiple\nOttoman invasions of Corfu. This city ruled over Crete after its leader, Enrico Dandolo, sacked Zara and\nagreed to provide transportation for the Fourth Crusade. For ten points, name this Queen city of the\nAdriatic, an Italian city known for its many canals.",
+        "answer": [
+          "Most Serene Republic of Venice",
+          "Venice"
+        ]
+      },
+      "bonus": {
+        "question": "Enrico Dandolo was one of numerous Venetian rulers with this title, derived from the word for\nduke. These people were elected by 41 members of the Great Council.",
+        "answer": [
+          "Doge",
+          "Doxe"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "This country’s ruler was greatly embarrassed by the revelation of Philipp zu Eulenburg’s [oy-len-burg’s]\nhomosexuality. This country sent a gunboat to its rival’s territory in Morocco, causing the Agadir Crisis.\nIts high command was led by Helmuth von Moltke, and it was accused of sending the Zimmerman\nTelegram, causing the United States to declare war on this country. Kaisers led, for ten points, what\nmember of the Central Powers, an empire that invaded France during World War I?",
+        "answer": [
+          "Germany",
+          "German Empire",
+          "Second Reich",
+          "Kaiserreich"
+        ]
+      },
+      "bonus": {
+        "question": "The early 20th century German empire held a naval arms race with the UK, consisting primarily\nof building these “all big gun” steam battleships. This class of ship was named for a British vessel.",
+        "answer": "dreadnoughts"
+      }
+    },
+    {
+      "tossup": {
+        "question": "Protestants and Catholics in this country fought the Kappel Wars. The Helvetic Republic was briefly\nimposed on this country, whose cantons were formally united into one country in 1848. Unterwalden,\nSchwyz [shveetz], and Uri formed the Old Confederation of this modern country, whose other cantons\ninclude Lucerne and Zurich. For ten points, name this Alpine country, which has its capital at Bern.",
+        "answer": "Switzerland"
+      },
+      "bonus": {
+        "question": "Swiss pikemen often served as this type of soldier in the service of other European powers. Other\nEuropean examples of these unaffiliated soldiers for hire include Landsknechts and condottieri.",
+        "answer": "mercenary"
+      }
+    },
+    {
+      "tossup": {
+        "question": "This war began with a failed invasion of the Danubian Principalities. One side in this war built the\nGreat Redan and a Malakoff redoubt to defend the city of Sevastopol. This war’s Battle of Balaclava\nincluded the heroism of the Thin Red Line and the disastrous Charge of the Light Brigade. Florence\nNightingale served as a medic in, for ten points, what war fought between by an Anglo-French alliance\nover a Russian peninsula in the Black Sea?",
+        "answer": [
+          "Crimean War",
+          "Crimean"
+        ]
+      },
+      "bonus": {
+        "question": "The Charge of the Light Brigade was an attempt to attack a formation of these weapons. The\nBritish captured a set of these weapons at Sevastopol, which were legendarily melted down for the steel\nused to make Victoria Cross medals.",
+        "answer": [
+          "cannons",
+          "artillery"
         ]
       }
     }
@@ -1860,6 +1967,108 @@
           ]
         }
       ]
+    },
+    {
+      "category": "ENGLISH CIVIL WAR",
+      "prompt": "Name the...",
+      "questions": [
+        {
+          "question": "English legislature that fought against the king and was reduced to “Rump” size by Pride’s Purge.",
+          "answer": [
+            "Rump Parliament",
+            "Parliament"
+          ]
+        },
+        {
+          "question": "Island where Oliver Cromwell brutally suppressed Royalist soldiers from his base in Dublin.",
+          "answer": "Ireland"
+        },
+        {
+          "question": "Kingdom to the north of England that repeatedly intervened in the conflict.",
+          "answer": "Scotland"
+        },
+        {
+          "question": "Stuart monarch executed during the Civil War.",
+          "answer": "Charles I"
+        },
+        {
+          "question": "Title given to Oliver Cromwell after defeating the Royalists.",
+          "answer": "Lord Protector"
+        },
+        {
+          "question": "Document, originally written to protect 13th century barons, which was cited by the Petition of Right\nleading up to the War.",
+          "answer": "Magna Carta"
+        },
+        {
+          "question": "Army in which Cromwell served as cavalry leader during the Civil War.",
+          "answer": [
+            "New Model Army",
+            "New Model"
+          ]
+        },
+        {
+          "question": "Cromwell’s superior in that army, the victorious general at the Battle of Naseby.",
+          "answer": [
+            "Sir Thomas Fairfax",
+            "Fairfax"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "CHARLES V, HOLY ROMAN EMPEROR",
+      "prompt": "Name the...",
+      "questions": [
+        {
+          "question": "Iberian kingdom where he ruled as “Charles I,” to the south of France.",
+          "answer": [
+            "Kingdom of Spain",
+            "Spain"
+          ]
+        },
+        {
+          "question": "Dynasty that ruled the Holy Roman Empire for three centuries and included Charles V.",
+          "answer": [
+            "Habsburg Dynasty",
+            "Habsburg",
+            "House of Habsburg"
+          ]
+        },
+        {
+          "question": "Religious movement that expressed discontent with the Catholic Church and began during his reign.",
+          "answer": [
+            "Protestant Reformation",
+            "Reformation"
+          ]
+        },
+        {
+          "question": "Landmark exploration project he supported by funding Ferdinand Magellan’s 1519 voyage.",
+          "answer": [
+            "circumnavigation of the world",
+            "circumnavigation",
+            "sailing around the world"
+          ]
+        },
+        {
+          "question": "Action he took to voluntarily leave his various thrones, a few years before his death.",
+          "answer": "abdication"
+        },
+        {
+          "question": "Type of religious institution where he lived for two years after leaving the throne.",
+          "answer": "monastery"
+        },
+        {
+          "question": "French king that fought Charles in the Italian Wars but was captured at Pavia.",
+          "answer": "Francis I"
+        },
+        {
+          "question": "Imperial city where, in 1555, Charles V and the Schmalkaldic League agreed to the principle of “cuius\nregio, eius religio.”",
+          "answer": [
+            "Peace of Augsburg",
+            "Aubsburg"
+          ]
+        }
+      ]
     }
   ],
   "q4": [
@@ -2301,6 +2510,77 @@
         "Paul von Hindenburg",
         "Hindenburg"
       ]
+    },
+    {
+      "parts": [
+        "(30 pts) This leader employed Nikolai Yezhov as the head of a secret police force and approved\nLavrentiy Beria’s plan to kill thousands of dissidents in what is now called the Katyn\nmassacre. This leader may have responded to a rebellion against him by orchestrating a\nmass (20 pts) ",
+        "famine in Ukraine, the Holodomor. Hundreds of thousands of political opponents,\nincluding fellow (10 pts) ",
+        "Communists, were killed in a Great Purge ordered by this leader from 1936 to\n1938. For ten points, name this dictator of the USSR who ruled during World War II."
+      ],
+      "answer": [
+        "Joseph Stalin",
+        "Stalin"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) In 1973, this country’s Prime Minister was assassinated by separatists in Operation\nOgre. Those separatists within this country used (20 pts) ",
+        "fueros to protect home rule and\nregional laws until a new constitution was passed in 1812. Luis Carrero Blanco was murdered\nin this country, where King (10 pts) ",
+        "Juan Carlos I reigned for four decades. For ten points, name this\nEuropean country where the ETA seeks Basque independence from a country led from Madrid."
+      ],
+      "answer": [
+        "Kingdom of Spain",
+        "Spain"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) This ruler chartered the Levant Company in an attempt to form a trade alliance with\nthe Ottoman Empire. This ruler supported the Netherlands through the Treaty of Nonsuch\nand attacked their enemy at Cadiz with the help of privateer (20 pts) ",
+        "Francis Drake. During the\nTilbury speech, this ruler declared that she had the “body of a weak and feeble woman” but\nthe “heart and stomach” of a king while rallying her men against the (10 pts) ",
+        "Spanish Armada. For\nten points, name this daughter of Anne Boleyn who succeeded her sister Mary I to become the “Virgin\nQueen” of England."
+      ],
+      "answer": "Elizabeth I"
+    },
+    {
+      "parts": [
+        "(30 pts) This man suppressed an insurrection by ordering a “whiff of grapeshot” on the 13th\nVendemaire. This man first achieved fame commanding the artillery at the Siege of (20 pts) ",
+        "Toulon. This man attempted to reach British possessions in India by invading Egypt, and\nhe returned from exile on the island of (10 pts) ",
+        "Elba in his Hundred Days, at the end of which he was\ndefeated by Gebhard von Bl¨ucher and the Duke of Wellington. For ten points, name this French emperor,\nwho was defeated at the Battle of Waterloo."
+      ],
+      "answer": [
+        "Napoleon I",
+        "Napoleon"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) (TIEBREAKER EXAMPLE QUESTION) This man’s 4th Armored Division was able to stop an advance at the Battle of\nMontcornet. He wrote a book on how to modernize his nation’s military titled Army\nof the Future and ousted Henri Giraud for control of a resistance movement. As (20 pts) ",
+        "President, this man pulled his nation out of the NATO command structure and\ndeveloped a nuclear weapons program, which carried out tests in (10 pts) ",
+        "Algeria. For ten\npoints, name this first president of the Fifth Republic and leader of the Free French during World\nWar II."
+      ],
+      "answer": [
+        "Charles de Gaulle",
+        "de Gaulle"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) This kingdom bought the province of Neumark from the Teutonic Order and attempted\nto establish hegemony with the creation of a customs union called the Zollverein. It\nwas formed after a union of its namesake duchy, now known as (20 pts) ",
+        "Kaliningrad, with\nBrandenburg under the Hohenzollern dynasty. This country’s army was reformed by (10 pts) ",
+        "Frederick Wilhelm I, making it the most disciplined force in Europe. For ten points, name this kingdom,\nthe largest of the states that founded Germany, with capital at Berlin."
+      ],
+      "answer": [
+        "Kingdom of Prussia",
+        "Prussia"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) A monarch of this name commanded troops at the Battle of Dettingen, the last time\na British king did so. Another king of this name was the last British king born outside of\nBritain. Robert (20 pts) ",
+        "Walpole, the first prime minister of Great Britain, served under a\nmonarch of this name. A ruler with this name came to power after the abdication of (10 pts) ",
+        "Edward VIII and was the father of Queen Elizabeth. For ten points, give this name of six British kings,\nthe third of which opposed American independence."
+      ],
+      "answer": "George"
     }
   ]
 }

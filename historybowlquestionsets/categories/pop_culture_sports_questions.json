@@ -62,6 +62,13 @@
         "Football War",
         "Soccer War"
       ]
+    },
+    {
+      "question": "The first edition of this publication depicted Speaker Joseph Cannon. It was founded by Briton\nHadden and Henry Luce, and it has often depicted men with a red “X” on their faces after their deaths.\nThis publication named Albert Einstein the Person of the Century and declared “You” the Person of the\nYear in 2006. For ten points, name this magazine that is famous for featuring single people on its cover,\nfeaturing a bright red border.",
+      "answer": [
+        "Time Magazine",
+        "Time"
+      ]
     }
   ],
   "q2": [
@@ -246,6 +253,16 @@
           "Nader"
         ]
       }
+    },
+    {
+      "tossup": {
+        "question": "The winning side of this match lit the cauldron in the opening ceremony of the 2002 Olympic Games.\nMarc Johnson tied this match, causing the other side to pull Vladislav Tretiak, its goalkeeper, after the\nfirst period. This game earned its name from a question asked by announcer Al Michaels in its final\nseconds. The winner of this match went on to defeat Finland to clinch the gold medal. For ten points,\nname this 1980 event in which the underdog United States defeated the Soviet Union in ice hockey at the\nOlympics.",
+        "answer": "the Miracle on Ice,"
+      },
+      "bonus": {
+        "question": "When this sports magazine reported on the Miracle on Ice, its cover famously provided no\nheadline or explanation because, as the photographer noted, “everyone in America knew what happened.”",
+        "answer": "Sports Illustrated"
+      }
     }
   ],
   "q3": [
@@ -403,6 +420,20 @@
         "Milk. The “Summer of Love” took place in, for ten points, what California city across a bay\nfrom Oakland?"
       ],
       "answer": "San Francisco"
+    },
+    {
+      "parts": [
+        "(30 pts) Description acceptable. In 2015, Marc Lasry and Wes Edens received $250 million in\npublic funds for one of these projects, months after the same amount was cut from the\nUniversity of Wisconsin budget by governor Scott Walker. In 2014, Stan (20 pts) ",
+        "Kroenke\nbought 60 acres of land in California, threatening to use it for one of these projects if St.\nLouis refused to upgrade the Edward Jones (10 pts) ",
+        "Dome. For ten points, name these controversial\nconstruction projects, often lobbied for by the owners of MLB, NBA, and NFL teams."
+      ],
+      "answer": [
+        "building new professional sports facilities",
+        "sports facilities",
+        "sports stadium",
+        "stadium",
+        "arena"
+      ]
     }
   ]
 }

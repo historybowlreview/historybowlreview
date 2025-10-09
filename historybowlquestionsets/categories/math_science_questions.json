@@ -81,6 +81,31 @@
         "complex numbers",
         "complex"
       ]
+    },
+    {
+      "question": "This crisis unites the storytellers of The Decameron, who try to escape it in Florence. This event\nspread as far as Iceland, supposedly carried by fleas on rats. This disease, caused by the pathogen Yersinia\npestis, was named for large swellings of the lymph nodes called buboes. For ten points, name this disease\nthat swept through much of Asia and Europe during the 14th century, killing tens of millions of people.",
+      "answer": [
+        "Black Death",
+        "Black Plague",
+        "Bubonic Plague"
+      ]
+    },
+    {
+      "question": "This action has been successfully completed at Fra Mauro and the Ocean of Storms. The inability\nof the Zond program to finish a successful mission doomed Soviet efforts to even attempt this action. A\nspeech delivered at Rice University in 1962 claimed that America chooses to do this “and do the other\nthings not because they are easy, but because they are hard.” For ten points, name this accomplishment\nachieved by 12 Americans, first performed in 1969 by Buzz Aldrin and Neil Armstrong during Apollo 11.",
+      "answer": [
+        "landing on the Moon",
+        "land on the Moon",
+        "Moon landing",
+        "sending peopel to the Moon",
+        "going to the Moon"
+      ]
+    },
+    {
+      "question": "Daniel Dennett wrote a book titled for this man’s “Dangerous Idea.” Some of this man’s work was jointly published with Alfred Russel Wallace. His work was defended by the “Bulldog” Thomas Huxley as superior to the similar theories proposed by Lamarck. This man described his journey to the Galapagos Islands in 1839’s The Voyage of the Beagle. For ten points, name this British scientist whose On the Origin of Species is considered the cornerstone of evolutionary biology.",
+      "answer": [
+        "Charles Darwin",
+        "Darwin"
+      ]
     }
   ],
   "q2": [
@@ -256,6 +281,20 @@
       "bonus": {
         "question": "Le Verrier mathematically predicted Neptune’s existence by studying the orbit of this seventh\nplanet from the Sun.",
         "answer": "Uranus"
+      }
+    },
+    {
+      "tossup": {
+        "question": "After one of these events, Harry Fielding Reid developed his elastic-rebound theory. In the 1930s,\ntwo Caltech scientists were inspired by the apparent magnitude scale of stars to develop a system for\nmeasuring these events. That scale has been replaced by the Moment Magnitude scale. The Mercalli\nintensity scale measures the destruction caused by these events. The Richter scale also measures, for ten\npoints, what seismic events that cause massive shaking of the ground?",
+        "answer": "earthquakes"
+      },
+      "bonus": {
+        "question": "Earthquake intensity scales are logarithmic, as is this standard scale for measuring the intensity\nof sound. This system’s unit is named for a Scottish inventor.",
+        "answer": [
+          "decibel system",
+          "bel",
+          "decibel scale"
+        ]
       }
     }
   ],
