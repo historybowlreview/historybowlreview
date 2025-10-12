@@ -67,6 +67,17 @@
         "glove to which it would always return when\nthrown. Loki’s interference caused this weapon’s deformation, a short handle. For ten points, name this\nmythological hammer used by Thor."
       ],
       "answer": "Mjolnir"
+    },
+    {
+      "parts": [
+        "(30 pts) This god murdered the Cyclopes [SYE-kloh-pees] to get revenge for the death of\nAsclepius. This god founded a panhellenic competition in penitence for killing Python, and\nwith his (20 pts) ",
+        "sister, he slew the children of Niobe. The Pythia was a priestess who related\nthis god’s words from Delphi, and this god cursed (10 pts) ",
+        "Cassandra to forsee the future but never\nbe believed, since this son of Leto oversaw prophecy. For ten points, name this Greco-Roman god of light,\nthe twin brother of Artemis."
+      ],
+      "answer": [
+        "Phoebus Apollo",
+        "Apollo"
+      ]
     }
   ]
 }

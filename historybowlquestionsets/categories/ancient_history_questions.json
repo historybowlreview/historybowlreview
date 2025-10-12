@@ -480,6 +480,64 @@
           "answer": "Plataea"
         }
       ]
+    },
+    {
+      "category": "AUGUSTUS CAESAR",
+      "prompt": "Augustus Caesar...",
+      "questions": [
+        {
+          "question": "Was the first holder of what position, after Rome had spent centuries as a republic?",
+          "answer": [
+            "Emperor of Rome",
+            "Emperor"
+          ]
+        },
+        {
+          "question": "Was known by what birth name prior to taking that position?",
+          "answer": [
+            "Gaius Octavian",
+            "Octavian",
+            "Gaius Octavius",
+            "Octavius"
+          ]
+        },
+        {
+          "question": "Was a member of what political alliance with Marcus Lepidus and Marc Antony?",
+          "answer": "Second Triumvirate"
+        },
+        {
+          "question": "Won the Battle of Philippi against what partner of Cassius?",
+          "answer": [
+            "Marcus Junius Brutus",
+            "Brutus"
+          ]
+        },
+        {
+          "question": "Cried out for Varus to give him back what units, a standard military division in Rome?",
+          "answer": "legions"
+        },
+        {
+          "question": "Personally owned what region south of the Mediterranean, the source of much of Rome’s grain?",
+          "answer": [
+            "Egypt",
+            "Aegyptus"
+          ]
+        },
+        {
+          "question": "Held what other title, which translates to “first citizen?”",
+          "answer": [
+            "Princeps civitatis",
+            "Princeps"
+          ]
+        },
+        {
+          "question": "Relied on what trusted admiral and son-in-law who commissioned the Pantheon?",
+          "answer": [
+            "Marcus Vipsanius Agrippa",
+            "Agrippa"
+          ]
+        }
+      ]
     }
   ],
   "q4": [
@@ -562,6 +620,25 @@
         "Britain",
         "British Isles",
         "British"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) This man’s forces were betrayed on a journey to Messina by his hired Cilician pirates;\nshortly after, he was denied a truce, then decisively beaten and killed at the Siler (20 pts) ",
+        "River.\nA single man volunteered to lead an army to defeat this former murmillo; the practice of\nkilling every tenth soldier, or decimation, was reintroduced for discipline purposes by that\nvolunteer, (10 pts) ",
+        "Crassus. After this leader lost the Third Servile War, his followers were crucified along\nthe Appian Way. For ten points, name this first century BC Greek soldier who led a failed slave revolt\nafter escaping captivity as a Roman gladiator."
+      ],
+      "answer": "Spartacus"
+    },
+    {
+      "parts": [
+        "(30 pts) Prior to this battle, the winning commander sent Sicinnus to the opposing camp to fake\ntreason, drawing their forces into an arm of the Saronic Gulf. The losing commander at this\nbattle lamented “my (20 pts) ",
+        "men have turned into women, my women men,” after he observed\nArtemisia of Halicarnassus ramming her own ally to escape. Athens was (10 pts) ",
+        "abandoned prior\nto this battle, which vindicated the “wooden wall” navy built by Themistocles. For ten points, name this\n480 BC naval battle in which Xerxes’ Persian navy was crushed by a Greek alliance."
+      ],
+      "answer": [
+        "Battle of Salamis",
+        "Salamis"
       ]
     }
   ]

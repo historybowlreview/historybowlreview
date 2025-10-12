@@ -110,6 +110,21 @@
         "Gautama",
         "the Buddha"
       ]
+    },
+    {
+      "question": "According to legend, Henry I died by eating too much of this food. The Scania market featured a\nHanseatic League monopoly on this food. The United Kingdom and Iceland fought a so-called war over\none type of this food. Garum was a Roman sauce made from these animals, which are harvested off the\nGrand Banks of Newfoundland. For ten points, name these animals, a primary food source in Scandinavia,\nthat can be caught with a net or rod and reel.",
+      "answer": [
+        "fish",
+        "lampreys",
+        "sal fish",
+        "herring",
+        "cod",
+        "fish sauce"
+      ]
+    },
+    {
+      "question": "This religion was favored by Gratian, who removed the Altar of Victory in favor of this religion.\nThis religion came into conflict with the cults of Mithras and Sol Invictus. Early branches of this religion\nincluded Arianism and Nestorianism. The Edict of Milan legalized the practice of this religion; earlier,\nmembers of this religion were forced to fight in the Colosseum. For ten points, name this religion that was\npersecuted in Rome until the reign of Constantine the Great.",
+      "answer": "Christianity"
     }
   ],
   "q2": [
@@ -316,6 +331,19 @@
           "Non-Proliferation Treaty",
           "NPT"
         ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "This religion was spread to Zeila early in its existence, which led to the creation of Adal. This\nreligion spread along the East African coast after Shirazi founded the Kilwa state, attracting merchants\nof this religion who previously traded at Mogadishu. This religion was spread across the Sahara desert by\nBerber traders, and in the Maghreb, it was spread by the Almoravid and Umayyad Dynasties. For ten\npoints, name this religion that spread to Africa from the Middle East after its founding by the prophet\nMuhammad.",
+        "answer": [
+          "Islam",
+          "Sunni Islam"
+        ]
+      },
+      "bonus": {
+        "question": "The Umayyads held this type of Islamic state, led by a successor to Muhammad, in North Africa.\nIn 2014, ISIS demanded the allegiance of all Muslims around the world in claiming to have formed this\ntype of state, a move that was roundly criticized and mocked.",
+        "answer": "caliphate"
       }
     }
   ],
@@ -648,6 +676,61 @@
         {
           "question": "Alberto Fujimori, who defeated the communist Shining Path insurgency in South America?",
           "answer": "Peru"
+        }
+      ]
+    },
+    {
+      "category": "MORMONISM",
+      "prompt": "Name the...",
+      "questions": [
+        {
+          "question": "Modern U.S. state that Mormons settled, founding Salt Lake City, after fleeing persecution.",
+          "answer": "Utah"
+        },
+        {
+          "question": "Founder of Mormonism and mentor of Brigham Young.",
+          "answer": [
+            "Joseph Smith",
+            "Smith"
+          ]
+        },
+        {
+          "question": "State whose city of Nauvoo was the site of the founder’s 1844 assassination.",
+          "answer": "Illinois"
+        },
+        {
+          "question": "Name of the religious movement, shortened to LDS, that subscribes to Mormon theology.",
+          "answer": [
+            "Latter Day Saints Movement",
+            "Latter Day Saint",
+            "Church of Jesus Christ of Latter Day Saints",
+            "Jesus Christ of Latter Day Saints"
+          ]
+        },
+        {
+          "question": "Mormon practice of keeping multiple wives, which caused tension with American settlers.",
+          "answer": "polygamy"
+        },
+        {
+          "question": "Material on which the Book of Mormon was passed to humanity from the angel Moroni.",
+          "answer": [
+            "golden plates",
+            "gold"
+          ]
+        },
+        {
+          "question": "Unrecognized state founded by Mormon settlers that covered most of the Mexican Cession.",
+          "answer": [
+            "State of Deseret",
+            "Deseret"
+          ]
+        },
+        {
+          "question": "1857 massacre of the Fancher-Baker party by Mormons that led to conflict between the Mormons and\nthe U.S.",
+          "answer": [
+            "Mountain Meadows Massacre",
+            "Mountain Meadows"
+          ]
         }
       ]
     }

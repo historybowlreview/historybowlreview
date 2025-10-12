@@ -321,6 +321,53 @@
         "Armand Jean du Plessis",
         "du Plessis"
       ]
+    },
+    {
+      "question": "Soldiers attacking this capital city during Operation Danube were deceived into thinking they were\noperating against fascist elements. In protest of human rights abuses, Jan Palach set himself on fire in\nthis city’s Wenceslas Square. A meeting in this city led to the the removal of Antonin Novotny as First\nSecretary and the ascension of Alexander Dubcek [doob-check], who began a series of liberalizing reforms.\nFor ten points, identify this namesake of a 1968 “Spring” uprising against Communism, the capital of\nCzechoslovakia.",
+      "answer": "Prague"
+    },
+    {
+      "question": "A replica of this structure in Alliance, Nebraska was made from cars spray-painted grey. Early\nconstruction at this site included a round ditch and pits known as Aubrey holes. The material for this\nstructure may have been quarried in Marlborough Downs or Wales. The sarsen trilithons that make up\nthe outer ring of this structure were built using mortise and tenon joints, and they align with the sun\nduring the summer and winter solstice. For ten points, name this Neolithic structure on Salisbury Plain\nin Southern England.",
+      "answer": "Stonehenge"
+    },
+    {
+      "question": "This man competed with Christopher Columbus’ unhappy son as the governor of Puerto Rico. In\n1521, this man was mortally wounded in a skirmish with the Caloosahatchee by a poisoned arrow; his\nmen sailed him to Havana, where he died. For ten points, name this Spanish explorer, the first European\nto set foot in the modern United States, whose 16th century travels in Florida did not find the Fountain\nof Youth.",
+      "answer": [
+        "Juan Ponce de Leon",
+        "Ponce de Leon"
+      ]
+    },
+    {
+      "question": "This man is in the center of a mosaic in the Basilica of San Vitale in Ravenna, which was conquered\nby the man to his right in that mosaic. The first appearance of Yersinia pestis in Europe occurred during\na plague named for this man. Belisarius conquered the Vandals for this ruler, whose reign was described\nin Procopius’s Secret History. The Nika Riots opposed this husband of Theodora. For ten points, name\nthis Byzantine emperor who published a law code in 529 AD.",
+      "answer": [
+        "Justinian I",
+        "Justinian",
+        "Justinian the Great"
+      ]
+    },
+    {
+      "question": "(TIEBREAKER BONUS QUESTION) What Soviet foreign minister negotiated a non-aggression pact with Joachim von\nRibbentrop and is the namesake of an anti-tank “cocktail” created by Finnish soldiers?",
+      "answer": [
+        "Vyacheslav Mikhailovich Molotov",
+        "Molotov",
+        "Molotov cocktail"
+      ]
+    },
+    {
+      "question": "After this city soundly defeated an opposing fleet at Curzola, the opposing admiral, Andrea Dandolo,\ncommitted suicide. This city’s fleet was led by Luciano and Pietro Doria during the War of Chioggia,\nwhich it lost, marking the end of its rivalry with Venice. This Ligurian city’s fleet was led at the Battle of\nLepanto by Andrea Doria. For ten points, name this city on the northwest coast of Italy, the birthplace of\nexplorer Christopher Columbus.",
+      "answer": [
+        "Republic of Genoa",
+        "Genoa"
+      ]
+    },
+    {
+      "question": "This ruler annexed Bavaria from Tassilo III and conquered Saxony from Widukind, massacring\nthousands of Saxons at Verden. He divorced his wife Desiderata in 771, then conquered her homeland of\nLombardy. This ruler, who established his capital at Aachen, is the subject of an Einhard biography. This\nson of Pepin the Short restored Leo III to Rome, who crowned him on Christmas Day 800. For ten points,\nname this King of the Franks and first Holy Roman Emperor.",
+      "answer": [
+        "Charlemagne",
+        "Karl der Grosse",
+        "Carolus Magnus",
+        "Charles the Great"
+      ]
     }
   ],
   "q2": [
@@ -829,6 +876,150 @@
         "answer": [
           "cannons",
           "artillery"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "This ruler was succeeded in one of his territories by Robert Curthose and required all landowners to\npledge their loyalty via the Salisbury Oath. This ruler conducted the Harrying of the North and landed\nat Pevensey to begin an invasion. The compilation of the Domesday Book [”Doomsday Book”] survey\nwas ordered by this leader, who defeated a king who had just won the Battle of Stamford Bridge. For ten\npoints, name this leader who became King of England after winning the Battle of Hastings.",
+        "answer": [
+          "William the Conqueror",
+          "William I of England",
+          "William I",
+          "William II of Normandy",
+          "William the Bastard"
+        ]
+      },
+      "bonus": {
+        "question": "William the Conqueror defeated this man at the Battle of Hastings. He had previously defeated\nHarald Hardrada, king of Norway, who was also trying to claim the throne.",
+        "answer": [
+          "Harold Godwinson",
+          "Harold II",
+          "Godwinson"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "At this venue on New Years Eve 1989, David Hasselhoff performed his hit song Looking for Freedom.\nThis location was home to My God, Help Me To Survive This Deadly Love, a depiction of Brezhnev and\nHonecker embracing, in its East Side Gallery. Due to poor grammar, John F. Kennedy awkwardly claimed\nto be a donut after this structure was built, and Ronald Reagan appealed to “Mr. Gorbachev” to tear it\ndown. For ten points, name this structure that fell in 1989, reuniting the German capital city.",
+        "answer": [
+          "Berlin Wall",
+          "Berliner Mauer"
+        ]
+      },
+      "bonus": {
+        "question": "This late British rock musician said “We send our wishes to all our friends who are on the other\nside of the wall” when performing his song Heroes at the Berlin Wall in 1987.",
+        "answer": [
+          "David Bowie",
+          "Bowie",
+          "David Robert Jones",
+          "Jones"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "In this empire, people or land could be granted a form of quasi-sovereignty called immediacy. In 1500,\nthis empire was reformed into a series of six Circles, including the Swabian Circle. This empire’s rulers\nincluded Henry IV, who feuded with Gregory VII during the Investiture Controversy, and a ruler who\ndefeated the Magyars at Lechfeld. Otto the Great led, for ten points, what patchwork of states located in\nmodern-day Germany, whose emperor was crowned by the Pope in Rome?",
+        "answer": [
+          "Holy Roman Empire",
+          "Holy Roman",
+          "HRE"
+        ]
+      },
+      "bonus": {
+        "question": "This Holy Roman Emperor tried to subjugate the Italian states before drowning in the Saleph\nRiver during the Third Crusade.",
+        "answer": [
+          "Frederick Barbarossa",
+          "Barbarossa",
+          "Frederick I"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "This organization ran the Addiscombe College for prospective officers in the Presidency armies. This\norganization was opposed by governors called Polygars. This organization was opposed by Tipu Sultan,\nwho fought four Mysore Wars against it. Its ascent to power began after Robert Clive won the Battle of\nPlassey against the Nawab of Bengal, who had orchestrated the Black Hole of Calcutta. For ten points,\nname this joint stock company that conquered most of the Indian subcontinent for England.",
+        "answer": [
+          "British East India Company",
+          "British East India"
+        ]
+      },
+      "bonus": {
+        "question": "The British East India Company lost control of India after this event, in which Indian soldiers\nrevolted after being given rifle cartridges greased with animal fats.",
+        "answer": [
+          "Sepoy Mutiny",
+          "Sepoy",
+          "Indian Rebellion of 1857"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "Adolphe Thiers’ [tee-ayrz] desire to establish this river as a border led to an 1840 crisis. A bridge over\nthis river at Remagen was notably captured intact by American forces during World War II. Operation\nMarket Garden was a failed attempt to cross this river, which passes by the heavily industrialized Ruhr\nregion. A capital city on this river was Bonn, and this river served with the Danube as the northern\nborder of the Roman Empire. For ten points, name this prominent river in western Germany.",
+        "answer": [
+          "Rhine River",
+          "Rhine"
+        ]
+      },
+      "bonus": {
+        "question": "The Rhineland surrounding the river was subject to Allied occupation and this other condition\nafter the Treaty of Versailles. Hitler’s violation of this condition was met with appeasement from France\nand Germany.",
+        "answer": [
+          "demilitarisation",
+          "forbidding military activity",
+          "decreasing military activity",
+          "demilitarization"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "This country formed after the union of a namesake duchy, Styria, and Carinthia. The Privilegium\nMaius gave this country the title of Archduchy. This country came into constant conflict with the Ottomans\nover territories in Transylvania. Klemens von Metternich led a peace conference in this country’s capital\nin 1814. For ten points, name this country that was ruled by the Habsburgs, joined in a Dual Monarchy\nwith Hungary, and hosted the Congress of Vienna.",
+        "answer": [
+          "Austria",
+          "Osterreich"
+        ]
+      },
+      "bonus": {
+        "question": "The Congress of Vienna was largely dictated by one of these political alliances. The Seventh of\nthese fought Napoleon during the Hundred Days, while the defeat of the Third one led to the dissolution\nof the Holy Roman Empire.",
+        "answer": [
+          "coalitions",
+          "Seventh Coalition",
+          "Third Coalition"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "After the death of this country’s King Alexander I, it was ruled by the regent Prince Paul. One\nconflict after the fall of this country was ended by the Dayton Accords. One of its rulers was thrown out\nof the Cominform by Stalin, and had led the Partisans in this country to oppose Nazi Germany. This\ncountry’s collapse in the 1990s led to multiple independence wars, which included the Siege of Sarajevo\nas part of the Bosnian War. For ten points, name this multiethnic state that was ruled by Tito, whose\nconstituent states included Croatia and Serbia.",
+        "answer": [
+          "Socialist Federal Republic of Yugoslavia",
+          "Yugoslavia",
+          "Kingdom of Yugoslavia",
+          "Kingdom of Serbs Croats and Slovenes"
+        ]
+      },
+      "bonus": {
+        "question": "This territory attempted to break free from Serbia during the Yugoslav Wars. NATO bombed\nSerbian forces in this state, which is only recognized as an independent country by about half of the world.",
+        "answer": [
+          "Republic of Kosovo",
+          "Kosovo"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "Two Partition Treaties were signed to prevent this war, while the Barrier Treaties allowed one of the\nvictors to set up a series of forts as a buffer. The capture of Port Royal in Acadia occurred in its North\nAmerican theater, which was called Queen Anne’s War. Great Britain gained Gibraltar after this war,\nduring which Marshal Tallard was crushed at the Battle of Blenheim [BLEN-um]. This war began after\nthe death of the childless Charles II and the proposed accession of Phillip of Anjou. For ten points, name\nthis war, ended by the Treaty of Utrecht, fought over the throne of the namesake Iberian nation.",
+        "answer": [
+          "War of the Spanish Succession",
+          "Spanish Succession"
+        ]
+      },
+      "bonus": {
+        "question": "The military success of the alliance against France was mostly due to these two generals, who\nworked together at Blenheim and Malplaquet. Name either.",
+        "answer": [
+          "Eugene of Savoy",
+          "Duke of Marlborough",
+          "Marlborough",
+          "John Churchill"
         ]
       }
     }
@@ -2069,6 +2260,105 @@
           ]
         }
       ]
+    },
+    {
+      "category": "FRENCH ROYALTY",
+      "prompt": "Name the...",
+      "questions": [
+        {
+          "question": "Religious group persecuted by Louis the Ninth for charging interest on loans, an example of\nanti-Semitism.",
+          "answer": [
+            "Jewish people",
+            "Jews"
+          ]
+        },
+        {
+          "question": "Mountainous country east of France from which Louis the Twelfth hired many mercenaries.",
+          "answer": "Switzerland"
+        },
+        {
+          "question": "Shared name of cathedrals in Rheims, where many French kings were crowned, and Paris, which\ntranslates as “Our Lady.”",
+          "answer": "Notre Dame"
+        },
+        {
+          "question": "Lowest class of feudal society, whose peasant members were allowed by Louis the Tenth to buy their\nfreedom.",
+          "answer": "serfs"
+        },
+        {
+          "question": "Husband of Marie Antoinette.",
+          "answer": [
+            "Louis XVI",
+            "Louis 16"
+          ]
+        },
+        {
+          "question": "Duchy, once led by William the Conqueror, that Louis the Sixth tried to recover from England.",
+          "answer": "Normandy"
+        },
+        {
+          "question": "Kingdom that failed to renew its Auld Alliance with France during the reign of Louis the Eleventh.",
+          "answer": [
+            "Kingdom of Scotland",
+            "Scotland"
+          ]
+        },
+        {
+          "question": "Dynasty that rose to power after the death of Louis the Fifth, from which all subsequent French kings\nwere descended.",
+          "answer": [
+            "House of Capet",
+            "Capet"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "POLAND",
+      "prompt": "Name the...",
+      "questions": [
+        {
+          "question": "Method used to determine its king until 1791, in which each noble cast a vote.",
+          "answer": [
+            "election",
+            "elective monarchy",
+            "elective"
+          ]
+        },
+        {
+          "question": "Religion it converted to after the baptism of its king in 966 AD.",
+          "answer": [
+            "Roman Catholicism",
+            "Catholicism",
+            "Christianity"
+          ]
+        },
+        {
+          "question": "City that Sigismund III made Poland’s capital in 1596, and which is still the capital today.",
+          "answer": "Warsaw"
+        },
+        {
+          "question": "The original capital of Poland, site of a university founded in 1364.",
+          "answer": "Krakow"
+        },
+        {
+          "question": "Type of military unit it specialized in, including the use of winged hussars.",
+          "answer": "cavalry"
+        },
+        {
+          "question": "The duchy that united with Poland in 1569, which is now a separate country with capital at Vilnius.",
+          "answer": "Lithuania"
+        },
+        {
+          "question": "the Parliament of the Polish Kingdom, which was paralyzed by the liberum veto policy requiring\nunanimous votes.",
+          "answer": "Sejm"
+        },
+        {
+          "question": "Swedish dynastic house that ruled Poland under Sigismund III",
+          "answer": [
+            "House of Vasa",
+            "Vasa"
+          ]
+        }
+      ]
     }
   ],
   "q4": [
@@ -2581,6 +2871,48 @@
         "Edward VIII and was the father of Queen Elizabeth. For ten points, give this name of six British kings,\nthe third of which opposed American independence."
       ],
       "answer": "George"
+    },
+    {
+      "parts": [
+        "(30 pts) This country converted to Protestantism after the Count’s Feud, and it started the\nScanian War with its northern neighbor. It signed the Treaty of (20 pts) ",
+        "Kiel during the\nNapoleonic Wars, forcing it to grant independence to one of its territories, and its king\nValdemar IV conquered Gotland. Prussia and Austria forced this country to cede the Duchy\nof (10 pts) ",
+        "Schleswig-Holstein, and it fought the Victual Brothers over their piracy in the Baltic. It joined in\nthe Kalmar Union with two of its neighbors, Norway and Sweden. For ten points, name this country that\nhas endured several sieges of Copenhagen."
+      ],
+      "answer": [
+        "Kingdom of Denmark",
+        "Denmark"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) This country antagonized a neighbor via the Hallstein Doctrine, a brief policy of breaking\ndiplomatic relations with countries that officially recognized that neighbor. Foreign agents\nwithin this country sponsored the far-left (20 pts) ",
+        "Red Army Faction, which was co-founded by\nAndreas Baader. This country tried to improve relations with its neighbor via ostpolitik, as\nsupported by (10 pts) ",
+        "Willy Brandt. This country was divided into British, American, and French zones via\nan agreement at the Yalta conference. For ten points, name this European country that, in 1990, re-united\nwith its eastern neighbor."
+      ],
+      "answer": [
+        "West Germany",
+        "Federal Republic of Germany",
+        "FRG"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) This general went around the Gazala Line to defeat Claude Auchinleck and stopped\nOperation Battleaxe. He commanded Army Group B in defense of Northern Italy and\ndesigned the Atlantic (20 pts) ",
+        "Wall. A tank division he commanded was nicknamed the “Ghost”\nDivision for moving to fast to be tracked. He launched several offensives aimed at (10 pts) ",
+        "Cairo,\nbut was defeated by Bernard Montgomery at the Battle of El Alamein. For ten points, name this Nazi\nGerman commander of the North African campaign, nicknamed the “Desert Fox.”"
+      ],
+      "answer": [
+        "Erwin Rommel",
+        "Rommel"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) The name of a river in this modern-day country now means “disaster” in French after\nan 1812 victory for Peter Wittgenstein. A World War II battle fought in this country ended\nwith the creation of the Navahrudak pocket. Napoleon’s forces were harried across the\nBerezina River in this country. Negotiations held in this modern country gave the (20 pts) ",
+        "Baltic States to Germany; Leon Trotsky agreed to those concessions in the Treaty of (10 pts) ",
+        "Brest-Litovsk. For ten points, name this country led by Alexander Lukashenko from its capital at Minsk."
+      ],
+      "answer": "Belarus"
     }
   ]
 }

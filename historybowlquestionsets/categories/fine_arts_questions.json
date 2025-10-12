@@ -132,6 +132,18 @@
         "Jacques-Louis David",
         "David"
       ]
+    },
+    {
+      "question": "This artistic medium was historically manufactured on the island of Murano in Venice. Dale Chihuly\nprimarily works in this medium, which was used to create four pyramids for the courtyard of the Louvre\nby I.M. Pei. A colored type of this medium was used by Louis Comfort Tiffany for a series of ornate\nlamps, as well as in the windows of Chartres Cathedral. For ten points, identify this sand-based artistic\nmedium, often used in “stained” windows.",
+      "answer": [
+        "glass",
+        "brown glass",
+        "stained glass"
+      ]
+    },
+    {
+      "question": "Annual performances of this work were long given to benefit the world’s first charity, London’s\nFoundling Hospital. This work depicts Roman bagpipers in the instrumental Pifa, or “Pastoral Symphony.”\nCharles Jennens adapted the Book of Common Prayer and the King James Bible for this work’s text.\nAccording to legend, King George II stood up during in the middle of this work’s premiere. For ten points,\nname this oratorio by George Friedrich Handel that is often performed around Christmas and which\ncontains the “Hallelujah” chorus.",
+      "answer": "Messiah"
     }
   ],
   "q2": [
@@ -311,6 +323,20 @@
       "bonus": {
         "question": "“Muddle Instead of Music” was published in what newspaper, the official publication of the\nSoviet Communist Party, whose Russian name translates to “Truth?”",
         "answer": "Pravda"
+      }
+    },
+    {
+      "tossup": {
+        "question": "One work created for this location includes a self-portrait of the artist as the flayed skin of Saint\nBartholomew. Julius II commissioned an artist to decorate part of this location with 12 prophets and\nsibyls, as well as scenes from Genesis. A panel at this location shows a bearded figure surrounded by angels\nas he reaches toward a nude man. Papal conclaves are held in, for ten points, what room of the Apostolic\nPalace, whose artworks include The Last Judgement and The Creation of Adam by Michelangelo?",
+        "answer": "Sistine Chapel"
+      },
+      "bonus": {
+        "question": "This other artist designed now lost tapestries for the Sistine Chapel, in addition to painting The\nSchool of Athens for the library of Julius II.",
+        "answer": [
+          "Raphael",
+          "Raffaello",
+          "Raffaello Sanzio da Urbino"
+        ]
       }
     }
   ],
@@ -537,6 +563,25 @@
         "dining table. For ten points, name this common artistic scene, painted by Leonardo da Vinci and\nnumerous others, depicting a meal the night before Jesus Christ’s crucifixion."
       ],
       "answer": "The Last Supper"
+    },
+    {
+      "parts": [
+        "(30 pts) This structure was restored by the Fossati brothers during the reign of Abdulmecid.\nThe “wishing column” in this structure has been allegedly moist ever since 1200 when\nit was visited by Thaumaturgus. This structure contains the Deesis (20 pts) ",
+        "mosaic, as well\nas mosaics dedicated to Empress Zoe and John II Comnenus. Isidore of Miletus designed\nthis structure, which is famous for a “dome of light” effect created by forty windows. This\nstructure’s name means (10 pts) ",
+        "“Holy Wisdom,” and it was commissioned by Justinian I. For ten points,\nname this Orthodox basilica in Constantinople."
+      ],
+      "answer": "Hagia Sophia"
+    },
+    {
+      "parts": [
+        "(30 pts) The Boston police threatened this person with a $100 fine for using a dominant seventh\nchord in his arrangement of The Star-Spangled Banner. Allied victory in World War II\ninspired the coda of this composer’s Symphony in Three Movements, and a dissonant chord\nrepresents the title (20 pts) ",
+        "puppet in a ballet he wrote for Serge Diaghilev’s Ballet Russes.\nAnother piece by this composer of Petrushka, in which a young girl dances herself to death\nin a sacrificial rite, (10 pts) ",
+        "caused a riot at its 1913 premiere. For ten points, name this Russian composer\nof the Rite of Spring."
+      ],
+      "answer": [
+        "Igor Fyodorovich Stravinsky",
+        "Stravinsky"
+      ]
     }
   ]
 }

@@ -106,6 +106,13 @@
         "Charles Darwin",
         "Darwin"
       ]
+    },
+    {
+      "question": "Paul Rothemund of Caltech initiated the practice of using this material for origami. Its function was\ndemonstrated through the use of sulfur and phosphorous to label bacteriophages in a 1952 experiment\nperformed by Hershey and Chase. This molecule’s structure was determined with the aid of X-ray\ndiffraction images taken by Rosalind Franklin. For ten points, name this molecule whose double-helix\nstructure was determined by Watson and Crick and that carries our genetic code.",
+      "answer": [
+        "Deoxyribonucleic acid",
+        "DNA"
+      ]
     }
   ],
   "q2": [
@@ -450,6 +457,29 @@
       "answer": [
         "periodic table of the elements",
         "periodic table"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) This man’s law is a statement of Georges Lemaˆıtre’s [le-MET’s] observation that distant\ngalaxies are Doppler shifted to indicate movement away from Earth. A mathematical\nformulation of that law involves a (20 pts) ",
+        "constant, also named for this man, whose inverse is\napproximately the age of the universe. In 1925, this astronomer used Cepheid [SEH-fee-id]\nvariables to estimate the distance to M31, (10 pts) ",
+        "Andromeda, one of numerous nebulae shown to\nactually be galaxies by this man. For ten points, name this American astronomer who was honored as the\nnamesake of a NASA space telescope launched in 1990."
+      ],
+      "answer": [
+        "Edwin Hubble",
+        "Hubble",
+        "Hubble Space Telescope"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) This mathematician proved the undecidability of the halting problem. A finite set of user\ninstructions, an infinitely long memory tape, and a symbol reader make up a theoretical (20 pts) ",
+        "machine conceived by this man; if a problem is computable, that device can solve\nit, according to a hypothesis named for this man and Alonzo Church. A computer that is\nindistinguishable from a human in (10 pts) ",
+        "conversation would pass this man’s namesake test. For ten\npoints, name this British computer scientist who helped break the Enigma code during World War II\nbefore being prosecuted for his homosexuality."
+      ],
+      "answer": [
+        "Alan Turing",
+        "Turing"
       ]
     }
   ]

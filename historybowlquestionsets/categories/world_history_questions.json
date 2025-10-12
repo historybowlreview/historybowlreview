@@ -196,6 +196,43 @@
         "Korean War",
         "Korean"
       ]
+    },
+    {
+      "question": "This man ordered the building of a torture chamber with a beautiful exterior, known as his “hell.”\nThis man’s son, Mahinda, was sent on a proselytizing mission, and this man had the Mahabodhi Temple\nbuilt. This ruler built a structure, currently located in the Sarnath Museum, which is topped by four lions;\nthat column is inscribed with this man’s moral edicts. For ten points, name this grandson of Chandragupta\nMaurya, a devout Buddhist convert who ruled India in the 3rd century BC.",
+      "answer": [
+        "Ashoka the Great",
+        "Ashoka"
+      ]
+    },
+    {
+      "question": "In this war, Hanover was forced to withdraw after the Convention of Klosterzeven, then re-entered\nafter the Battle of Rossbach. The Diplomatic Revolution led to the setup of this war’s alliances. This war\nwas motivated in part by an Austrian desire to recover Silesia. It began with an invasion of Saxony and\nended with the Treaty of Paris between Britain and France. For ten points, name this global war between\nEuropean powers that ended in 1763, often considered the first “World War” for its theaters in North\nAmerica and India.",
+      "answer": [
+        "Seven Years’ War",
+        "Seven Years"
+      ]
+    },
+    {
+      "question": "This man died at Otrar while planning an invasion of Ming China. This man’s corpse was exhumed\njust before Operation Barbarossa by Soviet anthropologists. He began his rise to power from Transoxiana,\nand his descendant Ulugh Beg built an observatory in this man’s capital city. He constantly came into\nconflict with the Chagatai Khanate, won the Battle of Ankara, and executed Bayezid I. For ten points,\nname this legendary builder of skull pyramids, a crippled Mongol who conquered a huge empire based in\nSamarkand.",
+      "answer": [
+        "Timur the Lame",
+        "Tamerlane"
+      ]
+    },
+    {
+      "question": "This government adopted a motto from the Warring States period, “enrich the state, strengthen\nthe military.” This government abolished the han system, returning land to the central government, and\nabolished the existing class structure in the Charter Oath. This government’s power was solidified after\nthe Boshin War, in which samurai loyal to the Tokugawa Shogunate were defeated. For ten points, name\nthis modernizing government that ruled Japan after the 1868 restoration of the emperor.",
+      "answer": [
+        "Meiji",
+        "Meiji government",
+        "Meiji Restoration",
+        "the government of Emperor Meiji"
+      ]
+    },
+    {
+      "question": "(TIEBREAKER BONUS QUESTION) What southernmost Japanese prefecture with capital at Naha was occupied by the United\nStates until 1972 and still retains over 50,000 US soldiers?",
+      "answer": [
+        "Okinawa Prefecture",
+        "Okinawa"
+      ]
     }
   ],
   "q2": [
@@ -707,6 +744,65 @@
           "Che",
           "Guevara"
         ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "The Amagi was scrapped in this city’s drydock after it suffered extensive damage in an earthquake\ncentered just southwest of this city at Sagami Bay. A fire tornado killed tens of thousands of people in\nthis city during the aforementioned 1923 earthquake, which failed to destroy the Imperial Hotel, built by\nan American architect. The 1923 Great Kanto earthquake devastated, for ten points, what city on the\nisland of Honshu, the capital city of Japan?",
+        "answer": "Tokyo"
+      },
+      "bonus": {
+        "question": "This American architect designed Tokyo’s Imperial Hotel, as well as the Fallingwater house in\nPennsylvania and numerous Prairie style homes throughout the American midwest.",
+        "answer": [
+          "Frank Lloyd Wright",
+          "Wright"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "Dorgon oversaw the ascension of this dynasty. The Hundred Days’ Reforms and the Self-Strengthening\nMovement were attempts to modernize under this dynasty. It required its subjects to wear their hair in\na queue and divided its military into the Eight Banners. An empress of this dynasty, Cixi [tsee-chee],\nsupported the anti-western Boxer Rebellion. For ten points, name this dynasty that ruled China from\n1648 to 1911, the last imperial dynasty.",
+        "answer": [
+          "Qing Dynasty",
+          "Qing",
+          "Manchu Dynasty",
+          "Manchu"
+        ]
+      },
+      "bonus": {
+        "question": "The Qing Dynasty, like all Chinese dynasties, required those approaching the emperor to perform\nthis submissive action as a gesture of respect. Lord Macartney supposedly refused to perform this action,\ncreating tension between Britain and China.",
+        "answer": [
+          "kowtow",
+          "kneeling with one’s forehead touching the ground",
+          "bowing with one’s forehead touching the ground"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "On this island, the Hova were commoners forced into providing labor or a tax unless they paid a tax\nto a European colonist. This island was home to the Merina Kingdom until the French overthrew it in\n1896; the French then established plantations worked by the native Malagasy people. For ten points, name\nthis large island across the Mozambique Channel off the southeast coast of Africa, home to a modern\ncountry with capital Antananarivo.",
+        "answer": "Madagascar"
+      },
+      "bonus": {
+        "question": "French control in Madagascar was supported by the British at this 1885 conference, which\nessentially began the “Scramble for Africa.”",
+        "answer": [
+          "Berlin Conference",
+          "Berlin",
+          "Congo Conference",
+          "Congo",
+          "West Africa Conference",
+          "West Africa"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "While in exile, this group formed the “GRUNK” alliance with Norodom Sihanouk. Comrade Duch\nhelped run this group’s S-21 prison, which was established on the grounds of an old high school. Though\nthey were able to overthrow Lon Nol, this group was removed from power following the Vietnamese\ninvasion of “Democratic Kampuchea.” For ten points, name this agrarian communist group led by Pol Pot\nthat ruled over Cambodia from 1975 to 1979.",
+        "answer": "Khmer Rouge"
+      },
+      "bonus": {
+        "question": "Cambodian reporter Dith Pran coined this term for locations where the Khmer Rouge conducted\nmass slaughters and burials.",
+        "answer": "Killing Fields"
       }
     }
   ],
@@ -1347,6 +1443,242 @@
           "answer": "Nicaragua"
         }
       ]
+    },
+    {
+      "category": "PLAYERS IN THE SUEZ CRISIS",
+      "prompt": "Regarding the 1956 Suez Crisis, who was the...",
+      "questions": [
+        {
+          "question": "U.S. President who responded with a namesake doctrine offering aid to threatened Middle Eastern\ncountries.",
+          "answer": [
+            "Dwight Eisenhower",
+            "Eisenhower"
+          ]
+        },
+        {
+          "question": "Soviet Premier who threatened missile attacks and, two weeks later, ranted “We will bury you!”",
+          "answer": [
+            "Nikita Khrushchev",
+            "Khrushchev"
+          ]
+        },
+        {
+          "question": "Egyptian President who was to be ousted by the invasion.",
+          "answer": [
+            "Gamal Abdel Nasser",
+            "Nasser"
+          ]
+        },
+        {
+          "question": "British Prime Minister who resigned in its wake.",
+          "answer": [
+            "Sir Anthony Eden",
+            "Eden"
+          ]
+        },
+        {
+          "question": "Former British Prime Minister who questioned the early end to hostilities.",
+          "answer": [
+            "Winston Churchill",
+            "Churchill"
+          ]
+        },
+        {
+          "question": "Canadian Prime Minister who won a Nobel Peace Prize for ending the Crisis.",
+          "answer": [
+            "Lester Pearson",
+            "Pearson"
+          ]
+        },
+        {
+          "question": "Non-Aligned leader who maintained India’s neutrality in the Crisis and helped broker peace.",
+          "answer": [
+            "Jawaharlal Nehru",
+            "Nehru"
+          ]
+        },
+        {
+          "question": "then-UN Secretary-General who also assisted in ceasefire talks.",
+          "answer": [
+            "Dag Hammarskjold",
+            "Hammarskjold"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "DON PEDRO II",
+      "prompt": "Name the...",
+      "questions": [
+        {
+          "question": "Country that he ruled, the largest in South America.",
+          "answer": [
+            "Empire of Brazil",
+            "Brazil"
+          ]
+        },
+        {
+          "question": "Artistic hobby he brought to his country when he purchased a daguerrotype machine.",
+          "answer": "photography"
+        },
+        {
+          "question": "Church that he fought with, the most populous religion in his country.",
+          "answer": [
+            "Roman Catholic Church",
+            "Catholic Church",
+            "Catholic"
+          ]
+        },
+        {
+          "question": "Law that abolished slavery in his country, signed by Pedro’s daughter Isabel.",
+          "answer": [
+            "Golden Law",
+            "Golden"
+          ]
+        },
+        {
+          "question": "Rival country to the south that opposed him from Buenos Aires across the Rio de la Plata.",
+          "answer": [
+            "Argentina",
+            "Argentine",
+            "Argentine Confederation"
+          ]
+        },
+        {
+          "question": "War fought during his reign that united three countries against Paraguay.",
+          "answer": [
+            "War of the Triple Alliance",
+            "Triple Alliance"
+          ]
+        },
+        {
+          "question": "Royal house he belonged to, which ruled Portugal after the fall of the Aviz.",
+          "answer": [
+            "House of Braganza",
+            "Braganza"
+          ]
+        },
+        {
+          "question": "Modern-day country whose land was the subject of the Cisplatine War.",
+          "answer": "Uruguay"
+        }
+      ]
+    },
+    {
+      "category": "THE VIETNAM WAR",
+      "prompt": "The Vietnam War...",
+      "questions": [
+        {
+          "question": "Was ended under which U.S. President, who succeeded Nixon without receiving a vote for President?",
+          "answer": [
+            "Gerald Ford",
+            "Ford"
+          ]
+        },
+        {
+          "question": "Ended with a withdrawal from the American embassy in what capital city of South Vietnam?",
+          "answer": "Saigon"
+        },
+        {
+          "question": "Involved North Vietnamese boats firing on the USS Maddox in what Gulf?",
+          "answer": [
+            "Gulf of Tonkin",
+            "Tonkin"
+          ]
+        },
+        {
+          "question": "Included what 1968 offensive, conducted on a Vietnamese holiday, that helped turn U.S. public\nopinion against the war?",
+          "answer": [
+            "Tet Offensive",
+            "Tet"
+          ]
+        },
+        {
+          "question": "Included what March 1968 massacre of Vietnamese citizens at “Pinkville”?",
+          "answer": [
+            "My Lai Massacre",
+            "My Lai"
+          ]
+        },
+        {
+          "question": "Involved massive deforestation via the spraying of what toxic chemical?",
+          "answer": [
+            "Agent Orange",
+            "Orange"
+          ]
+        },
+        {
+          "question": "Involved bombings of what North Vietnamese supply trail that went through Laos and Cambodia?",
+          "answer": [
+            "Ho Chi Minh Trail",
+            "Ho Chi Minh"
+          ]
+        },
+        {
+          "question": "Included what 3.5 year long bombing operation against North Vietnam that ended just before the\n1968 U.S. election?",
+          "answer": [
+            "Operation Rolling Thunder",
+            "Rolling Thunder"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "THE PHILIPPINES",
+      "prompt": "Name the...",
+      "questions": [
+        {
+          "question": "European country that colonized the islands after their discovery by Ferdinand Magellan.",
+          "answer": "Spain"
+        },
+        {
+          "question": "Country that conquered the islands in 1898 after a war with Spain.",
+          "answer": [
+            "United States of America",
+            "United States",
+            "USA"
+          ]
+        },
+        {
+          "question": "Capital city, whose bay was one end of a galleon trade route to Acapulco.",
+          "answer": "Manila"
+        },
+        {
+          "question": "Former President, who served as mayor of Davao City, where vigilantes have killed hundreds of drug\naddicts.",
+          "answer": [
+            "Rodrigo Duterte",
+            "Duterte"
+          ]
+        },
+        {
+          "question": "World War II general who promised “I shall return” after being forced to abandon the Philippines.",
+          "answer": [
+            "Douglas MacArthur",
+            "MacArthur"
+          ]
+        },
+        {
+          "question": "Dictator who ruled the Philippines after World War II and whose wife Imelds owned a ludicrous shoe\ncollection.",
+          "answer": [
+            "Ferdinand Marcos",
+            "Marcos"
+          ]
+        },
+        {
+          "question": "Largest naval battle in history, which occurred off the coast of a Filipino island during World War II.",
+          "answer": [
+            "Battle of Leyte Gulf",
+            "Leyte Gulf"
+          ]
+        },
+        {
+          "question": "Female president of the Philippines who came to power after the People Power Revolution.",
+          "answer": [
+            "Corazon Aquino",
+            "Aquino"
+          ]
+        }
+      ]
     }
   ],
   "q4": [
@@ -1622,6 +1954,49 @@
       "answer": [
         "Muammar al-Gaddafi",
         "Gadaffi"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) This man lived in exile for several years in a Novotel Hotel, where he was interviewed\nby Brian Barron. This ruler allowed Air France Flight 139 to land in his nation, leading (20 pts) ",
+        "Israel to retaliate with Operation Entebbe. This ally of Muammar Gaddafi and former\nofficer of the King’s African Rifles declared himself King of (10 pts) ",
+        "Scotland and forced all Asians\nin his country to leave, but was overthrown after a failed attempt to annex Kagara from Tanzania. For\nten points, name this eccentric Ugandan dictator during the 1970s."
+      ],
+      "answer": [
+        "Idi Amin Dada",
+        "Idi Amin"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) (TIEBREAKER EXAMPLE QUESTION) The Wangara people were essential in the trade of this commodity. Bambouk\nand Nubia were notable suppliers of this resource, whose discovery in Witwatersrand\n[vit-vat-ers-rand] led to the Second Boer War. Bedouins crossed the Sahara to trade (20 pts) ",
+        "salt for this commodity in Timbuktu. The (10 pts) ",
+        "funerary masks of Agamemnon and\nTutankamun were made of, for ten points, what precious metal that is found in electrum coins\nwith silver?"
+      ],
+      "answer": "gold"
+    },
+    {
+      "parts": [
+        "(30 pts) This nation endured a failed 1926 coup by General Emiliano Chamorro who, 12 years\nearlier, had signed a treaty with William Jennings Bryan. Adolfo D´ıaz twice led this country,\nwhich was also ruled by the Somoza family and the (20 pts) ",
+        "filibuster William Walker. In 1986,\nthe International Court of Justice ruled that the U.S. violated international law by mining\nthis country’s harbors in support of a rebel group opposed to (10 pts) ",
+        "Daniel Ortega’s Sandinistas.\nFor ten points, name this Central American country where Ronald Reagan’s administration secretly\nfunded Contra rebels."
+      ],
+      "answer": [
+        "Republic of Nicaragua",
+        "Nicaragua"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) This war was triggered by accusations about a resource gathered at Rumaila. Scud\nmissiles targeted a barracks in Dhahran during this war, killing 28 soldiers. (20 pts) ",
+        "Norman\nSchwarzkopf commanded American forces during this war. The destruction of the Republican\nGuard led to the Highway of Death during this war. During this war, (10 pts) ",
+        "CNN broadcasted\nlive footage of oilfields set ablaze by retreating Iraqi forces. For ten points, name this 1991 invasion that\ndrove Saddam Hussein out of Kuwait."
+      ],
+      "answer": [
+        "First Persian Gulf War",
+        "Gulf War",
+        "Operation Desert Storm",
+        "Desert Storm"
       ]
     }
   ]

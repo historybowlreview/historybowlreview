@@ -65,6 +65,13 @@
         "WWI",
         "the Great War"
       ]
+    },
+    {
+      "question": "This novel’s protagonist pursues the affections of both Constance Bonacieux and Milady de Winter,\nwho conspires to separate the Duke of Buckingham and Queen Anne with the help of Cardinal Richelieu. In\nthis novel, the heartbroken Comte de la F`ere adopts the nickname Athos and fights alongside Porthos and\nAramis before being joined by d’Artagnan [dar-tan-YAN]. For ten points, name this novel by Alexandre\nDumas about a small group of soldiers who live by the principle of “one for all and all for one.”",
+      "answer": [
+        "The Three Musketeers",
+        "Trois Mousquetaires"
+      ]
     }
   ],
   "q2": [
@@ -196,6 +203,14 @@
         "stories after the General Prologue, which\nintroduces a group of pilgrims at the Tabard Inn on their way to visit the shrine of Thomas a Beckett, an\nArchbishop who was slain in 1170. For ten points, name this 14th century collection of stories written by\nGeoffrey Chaucer."
       ],
       "answer": "The Canterbury Tales"
+    },
+    {
+      "parts": [
+        "(30 pts) The final place of employment for this novel’s protagonist is at Tommy Hind’s hotel. A\nboy in this novel drowns in a puddle of dirty water after his teenage mother Ona dies in\nchildbirth. The phrase (20 pts) ",
+        "“Chicago will be ours!” is chanted at a socialist rally attended\nby the Lithuanian immigrant Jurgis Rudkus at this novel’s conclusion. The 1906 Pure (10 pts) ",
+        "Food and Drug Act was passed in response to, for ten points, what novel about the Chicago meatpacking\nindustry, written by Upton Sinclair?"
+      ],
+      "answer": "The Jungle"
     }
   ]
 }

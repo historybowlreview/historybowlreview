@@ -81,6 +81,29 @@
     {
       "question": "The “Buena Vista Tract” in this city features streets named for Mexican War generals. To make room\nfor this city’s Civic Arena, many blocks of its African-American Hill District were demolished. This city’s\nPoint State Park preserves the site of a fort that was targeted by General Braddock in the French and\nIndian War. Fort Duquesne [do-kane] was built at the confluence of the Monogahela and Allegheny Rivers\nin what is now, for ten points, what city in western Pennsylvania?",
       "answer": "Pittsburgh"
+    },
+    {
+      "question": "This body of water names Joshua Barney’s flotilla of barges that fought in the Battle of Bladensburg.\nFor almost a century until the 1950s, pirates fought a ban on dredging mollusks in this bay in the “Oyster\nWars.” The Comte de Grasse defeated the British in a 1781 battle at the mouth of this bay, which is\nfed by the York and Susquehanna Rivers and traversed by a bridge-tunnel that connects the Hampton\nRoads area to the Delmarva Peninsula. For ten points, name this large bay that is shared by Virginia and\nMaryland, the largest estuary in the United States.",
+      "answer": [
+        "Chesapeake Bay",
+        "Chesapeake"
+      ]
+    },
+    {
+      "question": "Description acceptable. In 1980, Reinhold Messner became the first person to perform this action\nsolo. In 1975, Junko Tabei became the first woman to perform this action, which often involves traversing\nthe Khumbu Icefall. After performing this action in 1988, Jean-Marc Boivin paraglided for his descent\ndown to Camp 2. In 1953, Tenzing Norgay and Sir Edmund Hillary became the first people to accomplish,\nfor ten points, what feat of conquering the tallest peak in the Himalayas?",
+      "answer": [
+        "climbing Mount Everest",
+        "climb Everest",
+        "summiting Mount Everest",
+        "reaching the top of Mount Everest"
+      ]
+    },
+    {
+      "question": "In 1893, this country’s eastern border was set at a line drawn by Mortimer Durand that passes\nthrough the Spin Ghar mountains. The Amu Darya partially forms this country’s border with Tajikistan.\nA pair of sandstone Buddhas in this country’s Bamiyan Valley were dynamited in 2001 by its ruling\nTaliban, and the Khyber Pass is the main border crossing between this country and Pakistan. For ten\npoints, name this mountainous central Asian country whose capital is Kabul.",
+      "answer": [
+        "Islamic Republic of Afghanistan",
+        "Afghanistan"
+      ]
     }
   ],
   "q2": [
