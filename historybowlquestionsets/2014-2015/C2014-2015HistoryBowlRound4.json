@@ -66,6 +66,10 @@
         "Charles Darwin",
         "Darwin"
       ]
+    },
+    {
+      "question": "(TIEBREAKER BONUS QUESTION) What largest island in the North Atlantic had its capital officially renamed from Godthab to Nuuk (pr. noo-ook)?",
+      "answer": "Greenland"
     }
   ],
   "q2": [
@@ -187,16 +191,6 @@
       "bonus": {
         "question": "Henry's Treason Speech was given to what Virginia body, the oldest legislature in the\ncolonies?",
         "answer": "House of Burgesses"
-      }
-    },
-    {
-      "tossup": {
-        "question": "(TIEBREAKER EXAMPLE QUESTION) This man was able to return to his hometown following negotiations with the tribe of the Quraish\n(pr. koo-RYE-eesh) at the Treaty of Hudaybiyyah (pr. hoo-dah-BEE-ah). This man was buried\nnext to an empty tomb which is reserved for the returned Jesus after he died in the home of his\nwife Aisha (pr. eye-EE-shuh). For ten points, name this man who received a \"recitation\" from\nthe angel Jibril (pr. jib-REEL) which became the Quran, and was the founder of Islam.",
-        "answer": "Muhammad"
-      },
-      "bonus": {
-        "question": "What largest island in the North Atlantic had its capital officially renamed from\nGodthab to Nuuk (pr. noo-ook)?",
-        "answer": "Greenland"
       }
     }
   ],
@@ -439,6 +433,14 @@
         "German Empire",
         "German"
       ]
+    },
+    {
+      "parts": [
+        "(30 pts) (TIEBREAKER EXAMPLE QUESTION) This man was able to return to his hometown following negotiations with the tribe of the Quraish (pr. koo-RYE-eesh) at the Treaty of Hudaybiyyah (pr. hoo-dah-BEE-ah). (20 pts) ",
+        "This man was buried next to an empty tomb which is reserved for the returned Jesus after he died in the home of his wife Aisha (pr. eye-EE-shuh). (10 pts) ",
+        "For ten points, name this man who received a \"recitation\" from the angel Jibril (pr. jib-REEL) which became the Quran, and was the founder of Islam."
+      ],
+      "answer": "Muhammad"
     }
   ]
 }

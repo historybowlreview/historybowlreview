@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>History Bowl Question Categorizer</title>
+  <style>
+    /* (your existing CSS unchanged) */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+      color: #333;
+    }
+    .container { max-width: 1200px; margin: 0 auto; background: rgba(255,255,255,0.95); border-radius: 16px; padding: 30px; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+    h1 { text-align:center; color:#5a67d8; margin-bottom:30px; font-size:2.2rem; }
+    .upload-section { background:#f8f9ff; border:2px dashed #5a67d8; border-radius:12px; padding:30px; text-align:center; margin-bottom:30px; }
+    .file-input { margin:15px 0; }
+    .file-input input[type="file"] { display:none; }
+    .file-label { background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); color:white; padding:12px 24px; border-radius:8px; cursor:pointer; display:inline-block; font-weight:600; transition:all 0.3s ease; }
+    .file-label:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(102,126,234,0.3); }
+    .progress-section { display:none; background:white; border-radius:12px; padding:20px; margin-bottom:20px; border-left:4px solid #5a67d8; }
+    .progress-bar { width:100%; height:8px; background:#e2e8f0; border-radius:4px; overflow:hidden; margin:10px 0; }
+    .progress-fill { height:100%; background:linear-gradient(90deg,#667eea,#764ba2); border-radius:4px; transition:width 0.3s ease; width:0%; }
+    .question-card { display:none; background:white; border-radius:12px; padding:25px; margin-bottom:20px; box-shadow:0 4px 16px rgba(0,0,0,0.1); border-left:4px solid #5a67d8; }
+    .question-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; padding-bottom:15px; border-bottom:2px solid #f1f5f9; }
+    .question-counter { font-weight:600; color:#5a67d8; font-size:1.1rem; }
+    .question-text { background:#f8f9ff; padding:20px; border-radius:8px; margin-bottom:20px; font-size:1.05rem; line-height:1.6; border-left:3px solid #5a67d8; }
+    .answer-text { background:#f0f9ff; padding:15px; border-radius:8px; margin-bottom:25px; font-weight:600; color:#1e40af; border-left:3px solid #3b82f6; }
+    .categories-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:12px; margin-bottom:25px; }
+    .category-btn { padding:12px 16px; border:2px solid #e2e8f0; background:white; border-radius:8px; cursor:pointer; transition:all 0.2s ease; font-weight:500; text-align:center; }
+    .category-btn:hover { border-color:#5a67d8; transform:translateY(-1px); box-shadow:0 4px 12px rgba(90,103,216,0.15); }
+    .category-btn.selected { background:linear-gradient(135deg,#5a67d8 0%,#764ba2 100%); color:white; border-color:#5a67d8; }
+    .navigation-buttons { display:flex; gap:15px; justify-content:center; margin-top:25px; }
+    .btn { background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); color:white; border:none; padding:12px 24px; border-radius:8px; cursor:pointer; font-weight:600; transition:all 0.3s ease; font-size:14px; }
+    .btn:hover { transform:translateY(-2px); box-shadow:0 8px 25px rgba(102,126,234,0.3); }
+    .btn:disabled { background:#cbd5e0; cursor:not-allowed; transform:none; box-shadow:none; }
+    .btn.secondary { background:linear-gradient(135deg,#6c757d 0%,#5a6268 100%); }
+    .btn.success { background:linear-gradient(135deg,#28a745 0%,#20c997 100%); }
+    .results-section { display:none; background:white; border-radius:12px; padding:25px; margin-top:20px; }
+    .category-summary { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:15px; margin-bottom:25px; }
+    .summary-card { background:#f8f9ff; padding:15px; border-radius:8px; text-align:center; border-left:4px solid #5a67d8; }
+    .summary-count { font-size:1.5rem; font-weight:700; color:#5a67d8; margin-bottom:5px; }
+    .summary-label { font-size:0.9rem; color:#64748b; font-weight:500; }
+    .export-section { text-align:center; padding-top:20px; border-top:2px solid #f1f5f9; }
+    .export-buttons { display:flex; flex-wrap:wrap; gap:10px; justify-content:center; margin-top:15px; }
+    .skip-info { background:#fff3cd; color:#856404; padding:10px; border-radius:6px; margin:10px 0; font-size:0.9rem; border:1px solid #ffeaa7; }
+    .import-modal { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:1000; display:flex; align-items:center; justify-content:center; backdrop-filter:blur(4px); }
+    .import-modal-content { background:white; border-radius:16px; max-width:800px; width:90%; max-height:80vh; overflow-y:auto; box-shadow:0 20px 60px rgba(0,0,0,0.3); }
+    .import-modal-header { display:flex; justify-content:space-between; align-items:center; padding:25px 30px 20px; border-bottom:2px solid #f1f5f9; }
+    .import-modal-header h3 { color:#5a67d8; margin:0; font-size:1.4rem; }
+    .close-btn { background:none; border:none; font-size:2rem; color:#64748b; cursor:pointer; line-height:1; padding:0; }
+    .close-btn:hover { color:#e53e3e; }
+    .import-modal-body { padding:20px 30px; }
+    .import-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:15px; margin-bottom:25px; }
+    .import-category { background:#f8f9ff; border:2px solid #e2e8f0; border-radius:8px; padding:15px; transition:all 0.2s ease; }
+    .import-category:hover { border-color:#5a67d8; }
+    .import-category label { display:block; font-weight:600; color:#5a67d8; margin-bottom:8px; }
+    .import-category input[type="file"] { width:100%; padding:8px; border:1px solid #d1d5db; border-radius:6px; font-size:0.9rem; background:white; }
+    .import-status { margin-top:8px; font-size:0.85rem; min-height:20px; }
+    .import-status.success { color:#059669; font-weight:500; }
+    .import-status.error { color:#dc2626; font-weight:500; }
+    .import-modal-footer { display:flex; gap:15px; justify-content:center; padding-top:20px; border-top:2px solid #f1f5f9; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>History Bowl Question Categorizer</h1>
+
+    <div class="upload-section">
+      <h3>Import Your JSON File</h3>
+      <p style="margin:10px 0; color:#64748b;">Upload a JSON file containing your History Bowl questions</p>
+      <div class="file-input">
+        <label for="jsonFile" class="file-label">Choose JSON File</label>
+        <input type="file" id="jsonFile" accept=".json">
+      </div>
+      <div style="margin:15px 0;">
+        <button id="importCategoriesBtn" class="btn secondary">Import Existing Categories</button>
+      </div>
+      <div style="margin:15px 0;">
+        <button id="loadProgressBtn" class="btn secondary" style="margin-left:10px;">Load Progress</button>
+      </div>
+      <div id="fileInfo" style="margin-top:15px; color:#64748b;"></div>
+    </div>
+
+    <div id="progressSection" class="progress-section">
+      <h3>Categorization Progress</h3>
+      <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
+      <p id="progressText">0 of 0 questions categorized</p>
+      <div id="categoryCounts" style="margin-top:15px; display:flex; flex-wrap:wrap; gap:10px;"></div>
+    </div>
+
+    <div id="questionCard" class="question-card">
+      <div class="question-header">
+        <div id="questionCounter" class="question-counter">Question 1 of 100</div>
+        <div style="color:#64748b; font-size:0.9rem;" id="quarterInfo">Quarter 1</div>
+      </div>
+
+      <div id="questionText" class="question-text">
+        Question text will appear here...
+      </div>
+
+      <div id="answerText" class="answer-text">
+        <strong>Answer:</strong> Answer will appear here...
+      </div>
+
+      <div class="skip-info">
+        <strong>Tip:</strong> Click a category button or press the number key (1-9, 0) to quickly categorize. Press 'S' to skip.
+      </div>
+
+      <h4 style="margin-bottom:15px; color:#5a67d8;">Select Category:</h4>
+      <div class="categories-grid">
+        <div class="category-btn" data-category="us-history" data-key="1">1. US History</div>
+        <div class="category-btn" data-category="european-history" data-key="2">2. European History</div>
+        <div class="category-btn" data-category="world-history" data-key="3">3. World History</div>
+        <div class="category-btn" data-category="ancient-history" data-key="4">4. Ancient History</div>
+        <div class="category-btn" data-category="other-history" data-key="5">5. Other History</div>
+        <div class="category-btn" data-category="pop-culture-sports" data-key="6">6. Pop Culture/Sports</div>
+        <div class="category-btn" data-category="social-science" data-key="7">7. Social Science/Philosophy</div>
+        <div class="category-btn" data-category="recent-history" data-key="8">8. Recent History (2000-Present)</div>
+        <div class="category-btn" data-category="literature-history" data-key="9">9. Literature History</div>
+        <div class="category-btn" data-category="fine-arts" data-key="0">0. Fine Arts History</div>
+        <div class="category-btn" data-category="geographical-history" data-key="q">Q. Geographical History</div>
+        <div class="category-btn" data-category="math-science" data-key="w">W. Math and Science History</div>
+        <div class="category-btn" data-category="mythology" data-key="e">E. Mythology</div>
+      </div>
+
+      <div class="navigation-buttons">
+        <button id="skipBtn" class="btn secondary">Skip (S)</button>
+        <button id="prevBtn" class="btn secondary" disabled>Previous</button>
+        <button id="nextBtn" class="btn" disabled>Next</button>
+      </div>
+    </div>
+
+    <div id="importModal" class="import-modal" style="display:none;">
+      <div class="import-modal-content">
+        <div class="import-modal-header">
+          <h3>Import Existing Category Files</h3>
+          <button id="closeImportModal" class="close-btn">&times;</button>
+        </div>
+        <div class="import-modal-body">
+          <p style="margin-bottom:20px; color:#64748b;">Select category files to import. Questions from these files will be merged with any new questions you categorize.</p>
+          <div class="import-grid">
+            <!-- import inputs - same as before -->
+            <div class="import-category" data-category="us-history">
+              <label>US History</label>
+              <input type="file" accept=".json" id="import-us-history">
+              <div class="import-status"></div>
+            </div>
+            <div class="import-category" data-category="european-history">
+              <label>European History</label>
+              <input type="file" accept=".json" id="import-european-history">
+              <div class="import-status"></div>
+            </div>
+            <div class="import-category" data-category="world-history">
+              <label>World History</label>
+              <input type="file" accept=".json" id="import-world-history">
+              <div class="import-status"></div>
+            </div>
+            <div class="import-category" data-category="ancient-history">
+              <label>Ancient History</label>
+              <input type="file" accept=".json" id="import-ancient-history">
+              <div class="import-status"></div>
+            </div>
+            <div class="import-category" data-category="other-history">
+              <label>Other History</label>
+              <input type="file" accept=".json" id="import-other-history">
+              <div class="import-status"></div>
+            </div>
+            <div class="import-category" data-category="pop-culture-sports">
+              <label>Pop Culture/Sports</label>
+              <input type="file" accept=".json" id="import-pop-culture-sports">
+              <div class="import-status"></div>
+            </div>
+            <div class="import-category" data-category="social-science">
+              <label>Social Science/Philosophy</label>
+              <input type="file" accept=".json" id="import-social-science">
+              <div class="import-status"></div>
+            </div>
+            <div class="import-category" data-category="recent-history">
+              <label>Recent History (2000-Present)</label>
+              <input type="file" accept=".json" id="import-recent-history">
+              <div class="import-status"></div>
+            </div>
+            <div class="import-category" data-category="literature-history">
+              <label>Literature History</label>
+              <input type="file" accept=".json" id="import-literature-history">
+              <div class="import-status"></div>
+            </div>
+            <div class="import-category" data-category="fine-arts">
+              <label>Fine Arts History</label>
+              <input type="file" accept=".json" id="import-fine-arts">
+              <div class="import-status"></div>
+            </div>
+            <div class="import-category" data-category="geographical-history">
+              <label>Geographical History</label>
+              <input type="file" accept=".json" id="import-geographical-history">
+              <div class="import-status"></div>
+            </div>
+            <div class="import-category" data-category="math-science">
+              <label>Math and Science History</label>
+              <input type="file" accept=".json" id="import-math-science">
+              <div class="import-status"></div>
+            </div>
+            <div class="import-category" data-category="mythology">
+              <label>Mythology</label>
+              <input type="file" accept=".json" id="import-mythology">
+              <div class="import-status"></div>
+            </div>
+          </div>
+          <div class="import-modal-footer">
+            <button id="clearAllImports" class="btn secondary">Clear All</button>
+            <button id="confirmImports" class="btn">Apply Imports</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="resultsSection" class="results-section" style="display:none;">
+      <h3 style="margin-bottom:20px; color:#5a67d8;">Categorization Complete!</h3>
+      <div id="categorySummary" class="category-summary"></div>
+      <div class="export-section">
+        <h4 style="margin-bottom:15px;">Export Categories</h4>
+        <p style="color:#64748b; margin-bottom:15px;">Download JSON files for each category with questions</p>
+        <div id="exportButtons" class="export-buttons"></div>
+        <div style="margin-top:20px;">
+          <button id="exportAllBtn" class="btn success">Export All Categories</button>
+          <button id="startOverBtn" class="btn secondary">Start Over</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let questions = []; // linear list of review items (includes q1 items, q2 tossups, q3 blocks, q4 items)
+    let currentQuestionIndex = 0;
+    let categorizedQuestions = {};
+    let jsonData = null;
+    let importedCategories = {};
+
+    const categories = {
+      'us-history': 'US History',
+      'european-history': 'European History',
+      'world-history': 'World History',
+      'ancient-history': 'Ancient History',
+      'other-history': 'Other History',
+      'pop-culture-sports': 'Pop Culture/Sports History',
+      'social-science': 'Social Science/Philosophy',
+      'recent-history': 'Recent History (2000-Present)',
+      'literature-history': 'Literature History',
+      'fine-arts': 'Fine Arts History',
+      'geographical-history': 'Geographical History',
+      'math-science': 'Math and Science History',
+      'mythology': 'Mythology'
+    };
+
+    // Initialize empty categories storage
+    Object.keys(categories).forEach(key => {
+      categorizedQuestions[key] = { q1: [], q2: [], q3: [], q4: [] };
+      importedCategories[key] = { q1: [], q2: [], q3: [], q4: [] };
+    });
+
+    document.getElementById('jsonFile').addEventListener('change', handleFileUpload);
+    document.getElementById('importCategoriesBtn').addEventListener('click', showImportModal);
+    document.getElementById('closeImportModal').addEventListener('click', hideImportModal);
+    document.getElementById('clearAllImports').addEventListener('click', clearAllImports);
+    document.getElementById('confirmImports').addEventListener('click', confirmImports);
+    document.getElementById('loadProgressBtn').addEventListener('click', loadProgress);
+    document.addEventListener('keydown', handleKeyPress);
+
+    // Category button event listeners
+    document.querySelectorAll('.category-btn').forEach(btn => {
+      btn.addEventListener('click', () => selectCategory(btn.dataset.category));
+    });
+
+    document.getElementById('skipBtn').addEventListener('click', skipQuestion);
+    document.getElementById('prevBtn').addEventListener('click', previousQuestion);
+    document.getElementById('nextBtn').addEventListener('click', nextQuestion);
+    document.getElementById('exportAllBtn').addEventListener('click', exportAllCategories);
+    document.getElementById('startOverBtn').addEventListener('click', startOver);
+
+    // import inputs
+    Object.keys(categories).forEach(categoryKey => {
+      const input = document.getElementById(`import-${categoryKey}`);
+      if (input) {
+        input.addEventListener('change', (e) => handleCategoryFileUpload(e, categoryKey));
+      }
+    });
+
+    function showImportModal() { document.getElementById('importModal').style.display = 'flex'; }
+    function hideImportModal() { document.getElementById('importModal').style.display = 'none'; }
+
+    function handleCategoryFileUpload(event, categoryKey) {
+      const file = event.target.files[0];
+      const statusElement = event.target.parentElement.querySelector('.import-status');
+
+      if (!file) {
+        statusElement.textContent = '';
+        statusElement.className = 'import-status';
+        delete importedCategories[categoryKey];
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          const data = JSON.parse(e.target.result);
+
+          if (!data.q1 || !data.q2 || !data.q3 || !data.q4 ||
+              !Array.isArray(data.q1) || !Array.isArray(data.q2) ||
+              !Array.isArray(data.q3) || !Array.isArray(data.q4)) {
+            throw new Error('Invalid file structure');
+          }
+
+          importedCategories[categoryKey] = data;
+          const totalQuestions = data.q1.length + data.q2.length + data.q3.length + data.q4.length;
+          statusElement.textContent = `✓ ${totalQuestions} questions loaded`;
+          statusElement.className = 'import-status success';
+        } catch (error) {
+          statusElement.textContent = `✗ Error: Invalid JSON file`;
+          statusElement.className = 'import-status error';
+          delete importedCategories[categoryKey];
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    function clearAllImports() {
+      Object.keys(categories).forEach(categoryKey => {
+        const input = document.getElementById(`import-${categoryKey}`);
+        const statusElement = input.parentElement.querySelector('.import-status');
+        input.value = '';
+        statusElement.textContent = '';
+        statusElement.className = 'import-status';
+        delete importedCategories[categoryKey];
+      });
+    }
+
+    function confirmImports() {
+      let totalImported = 0;
+      Object.keys(importedCategories).forEach(categoryKey => {
+        const data = importedCategories[categoryKey];
+        if (data) {
+          categorizedQuestions[categoryKey].q1.push(...data.q1);
+          categorizedQuestions[categoryKey].q2.push(...data.q2);
+          categorizedQuestions[categoryKey].q3.push(...data.q3);
+          categorizedQuestions[categoryKey].q4.push(...data.q4);
+          totalImported += data.q1.length + data.q2.length + data.q3.length + data.q4.length;
+        }
+      });
+
+      if (totalImported > 0) {
+        document.getElementById('fileInfo').innerHTML += `<br><strong>Imported:</strong> ${totalImported} questions from existing category files`;
+      }
+      hideImportModal();
+    }
+
+    function handleFileUpload(event) {
+      const file = event.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        try {
+          jsonData = JSON.parse(e.target.result);
+          parseQuestions();
+          document.getElementById('fileInfo').textContent = `Loaded: ${file.name} (${questions.length} review items total)`;
+          showProgressSection();
+          showFirstQuestion();
+        } catch (error) {
+          alert('Error parsing JSON file: ' + error.message);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    // ------ IMPORTANT CHANGE: build 'questions' so q3 is a block per category ------
+    function parseQuestions() {
+      questions = [];
+
+      // q1: each entry becomes a review item (unchanged)
+      if (jsonData.q1) {
+        jsonData.q1.forEach((q, index) => {
+          questions.push({
+            quarter: 'q1',
+            index: index,
+            question: q.question,
+            answer: q.answer,
+            category: null
+          });
+        });
+      }
+
+      // q2: each tossup becomes a review item (unchanged)
+      if (jsonData.q2) {
+        jsonData.q2.forEach((q, index) => {
+          questions.push({
+            quarter: 'q2',
+            index: index,
+            question: q.tossup.question,
+            answer: q.tossup.answer,
+            bonus: q.bonus,
+            category: null
+          });
+        });
+      }
+
+      // q3: **CRITICAL CHANGE**
+      // Instead of flattening every inner question into its own review item,
+      // create ONE review item per q3 category. That item contains:
+      //   - categoryName (e.g. "LEWIS AND CLARK")
+      //   - questions: an array of the sub-questions with their answers
+      // The UI will display all sub-questions/answers and let the user categorize the whole block.
+      if (jsonData.q3) {
+        jsonData.q3.forEach((cat, catIndex) => {
+          // guard: if structure is unexpected, skip gracefully
+          const qList = Array.isArray(cat.questions) ? cat.questions.map(q => ({
+            question: q.question,
+            answer: q.answer
+          })) : [];
+
+          questions.push({
+            quarter: 'q3',
+            categoryIndex: catIndex,
+            categoryName: cat.category || `Category ${catIndex+1}`,
+            questions: qList,
+            category: null
+          });
+        });
+      }
+
+      // q4: each multi-part group is a review item (unchanged)
+      if (jsonData.q4) {
+        jsonData.q4.forEach((group, groupIndex) => {
+          questions.push({
+            quarter: 'q4',
+            index: groupIndex,
+            question: group.parts.join(' '),
+            answer: group.answer,
+            parts: group.parts,
+            category: null
+          });
+        });
+      }
+    }
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+    
+    // toggles answers display for the current q3 block
+    function toggleAnswersForQ3(btn){
+      const card = document.getElementById('questionText');
+      const showing = card.classList.toggle('q3-answers-visible');
+      btn.textContent = showing ? 'Hide answers' : 'Reveal answers';
+      btn.classList.toggle('primary', showing);
+    }
+    
+    // copy one q3 answer into the clipboard
+    function copyQ3Answer(event, reviewIndex, subIndex){
+      event.stopPropagation();
+      // find the stored text from questions array
+      const item = questions[reviewIndex];
+      if (!item || !item.questions || !item.questions[subIndex]) return;
+      const ans = Array.isArray(item.questions[subIndex].answer) ? item.questions[subIndex].answer.join(', ') : item.questions[subIndex].answer || '';
+      navigator.clipboard?.writeText(ans).then(()=> {
+        // tiny visual feedback
+        const b = event.currentTarget;
+        const old = b.textContent;
+        b.textContent = 'Copied!';
+        setTimeout(()=> b.textContent = old, 900);
+      }).catch(()=> {
+        alert('Copy failed — your browser may not allow clipboard writes.');
+      });
+    }
+
+    function showProgressSection() {
+      document.getElementById('progressSection').style.display = 'block';
+      updateProgress();
+      updateCategoryCounts();
+    }
+
+    function showFirstQuestion() {
+      currentQuestionIndex = 0;
+      document.getElementById('questionCard').style.display = 'block';
+      displayCurrentQuestion();
+      updateCategoryCounts();
+    }
+    
+    // Display logic updated to handle q3 blocks
+    function displayCurrentQuestion() {
+      if (currentQuestionIndex >= questions.length) {
+        showResults();
+        updateProgress();
+        updateCategoryCounts();
+        return;
+      }
+    
+      const qi = questions[currentQuestionIndex];
+    
+      // Update counters
+      document.getElementById('questionCounter').textContent = `Item ${currentQuestionIndex + 1} of ${questions.length}`;
+      document.getElementById('quarterInfo').textContent = `Quarter ${qi.quarter.toUpperCase()}`;
+    
+      // --- Q3 block (category with sub-questions) ---
+      if (qi.quarter === 'q3') {
+        const headerHtml = `
+          <div>
+            <strong>Category: ${escapeHtml(qi.categoryName)}</strong><br>
+            (${qi.questions.length} sub-question${qi.questions.length === 1 ? '' : 's'})
+          </div>
+        `;
+    
+        let listHtml = '';
+        qi.questions.forEach((sub, i) => {
+          const ans = Array.isArray(sub.answer) ? sub.answer.join(', ') : (sub.answer || '');
+          listHtml += `
+            <div style="margin-top:8px;">
+              Q${i+1}: ${escapeHtml(sub.question)}<br>
+              <em>Answer:</em> <span class="q3-chip">${escapeHtml(ans)}</span>
+              <button class="q3-btn" style="margin-left:8px" onclick="copyQ3Answer(event, ${currentQuestionIndex}, ${i})">Copy</button>
+            </div>
+          `;
+        });
+    
+        document.getElementById('questionText').innerHTML = headerHtml + listHtml;
+        document.getElementById('answerText').innerHTML = `<strong>Block:</strong> ${escapeHtml(qi.categoryName)}`;
+      }
+      // --- Q1 ---
+      else if (qi.quarter === 'q1') {
+        document.getElementById('questionText').textContent = qi.question || '';
+        document.getElementById('answerText').innerHTML = `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : qi.answer || ''}`;
+      }
+      // --- Q2 (tossup/bonus) ---
+      else if (qi.quarter === 'q2') {
+          document.getElementById('questionText').textContent = qi.question || '';
+          const bonusText = qi.bonus ? ` <br><em>Bonus:</em> ${qi.bonus.question}` : '';
+          const bonusAnswer = qi.bonus ? ` <br><em>Bonus Answer:</em> ${Array.isArray(qi.bonus.answer) ? qi.bonus.answer.join(', ') : qi.bonus.answer}` : '';
+          document.getElementById('answerText').innerHTML = `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : qi.answer || ''}${bonusText}${bonusAnswer}`;
+      }
+
+
+      // --- Q4 (parts) ---
+      else if (qi.quarter === 'q4') {
+        document.getElementById('questionText').textContent = qi.parts?.join(' ') || '';
+        document.getElementById('answerText').innerHTML = `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : qi.answer || ''}`;
+      }
+      // --- fallback ---
+      else {
+        document.getElementById('questionText').textContent = qi.question || '';
+        document.getElementById('answerText').innerHTML = `<strong>Answer:</strong> ${Array.isArray(qi.answer) ? qi.answer.join(', ') : qi.answer || ''}`;
+      }
+    
+      // Clear previous selection
+      document.querySelectorAll('.category-btn').forEach(btn => { btn.classList.remove('selected'); });
+    
+      // Show selected category if present
+      if (qi.category) {
+        const selectedBtn = document.querySelector(`[data-category="${qi.category}"]`);
+        if (selectedBtn) selectedBtn.classList.add('selected');
+      }
+    
+      // Update navigation
+      document.getElementById('prevBtn').disabled = currentQuestionIndex === 0;
+      document.getElementById('nextBtn').disabled = !qi.category;
+    
+      updateProgress();
+    }
+
+
+    function selectCategory(category) {
+      const qi = questions[currentQuestionIndex];
+      qi.category = category;
+
+      // Update UI
+      document.querySelectorAll('.category-btn').forEach(btn => { btn.classList.remove('selected'); });
+      document.querySelector(`[data-category="${category}"]`).classList.add('selected');
+
+      document.getElementById('nextBtn').disabled = false;
+
+      // Auto-advance after short delay
+      setTimeout(() => { nextQuestion(); }, 400);
+    }
+
+    function skipQuestion() {
+      // leave category null and advance
+      currentQuestionIndex++;
+      displayCurrentQuestion();
+    }
+
+    function nextQuestion() {
+      currentQuestionIndex++;
+      if (currentQuestionIndex >= questions.length) {
+        showResults();
+      } else {
+        displayCurrentQuestion();
+      }
+    }
+
+    function previousQuestion() {
+      if (currentQuestionIndex > 0) {
+        currentQuestionIndex--;
+        displayCurrentQuestion();
+      }
+    }
+
+    function handleKeyPress(event) {
+      if (document.getElementById('questionCard').style.display === 'none') return;
+      const key = event.key.toLowerCase();
+      const keyMappings = {
+        '1': 'us-history',
+        '2': 'european-history',
+        '3': 'world-history',
+        '4': 'ancient-history',
+        '5': 'other-history',
+        '6': 'pop-culture-sports',
+        '7': 'social-science',
+        '8': 'recent-history',
+        '9': 'literature-history',
+        '0': 'fine-arts',
+        'q': 'geographical-history',
+        'w': 'math-science',
+        'e': 'mythology',
+        's': 'skip'
+      };
+      if (keyMappings[key]) {
+        event.preventDefault();
+        if (key === 's') {
+          skipQuestion();
+        } else {
+          selectCategory(keyMappings[key]);
+        }
+      } else if (key === 'arrowleft' && currentQuestionIndex > 0) {
+        event.preventDefault();
+        previousQuestion();
+      } else if (key === 'arrowright' && questions[currentQuestionIndex].category) {
+        event.preventDefault();
+        nextQuestion();
+      }
+    }
+
+    // Progress counts number of items (q1 items + q2 tossups + q3 blocks + q4 items)
+    function updateProgress() {
+      const categorized = questions.filter(q => q.category).length;
+      const total = questions.length;
+      const percentage = total > 0 ? (categorized / total) * 100 : 0;
+      document.getElementById('progressFill').style.width = `${percentage}%`;
+      document.getElementById('progressText').textContent = `${categorized} of ${total} items categorized (${Math.round(percentage)}%)`;
+    }
+
+    // When finishing, categorizedQuestions get blocks pushed appropriately
+    function showResults() {
+      document.getElementById('questionCard').style.display = 'none';
+      document.getElementById('progressSection').style.display = 'none';
+
+      // Reset categorizedQuestions (but preserve imported if any)
+      Object.keys(categories).forEach(key => {
+        if (!categorizedQuestions[key]) categorizedQuestions[key] = { q1: [], q2: [], q3: [], q4: [] };
+        // keep previously imported content (confirmImports adds to these already)
+      });
+
+      // Organize chosen items into categorizedQuestions by quarter
+      questions.forEach(item => {
+        if (!item.category) return; // skip uncategorized
+        const original = getOriginalQuestionData(item);
+        categorizedQuestions[item.category][item.quarter].push(original);
+      });
+
+      displaySummary();
+      displayExportButtons();
+      document.getElementById('resultsSection').style.display = 'block';
+    }
+
+    // For q3 blocks, return the block with all its sub-questions
+    function getOriginalQuestionData(q) {
+      if (q.quarter === 'q1') {
+        return { question: q.question, answer: q.answer };
+      } else if (q.quarter === 'q2') {
+        // Get the original Q2 data from jsonData using the index
+        const originalQ2 = jsonData.q2[q.index];
+        return {
+          tossup: originalQ2.tossup,
+          bonus: originalQ2.bonus
+        };
+      } else if (q.quarter === 'q3') {
+        // Get the original Q3 data from jsonData using the categoryIndex
+        const originalQ3 = jsonData.q3[q.categoryIndex];
+        return {
+          category: originalQ3.category,
+          prompt: originalQ3.prompt, // Include the prompt field
+          questions: originalQ3.questions
+        };
+      } else if (q.quarter === 'q4') {
+        return { parts: q.parts, answer: q.answer };
+      } else {
+        return { question: q.question, answer: q.answer };
+      }
+    }
+
+    function displaySummary() {
+      const summaryContainer = document.getElementById('categorySummary');
+      summaryContainer.innerHTML = '';
+      Object.keys(categories).forEach(categoryKey => {
+        const categoryData = categorizedQuestions[categoryKey];
+        const total = (categoryData.q1 ? categoryData.q1.length : 0) +
+                      (categoryData.q2 ? categoryData.q2.length : 0) +
+                      (categoryData.q3 ? categoryData.q3.length : 0) +
+                      (categoryData.q4 ? categoryData.q4.length : 0);
+        if (total > 0) {
+          const card = document.createElement('div');
+          card.className = 'summary-card';
+          card.innerHTML = `<div class="summary-count">${total}</div><div class="summary-label">${categories[categoryKey]}</div>`;
+          summaryContainer.appendChild(card);
+        }
+      });
+    }
+
+    function displayExportButtons() {
+      const container = document.getElementById('exportButtons');
+      container.innerHTML = '';
+      Object.keys(categories).forEach(categoryKey => {
+        const categoryData = categorizedQuestions[categoryKey];
+        const total = (categoryData.q1 ? categoryData.q1.length : 0) +
+                      (categoryData.q2 ? categoryData.q2.length : 0) +
+                      (categoryData.q3 ? categoryData.q3.length : 0) +
+                      (categoryData.q4 ? categoryData.q4.length : 0);
+        if (total > 0) {
+          const btn = document.createElement('button');
+          btn.className = 'btn';
+          btn.textContent = `Export ${categories[categoryKey]} (${total})`;
+          btn.onclick = () => exportCategory(categoryKey);
+          container.appendChild(btn);
+        }
+      });
+    }
+
+    function exportCategory(categoryKey) {
+      // create export structure matching original schema (q1..q4 arrays)
+      const mergedData = {
+        q1: [...(categorizedQuestions[categoryKey].q1 || [])],
+        q2: [...(categorizedQuestions[categoryKey].q2 || [])],
+        q3: [...(categorizedQuestions[categoryKey].q3 || [])],
+        q4: [...(categorizedQuestions[categoryKey].q4 || [])]
+      };
+      const filename = `${categoryKey.replace(/-/g,'_')}_questions.json`;
+      downloadJSON(mergedData, filename);
+    }
+
+    function exportAllCategories() {
+      Object.keys(categories).forEach((categoryKey, i) => {
+        const categoryData = categorizedQuestions[categoryKey];
+        const total = (categoryData.q1 ? categoryData.q1.length : 0) +
+                      (categoryData.q2 ? categoryData.q2.length : 0) +
+                      (categoryData.q3 ? categoryData.q3.length : 0) +
+                      (categoryData.q4 ? categoryData.q4.length : 0);
+        if (total > 0) {
+          setTimeout(() => exportCategory(categoryKey), 100 * i);
+        }
+      });
+    }
+
+    function downloadJSON(data, filename) {
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = filename;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    }
+
+    function startOver() {
+      questions = [];
+      currentQuestionIndex = 0;
+      categorizedQuestions = {};
+      importedCategories = {};
+      jsonData = null;
+    
+      // Reinitialize categories
+      Object.keys(categories).forEach(key => {
+        categorizedQuestions[key] = { q1: [], q2: [], q3: [], q4: [] };
+        importedCategories[key] = { q1: [], q2: [], q3: [], q4: [] };
+      });
+    
+      // Reset file input and UI
+      document.getElementById('jsonFile').value = '';
+      document.getElementById('fileInfo').textContent = '';
+      document.getElementById('progressSection').style.display = 'none';
+      document.getElementById('questionCard').style.display = 'none';
+      document.getElementById('resultsSection').style.display = 'none';
+    }
+    function saveProgress() {
+  const progressData = {
+    questions,
+    currentQuestionIndex,
+    categorizedQuestions
+  };
+  localStorage.setItem('historyCategorizerProgress', JSON.stringify(progressData));
+}
+
+function loadProgress() {
+  const saved = localStorage.getItem('historyCategorizerProgress');
+  if (saved) {
+    try {
+      const data = JSON.parse(saved);
+      questions = data.questions || [];
+      currentQuestionIndex = data.currentQuestionIndex || 0;
+      categorizedQuestions = data.categorizedQuestions || {};
+      showProgressSection();
+      document.getElementById('questionCard').style.display = 'block';
+      displayCurrentQuestion();
+      alert('Progress loaded!');
+    } catch(e) {
+      console.error('Failed to load progress:', e);
+    }
+  }
+}
+
+function clearSavedProgress() {
+  localStorage.removeItem('historyCategorizerProgress');
+}
+
+function selectCategory(category) {
+  const qi = questions[currentQuestionIndex];
+  qi.category = category;
+
+  document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('selected'));
+  document.querySelector(`[data-category="${category}"]`).classList.add('selected');
+
+  document.getElementById('nextBtn').disabled = false;
+
+  updateProgress();
+  updateCategoryCounts(); // <-- update counts live
+
+  setTimeout(() => { nextQuestion(); }, 400);
+}
+
+function skipQuestion() {
+  currentQuestionIndex++;
+  displayCurrentQuestion();
+  updateCategoryCounts(); // <-- update counts live even on skip
+}
+
+function updateCategoryCounts() {
+  const container = document.getElementById('categoryCounts');
+  container.innerHTML = '';
+
+  Object.keys(categories).forEach(key => {
+    const count = questions.filter(q => q.category === key).length;
+    const badge = document.createElement('div');
+    badge.style.padding = '6px 12px';
+    badge.style.background = '#f1f5f9';
+    badge.style.borderRadius = '8px';
+    badge.style.borderLeft = '4px solid #5a67d8';
+    badge.style.fontWeight = '600';
+    badge.style.minWidth = '120px';
+    badge.style.textAlign = 'center';
+    badge.textContent = `${categories[key]}: ${count}`;
+    container.appendChild(badge);
+  });
+}
+    
+  </script>
+</body>
+</html>
