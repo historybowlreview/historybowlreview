@@ -93,6 +93,14 @@
         "Little League World Series",
         "LLWS"
       ]
+    },
+    {
+      "question": "A player who won a Super Bowl for this team started his career under a 43-year, $40 million contract\nwith the USFL. That man replaced a quarterback on this team who threw “The Catch” to Dwight Clark\nin the 1982 NFC Championship Game. During the 2016 preseason, this team’s backup quarterback refused\nto stand for the national anthem, beginning a national protest movement. For ten points, name this NFL\nteam whose quarterbacks have included Steve Young, Joe Montana, and Colin Kaepernick.",
+      "answer": [
+        "San Francisco 49ers",
+        "San Francisco",
+        "49ers"
+      ]
     }
   ],
   "q2": [
@@ -457,6 +465,17 @@
         "sports stadium",
         "stadium",
         "arena"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) In Europa Universalis 4, this empire may choose to lose 100 military power in exchange\nfor a 10 percent national manpower modifier when utilizing the Devshirme system. In the\nTotal War franchise, this empire’s (20 pts) ",
+        "Nizam i-Cedit soldiers are named for its real-life\nmilitary reforms carried out by Selim III. In Civilization 5, this empire’s naval maintenance\ncosts are reduced by 67 percent due to the (10 pts) ",
+        "“Barbary Corsairs” skill, and it can recruit Sipahi\nhorseman and Janissary units. For ten points, name this empire represented in numerous video games by\nSuleiman the Magnificent."
+      ],
+      "answer": [
+        "Ottoman Empire",
+        "Ottoman"
       ]
     }
   ]

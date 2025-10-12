@@ -368,6 +368,46 @@
         "Carolus Magnus",
         "Charles the Great"
       ]
+    },
+    {
+      "question": "During one of these campaigns, a king died with his son John Tristan, who had been born in Damietta\nduring a different one of these campaigns. The leader of one of these campaigns, Simon de Montfort, was\nkilled while besieging Toulouse. The Albigensian one of these conflicts defeated the Cathars in the south\nof France, and Louis IX was canonized for his efforts in the seventh and eighth ones of these against Egypt\nand Tunisia. For ten points, name these conflicts, called by the Pope, that targeted religious enemies.",
+      "answer": "crusades"
+    },
+    {
+      "question": "This man’s wife, Katharina von Bora, was forced to evacuate the Black Cloister during the\nSchmalkaldic War. This man received the protection of Frederick III of Saxony and debated Zwingli in\nthe Marburg Colloquy. This critic of Johann Tetzel was excommunicated at the Diet of Worms after\nprotesting the sale of indulgences on the door of Wittenberg Cathedral. For ten points, name this German\nmonk whose Ninety-Five Theses started the Protestant Reformation.",
+      "answer": [
+        "Martin Luther",
+        "Luther"
+      ]
+    },
+    {
+      "question": "This man killed the Sheriff of Lanark, William Heselrig, at Lanark. Blind Harry chronicled the life\nof this man, an ally of Andrew Moray. John de Menteith captured this man, who was hung, drawn, and\nquartered in 1305. This subject of John Balliol was defeated at Falkirk, inspiring Robert the Bruce to\ntake up his cause. For ten points, name this opponent of Edward Longshanks and winner at the Battle of\nStirling Bridge, a hero of Scottish independence.",
+      "answer": [
+        "William Wallace",
+        "Wallace"
+      ]
+    },
+    {
+      "question": "(TIEBREAKER BONUS QUESTION) What Russian city on the Baltic Sea was the site of a 900 day siege by Nazi forces during\nWorld War II?",
+      "answer": [
+        "Leningrad",
+        "Saint Petersburg",
+        "Petrograd"
+      ]
+    },
+    {
+      "question": "One side in this battle used the Pitomnik airfield to supply bomber raids on the Red October factory\nand Barrikady tractor works. Erwin Konig was supposedly killed at this battle in a duel against rival\nsniper Vasily Zaitsev. This battle turned when Erich von Manstein failed to counter Operation Uranus,\nleaving Friedrich Paulus’ 6th Army entrapped by Georgi Zhukov’s Soviet troops. For ten points, name\nthis 1942-43 battle of the Eastern Front fought for a Russian city on the Volga River",
+      "answer": [
+        "Battle of Stalingrad",
+        "Stalingrad"
+      ]
+    },
+    {
+      "question": "The Anif Document ended centuries of Wittelsbach rule in this state. Prussia and Austria fought\nover this state in a war of succession known as the Potato War. This state, which fought with Napoleonic\nFrance against its eastern neighbor, Austria, was once ruled by Ludwig the Mad, who built the castle\nof Neuschwanstein [noysh-van-shtein]. For ten points, name this primarily Catholic state in southern\nGermany whose capital is Munich.",
+      "answer": [
+        "Bavaria",
+        "Bayern"
+      ]
     }
   ],
   "q2": [
@@ -1020,6 +1060,77 @@
           "Duke of Marlborough",
           "Marlborough",
           "John Churchill"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "An insurrection in this state was fought by the Milice. This state was the site of the Drancy\nconcentration camp. Its territory was known as a “free zone,” and it adopted the slogan “Work, Family,\nFatherland.” Prime Minister Pierre Laval led this state, which was able to scuttle its fleet in Toulon\nHarbor to prevent their re-occupiers from seizing the ships. For ten points, name this puppet government\nthat ruled part of France alongside Nazi Germany during World War II.",
+        "answer": [
+          "Vichy France",
+          "Vichy",
+          "French State"
+        ]
+      },
+      "bonus": {
+        "question": "Vichy France’s president was this World War I hero who led French forces at Verdun.",
+        "answer": [
+          "Henri-Philippe Petain",
+          "Petain",
+          "Philippe Petain"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "This empire was divided into themes, which each supplied a portion of troops, until they were\nsupplemented by the tagmata system. The Latin Empire occupied the lands of this empire until the\nPalaiologos dynasty reclaimed the land. The Fourth Crusade ended in the sacking of this empire, whose\nEcumenical Patriarch served as religious head of this country’s Orthodox faith. For ten points, name this\nsuccessor state of the Roman Empire that was based in Constantinople until 1453.",
+        "answer": [
+          "Byzantine Empire",
+          "Byzantine",
+          "Eastern Roman Empire",
+          "Eastern Roman"
+        ]
+      },
+      "bonus": {
+        "question": "The Byzantine Empire’s navy used this incendiary weapon. Its recipe is lost, but it was notable\nfor being able to burn on water.",
+        "answer": "Greek fire"
+      }
+    },
+    {
+      "tossup": {
+        "question": "This party was founded by the Tamworth Manifesto, and it provided the vast majority of seats for\nthe first National Government. It came to power after the Winter of Discontent, and it won the “Coupon”\nelection of 1918 under David Lloyd George. Under Balfour and Disraeli, this party opposed the Liberals in\nthe 19th century, and its 20th century prime ministers included Margaret Thatcher and Winston Churchill.\nFor ten points, name this center-right party that opposes Labour in the modern United Kingdom.",
+        "answer": [
+          "Conservative and Unionist Party",
+          "Conservative",
+          "Tory Party",
+          "Tory"
+        ]
+      },
+      "bonus": {
+        "question": "This man is largely considered to be the founder of the Conservatives. He introduced the first\nmodern police force and repealed the Corn Laws.",
+        "answer": [
+          "Sir Robert Peel",
+          "Peel"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "Description acceptable. The secret 1915 Treaty of London supported this goal via a promise regarding\nSouth Tyrol. A group of quick infantry known as the Bersaglieri fought for this goal. The Expedition of\nthe Thousand was made in support of this goal, which was engineered by Count Cavour and Giuseppe\nGaribaldi. For ten points, name this 19th century nationalist process, known as the Risorgimento, which\nformed a modern country with its capital at Rome.",
+        "answer": [
+          "Italian unification",
+          "Italy becoming a unified country",
+          "Italy unified"
+        ]
+      },
+      "bonus": {
+        "question": "Count Cavour served as Prime Minister of this pre-unification kingdom, whose capital was at\nTurin. Its king, Victor Emmanuel, became the first King of Italy.",
+        "answer": [
+          "Kingdom of Piedmont-Sardinia",
+          "Piedmont-Sardinia",
+          "Piedmont Sardinia",
+          "Piedmont",
+          "Sardinia"
         ]
       }
     }
@@ -2359,6 +2470,70 @@
           ]
         }
       ]
+    },
+    {
+      "category": "EUROPEAN LEFTIST POLITICS",
+      "prompt": "Name the...",
+      "questions": [
+        {
+          "question": "Former largest socialist country in Europe, which collapsed into Russia and other countries in 1991.",
+          "answer": [
+            "Soviet Union",
+            "USSR",
+            "Union of Soviet Socialist Republics",
+            "CCCP",
+            "Soyuz Sovetskikh Sotsialisticheskikh Respublik"
+          ]
+        },
+        {
+          "question": "Colorfully named political movement that, in numerous countries, is a left-leaning political party that\nseeks environmental reform and peace?",
+          "answer": [
+            "Green parties",
+            "Green"
+          ]
+        },
+        {
+          "question": "Faction of communists in Russia that split from the Mensheviks in 1903.",
+          "answer": "Bolsheviks"
+        },
+        {
+          "question": "Leader of Britain’s New Labour movement who served as Prime Minister from 1997-2007.",
+          "answer": [
+            "Tony Blair",
+            "Blair"
+          ]
+        },
+        {
+          "question": "Alliance of socialist countries in eastern Europe that was formed to oppose NATO.",
+          "answer": [
+            "Warsaw Pact",
+            "Warsaw"
+          ]
+        },
+        {
+          "question": "Radical government that took over Paris when under threat during the Franco-Prussian War.",
+          "answer": [
+            "Paris Commune",
+            "Commune"
+          ]
+        },
+        {
+          "question": "Term for the style of social and economic policies in Scandinavia that combine capitalism with a\nstrong welfare state.",
+          "answer": [
+            "Nordic model",
+            "Nordic",
+            "Nordic economics",
+            "Nordic democracy"
+          ]
+        },
+        {
+          "question": "First UK Labour Prime Minister, who was negatively affected by the forged Zinoviev letter.",
+          "answer": [
+            "Ramsay MacDonald",
+            "Ramsay"
+          ]
+        }
+      ]
     }
   ],
   "q4": [
@@ -2913,6 +3088,43 @@
         "Brest-Litovsk. For ten points, name this country led by Alexander Lukashenko from its capital at Minsk."
       ],
       "answer": "Belarus"
+    },
+    {
+      "parts": [
+        "(30 pts) This movement began in Arnold due to hosiery falling out of fashion. The Pentrich riots\nwere started by Jeremiah Brandreth, a former member of this movement. Members of this\nmovement executed William Horsfall and attacked Rawfolds (20 pts) ",
+        "Mill. The Swing Riots\nwas an agricultural version of this movement, which was suppressed by the 1812 Frame\nBreaking Act. A man named Ned who legendarily smashed two (10 pts) ",
+        "knitting frames inspired,\nfor ten points, what anti-Industrial Revolution movement in England that opposed new technologies?"
+      ],
+      "answer": "Luddites"
+    },
+    {
+      "parts": [
+        "(30 pts) This group bombed the fishing boat of Lord Mountbatten and pushed for the “five\ndemands” during a hunger strike led by Bobby Sands. In 1984, it planted a bomb in the\nGrand Hotel in (20 pts) ",
+        "Brighton in a failed assassination attempt on Margaret Thatcher,\nbut it agreed to a cease fire in 1997 after its affiliated political party was allowed into the\nnegotiations for the (10 pts) ",
+        "Good Friday agreement. Sinn F´ein was associated with, for ten points, what\nparamilitary group at the forefront of “the Troubles” that fought for an independent Ireland?"
+      ],
+      "answer": [
+        "Provisional Irish Republican Army",
+        "PIRA",
+        "IRA",
+        "Irish Republican Army"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) Louis XII was invited by Venice to conquer this city, although he was eventually forced\nout after the battles of Ravenna and Novara. This city contains the only Gothic cathedral in\nItaly. After the death of (20 pts) ",
+        "Filip Maria Visconti, this city briefly experienced the Golden\nAmbrosian Republic. This city led a league that opposed Emperor Frederick II and won the\nBattle of (10 pts) ",
+        "Legnano, and it was ruled in the Renaissance by Francesco, Ludovico, and other members\nof the Sforza family. For ten points, name this northern Italian city, the historic capital of Lombardy."
+      ],
+      "answer": "Milan"
+    },
+    {
+      "parts": [
+        "(30 pts) (TIEBREAKER EXAMPLE QUESTION) This man’s attempt to avoid conflict was documented in a telegram to “cousin\nWilly.” Father Gapon’s insurrection took place during the reign of this ruler, who was\npersuaded to sign the (20 pts) ",
+        "October manifesto after angering the populace on Bloody\nSunday. In the mid-20th century, numerous imposters claimed to be this man’s (10 pts) ",
+        "daughter, Anastasia, who was killed with the rest of this man’s family by the Bolsheviks in 1918.\nFor ten points, name this final Romanov Tsar of Russia."
+      ],
+      "answer": "Nicholas II"
     }
   ]
 }

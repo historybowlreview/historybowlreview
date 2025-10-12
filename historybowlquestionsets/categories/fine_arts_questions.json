@@ -144,6 +144,20 @@
     {
       "question": "Annual performances of this work were long given to benefit the world’s first charity, London’s\nFoundling Hospital. This work depicts Roman bagpipers in the instrumental Pifa, or “Pastoral Symphony.”\nCharles Jennens adapted the Book of Common Prayer and the King James Bible for this work’s text.\nAccording to legend, King George II stood up during in the middle of this work’s premiere. For ten points,\nname this oratorio by George Friedrich Handel that is often performed around Christmas and which\ncontains the “Hallelujah” chorus.",
       "answer": "Messiah"
+    },
+    {
+      "question": "One composer from this modern-day country wrote a tone poem depicting its castle of Vysehrad\n[vish-eh-rahd] and another piece inspired by the St. John’s Rapids. This nation is depicted in the six-part\ncycle Ma vlast, whose best-known portion depicts the Vltava River, or Moldau. Bedrich Smetana and\nAntonin Dvorak [duh-VORE-zhok] are from, for ten points, what modern-day country whose capital is\nPrague?",
+      "answer": [
+        "Czech Republic",
+        "Czechia"
+      ]
+    },
+    {
+      "question": "This material was used for the Capitoline Museum’s sculpture of a she-wolf with the infant Romulus\nand Remus. Sculptures in this artistic medium were often made using the lost-wax method. An artist used\nthis material for a circle of six men about to be executed during the Hundred Years War, known as The\nBurghers of Calais, and for a nude sculpture claimed to be cast from a living model. For ten points, name\nthis metal used by Auguste Rodin [roh-dan] to create The Thinker and a sculpture of its Age.",
+      "answer": [
+        "bronze",
+        "The Age of Bronze"
+      ]
     }
   ],
   "q2": [
@@ -336,6 +350,38 @@
           "Raphael",
           "Raffaello",
           "Raffaello Sanzio da Urbino"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "An artist from this country exhibited many metallic spheres as part of her installation Narcissus\nGarden. A work created in this country shows three fishing boats nearly engulfed; that work was made\nin a type of printing known as ukiyo-e [ooh-kee-oh-ay] that flourished during this country’s Edo period.\nFor ten points, name this country where Katsushika Hokusai created The Great Wave as part of his series\ndepicting 36 Views of Mount Fuji.",
+        "answer": "Japan"
+      },
+      "bonus": {
+        "question": "People of this profession, particularly those who practiced the kabuki style, were a popular\nsubject for ukiyo-e prints.",
+        "answer": [
+          "actors",
+          "theater",
+          "drama",
+          "dance"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "One piece by this composer depicts the Paris catacombs and a planned monument to celebrate the\nfailure of an assassination attempt on Alexander II. Nikolai Rimsky-Korsakov arranged this man’s music\nfor a tone poem depicting a witches’ Sabbath on St. John’s Eve. The drawings of Viktor Hartmann inspired\na suite by this man that ends with “The Great Gate of Kiev” and includes a recurring Promenade theme.\nFor ten points, name this Russian composer of Night on Bald Mountain and Pictures at an Exhibition.",
+        "answer": [
+          "Modest Mussorgsky",
+          "Mussorgsky"
+        ]
+      },
+      "bonus": {
+        "question": "Mussorgsky and Rimsky-Korsakov were both members of what group of nationalist Russian\ncomposers that also included Mily Balakirev, Cesar Cui, and Alexander Borodin?",
+        "answer": [
+          "The Mighty Handful",
+          "The Mighty Five",
+          "Five"
         ]
       }
     }
@@ -581,6 +627,18 @@
       "answer": [
         "Igor Fyodorovich Stravinsky",
         "Stravinsky"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) This figure is shown wearing a prayer shawl around his waist in the center of a Marc\nChagall work showing Jews fleeing a pogrom. James Ensor painted this figure’s theoretical\nentry into (20 pts) ",
+        "Brussels. Paul Gauguin showed this figure alongside three Breton women in\na painting that emphasizes the color (10 pts) ",
+        "yellow. Artistic scenes including this figure after his death\ninclude Deposition and Pieta, in which he is held by his mourning mother, Mary. For ten points, name\nthis religious figure painted in scenes of the Crucifixion."
+      ],
+      "answer": [
+        "Jesus Christ",
+        "Jesus",
+        "Christ"
       ]
     }
   ]

@@ -104,6 +104,10 @@
         "Islamic Republic of Afghanistan",
         "Afghanistan"
       ]
+    },
+    {
+      "question": "This state claims Machias Seal Island, and the oldest national park east of the Mississippi is on\nits Mount Desert Island. Its Baxter State Park is home to Mount Kathadin, and it is home to Acadia\nNational Park. Part of its northern border was set at the St. John’s River by the Webster-Ashburton\nTreaty, which settled the Aroostook War. The Appalachian Trail’s northern end is in, for ten points, what\nU.S. state that was originally part of Massachusetts in the north of New England?",
+      "answer": "Maine"
     }
   ],
   "q2": [
@@ -443,6 +447,68 @@
           ]
         }
       ]
+    },
+    {
+      "category": "EUROPEAN RIVERS",
+      "prompt": "Which European river...",
+      "questions": [
+        {
+          "question": "Saw Dutch ships sail up it to attack London?",
+          "answer": [
+            "River Thames",
+            "Thames"
+          ]
+        },
+        {
+          "question": "Had Joan of Arc’s ashes thrown into it in Rouen, and passes through Paris?",
+          "answer": [
+            "River Seine",
+            "Seine"
+          ]
+        },
+        {
+          "question": "Flows through four European capitals into the Black Sea and was once home to the island of Ada\nKaleh?",
+          "answer": [
+            "Danube River",
+            "Danube"
+          ]
+        },
+        {
+          "question": "Was Rome founded on in the eighth century BC?",
+          "answer": [
+            "Tiber River",
+            "Tiber"
+          ]
+        },
+        {
+          "question": "Was crossed by Julius Caesar to start a civil war against Pompey the Great?",
+          "answer": [
+            "Rubicon River",
+            "Rubicon"
+          ]
+        },
+        {
+          "question": "Was the site of a World War I British offensive paired with Verdun?",
+          "answer": [
+            "Somme River",
+            "Somme"
+          ]
+        },
+        {
+          "question": "Names a Soviet offensive with the Oder River that targeted Poland and flows through Warsaw?",
+          "answer": [
+            "Vistula River",
+            "Vistula"
+          ]
+        },
+        {
+          "question": "Names a group of Cossacks and a city named Rostov on the Sea of Azov?",
+          "answer": [
+            "Don River",
+            "Don"
+          ]
+        }
+      ]
     }
   ],
   "q4": [
@@ -520,6 +586,44 @@
       "answer": [
         "New Delhi",
         "Delhi"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) This state’s Fort Snelling was built near an early settlement at Mendota and several\nmiles downstream from the St. Anthony Falls. A body of water here was given a faux-Native\nAmerican name by Henry Schoolcraft, who combined the (20 pts) ",
+        "Latin words for “truth” and\n“head.” The Treaty of 1818 gave this state’s territory an exclave north of the 49th Parallel,\non the other side of the (10 pts) ",
+        "Lake of the Woods. The Northwest Angle is part of, for ten points, what\nMidwestern state where Lake Itasca is the source of the Mississippi River, and whose capital is St. Paul?"
+      ],
+      "answer": "Minnesota"
+    },
+    {
+      "parts": [
+        "(30 pts) In this present-day state, John Sevier led a government that petitioned Congress for\nstatehood in 1785. A “secret city” in this state was home to the K-25 and Y-12 plants, which\nenriched uranium for the (20 pts) ",
+        "Manhattan Project. The self-proclaimed State of Franklin\nwas established in the eastern portion of this state, where the city of (10 pts) ",
+        "Oak Ridge was built\nin 1942 west of Knoxville. For ten points, name this state that shares the Great Smoky Mountains with\nits eastern neighbor, North Carolina, and has its capital at Nashville."
+      ],
+      "answer": "Tennessee"
+    },
+    {
+      "parts": [
+        "(30 pts) In the far southwest corner of this sea, divers discovered the Antikythera analog\ncomputer. The Dodecanese islands lie in the extreme southeast of this sea. Chapter 20 of\nthe Book of Acts describes Paul sailing on the eastern shores of this body of water past (20 pts) ",
+        "Ephesus, Miletus, and Samos. According to myth, this sea’s namesake threw himself into it\nwhen his son’s ship arrived from (10 pts) ",
+        "Crete with black sails accidentally flying. For ten points, name\nthis offshoot of the Mediterranean Sea that separates Greece and Turkey."
+      ],
+      "answer": [
+        "Aegean Sea",
+        "Aegean"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) A kingdom in this region launched the Gihae Eastern Expedition to eradicate piracy on\na nearby island. The Silla kingdom ruled this location until its 935 annexation by the (20 pts) ",
+        "Goryeo dynasty, which helped provide this location’s name. A phonetic alphabet native to\nthis region, hangul, was introduced by (10 pts) ",
+        "Sejong the Great of the Joseon Dynasty, who sought an\nalliance with Ming China. For ten points, name this East Asian peninsula that has been divided between\ntwo countries since a 1950s war."
+      ],
+      "answer": [
+        "Korean Peninsula",
+        "Korea"
       ]
     }
   ]

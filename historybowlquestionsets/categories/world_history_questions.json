@@ -233,6 +233,29 @@
         "Okinawa Prefecture",
         "Okinawa"
       ]
+    },
+    {
+      "question": "This rebellion was inspired by the pamphlet “Good Words for Exhorting the Age” and originated\namong the Hakka people. The Ever Victorious Army was essential in putting down this rebellion under\nthe leadership of General Gordon, who gained a nickname from that campaign. This rebellion’s leader,\na man who claimed to be the younger brother of Jesus, was found dead in his palace in Nanjing. For\nten points, name this 19th century rebellion, led by Hong Xiuquan, that tried to establish a Heavenly\nKingdom in China.",
+      "answer": [
+        "Taiping Rebellion",
+        "Taiping",
+        "Taiping Uprising",
+        "Taiping Civil War"
+      ]
+    },
+    {
+      "question": "In 1985, this organization’s headquarters-in-exile was targeted in Operation Wooden Leg, an air strike\nin Tunisia. This group was forced out of Jordan and into Lebanon after Black September in 1970. This\ngroup was considered a terrorist organization by the US until 1991, and it signed the Oslo Accords in\n1993, thus recognizing the State of Israel. Yasser Arafat once led, for ten points, what nationalist group\nthat sought the “liberation” of an Arab state from Israel?",
+      "answer": [
+        "Palestinian Liberation Organization",
+        "PLO"
+      ]
+    },
+    {
+      "question": "(TIEBREAKER BONUS QUESTION) What Chinese revolutionary founded the Republic of China and outlined his Three\nPrinciples of the People in a 1905 speech?",
+      "answer": [
+        "Sun Yat-sen",
+        "Sun"
+      ]
     }
   ],
   "q2": [
@@ -803,6 +826,40 @@
       "bonus": {
         "question": "Cambodian reporter Dith Pran coined this term for locations where the Khmer Rouge conducted\nmass slaughters and burials.",
         "answer": "Killing Fields"
+      }
+    },
+    {
+      "tossup": {
+        "question": "This government was advised by the Roju and used red seal ships for trade. Only the nanban were\nallowed by this government to enter its country, as per Sakoku law, which banned foreign influence. This\nperiod began when a leader defeated forces loyal to Toyotomi Hideyoshi at the Battle of Sekigahara,\nand ended when Matthew Perry’s black ships arrived. Ieyasu founded, for ten points, which Japanese\nshogunate that was ended by the 1868 Meiji restoration?",
+        "answer": [
+          "Tokugawa shogunate",
+          "Tokugawa",
+          "Edo period",
+          "Edo"
+        ]
+      },
+      "bonus": {
+        "question": "Tokugawa put an end to the period of sengoku jidai, a period of warring states in Japan. The\nprocess of unification began with this leader, who overthrew the Ashikaga before dying at Honnoji.",
+        "answer": [
+          "Oda Nobunaga",
+          "Oda"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "This dynasty began a system of tax farming called the iqta that was reformed into hereditary grants\nby the Buyids, one of many groups to succeed it. One ruler of this dynasty gifted a clock and an elephant\nto Charlemagne and founded the House of Wisdom. Harun al-Rashid was a ruler of, for ten points,\nwhich Islamic caliphate, the successors to the Umayyads, that ruled until Hulagu Khan sacked its capital,\nBaghdad?",
+        "answer": [
+          "Abbasid Caliphate",
+          "Abbasid"
+        ]
+      },
+      "bonus": {
+        "question": "The Abbasids were succeeded in Egypt by this caliphate, which is named for a daughter of\nMuhammad. They followed the Ismaili sect of Shi’ite Islam and founded Cairo.",
+        "answer": [
+          "Fatimid Caliphate",
+          "Fatimid"
+        ]
       }
     }
   ],
@@ -1679,6 +1736,58 @@
           ]
         }
       ]
+    },
+    {
+      "category": "THE MONGOLS",
+      "prompt": "The Mongols...",
+      "questions": [
+        {
+          "question": "Conquered a large empire primarily on which continent, including China and Persia?",
+          "answer": "Asia"
+        },
+        {
+          "question": "Mastered the art of combat atop what riding animals?",
+          "answer": "horses"
+        },
+        {
+          "question": "Were united into an empire by what man, born Temujin?",
+          "answer": [
+            "Genghis Khan",
+            "Genghis",
+            "Chinggis Khan",
+            "Chinggis"
+          ]
+        },
+        {
+          "question": "Were ruled by what man, who met with Marco Polo and twice failed to invade Japan?",
+          "answer": [
+            "Kublai Khan",
+            "Kublai"
+          ]
+        },
+        {
+          "question": "Founded which colorful state that dominated Russia until the rise of Muscovy?",
+          "answer": "Golden Horde"
+        },
+        {
+          "question": "Founded which Chinese dynasty in 1271?",
+          "answer": [
+            "Yuan Dynasty",
+            "Yuan"
+          ]
+        },
+        {
+          "question": "Conquered what preceding Chinese dynasty, crushing them in the Battle of Yamen?",
+          "answer": [
+            "Song Dynasty",
+            "Song"
+          ]
+        },
+        {
+          "question": "Built what 13th century capital city after Ogedei defeated the Jin?",
+          "answer": "Karakorum"
+        }
+      ]
     }
   ],
   "q4": [
@@ -1998,6 +2107,14 @@
         "Operation Desert Storm",
         "Desert Storm"
       ]
+    },
+    {
+      "parts": [
+        "(30 pts) One party in this nation was divided into the Khalqs and the Parchams and overthrew\nDaud Khan to rise to power in the Saur Revolution. Thousands of Stinger missiles were\nsent to this nation by the CIA during Operation Cyclone. Hafizullah (20 pts) ",
+        "Amin’s inability\nto quell unrest in this country led to an invasion that was repelled by foreign fighters from\naround the Islamic world, a group called the (10 pts) ",
+        "mujahideen. For ten points, name this country\nthat was ruled by the Taliban until a 2001 US invasion."
+      ],
+      "answer": "Afghanistan"
     }
   ]
 }

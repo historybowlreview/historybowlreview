@@ -580,6 +580,43 @@
     {
       "question": "William Seward gave the “Higher Law” speech to oppose this proposal, which was supported by the\nGeorgia Platform. This proposal set the present borders of Texas and rejected a law governing the Utah\nand New Mexico territories, the Wilmot Proviso. Under this proposal, California was admitted as a free\nstate, the slave trade was banned in the District of Columbia, and a stronger Fugitive Slave Law was\nenacted. For ten points, name this compromise that prolonged the Civil War for ten years.",
       "answer": "Compromise of 1850"
+    },
+    {
+      "question": "This man was appointed to a command after the death of his superior, Frederick Funston. He put\ndown the Moro Rebellion and introduced a boot for use in trenches. This general led an expedition to\ncapture Pancho Villa and, on arrival in another war, declared that “Lafayette, we are here” before fighting\nin the Hundred Days offensive. For ten points, name this General of the Armies who commanded U.S.\nforces during World War I and was nicknamed “Black Jack.”",
+      "answer": [
+        "John “Black Jack” Pershing",
+        "John Pershing",
+        "Pershing"
+      ]
+    },
+    {
+      "question": "This man called the Turnip Day session and attacked the “do-nothing” Eightieth Congress for failing\nto pass legislation. The Conservative Coalition opposed this architect of a “Fair Deal,” whose veto of the\nTaft-Hartley Act was overridden by Congress. This President negotiated at the Potsdam Conference after\nhe replaced his late predecessor. “The buck stopped” at the desk of, for ten points, what U.S. President\nwho oversaw the end of World War II?",
+      "answer": [
+        "Harry S. Truman",
+        "Truman"
+      ]
+    },
+    {
+      "question": "This justice’s opinion used the Contract Clause to protect the independence of Dartmouth College,\nand he clarified the Interstate Commerce Clause in his opinion in Gibbons v. Ogden. Andrew Jackson\ntaunted this man to enforce his ruling in Worcester v. Georgia. For ten points, name this fourth and\nlongest-serving Chief Justice who, in his ruling in Marbury v. Madison, established the Supreme Court’s\npower of judicial review.",
+      "answer": [
+        "John Marshall",
+        "Marshall"
+      ]
+    },
+    {
+      "question": "In this state, James Earl Chaney, Andrew Goodman, and Michael Schwerner were killed by a lynch\nmob in Neshoba County. This state’s penitentiary at Parchman Farm held hundreds of Freedom Riders\nunder arrest by order of Governor Ross Barnett. In 1955 in this state, J.W. Milam and Roy Bryant\nkidnapped and murdered 14-year-old Emmett Till. For ten points, name this state where, in 1963, Byron\nde la Beckwith murdered civil rights activist Medgar Evers at his home in the state capital, Jackson.",
+      "answer": "Mississippi"
+    },
+    {
+      "question": "This group pulled its support for Jimmy Walker, partly because of his frequent affairs with “chorus\ngirls.” An image captioned “Let Us Prey” depicted this group’s members as vultures. This institution was\nvery popular among Irish immigrants, was mocked by the cartoons of reformer Thomas Nast, and was\nonce led by the corrupt “Boss” Tweed. New York City was long under the control of, for ten points, what\nDemocratic Party political machine?",
+      "answer": [
+        "Tammany Hall",
+        "Tammany",
+        "Society of Saint Tammany",
+        "Sons of Saint Tammany",
+        "Columbian Order",
+        "Columbian"
+      ]
     }
   ],
   "q2": [
@@ -1227,6 +1264,48 @@
           "Lady Bird",
           "Claudia"
         ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "This founder of the Keystone Bridge company began his career as a telegraph operator. He hired the\nPinkertons to put down the Homestead Strike and pioneered the idea of vertical integration, in which he\nowned the entire supply chain. The Gospel of Wealth was written by, for ten points, what corporate titan\nwhose company became U.S. Steel in 1901 and whose wealth sponsored a music hall in New York City?",
+        "answer": [
+          "Andrew Carnegie",
+          "Carnegie"
+        ]
+      },
+      "bonus": {
+        "question": "This financier bought Carnegie Steel for $480 million to create U.S. Steel. This banker’s money\nbailed out the United States during the Panic of 1907.",
+        "answer": [
+          "John Pierpont Morgan",
+          "Morgan"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "As Governor, this man ended Gabriel Prosser’s slave rebellion. This man’s support of the American\nColonization Society was rewarded when a newly founded African country named its capital after him.\nThis man received all but one electoral vote in one election and promoted a foreign policy that opposed\nEuropean colonial efforts in the Western Hemisphere. For ten points, name this fifth president of the\nUnited States, the successor of James Madison and namesake of an important doctrine.",
+        "answer": [
+          "James Monroe",
+          "Monroe"
+        ]
+      },
+      "bonus": {
+        "question": "Monroe’s presidency, which included a Great Goodwill Tour and an unopposed re-election\ncampaign, is often described as this optimistic “Era.”",
+        "answer": [
+          "Era of Good Feelings",
+          "Good Feelings"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "The death of this state’s governor-elect, Eugene Talmadge, sparked the Three Governors controversy.\nThis state is the site of Fort Benning, the infantry training site for the US Army, as well as a Lockheed\nMartin aircraft plant in Marietta. This home state of the Center for Disease Control was where John\nPemberton invented an opium-free soft drink. For ten points, name this southern U.S. state where CNN\nwas founded, and Coca-Cola is headquartered, in Atlanta.",
+        "answer": "Georgia"
+      },
+      "bonus": {
+        "question": "Franklin D. Roosevelt resided, and suffered a fatal stroke and hemorrhage, in this Georgia town’s\nLittle White House.",
+        "answer": "Warm Springs"
       }
     }
   ],
@@ -2518,6 +2597,115 @@
           ]
         }
       ]
+    },
+    {
+      "category": "AMERICA'S GILDED AGE",
+      "prompt": "In the history of the Gilded Age, name the...",
+      "questions": [
+        {
+          "question": "Industry that was dominated by robber barons Jay Gould, Cornelius Vanderbilt and which replaced\nwagon trains for travel west.",
+          "answer": [
+            "railroad industry",
+            "rail",
+            "trains"
+          ]
+        },
+        {
+          "question": "American author who coined the term “Gilded Age” and created Tom Sawyer.",
+          "answer": [
+            "Mark Twain",
+            "Twain",
+            "Clemens",
+            "Samuel Longhorn Clemens"
+          ]
+        },
+        {
+          "question": "Preceding period of national repair and re-incorporation of the South following the Civil War.",
+          "answer": "Reconstruction"
+        },
+        {
+          "question": "Style of capitalism, from the French for “let them do,” favored by anti-regulation Bourbon Democrats.",
+          "answer": "Laissez-faire"
+        },
+        {
+          "question": "Type of chaotic financial crisis suffered in 1873 and 1893.",
+          "answer": "Panics"
+        },
+        {
+          "question": "Term for Republicans who favored civil service reform, leading the Stalwarts to call them “only half\nRepublican.”",
+          "answer": "Half-Breeds"
+        },
+        {
+          "question": "Ohio Democrat who sponsored and names an 1883 Civil Service Reform Act.",
+          "answer": [
+            "George Pendleton",
+            "Pendleton",
+            "Pendleton Act",
+            "Pendleton Bill",
+            "Pendleton Law"
+          ]
+        },
+        {
+          "question": "Term for Republicans who jumped ship and supported Grover Cleveland in 1884.",
+          "answer": "mugwumps"
+        }
+      ]
+    },
+    {
+      "category": "THE FRENCH AND INDIAN WAR",
+      "prompt": "Name the...",
+      "questions": [
+        {
+          "question": "American major who led Virginian forces during the war and later served as Commander-in-Chief of\nthe Continental Army.",
+          "answer": [
+            "George Washington",
+            "Washington"
+          ]
+        },
+        {
+          "question": "River between the US and modern Canada that was targeted by the British as the center of French\nsettlement.",
+          "answer": "St. Lawrence River"
+        },
+        {
+          "question": "River that marked the western boundary of land that France ceded to Britain.",
+          "answer": "Mississippi River"
+        },
+        {
+          "question": "Treaty that ended the war; the name of the city is enough.",
+          "answer": [
+            "Treaty of Paris 1763",
+            "Paris",
+            "Treaty of Paris"
+          ]
+        },
+        {
+          "question": "Capital city of New France that was captured by the British after the Battle of the Plains of Abraham.",
+          "answer": [
+            "Quebec City",
+            "Quebec"
+          ]
+        },
+        {
+          "question": "Native American confederation, a union of five tribes, that sided with the British during the war.",
+          "answer": [
+            "Iroquois Confederacy",
+            "Iroquois"
+          ]
+        },
+        {
+          "question": "British edict that forbade post-war American settlement west of the Appalachians.",
+          "answer": "Proclamation of 1763"
+        },
+        {
+          "question": "British general who died while commanding a disastrous expedition to take Fort Duquesne [do-kayne].",
+          "answer": [
+            "Edward Braddock",
+            "Braddock",
+            "Braddock Expedition",
+            "Braddock Campaign"
+          ]
+        }
+      ]
     }
   ],
   "q4": [
@@ -3259,6 +3447,50 @@
         "RFK senior",
         "Robert Francis Kennedy Sr.",
         "Robert Francis Kennedy Senior"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) Near the end of this program, Deke Slayton controlled personnel assignments, and was\nhimself chosen to be its last crew member. As a show of d´etente, this program collaborated\nwith the (20 pts) ",
+        "Soyuz program in a 1975 docking mission. James Lovell commanded one phase\nof this program, which suffered an explosion and aborted its (10 pts) ",
+        "landing mission. Seventeen\nnumbered missions were part of, for ten points, what American space program that “won” the space race\nby landing Neil Armstrong on the Moon?"
+      ],
+      "answer": [
+        "Apollo Program",
+        "Apollo"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) John Steuart Curry depicted this man in front of a wagon train, a fire, and a tornado,\nholding a Bible and a gun in outstretched arms. This man received funding and support\nfrom Gerrit Smith, Thomas Wentworth Higginson, and the rest of the (20 pts) ",
+        "“Secret Six.”\nAfter the sacking of Lawrence, this man led a group of settlers that murdered five people at\nPottawatomie Creek, one of the “Bleeding Kansas” conflicts. (10 pts) ",
+        "Robert E. Lee led a Marine\ndetachment that captured this man in October 1859 from a Virginia armory. For ten points, name this\nAmerican abolitionist who was executed after his failed raid on Harpers Ferry."
+      ],
+      "answer": [
+        "John Brown",
+        "Brown"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) This man won an election as a write-in candidate to succeed Burnet Maybank. This\nman led the opposition to the nomination of Abe Fortas to the Supreme Court, and this\nauthor of the (20 pts) ",
+        "Southern Manifesto switched his party affiliation in 1964 to support\nBarry Goldwater. He holds the record for the longest filibuster by a single senator, and\nhe served in the Senate until he was (10 pts) ",
+        "one hundred years old. For ten points, name this South\nCarolina senator who ran on the Dixiecrat ticket in 1948 and opposed the Civil Rights movement."
+      ],
+      "answer": [
+        "Strom Thurmond",
+        "Thurmond"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) Four men who performed this action were protected by the Supreme Court’s ruling in\nUnited States v. O’Brien, which established how the Court treated content-neutral speech.\nStudents wearing black (20 pts) ",
+        "armbands and performing this action were protected by the\nCourt’s ruling in Tinker v. Des Moines. People performing this action were described as\n“doves” and often chanted “Hey, hey, (10 pts) ",
+        "LBJ, how many kids did you kill today?” For ten points,\nname this political action in which U.S. citizens expressed their opposition to a conflict in Southeast Asia."
+      ],
+      "answer": [
+        "protesting the Vietnam War",
+        "protesting Vietnam"
       ]
     }
   ]

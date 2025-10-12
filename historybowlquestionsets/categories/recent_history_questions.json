@@ -46,6 +46,13 @@
         "Edward Snowden",
         "Snowden"
       ]
+    },
+    {
+      "question": "This leader abolished his country’s Planning Commission and replaced it with the NITI Aayog. This\nleader launched an economic plan promising “Housing for All” by the year 2022. Over the 2016 Labor Day\nWeekend, over 100 million workers took part in a strike against this leader’s efforts towards privatization.\nThis leader is criticized for his role in the 2002 anti-Muslim riots in the state of Gujarat. For ten points,\nname this leader elected in 2014 after defeating the INC, the current Prime Minister of India.",
+      "answer": [
+        "Narendra Modi",
+        "Modi"
+      ]
     }
   ],
   "q2": [
@@ -89,6 +96,23 @@
       "bonus": {
         "question": "In March 2016, Mike Pence signed Bill HB 1337 into law, tightening restrictions on this action.\nIn 2015, the Center for Medical Progress was criticized for altering videos that secretly recorded meetings\nwith physicians who perform this action.",
         "answer": "abortion"
+      }
+    },
+    {
+      "tossup": {
+        "question": "Vladimir Putin said he did not mean to scare this leader after he brought his pet labrador to a meeting\nin 2007. The term “GroKo” was coined to describe this leader’s most recent coalition with the SPD. This\nleader’s country received a record breaking 1.1 million asylum seekers in 2015. Wolfgang Schauble serves\nas Finance Minister under this leader, who often makes the “triangle of power” hand gesture. For ten\npoints, name this former Chancellor of Germany, who was often cited as the world’s most powerful woman?",
+        "answer": [
+          "Angela Merkel",
+          "Merkel"
+        ]
+      },
+      "bonus": {
+        "question": "Schauble and Merkel are members of this center-right German political party, a long-time rival\nof the SDP.",
+        "answer": [
+          "Christian Democratic Union",
+          "Christian Democrat",
+          "CDU"
+        ]
       }
     }
   ],

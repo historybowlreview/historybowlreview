@@ -71,6 +71,10 @@
         "Adam Smith",
         "Smith"
       ]
+    },
+    {
+      "question": "The over-creation of these parts of speech through the use of derivational morphology creates their\n“zombie” type. Socrates defined these parts of speech as “onoma” in the Cratylus. Classifiers on these\ntypes of speech are found in Chinese and Turkish to add quantifiers. Articles are sometimes placed before\nthese parts of speech in English in order to start a type of “phrase” contrasted with verb phrases. For ten\npoints, name this part of speech, often defined as including persons, places, things, or ideas.",
+      "answer": "nouns"
     }
   ],
   "q2": [
@@ -201,6 +205,19 @@
       "bonus": {
         "question": "Durkheim argued that a fourth form of suicide is motivated by this phenomenon, characterized\nby a lack of social direction and moral confusion.",
         "answer": "anomie"
+      }
+    },
+    {
+      "tossup": {
+        "question": "This man died before completing the “Tenth Walk” portion of his Reveries of a Solitary Walker. This\nauthor’s epistolary novel about two lovers at the foot of the Alps was the best-selling novel of the 18th\ncentury. This man’s two submissions to the Academy of Dijon constituted his Discourse on the Arts and\nSciences and Discourse on Inequality, which develop his ideas of the “noble savage.” For ten points, name\nthis French Enlightenment philosopher who contrasted life under government with the ideal community\nof man living in nature in his The Social Contract.",
+        "answer": [
+          "Jean-Jacques Rousseau",
+          "Rousseau"
+        ]
+      },
+      "bonus": {
+        "question": "According to Rousseau, this specific concept was equal to the rule of law. Rousseau’s Discourse\non Political Economy reflected his idea that this concept was actually a defense for the individual against\nthe masses.",
+        "answer": "the general will"
       }
     }
   ],

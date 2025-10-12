@@ -113,6 +113,13 @@
         "Deoxyribonucleic acid",
         "DNA"
       ]
+    },
+    {
+      "question": "A virus capable of causing this disease was discovered in 1911 by Peyton Rous. The fusion gene\nBCR-ABL1, found on the Philadelphia chromosome, causes a tyrosine kinase to always be on, leading to a\ntype of this disease. It is protected against by the protein p53, the “guardian of the genome.” Metastasis\nis the spread of, for ten points, what type of disease, including lymphomas and leukemia, that leads to\nuncontrolled cell growth and the formation of tumors?",
+      "answer": [
+        "cancer",
+        "sarcoma"
+      ]
     }
   ],
   "q2": [
@@ -302,6 +309,33 @@
           "bel",
           "decibel scale"
         ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "This man succeeded Isaac Barrow and served 33 years as Lucasian Professor of Mathematics in\nCambridge. His treatise Opticks introduced the corpuscular theory of light. This physicist laid the\nframework for classical mechanics in his three-volume Principia Mathematica, and he feuded with\nGottfried Leibniz over credit for the invention of calculus. For ten points, name this British physicist and\nmathematician who devised three laws of motion.",
+        "answer": [
+          "Sir Isaac Newton",
+          "Newton"
+        ]
+      },
+      "bonus": {
+        "question": "In possible reference to the short stature of his rival, Robert Hooke, Newton claimed that if he\nhad “seen further,” it was by standing on this metaphorical concept.",
+        "answer": "the shoulders of giants"
+      }
+    },
+    {
+      "tossup": {
+        "question": "Citizens of this country, including Arthur Rudolph, were brought to the United States in Operation\nPaperclip. This country’s scientists developed a liquid-propellant engine for use in the first man-made\nobject to cross the Karman line into outer space; that object was used a “vengeance weapon” in 1944. For\nten points, name this country whose rocket scientists, including Werner Von Braun, developed the V-2\nrocket but did not create a nuclear weapon before it lost World War II.",
+        "answer": [
+          "Nazi Germany",
+          "Germany",
+          "Third Reich"
+        ]
+      },
+      "bonus": {
+        "question": "Operation Paperclip hid the Nazi backgrounds of the imported scientists, including Hubertus\nStrughold. Strughold had used human test subjects in his work at this German concentration camp near\nMunich, which the Americans used as a military base after the war.",
+        "answer": "Dachau"
       }
     }
   ],
