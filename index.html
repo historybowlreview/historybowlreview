@@ -2424,124 +2424,47 @@ async function renderGlobalLeaderboard() {
        // Clear container again before adding new content
        container.innerHTML = '';
        
-       container.innerHTML = topScores.map((e, idx) => {
-           // Define styling based on rank (keeping your exact colors)
-           let nameStyle = '';
-           let rankStyle = '';
-           let medalEmoji = '';
-           let borderColor = '#5a67d8';
-           const primaryScore = e.weightedScore !== undefined ? e.weightedScore : e.totalScore;
+        container.innerHTML = ''; // clear container first
+        
+        topScores.forEach((e, idx) => {
+            const entry = document.createElement('div');
+            entry.className = 'leaderboard-entry';
+            
+            // Keep your rank styling logic
+            let nameStyle = '', rankStyle = '', medalEmoji = '', borderColor = '#5a67d8';
+            const primaryScore = e.weightedScore !== undefined ? e.weightedScore : e.totalScore;
             const secondaryScore = e.totalScore !== undefined ? e.totalScore : 0;
-           
-           if (idx === 0) {
-               nameStyle = 'color:#8646C7;font-weight:bold;font-size:1.3em;';
-               rankStyle = 'color:#8646C7;font-weight:800;text-shadow:1px 1px 2px rgba(134,70,199,0.2);';
-               borderColor = '#8646C7';
-               medalEmoji = '🥇';
-           } else if (idx === 1) {
-               nameStyle = 'color:#7146C7;font-weight:bold;font-size:1.25em;';
-               rankStyle = 'color:#7146C7;font-weight:800;text-shadow:1px 1px 2px rgba(113,70,199,0.2);';
-               borderColor = '#7146C7';
-               medalEmoji = '🥈';
-           } else if (idx === 2) {
-               nameStyle = 'color:#4E59BC;font-weight:bold;font-size:1.2em;';
-               rankStyle = 'color:#4E59BC;font-weight:800;text-shadow:1px 1px 2px rgba(78,89,188,0.2);';
-               borderColor = '#4E59BC';
-               medalEmoji = '🥉';
-           } else if (idx === 3 || idx === 4) {
-               nameStyle = 'color:#457CB7;font-weight:600;font-size:1.1em;';
-               rankStyle = 'color:#457CB7;font-weight:800;';
-               borderColor = '#457CB7';
-           } else if (idx >= 5 && idx < 10) {
-               nameStyle = 'color:#2F547C;font-weight:600;font-size:1.05em;';
-               rankStyle = 'color:#2F547C;font-weight:800;';
-               borderColor = '#2F547C';
-           }
-           
-           // Background gradient based on rank
-           let backgroundGradient = 'rgba(255,255,255,0.9)';
-           if (idx === 0) backgroundGradient = 'linear-gradient(135deg,rgba(134,70,199,0.30) 0%,rgba(255,255,255,0.95) 100%)';
-           else if (idx === 1) backgroundGradient = 'linear-gradient(135deg,rgba(113,70,199,0.25) 0%,rgba(255,255,255,0.95) 100%)';
-           else if (idx === 2) backgroundGradient = 'linear-gradient(135deg,rgba(78,89,188,0.20) 0%,rgba(255,255,255,0.95) 100%)';
-           else if (idx === 3 || idx === 4) backgroundGradient = 'linear-gradient(135deg,rgba(69,124,183,0.15) 0%,rgba(255,255,255,0.95) 100%)';
-           else if (idx >= 5) backgroundGradient = 'linear-gradient(135deg,rgba(47,84,124,0.10) 0%,rgba(255,255,255,0.95) 100%)';
-           else if (idx >= 5 && idx < 10) backgroundGradient = 'linear-gradient(135deg,rgba(47,84,124,0.05) 0%,rgba(255,255,255,0.95) 100%)';
-           
-           return `
-               <div style="
-                   display:flex;
-                   align-items:center;
-                   justify-content:space-between;
-                   padding:12px 16px;
-                   margin:6px 0;
-                   background:${backgroundGradient};
-                   border-radius:10px;
-                   border-left:4px solid ${borderColor};
-                   box-shadow:0 2px 8px rgba(0,0,0,0.06);
-                   transition:all 0.3s ease;
-                   backdrop-filter:blur(10px);
-                   cursor:pointer;
-               " 
-               onmouseover="this.style.transform='translateX(4px) translateY(-1px)';this.style.boxShadow='0 4px 16px rgba(0,0,0,0.12)';this.style.background='rgba(255,255,255,0.98)'"
-               onmouseout="this.style.transform='translateX(0) translateY(0)';this.style.boxShadow='0 2px 8px rgba(0,0,0,0.06)';this.style.background='${backgroundGradient}'">
-                   
-                   ${medalEmoji ? `<span style="font-size:1.4rem;margin-right:8px;">${medalEmoji}</span>` : ''}
-                   
-                   <span style="
-                       ${rankStyle}
-                       font-size:1.1rem;
-                       min-width:35px;
-                       text-align:center;
-                       margin-right:12px;
-                   ">${idx + 1}</span>
-                   
-                   <div style="flex:1;margin:0 12px;">
-                       <div style="${nameStyle}margin-bottom:3px;line-height:1.1;">
-                           ${e.name || "Anonymous"}
-                       </div>
-                       <div style="
-                           font-size:0.8rem;
-                           color:#666;
-                           display:flex;
-                           gap:10px;
-                           flex-wrap:wrap;
-                           align-items:center;
-                       ">
-                           <span style="
-                               background:rgba(90,103,216,0.1);
-                               padding:2px 6px;
-                               border-radius:8px;
-                               font-size:0.75rem;
-                               font-weight:500;
-                               color:#5a67d8;
-                           ">⚡ ${e.averageBuzzInTime ? e.averageBuzzInTime.toFixed(1) + 's' : 'N/A'}</span>
-                           <span style="
-                               background:rgba(108,117,125,0.1);
-                               padding:2px 6px;
-                               border-radius:8px;
-                               font-size:0.75rem;
-                               font-weight:500;
-                               color:#6c757d;
-                           ">📅 ${formatDate(e.date)}</span>
-                       </div>
-                   </div>
-                   
-                   <div style="
-                       ${rankStyle}
-                       font-size:1.3rem;
-                       font-weight:800;
-                       text-align:right;
-                       min-width:60px;
-                       background:rgba(255,255,255,0.7);
-                       padding:6px 10px;
-                       border-radius:8px;
-                       box-shadow:0 1px 6px rgba(0,0,0,0.08);
-                   ">
-                       <div style="font-size:1.25rem;font-weight:800;">${primaryScore}</div>
-                       <div style="font-size:0.85rem;margin-top:4px;color:#555;">pts: ${secondaryScore}</div>
-                   </div>
-           `;
-       }).join('') + `
+        
+            if (idx === 0) { nameStyle = 'color:#8646C7;font-weight:bold;font-size:1.3em;'; rankStyle = 'color:#8646C7;font-weight:800;text-shadow:1px 1px 2px rgba(134,70,199,0.2);'; borderColor='#8646C7'; medalEmoji='🥇'; }
+            else if (idx === 1) { nameStyle = 'color:#7146C7;font-weight:bold;font-size:1.25em;'; rankStyle='color:#7146C7;font-weight:800;text-shadow:1px 1px 2px rgba(113,70,199,0.2);'; borderColor='#7146C7'; medalEmoji='🥈'; }
+            else if (idx === 2) { nameStyle='color:#4E59BC;font-weight:bold;font-size:1.2em;'; rankStyle='color:#4E59BC;font-weight:800;text-shadow:1px 1px 2px rgba(78,89,188,0.2);'; borderColor='#4E59BC'; medalEmoji='🥉'; }
+            else if (idx===3||idx===4) { nameStyle='color:#457CB7;font-weight:600;font-size:1.1em;'; rankStyle='color:#457CB7;font-weight:800;'; borderColor='#457CB7'; }
+            else if (idx>=5 && idx<10) { nameStyle='color:#2F547C;font-weight:600;font-size:1.05em;'; rankStyle='color:#2F547C;font-weight:800;'; borderColor='#2F547C'; }
+        
+            // Background gradient
+            let backgroundGradient='rgba(255,255,255,0.9)';
+            if (idx===0) backgroundGradient='linear-gradient(135deg,rgba(134,70,199,0.30) 0%,rgba(255,255,255,0.95) 100%)';
+            else if (idx===1) backgroundGradient='linear-gradient(135deg,rgba(113,70,199,0.25) 0%,rgba(255,255,255,0.95) 100%)';
+            else if (idx===2) backgroundGradient='linear-gradient(135deg,rgba(78,89,188,0.20) 0%,rgba(255,255,255,0.95) 100%)';
+            else if (idx===3||idx===4) backgroundGradient='linear-gradient(135deg,rgba(69,124,183,0.15) 0%,rgba(255,255,255,0.95) 100%)';
+            else if (idx>=5) backgroundGradient='linear-gradient(135deg,rgba(47,84,124,0.10) 0%,rgba(255,255,255,0.95) 100%)';
+        
+            entry.style.border = `2px solid ${borderColor}`;
+            entry.style.background = backgroundGradient;
+            entry.style.borderRadius = '10px';
+            entry.style.padding = '8px';
+            entry.style.marginBottom = '6px';
+        
+            // Inner HTML for name/rank/score
+            entry.innerHTML = `
+                <span style="${rankStyle}">${idx+1} ${medalEmoji}</span>
+                <span style="${nameStyle}">${e.name}</span>
+                <span style="float:right;">${primaryScore} pts</span>
+            `;
+        
+            container.appendChild(entry);
+        });
+
            <div style="
                text-align:center;
                margin-top:16px;
