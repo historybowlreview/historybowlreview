@@ -2414,7 +2414,7 @@ async function finishGame() {
       date: new Date().toISOString(),
       name: playerName,
       totalScore: gameState.rawScore,                      // raw points (existing)
-      averageBuzzInTime: Math.round(avgBuzz*10)/10
+      averageBuzzInTime: Math.round(avgBuzz*10)/10,
       weightedScore: Math.round(gameState.weightedScore*10 || 0)/10, // new primary metric
     };
     await saveScoreToGlobalLeaderboard(entry);
