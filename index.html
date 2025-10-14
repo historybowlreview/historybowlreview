@@ -474,7 +474,7 @@ async function loadQuestionsFromServer() {
         const q4Count = jsonData.q4.reduce((sum, group) => sum + group.parts.length, 0);
 
         updateQuestionsStatus(
-            `Successfully loaded: Q1(${jsonData.q1.length}) Q2(${jsonData.q2.length}*2) Q3(${q3Count}) Q4(${q4count})`,
+            `Successfully loaded`,
             true
         );
 
@@ -2585,9 +2585,10 @@ function renderQuestionsDisplay(){
     summary.innerHTML = `
         <h4>Loaded Questions Summary:</h4>
         <p>Quarter 1: ${q1count} questions</p>
-        <p>Quarter 2: ${q2count}*2 questions</p>
+        <p>Quarter 2: ${q2count*2} questions</p>
         <p>Quarter 3: ${q3count} categories</p>
         <p>Quarter 4: ${q4count} questions</p>
+        <p>All Quarters: ${q1count+q2count*2+q3count*8+q4count} questions</p>
     `;
     container.appendChild(summary);
 }
