@@ -1,6 +1,79 @@
 {
   "q1": [
     {
+      "question": "This author corresponded with Colonel Thomas Wentworth Higginson during the Civil War,\nwhich was the subject of her poem \"It Feels a Shame to Be Alive.\" She described a carriage\ncontaining \"eternity\" in another poem. For 10 points, name this \"belle of Amherst\" whose poems\nsuch as \"Because I Could Not Stop for Death\" were published only after her death.",
+      "answer": [
+        "Emily Dickinson",
+        "Dickinson"
+      ]
+    },
+    {
+      "question": "This author fictionalized Vice-President Aaron Burr in her novel The Minister's Wooing and\ndepicted fugitives in the Great Dismal Swamp in Dred. She wrote a \"key to\" her major novel,\nwhich led Abraham Lincoln to describe her as \"the little lady who started this big war.\" For 10\npoints, name this author who created Simon Legree in the anti-slavery book Uncle Tom's Cabin.",
+      "answer": [
+        "Harriet Beecher Stowe",
+        "Stowe"
+      ]
+    },
+    {
+      "question": "This man's fictitious sister Judith is hypothesized to make a point about women writers in\nVirginia Woolf's A Room of One's Own. This man left only his \"second-best bed\" to his widow\nAnne Hathaway, but did leave women such roles as Cordelia, Beatrice, and Ophelia. For 10\npoints, name this author of King Lear, Much Ado About Nothing, and Hamlet.",
+      "answer": [
+        "William Shakespeare",
+        "Shakespeare"
+      ]
+    },
+    {
+      "question": "This man's great-grandfather raised the 1st Mississippi Partisan Rangers in the Civil War and\nwrote The White Rose of Memphis. This author used that ancestor as the model for the\nprotagonist of The Unvanquished, Colonel Sartoris. For 10 points, name this Mississippi-born\nnovelist of \"A Rose for Emily\" and The Sound and the Fury.",
+      "answer": "William Faulkner, Faulkner"
+    },
+    {
+      "question": "In this novel, a “resurrection man” emerges from the mists in front of a mail coach. John Barsad\nplants evidence on a man who is a lookalike of a drunken lawyer; that man ends this novel by saying “it\nis a far, far better rest that I go to than I have ever known” at the guillotine. French nobleman Marquis\nSt. Evremonde is the uncle of Charles Darnay in, for ten points, what novel by Charles Dickens set during\nthe French Revolution?",
+      "answer": "A Tale of Two Cities"
+    },
+    {
+      "question": "This writer compared journalists with prostitutes in his expose The Brass Check. In another book by\nthis man, the protagonist’s wife Ona is raped by Phil Connor, and its Lithuanian protagonist attending\na Socialist rally; that book caused this author to claim “I aimed for the public’s heart, and by accident\nhit it in the stomach.” Jurgis Rudkus works in an unsanitary meatpacking plant in, for ten points, what\nmuckracking author’s The Jungle?",
+      "answer": [
+        "Upton Sinclair",
+        "Sinclair"
+      ]
+    },
+    {
+      "question": "After Martin Luther called Henry VIII a pig, dolt, and liar, this author returned fire in Responsio ad\nLutherum. A decade later, he was executed for treason after refusing to support Henry VIII’s annulment.\nPeter Giles and Raphael Hythloday discuss an imaginary island in one of this man’s works. For ten points,\nname this English Christian Humanist who wrote Utopia.",
+      "answer": [
+        "Thomas More",
+        "More"
+      ]
+    },
+    {
+      "question": "This man called the author of The Heart of Darkness a “bloody racist” in his lecture An Image\nof Africa. He wrote about Chief Ezeulu refusing to work for T.K. Winterbottom in Arrow of God, and\nIkemefuna is killed by his guardian Okonkwo in a work inspired by this author’s experiences of British\ncolonization in Nigeria. For ten points, name this African author of Things Fall Apart.",
+      "answer": [
+        "Chinua Achebe",
+        "Achebe"
+      ]
+    },
+    {
+      "question": "This character discusses fighting off sea monsters called “nicoras.” Wiglaf is the only person who\nattends this man in death, and is crowned king as a result. Unferth apologizes for doubting this character\nby granting him the sword Hrunting. For ten points, name this title character of the oldest surviving work\nof Old English poetry, an epic hero defeats Grendel.",
+      "answer": "Beowulf"
+    },
+    {
+      "question": "In this work, the fourth ditch of the Malebolge [mall-uh-bowlj] is home to sorcerers who walk with\ntheir heads turned backwards. This poem’s narrator avoids a leopard, a lion, and a wolf by passing through\na doorway that warns, “abandon all hope, ye who enter here,” and later discovers the traitors Cassius,\nBrutus, and Judas writhing in the mouths of Lucifer. The poet Virgil guides the narrator during, for ten\npoints, what first section of Dante’s Divine Comedy, in which the author explores the circles of Hell?",
+      "answer": "Inferno"
+    },
+    {
+      "question": "A poet who fought in this war described escaping from the battle “down some profound dull tunnel” into Hell. In a novel, Albert Kropp’s leg is amputated during this war. Another poem about this war describes “an ecstasy of fumbling/Fitting the clumsy helmets just in time” and takes its title from Horace’s “old Lie.” Wilfred Owen fought in, for ten points, what war, the setting for Erich Maria Remarque’s novel All Quiet on the Western Front?",
+      "answer": [
+        "World War I",
+        "WWI",
+        "the Great War"
+      ]
+    },
+    {
+      "question": "This novel’s protagonist pursues the affections of both Constance Bonacieux and Milady de Winter,\nwho conspires to separate the Duke of Buckingham and Queen Anne with the help of Cardinal Richelieu. In\nthis novel, the heartbroken Comte de la F`ere adopts the nickname Athos and fights alongside Porthos and\nAramis before being joined by d’Artagnan [dar-tan-YAN]. For ten points, name this novel by Alexandre\nDumas about a small group of soldiers who live by the principle of “one for all and all for one.”",
+      "answer": [
+        "The Three Musketeers",
+        "Trois Mousquetaires"
+      ]
+    },
+    {
       "question": "This author described his time serving as a war emissary during a civil war in his 2012 memoir There\nwas a Country. In a novel by this author, Clara’s societal status prevents Obi from marrying her. This\nauthor of No Longer at Ease advocated for the state of Biafra and created a character who commits\nsuicide after the people of Umuofia refuse to fight against British missionaries. Okonkwo was created by,\nfor ten points, what Nigerian author of Things Fall Apart?",
       "answer": [
         "Chinua Achebe",
@@ -10,6 +83,89 @@
     }
   ],
   "q2": [
+    {
+      "tossup": {
+        "question": "This man's victory at the 1040 battle of Elgin allowed him to become King of Alba, displacing\nDuncan I. In a fictionalized portrayal, this man is killed in battle with an opponent who, having\nbeen delivered by Caesarean section, fulfills the prophecy that \"no man of woman born\" can kill\nhim. For 10 points, name this King of Scotland killed by Macduff in a Shakespeare play.",
+        "answer": "Macbeth"
+      },
+      "bonus": {
+        "question": "In what other Shakespeare play based on history does a queen of Egypt kill herself with\nan asp following the two title characters' loss at the Battle of Actium?",
+        "answer": "Antony and Cleopatra"
+      }
+    },
+    {
+      "tossup": {
+        "question": "This man's two weeks fighting in the Confederate-affiliated Marion Rangers inspired his short\nstory \"The Private History of a Campaign That Failed.\" With Charles Dudley Warner, he wrote a\nnovel that gave its name to the post-Civil War period of prosperity in the North, The Gilded Age.\nFor 10 points, name this author who created Becky Thatcher, Huck Finn, and Tom Sawyer.",
+        "answer": [
+          "Mark Twain",
+          "Twain",
+          "Samuel Langhorne Clemens",
+          "Clemens"
+        ]
+      },
+      "bonus": {
+        "question": "Twain's only success as a publisher was with a biography of what victor at Forts Henry\nand Donelson who led the successful Siege of Vicksburg?",
+        "answer": [
+          "Ulysses Simpson Grant",
+          "Grant"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "This man documents his experiences traveling in China in his collection “In Time of War: A Sonnet\nSequence with a Verse Commentary.” One poem by this author asks “Who can reach the deaf?/Who can\nspeak for the dumb?” and begins in “one of the dives/On Fifty-Second Street”; that poem declares “We\nmust love each other or die.” “Funeral Blues” was written by, for ten points, what poet who memorialized\nthe beginning of WWII in his poem “September 1, 1939?\"",
+        "answer": [
+          "W H Auden",
+          "Auden",
+          "Wystan Hugh Auden"
+        ]
+      },
+      "bonus": {
+        "question": "”September 1, 1939” states that this ancient Greek historian knew “All that a speech can say\nabout/About Democracy,” alluding to his record of Pericles’ funeral oration in his most famous work.",
+        "answer": "Thucydides"
+      }
+    },
+    {
+      "tossup": {
+        "question": "A “tattered man” in this novel bothers the protagonist, who is given a yellow envelope to deliver to\nWilson’s family upon his death, though Wilson asks for it back. In this novel, Henry Fleming is hit in the\nhead with a rifle, leading his fellow soldiers to think he suffered the title wound. For ten points, name this\nCivil War novel written by Stephen Crane.",
+        "answer": "The Red Badge of Courage"
+      },
+      "bonus": {
+        "question": "Two years before publishing The Red Badge of Courage, Crane wrote Maggie, A Girl of the\nStreets, which is set in the streets and flophouses of this city’s Bowery neighborhood.",
+        "answer": [
+          "New York City",
+          "NYC",
+          "New York"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "This novel’s protagonist hopes that his barren and Ingsoc-obsessed wife, Katharine, will die so that\nhe can marry a woman in the Junior Anti-Sex League. While working for Minitru, this novel’s protagonist\nmeets Julia, whom he later betrays in Room 101. The Tehran Conference inspired this novel’s division of\nthe world into the perpetually-warring Oceania, Eastasia, and Eurasia. For ten points, name this novel by\nGeorge Orwell in which Winston Smith learns that Big Brother is always watching.",
+        "answer": [
+          "Nineteen Eighty-Four",
+          "1984"
+        ]
+      },
+      "bonus": {
+        "question": "This other novel by George Orwell models the rise of Russian communism under Trotsky and\nStalin with characters like Snowball and Napoleon, a pair of pigs who lead a barnyard uprising.",
+        "answer": "Animal Farm"
+      }
+    },
+    {
+      "tossup": {
+        "question": "This character’s elder brother was killed by Spaniards in the 1658 Battle of Dunkirk. This character\nescapes capture by Sallee pirates with the slave boy Xury, and he watches his friend tease and kill a bear\nbefore being surrounded by 300 wolves. This character is surprised by the discovery of a single footprint\non the beach of an island he calls “Despair.” Alexander Selkirk is thought to have inspired, for ten points,\nwhat castaway who titles a novel by Daniel Defoe?",
+        "answer": [
+          "Robinson Crusoe",
+          "Robinson",
+          "Crusoe"
+        ]
+      },
+      "bonus": {
+        "question": "After Robinson Crusoe saves this character from being eaten by cannibals, he becomes Crusoe’s\nfriend and assistant.",
+        "answer": "Friday"
+      }
+    },
     {
       "tossup": {
         "question": "One character in this novel is lured into a gambling debt by the doctor Dolokhov, while another\ncharacter falls in love with Anatole after meeting him and his sister H´el`ene at the opera. In this novel,\nPrince Andrei Bolkonsky fights in the battle of Austerlitz and Waterloo. The epilogue of this novel begins\nwith the wedding of Nastasha Rostova and Pierre Bezukhov, the latter of whom develops a desire to kill\nNapoleon after watching the Battle of Borodino. For ten points, name this notoriously long novel by Leo\nTolstoy.",
@@ -28,5 +184,57 @@
     }
   ],
   "q3": [],
-  "q4": []
+  "q4": [
+    {
+      "parts": [
+        "(30 pts) A major book about these places was based heavily on the recollections of Georg Tenno. These places were initially described only in \"samizdat\" literature, whose (20 pts) ",
+        "possession could get a person sent to these places, which were the subject of the (10 pts) ",
+        "Kolyma Tales. For 10 points, name these places whose \"archipelago\" is the subject of a book by Alexander Solzhenitsyn, who also set One Day in the Life of Ivan Denisovich in one of these forced Soviet labor camps."
+      ],
+      "answer": "gulags"
+    },
+    {
+      "parts": [
+        "(30 pts) Elbert Hubbard's inspirational story A Message to Garcia is set during this war. Mark\nTwain became a leader of the Anti-Imperialist League, which opposed this war. During this\nwar, Frederic (20 pts) ",
+        "Remington worked as a photographer for William Randolph (10 pts) ",
+        "Hearst,\nwho promised \"I'll furnish the war\" through his \"yellow journalism\" outlet, the New York\nJournal. For 10 points, name this war in which Cuba achieved independence and the U.S.\nannexed Puerto Rico."
+      ],
+      "answer": [
+        "Spanish-American War",
+        "Spanish-American"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) This language was used to write a play in which a woman loses a ring in a river that\nwould prove her identity to her husband. In addition to that play by (20 pts) ",
+        "Kalidasa, this\nlanguage was used to write four religious texts called the Vedas. In one epic written in this\nlanguage, a prince saves his wife (10 pts) ",
+        "Sita after she is kidnapped by Ravana. For ten points, name\nthis classical language of India used to write the Ramayana, Mahabharata, and most Hindu literature."
+      ],
+      "answer": "Sanskrit"
+    },
+    {
+      "parts": [
+        "(30 pts) In this novel, a character describes the Seven Years War as over “a few acres of snow\nsomewhere around Canada.” The title character of this work travels with the aforementioned\nMartin and the valet (20 pts) ",
+        "Cacambo, with whom he takes sheep laden with gems away from\nEl Dorado. The title character is advised by a syphilitic philosopher who, despite the Great (10 pts) ",
+        "Lisbon Earthquake, is convinced he lives in the “best of all possible worlds.” Pangloss and Cunegonde\nare characters in, for ten points, what satirical novel written by Voltaire?"
+      ],
+      "answer": "Candide"
+    },
+    {
+      "parts": [
+        "(30 pts) In this work, a monk compares the tragedies of Lucifer, Hercules, Nero, and Julius\nCaesar, among others. Earlier in this work, an old hag notes that “sovereignty over their (20 pts) ",
+        "husbands” is what women want most, as described by the Wife of Bath. This work was\nunfinished at its author’s death, including just 24 (10 pts) ",
+        "stories after the General Prologue, which\nintroduces a group of pilgrims at the Tabard Inn on their way to visit the shrine of Thomas a Beckett, an\nArchbishop who was slain in 1170. For ten points, name this 14th century collection of stories written by\nGeoffrey Chaucer."
+      ],
+      "answer": "The Canterbury Tales"
+    },
+    {
+      "parts": [
+        "(30 pts) The final place of employment for this novel’s protagonist is at Tommy Hind’s hotel. A\nboy in this novel drowns in a puddle of dirty water after his teenage mother Ona dies in\nchildbirth. The phrase (20 pts) ",
+        "“Chicago will be ours!” is chanted at a socialist rally attended\nby the Lithuanian immigrant Jurgis Rudkus at this novel’s conclusion. The 1906 Pure (10 pts) ",
+        "Food and Drug Act was passed in response to, for ten points, what novel about the Chicago meatpacking\nindustry, written by Upton Sinclair?"
+      ],
+      "answer": "The Jungle"
+    }
+  ]
 }
