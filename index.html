@@ -2063,6 +2063,10 @@ function normalizeAnswerArray(ans) {
     if (Array.isArray(ans)) return ans.map(a => a.trim().toLowerCase());
     return ans.split(',').map(a => a.trim().toLowerCase());
 }
+    const isCorrect = isStrictCorrect(given, gameState.currentAnswer) ||
+                  looseMatch(given, gameState.currentAnswer);
+    let basePoints = 0;
+    let earnedPoints = 0;
 
 function submitAnswer(){
     if ($('answerInput').disabled) return;
@@ -2150,11 +2154,6 @@ function submitAnswer(){
 
     $('answerInput').disabled = true;
     $('timerDisplay').textContent = "";
-
-    const isCorrect = isStrictCorrect(given, gameState.currentAnswer) ||
-                  looseMatch(given, gameState.currentAnswer);
-    let basePoints = 0;
-    let earnedPoints = 0;
 
     if (gameState.currentQuarter === 1){
         basePoints = 10;
@@ -2415,8 +2414,8 @@ async function finishGame() {
       date: new Date().toISOString(),
       name: playerName,
       totalScore: gameState.rawScore,                      // raw points (existing)
-      weightedScore: Math.round(gameState.weightedScore*10 || 0)/10, // new primary metric
       averageBuzzInTime: Math.round(avgBuzz*10)/10
+      weightedScore: Math.round(gameState.weightedScore*10 || 0)/10, // new primary metric
     };
     await saveScoreToGlobalLeaderboard(entry);
 
