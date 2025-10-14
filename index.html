@@ -322,6 +322,7 @@
         <div class="team-score">
           <div class="team-name">Score</div>
           <div class="score" id="rawScore">0</div>
+          <div class="small muted" id="weightedScoreDisplay" style="font-size:0.95rem;margin-top:6px;">Weighted: 0</div>
           <div class="small muted">Total points</div>
         </div>
         <div style="text-align:center">
@@ -449,6 +450,8 @@
 /* ================================================================
    Game state & helpers
    ================================================================ */
+const primaryScore = e.weightedScore !== undefined ? e.weightedScore : e.totalScore;
+const secondaryScore = e.totalScore !== undefined ? e.totalScore : 0;
 let QUESTIONS = {
     q1: [],
     q2: [],
@@ -692,6 +695,27 @@ function updateQ3PrefixBox(show) {
 // const q3Categories = getRandomQ3Categories();
 // const q4Question = getRandomQ4Question();
 
+// --- Weighted score helpers ---
+function computePercentDisplayed() {
+    const text = gameState.currentQuestionText || "";
+    const total = Math.max(1, text.length);
+    const shown = Math.max(0, Math.min(total, gameState.readingCharIndex || total));
+    return shown / total; // float between 0 and 1
+}
+
+function computeWeightedIncrement(basePoints, opts = {}) {
+    // opts: { isQ3: bool, isQ2Bonus: bool, percentDisplayed: float (0..1) }
+    if (!basePoints || basePoints <= 0) return 0;
+    if (opts.isQ3 || opts.isQ2Bonus) {
+        return Math.round(basePoints * 1.5); // fixed 1.5x
+    }
+    const pct = (typeof opts.percentDisplayed === 'number') ? opts.percentDisplayed : computePercentDisplayed();
+    // clamp
+    const clamped = Math.max(0, Math.min(1, pct));
+    const multiplier = 1 + (1 - Math.pow(clamped, 1.2)); // 1 + (1 - x^1.2)
+    return Math.round(basePoints * multiplier);
+}
+
 let gameState = {
     mode: null,
     currentQuarter: 1,
@@ -702,6 +726,7 @@ let gameState = {
     q3CategoryActive: false,
     currentQuestionIndex: -1,
     rawScore: 0,
+    weightedScore: 0,
     responseTimes: [], // Array to track response times
     readingInterval: null,
     postReadTimer: null,
@@ -742,7 +767,8 @@ function updateQuestionsStatus(message, success) {
 /* ------------------ UI helpers ------------------ */
 function updateScoreDisplays(){
     $('rawScore').textContent = gameState.rawScore;
-
+    // show weighted score as integer
+    $('weightedScoreDisplay').textContent = 'Weighted: ' + (Math.round(gameState.weightedScore || 0));
     // Calculate and display average response time
     const avgBuzz = calculateAverageBuzzInTime();
     $('avgResponseTime').textContent = avgBuzz !== null ? avgBuzz.toFixed(1) + 's' : '--';
@@ -1312,6 +1338,7 @@ function resetGame() {
         currentQuarter: gameState.currentQuarter,
         currentQuestionIndex: -1,
         rawScore: 0,
+        weightedScore: 0,
         responseTimes: [],
         readingInterval: null,
         postReadTimer: null,
@@ -2080,6 +2107,15 @@ function submitAnswer(){
         if (correct) {
             msg = `✔️ Correct! +10 pts`;
             gameState.rawScore += 10;
+            // --- Weighted score addition ---
+            const isQ3 = (gameState.currentQuarter === 3);
+            const isQ2Bonus = !!gameState.isAnsweringBonus && gameState.currentQuarter === 2;
+            const percentDisplayed = computePercentDisplayed();
+            
+            const wInc = computeWeightedIncrement(earnedPoints, { isQ3, isQ2Bonus, percentDisplayed });
+            gameState.weightedScore = (gameState.weightedScore || 0) + wInc;
+            
+            updateScoreDisplays();
             if (responseTime !== null) {
                 gameState.responseTimes.push(responseTime);
             }
@@ -2120,6 +2156,15 @@ function submitAnswer(){
         if (isCorrect){
             earnedPoints = basePoints;
             gameState.rawScore += earnedPoints;
+            // --- Weighted score addition ---
+            const isQ3 = (gameState.currentQuarter === 3);
+            const isQ2Bonus = !!gameState.isAnsweringBonus && gameState.currentQuarter === 2;
+            const percentDisplayed = computePercentDisplayed();
+            
+            const wInc = computeWeightedIncrement(earnedPoints, { isQ3, isQ2Bonus, percentDisplayed });
+            gameState.weightedScore = (gameState.weightedScore || 0) + wInc;
+            
+            updateScoreDisplays();
             if (responseTime !== null) {
                 gameState.responseTimes.push(responseTime);
             }
@@ -2141,6 +2186,15 @@ function submitAnswer(){
         if (isCorrect){
             earnedPoints = basePoints;
             gameState.rawScore += earnedPoints;
+            // --- Weighted score addition ---
+            const isQ3 = (gameState.currentQuarter === 3);
+            const isQ2Bonus = !!gameState.isAnsweringBonus && gameState.currentQuarter === 2;
+            const percentDisplayed = computePercentDisplayed();
+            
+            const wInc = computeWeightedIncrement(earnedPoints, { isQ3, isQ2Bonus, percentDisplayed });
+            gameState.weightedScore = (gameState.weightedScore || 0) + wInc;
+            
+            updateScoreDisplays();
             if (responseTime !== null) {
                 gameState.responseTimes.push(responseTime);
             }
@@ -2199,6 +2253,15 @@ function submitAnswer(){
         if (isCorrect){
             earnedPoints = basePoints;
             gameState.rawScore += earnedPoints;
+            // --- Weighted score addition ---
+            const isQ3 = (gameState.currentQuarter === 3);
+            const isQ2Bonus = !!gameState.isAnsweringBonus && gameState.currentQuarter === 2;
+            const percentDisplayed = computePercentDisplayed();
+            
+            const wInc = computeWeightedIncrement(earnedPoints, { isQ3, isQ2Bonus, percentDisplayed });
+            gameState.weightedScore = (gameState.weightedScore || 0) + wInc;
+            
+            updateScoreDisplays();
             if (responseTime !== null) {
                 gameState.responseTimes.push(responseTime);
             }
@@ -2219,6 +2282,15 @@ function submitAnswer(){
         if (bonusIsCorrect){
             const bonusPoints = 10;
             gameState.rawScore += bonusPoints;
+            // --- Weighted score addition ---
+            const isQ3 = (gameState.currentQuarter === 3);
+            const isQ2Bonus = !!gameState.isAnsweringBonus && gameState.currentQuarter === 2;
+            const percentDisplayed = computePercentDisplayed();
+            
+            const wInc = computeWeightedIncrement(earnedPoints, { isQ3, isQ2Bonus, percentDisplayed });
+            gameState.weightedScore = (gameState.weightedScore || 0) + wInc;
+            
+            updateScoreDisplays();
             const bonusResponseTime = (submitTime - gameState.questionStartTime) / 1000;
             gameState.responseTimes.push(bonusResponseTime);
             $('currentResponseTime').textContent = `Response time: ${bonusResponseTime.toFixed(1)}s`;
@@ -2336,9 +2408,10 @@ async function finishGame() {
     // Build the score entry
     const entry = {
       date: new Date().toISOString(),
-      name: $('playerNameInput').value.trim() || "Anonymous",
-      totalScore: totalScore,
-      averageBuzzInTime: avgBuzz
+      name: playerName,
+      totalScore: gameState.rawScore,                      // raw points (existing)
+      weightedScore: Math.round(gameState.weightedScore*10 || 0)/10, // new primary metric
+      averageBuzzInTime: Math.round(avgBuzz*10)/10
     };
     await saveScoreToGlobalLeaderboard(entry);
 
@@ -2387,7 +2460,11 @@ async function renderGlobalLeaderboard() {
        }
        
        // Sort scores by totalScore descending and take top 10
-       const topScores = scores.sort((a, b) => b.totalScore - a.totalScore);
+       const topScores = scores.sort((a, b) => {
+           const wa = (a.weightedScore || 0), wb = (b.weightedScore || 0);
+           if (wb !== wa) return wb - wa;
+           return (b.totalScore || 0) - (a.totalScore || 0);
+       });
        
        // Simple date formatting to "Sep 9 2025"
        const formatDate = (dateStr) => {
@@ -2509,8 +2586,10 @@ async function renderGlobalLeaderboard() {
                        padding:6px 10px;
                        border-radius:8px;
                        box-shadow:0 1px 6px rgba(0,0,0,0.08);
-                   ">${e.totalScore}</div>
-               </div>
+                   ">
+                       <div style="font-size:1.25rem;font-weight:800;">${primaryScore}</div>
+                       <div style="font-size:0.85rem;margin-top:4px;color:#555;">pts: ${secondaryScore}</div>
+                   </div>
            `;
        }).join('') + `
            <div style="
