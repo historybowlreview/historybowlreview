@@ -704,14 +704,21 @@ function computePercentDisplayed() {
 function computeWeightedIncrement(basePoints, opts = {}) {
     // opts: { isQ3: bool, isQ2Bonus: bool, percentDisplayed: float (0..1) }
     if (!basePoints || basePoints <= 0) return 0;
+
     if (opts.isQ3 || opts.isQ2Bonus) {
-        return Math.round(basePoints * 1.5); // fixed 1.5x
+        return basePoints * 1.5; // keep full precision, no rounding
     }
-    const pct = (typeof opts.percentDisplayed === 'number') ? opts.percentDisplayed : computePercentDisplayed();
+
+    const pct = (typeof opts.percentDisplayed === 'number') 
+        ? opts.percentDisplayed 
+        : computePercentDisplayed();
+
     // clamp
     const clamped = Math.max(0, Math.min(1, pct));
+
     const multiplier = 1 + (1 - Math.pow(clamped, 1.2)); // 1 + (1 - x^1.2)
-    return Math.round(basePoints * multiplier);
+
+    return basePoints * multiplier; // keep full precision
 }
 
 let gameState = {
