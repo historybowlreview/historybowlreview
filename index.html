@@ -2063,10 +2063,6 @@ function normalizeAnswerArray(ans) {
     if (Array.isArray(ans)) return ans.map(a => a.trim().toLowerCase());
     return ans.split(',').map(a => a.trim().toLowerCase());
 }
-    const isCorrect = isStrictCorrect(given, gameState.currentAnswer) ||
-                  looseMatch(given, gameState.currentAnswer);
-    let basePoints = 0;
-    let earnedPoints = 0;
 
 function submitAnswer(){
     if ($('answerInput').disabled) return;
@@ -2084,7 +2080,10 @@ function submitAnswer(){
         }
         return;
     }
-
+    const isCorrect = isStrictCorrect(given, gameState.currentAnswer) ||
+                  looseMatch(given, gameState.currentAnswer);
+    let basePoints = 0;
+    let earnedPoints = 0;
     const submitTime = Date.now();
 
     // Calculate response time
