@@ -745,7 +745,7 @@ function updateScoreDisplays(){
     $('rawScore').textContent = gameState.rawScore;
     $('weightedScore').textContent = `Weighted: ${Math.round(gameState.weightedScore)}`;
 
-    const avgBuzz = calculateAverageBuzzInTime();
+    const avgBuzz = calculateAverageResponseTime();
     $('avgResponseTime').textContent = avgBuzz !== null ? avgBuzz.toFixed(1) + 's' : '--';
 
     $('quarterDisplay').textContent = gameState.currentQuarter;
@@ -2357,7 +2357,7 @@ async function finishGame() {
 
     const totalScore = gameState.rawScore;
     const weightedScore = Math.round(gameState.weightedScore);  // ADD THIS
-    const avgBuzz = calculateAverageBuzzInTime();
+    const avgBuzz = calculateAverageResponseTime();
 
     const playerName = $('playerNameInput').value.trim() || "Anonymous";
 
