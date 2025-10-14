@@ -330,9 +330,9 @@
           <div id="questionCounter" class="small muted">Q 0 / 0</div>
         </div>
         <div class="team-score">
-          <div class="team-name">Avg Buzz-in</div>
-          <div class="score" id="avgResponseTime">--</div>
-          <div class="small muted">Seconds to buzz</div>
+          <div class="team-name">Score</div>
+          <div class="score" id="rawScore">0</div>
+          <div class="small muted" id="weightedScore" style="font-size:0.85rem;margin-top:4px;color:#5a67d8;">Weighted: 0</div>
         </div>
       </div>
       <div style="text-align:center">
@@ -369,7 +369,7 @@
 
     <!-- Leaderboard Panel -->
     <div id="leaderboardPanel" class="admin-panel hidden">
-      <h3 style="text-align:center;color:#5a67d8;margin-bottom:20px;font-size:1.6rem">🏅 Global Leaderboard</h3>
+      <h3 style="text-align:center;color:#5a67d8;margin-bottom:20px;font-size:1.6rem">🏅 Global Leaderboard (weighted by score and time)</h3>
       <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center;justify-content:center">
         <button class="btn secondary" onclick="backToMenu()">Back to Menu</button>
       </div>
@@ -701,7 +701,8 @@ let gameState = {
     q3CurrentQuestionIdx: 0,
     q3CategoryActive: false,
     currentQuestionIndex: -1,
-    rawScore: 0,
+    rawScore: 0,\
+    weightedScore: 0,
     responseTimes: [], // Array to track response times
     readingInterval: null,
     postReadTimer: null,
@@ -742,8 +743,8 @@ function updateQuestionsStatus(message, success) {
 /* ------------------ UI helpers ------------------ */
 function updateScoreDisplays(){
     $('rawScore').textContent = gameState.rawScore;
+    $('weightedScore').textContent = `Weighted: ${Math.round(gameState.weightedScore)}`;
 
-    // Calculate and display average response time
     const avgBuzz = calculateAverageBuzzInTime();
     $('avgResponseTime').textContent = avgBuzz !== null ? avgBuzz.toFixed(1) + 's' : '--';
 
@@ -1312,6 +1313,7 @@ function resetGame() {
         currentQuarter: gameState.currentQuarter,
         currentQuestionIndex: -1,
         rawScore: 0,
+        weightedScore: 0,
         responseTimes: [],
         readingInterval: null,
         postReadTimer: null,
@@ -2078,8 +2080,11 @@ function submitAnswer(){
 
         let msg;
         if (correct) {
-            msg = `✔️ Correct! +10 pts`;
-            gameState.rawScore += 10;
+            const points = 10;
+            const weightedPoints = points * 1.5; // ADD THIS
+            msg = `✔️ Correct! +${points} pts (+${Math.round(weightedPoints)} weighted)`;  // UPDATE THIS
+            gameState.rawScore += points;
+            gameState.weightedScore += weightedPoints;  // ADD THIS
             if (responseTime !== null) {
                 gameState.responseTimes.push(responseTime);
             }
@@ -2115,16 +2120,28 @@ function submitAnswer(){
     let basePoints = 0;
     let earnedPoints = 0;
 
+    let pctRead = 1;
+    if (gameState.buzzed && gameState.currentQuestionText && gameState.readingCharIndex) {
+        pctRead = gameState.readingCharIndex / gameState.currentQuestionText.length;
+        if (pctRead < 0) pctRead = 0;
+        if (pctRead > 1) pctRead = 1;
+    }
+    
     if (gameState.currentQuarter === 1){
         basePoints = 10;
         if (isCorrect){
             earnedPoints = basePoints;
+            // Calculate weighted score
+            const weightedMultiplier = 1 + (1 - Math.pow(pctRead, 1.2));
+            const weightedPoints = earnedPoints * weightedMultiplier;
+            
             gameState.rawScore += earnedPoints;
+            gameState.weightedScore += weightedPoints;
             if (responseTime !== null) {
                 gameState.responseTimes.push(responseTime);
             }
             updateScoreDisplays();
-            setFeedback(`Correct! +${earnedPoints} points (${responseTime?.toFixed(1)}s)`, true);
+            setFeedback(`Correct! +${earnedPoints} points (+${Math.round(weightedPoints)} weighted) (${responseTime?.toFixed(1)}s)`, true);
             setTimeout(()=> {
                 nextQuestion();
             }, 1500);
@@ -2140,13 +2157,17 @@ function submitAnswer(){
         basePoints = 10;
         if (isCorrect){
             earnedPoints = basePoints;
+            // Calculate weighted score
+            const weightedMultiplier = 1 + (1 - Math.pow(pctRead, 1.2));
+            const weightedPoints = earnedPoints * weightedMultiplier;
+            
             gameState.rawScore += earnedPoints;
+            gameState.weightedScore += weightedPoints;
             if (responseTime !== null) {
                 gameState.responseTimes.push(responseTime);
             }
             updateScoreDisplays();
-            setFeedback(`Correct tossup! +${earnedPoints} points. Now: bonus question.`, true);
-
+            setFeedback(`Correct tossup! +${earnedPoints} points (+${Math.round(weightedPoints)} weighted). Now: bonus question.`, true);
             if (gameState.currentBonus){
                 setTimeout(()=> {
                     $('questionText').textContent = gameState.currentBonus.question;
@@ -2198,12 +2219,17 @@ function submitAnswer(){
         basePoints = bracketPoints;
         if (isCorrect){
             earnedPoints = basePoints;
+            // Calculate weighted score
+            const weightedMultiplier = 1 + (1 - Math.pow(pctRead, 1.2));
+            const weightedPoints = earnedPoints * weightedMultiplier;
+            
             gameState.rawScore += earnedPoints;
+            gameState.weightedScore += weightedPoints;
             if (responseTime !== null) {
                 gameState.responseTimes.push(responseTime);
             }
             updateScoreDisplays();
-            setFeedback(`Correct! +${earnedPoints} points (${responseTime?.toFixed(1)}s)`, true);
+            setFeedback(`Correct! +${earnedPoints} points (+${Math.round(weightedPoints)} weighted) (${responseTime?.toFixed(1)}s)`, true);
             setTimeout(()=> nextQuestion(), 1500);
         } else {
             setFeedback(`Incorrect. The correct answer was: ${formatAnswer(gameState.currentAnswer)}`, false);
@@ -2218,12 +2244,14 @@ function submitAnswer(){
         const bonusIsCorrect = isCorrect;
         if (bonusIsCorrect){
             const bonusPoints = 10;
+            const bonusWeightedPoints = bonusPoints * 1.5;  // ADD THIS
             gameState.rawScore += bonusPoints;
+            gameState.weightedScore += bonusWeightedPoints;  // ADD THIS
             const bonusResponseTime = (submitTime - gameState.questionStartTime) / 1000;
             gameState.responseTimes.push(bonusResponseTime);
             $('currentResponseTime').textContent = `Response time: ${bonusResponseTime.toFixed(1)}s`;
             updateScoreDisplays();
-            setFeedback(`Correct bonus! +${bonusPoints} points (${bonusResponseTime.toFixed(1)}s)`, true);
+            setFeedback(`Correct bonus! +${bonusPoints} points (+${Math.round(bonusWeightedPoints)} weighted) (${bonusResponseTime.toFixed(1)}s)`, true);
             gameState.currentBonus = null;
             gameState.isAnsweringBonus = false;
             setTimeout(()=> {
@@ -2328,23 +2356,21 @@ async function finishGame() {
     clearAllTimers();
 
     const totalScore = gameState.rawScore;
+    const weightedScore = Math.round(gameState.weightedScore);  // ADD THIS
     const avgBuzz = calculateAverageBuzzInTime();
 
-    // Get player name from input
     const playerName = $('playerNameInput').value.trim() || "Anonymous";
 
-    // Build the score entry
     const entry = {
       date: new Date().toISOString(),
-      name: $('playerNameInput').value.trim() || "Anonymous",
+      name: playerName,
       totalScore: totalScore,
+      weightedScore: weightedScore,  // ADD THIS
       averageBuzzInTime: avgBuzz
     };
     await saveScoreToGlobalLeaderboard(entry);
 
-
-    // Update UI
-    $('questionText').textContent = `Game finished! Score: ${totalScore} / Avg Buzz-in: ${avgBuzz ? avgBuzz.toFixed(1) + 's' : 'N/A'} . Saved to global leaderboard.`;
+    $('questionText').textContent = `Game finished! Score: ${totalScore} / Weighted: ${weightedScore} / Avg Buzz-in: ${avgBuzz ? avgBuzz.toFixed(1) + 's' : 'N/A'} . Saved to global leaderboard.`;
     setFeedback("Game complete — check the leaderboard from the menu.", true);
     $('buzzerBtn').disabled = true;
     $('answerInput').disabled = true;
@@ -2387,7 +2413,7 @@ async function renderGlobalLeaderboard() {
        }
        
        // Sort scores by totalScore descending and take top 10
-       const topScores = scores.sort((a, b) => b.totalScore - a.totalScore);
+       const topScores = scores.sort((a, b) => (b.weightedScore || 0) - (a.weightedScore || 0));
        
        // Simple date formatting to "Sep 9 2025"
        const formatDate = (dateStr) => {
@@ -2481,12 +2507,13 @@ async function renderGlobalLeaderboard() {
                            align-items:center;
                        ">
                            <span style="
-                               background:rgba(90,103,216,0.1);
+                               background:rgba(40,167,69,0.1);
                                padding:2px 6px;
                                border-radius:8px;
                                font-size:0.75rem;
                                font-weight:500;
-                               color:#5a67d8;
+                               color:#28a745;
+                           ">📊 ${e.totalScore || 0} pts</span>
                            ">⚡ ${e.averageBuzzInTime ? e.averageBuzzInTime.toFixed(1) + 's' : 'N/A'}</span>
                            <span style="
                                background:rgba(108,117,125,0.1);
@@ -2509,7 +2536,7 @@ async function renderGlobalLeaderboard() {
                        padding:6px 10px;
                        border-radius:8px;
                        box-shadow:0 1px 6px rgba(0,0,0,0.08);
-                   ">${e.totalScore}</div>
+                   "">${e.weightedScore || 0}</div>
                </div>
            `;
        }).join('') + `
