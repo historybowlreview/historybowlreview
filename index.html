@@ -1340,8 +1340,8 @@ function resetGame() {
     }
 
     $('questionText').textContent = gameState.questionsLoaded ?
-        "Select a category to start!" :
-        "Questions failed to load";
+    "Ready to start!" :
+    "Questions failed to load";
     $('buzzerBtn').disabled = true;
     $('answerInput').disabled = true;
     $('categorySelection').classList.add('hidden');
