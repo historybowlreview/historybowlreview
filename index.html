@@ -662,6 +662,9 @@ let gameState = {
     mode: null,
     currentQuarter: 1,
     q3CategoryQuestions: [],
+    questions: 0,
+    correctAnswers: 0,
+    accuracy: 0,
     q3Timer: null,
     q3TimeLeft: 60,
     q3CurrentQuestionIdx: 0,
@@ -711,6 +714,8 @@ function updateScoreDisplays(){
     $('rawScore').textContent = gameState.rawScore;
     // show weighted score as integer
     $('weightedScoreDisplay').textContent = 'Weighted: ' + (Math.round(gameState.weightedScore || 0));
+    const accuracy = calculateAccuracy();
+    $('accuracy').textContent = `Accuracy: ${accuracy.toFixed(1)}%`;
     // Calculate and display average response time
     const avgBuzz = calculateAverageBuzzInTime();
     $('avgResponseTime').textContent = avgBuzz !== null ? avgBuzz.toFixed(1) + 's' : '--';
@@ -722,6 +727,11 @@ function calculateAverageResponseTime() {
     if (gameState.responseTimes.length === 0) return null;
     const sum = gameState.responseTimes.reduce((a, b) => a + b, 0);
     return sum / gameState.responseTimes.length;
+}
+  
+function calculateAccuracy() {
+    if (gameState.questions === 0) return 0;
+    return (gameState.correctAnswers / gameState.questions) * 100;
 }
 
 function looseMatch(given, answer) {
@@ -1280,6 +1290,9 @@ function resetGame() {
         currentQuarter: gameState.currentQuarter,
         currentQuestionIndex: -1,
         rawScore: 0,
+        accuracy: 0,
+        questions: 0,
+        correctAnswers: 0,
         weightedScore: 0,
         responseTimes: [],
         readingInterval: null,
@@ -1736,7 +1749,7 @@ function startReading(){
     gameState.multiplier = 1;
     updateScoreDisplays();
     clearFeedback();
-
+    gameState.questions += 1;
     let questionText = "";
     let correctAnswer = "";
     gameState.currentBonus = null;
@@ -2053,6 +2066,7 @@ function submitAnswer(){
             const earnedPoints = 10; 
             msg = `✔️ Correct! +${earnedPoints} pts`;
             gameState.rawScore += earnedPoints;
+            gameState.correctAnswers += 1;
     
             const isQ3 = true;
             const isQ2Bonus = !!gameState.isAnsweringBonus && gameState.currentQuarter === 2;
@@ -2095,6 +2109,7 @@ function submitAnswer(){
         basePoints = 10;
         if (isCorrect){
             earnedPoints = basePoints;
+            gameState.correctAnswers += 1;
             gameState.rawScore += earnedPoints;
             // --- Weighted score addition ---
             const isQ3 = (gameState.currentQuarter === 3);
@@ -2125,6 +2140,7 @@ function submitAnswer(){
         basePoints = 10;
         if (isCorrect){
             earnedPoints = basePoints;
+            gameState.correctAnswers += 1;
             gameState.rawScore += earnedPoints;
             // --- Weighted score addition ---
             const isQ3 = (gameState.currentQuarter === 3);
@@ -2192,6 +2208,7 @@ function submitAnswer(){
         basePoints = bracketPoints;
         if (isCorrect){
             earnedPoints = basePoints;
+            gameState.correctAnswers += 1;
             gameState.rawScore += earnedPoints;
             // --- Weighted score addition ---
             const isQ3 = (gameState.currentQuarter === 3);
@@ -2221,6 +2238,7 @@ function submitAnswer(){
         const bonusIsCorrect = isCorrect;
         if (bonusIsCorrect){
             const bonusPoints = 10;
+            gameState.correctAnswers += 1;
             gameState.rawScore += bonusPoints;
             // --- Weighted score addition ---
             const isQ3 = (gameState.currentQuarter === 3);
