@@ -2104,35 +2104,34 @@ function submitAnswer(){
         const idx = gameState.q3CurrentQuestionIdx;
         const qArr = gameState.q3CategoryQuestions;
         qArr[idx].userAnswer = given;
-
-        // CHECK the answer and set isCorrect!
+    
+        // CHECK the answer
         const correct =
             isStrictCorrect(given, qArr[idx].answer) ||
             looseMatch(given, qArr[idx].answer);
         qArr[idx].isCorrect = correct;
-
+    
         let msg;
         if (correct) {
-            const earnedPoints = 10; // points awarded for this correct answer
+            const earnedPoints = 10; 
             msg = `✔️ Correct! +${earnedPoints} pts`;
             gameState.rawScore += earnedPoints;
-        
-            const isQ3 = (gameState.currentQuarter === 3);
+    
+            const isQ3 = true;
             const isQ2Bonus = !!gameState.isAnsweringBonus && gameState.currentQuarter === 2;
             const percentDisplayed = computePercentDisplayed();
-        
+    
             const wInc = computeWeightedIncrement(earnedPoints, { isQ3, isQ2Bonus, percentDisplayed });
             gameState.weightedScore = (gameState.weightedScore || 0) + wInc;
-        
+    
             updateScoreDisplays();
             if (responseTime !== null) {
                 gameState.responseTimes.push(responseTime);
             }
-        }
         } else {
             msg = `❌ Incorrect. Correct: ${formatAnswer(qArr[idx].answer)}`;
         }
-
+    
         if (qArr.some(q => !q.userAnswer)) {
             let nextIdx = (idx + 1) % qArr.length;
             while (qArr[nextIdx].userAnswer) {
@@ -2144,7 +2143,7 @@ function submitAnswer(){
             finishQ3CategoryRound();
         }
         return;
-    }
+    } // <- this closes the Quarter 3 block
 
     // Clear answer timer immediately
     if (gameState.answerTimer){
