@@ -1007,9 +1007,10 @@ function promptPracticeQuarter() {
     const promptText =
       `Enter practice quarter (1,2,3,4) or 'q' to cancel:\n` +
       `Q1: ${q1count} questions\n` +
-      `Q2: ${q2count}*2 questions\n` +
-      `Q3: ${q3count} categories\n` +
-      `Q4: ${q4count} questions`;
+      `Q2: ${q2count*2} questions\n` +
+      `Q3: ${q3count} categories, ${q3count*8} questions\n` +
+      `Q4: ${q4count} questions\n` +
+      `All: ${q1count+q2count*2+q3count*8+q4count} questions`;
     
     const choice = prompt(promptText, "1");
     if (!choice || choice.toLowerCase() === 'q') {
@@ -2586,7 +2587,7 @@ function renderQuestionsDisplay(){
         <h4>Loaded Questions Summary:</h4>
         <p>Quarter 1: ${q1count} questions</p>
         <p>Quarter 2: ${q2count*2} questions</p>
-        <p>Quarter 3: ${q3count} categories</p>
+        <p>Quarter 3: ${q3count} categories, ${q3count*8} questions</p>
         <p>Quarter 4: ${q4count} questions</p>
         <p>All Quarters: ${q1count+q2count*2+q3count*8+q4count} questions</p>
     `;
