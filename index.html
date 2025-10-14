@@ -450,8 +450,6 @@
 /* ================================================================
    Game state & helpers
    ================================================================ */
-const primaryScore = e.weightedScore !== undefined ? e.weightedScore : e.totalScore;
-const secondaryScore = e.totalScore !== undefined ? e.totalScore : 0;
 let QUESTIONS = {
     q1: [],
     q2: [],
@@ -2482,6 +2480,8 @@ async function renderGlobalLeaderboard() {
            let rankStyle = '';
            let medalEmoji = '';
            let borderColor = '#5a67d8';
+           const primaryScore = e.weightedScore !== undefined ? e.weightedScore : e.totalScore;
+            const secondaryScore = e.totalScore !== undefined ? e.totalScore : 0;
            
            if (idx === 0) {
                nameStyle = 'color:#8646C7;font-weight:bold;font-size:1.3em;';
