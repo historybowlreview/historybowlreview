@@ -2351,7 +2351,7 @@ async function finishGame() {
       name: playerName,
       totalScore: gameState.rawScore,                      // raw points (existing)
       averageBuzzInTime: Math.round(avgBuzz*10)/10,
-      weightedScore: Math.round(gameState.weightedScore || 0)
+      weightedScore: Math.round(gameState.weightedScore)
     };
     await saveScoreToGlobalLeaderboard(entry);
 
@@ -2385,62 +2385,72 @@ async function saveScoreToGlobalLeaderboard(entry) {
 
 /* ------------------ Render global leaderboard ------------------ */
 async function renderGlobalLeaderboard() {
-   const WORKER_URL = "https://patient-base-c952.javalutionization.workers.dev";
-   const container = document.getElementById('leaderboardList');
-   
-   // Clear the container first
-   container.innerHTML = '';
-   
-   // Show loading state
-   container.innerHTML = '<div style="text-align:center;padding:30px;color:#666;"><div style="display:inline-block;width:20px;height:20px;border:3px solid #5a67d8;border-top:3px solid transparent;border-radius:50%;animation:spin 1s linear infinite;"></div><div style="margin-top:10px;">Loading leaderboard...</div></div>';
-   
-   try {
-       const res = await fetch(WORKER_URL, { method: "GET" });
-       if (!res.ok) throw new Error(`Failed to fetch leaderboard: ${res.status} ${res.statusText}`);
-       const scores = await res.json();
-       
-       if (!scores.length) {
-           container.innerHTML = '<div style="text-align:center;padding:40px;color:#666;font-size:1.1rem;">🏆 No scores yet - be the first!</div>';
-           return;
-       }
-       
-       // Sort scores by totalScore descending and take top 10
-       const topScores = scores.sort((a, b) => {
-           const wa = (a.weightedScore || 0), wb = (b.weightedScore || 0);
-           if (wb !== wa) return wb - wa;
-           return (b.totalScore || 0) - (a.totalScore || 0);
-       });
-       
-       // Simple date formatting to "Sep 9 2025"
-       const formatDate = (dateStr) => {
-           const date = new Date(dateStr);
-           return date.toLocaleDateString('en-US', { 
-               month: 'short', 
-               day: 'numeric',
-               year: 'numeric'
-           });
-       };
-       
-       // Clear container again before adding new content
-       container.innerHTML = '';
-       
-        container.innerHTML = ''; // clear container first
-        
+    const WORKER_URL = "https://patient-base-c952.javalutionization.workers.dev";
+    const container = document.getElementById('leaderboardList');
+
+    // Clear container and show loading state
+    container.innerHTML = `
+        <div style="text-align:center;padding:30px;color:#666;">
+            <div style="display:inline-block;width:20px;height:20px;border:3px solid #5a67d8;border-top:3px solid transparent;border-radius:50%;animation:spin 1s linear infinite;"></div>
+            <div style="margin-top:10px;">Loading leaderboard...</div>
+        </div>
+    `;
+
+    // Add spinning animation keyframes if not already present
+    if (!document.getElementById('leaderboard-animations')) {
+        const style = document.createElement('style');
+        style.id = 'leaderboard-animations';
+        style.textContent = `
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    try {
+        const res = await fetch(WORKER_URL, { method: "GET" });
+        if (!res.ok) throw new Error(`Failed to fetch leaderboard: ${res.status} ${res.statusText}`);
+        const scores = await res.json();
+
+        if (!scores.length) {
+            container.innerHTML = '<div style="text-align:center;padding:40px;color:#666;font-size:1.1rem;">🏆 No scores yet - be the first!</div>';
+            return;
+        }
+
+        // Sort scores by weightedScore descending, then totalScore
+        const topScores = scores.sort((a, b) => {
+            const wa = a.weightedScore || 0, wb = b.weightedScore || 0;
+            if (wb !== wa) return wb - wa;
+            return (b.totalScore || 0) - (a.totalScore || 0);
+        });
+
+        // Simple date formatting
+        const formatDate = (dateStr) => {
+            const date = new Date(dateStr);
+            return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        };
+
+        // Clear container before adding leaderboard
+        container.innerHTML = '';
+
+        // Add leaderboard entries
         topScores.forEach((e, idx) => {
             const entry = document.createElement('div');
             entry.className = 'leaderboard-entry';
-            
-            // Keep your rank styling logic
+
+            // Determine styles and medals
             let nameStyle = '', rankStyle = '', medalEmoji = '', borderColor = '#5a67d8';
             const primaryScore = e.weightedScore !== undefined ? e.weightedScore : e.totalScore;
             const secondaryScore = e.totalScore !== undefined ? e.totalScore : 0;
-        
-            if (idx === 0) { nameStyle = 'color:#8646C7;font-weight:bold;font-size:1.3em;'; rankStyle = 'color:#8646C7;font-weight:800;text-shadow:1px 1px 2px rgba(134,70,199,0.2);'; borderColor='#8646C7'; medalEmoji='🥇'; }
-            else if (idx === 1) { nameStyle = 'color:#7146C7;font-weight:bold;font-size:1.25em;'; rankStyle='color:#7146C7;font-weight:800;text-shadow:1px 1px 2px rgba(113,70,199,0.2);'; borderColor='#7146C7'; medalEmoji='🥈'; }
+
+            if (idx === 0) { nameStyle='color:#8646C7;font-weight:bold;font-size:1.3em;'; rankStyle='color:#8646C7;font-weight:800;text-shadow:1px 1px 2px rgba(134,70,199,0.2);'; borderColor='#8646C7'; medalEmoji='🥇'; }
+            else if (idx === 1) { nameStyle='color:#7146C7;font-weight:bold;font-size:1.25em;'; rankStyle='color:#7146C7;font-weight:800;text-shadow:1px 1px 2px rgba(113,70,199,0.2);'; borderColor='#7146C7'; medalEmoji='🥈'; }
             else if (idx === 2) { nameStyle='color:#4E59BC;font-weight:bold;font-size:1.2em;'; rankStyle='color:#4E59BC;font-weight:800;text-shadow:1px 1px 2px rgba(78,89,188,0.2);'; borderColor='#4E59BC'; medalEmoji='🥉'; }
             else if (idx===3||idx===4) { nameStyle='color:#457CB7;font-weight:600;font-size:1.1em;'; rankStyle='color:#457CB7;font-weight:800;'; borderColor='#457CB7'; }
             else if (idx>=5 && idx<10) { nameStyle='color:#2F547C;font-weight:600;font-size:1.05em;'; rankStyle='color:#2F547C;font-weight:800;'; borderColor='#2F547C'; }
-        
+
             // Background gradient
             let backgroundGradient='rgba(255,255,255,0.9)';
             if (idx===0) backgroundGradient='linear-gradient(135deg,rgba(134,70,199,0.30) 0%,rgba(255,255,255,0.95) 100%)';
@@ -2448,66 +2458,62 @@ async function renderGlobalLeaderboard() {
             else if (idx===2) backgroundGradient='linear-gradient(135deg,rgba(78,89,188,0.20) 0%,rgba(255,255,255,0.95) 100%)';
             else if (idx===3||idx===4) backgroundGradient='linear-gradient(135deg,rgba(69,124,183,0.15) 0%,rgba(255,255,255,0.95) 100%)';
             else if (idx>=5) backgroundGradient='linear-gradient(135deg,rgba(47,84,124,0.10) 0%,rgba(255,255,255,0.95) 100%)';
-        
+
             entry.style.border = `2px solid ${borderColor}`;
             entry.style.background = backgroundGradient;
             entry.style.borderRadius = '10px';
             entry.style.padding = '8px';
             entry.style.marginBottom = '6px';
-        
-            // Inner HTML for name/rank/score
+            entry.style.display = 'flex';
+            entry.style.alignItems = 'center';
+            entry.style.justifyContent = 'space-between';
+
+            // Inner HTML
             entry.innerHTML = `
-                <span style="${rankStyle}">${idx+1} ${medalEmoji}</span>
-                <span style="${nameStyle}">${e.name}</span>
-                <span style="float:right;">${primaryScore} pts</span>
+                <span style="${rankStyle} font-size:1.1rem; min-width:35px; text-align:center; margin-right:12px;">
+                    ${idx+1} ${medalEmoji}
+                </span>
+                <div style="flex:1; margin:0 12px;">
+                    <div style="${nameStyle} margin-bottom:3px; line-height:1.1;">${e.name || "Anonymous"}</div>
+                    <div style="font-size:0.8rem; color:#666; display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
+                        <span style="background:rgba(90,103,216,0.1); padding:2px 6px; border-radius:8px; font-size:0.75rem; font-weight:500; color:#5a67d8;">
+                            ⚡ ${e.averageBuzzInTime ? e.averageBuzzInTime.toFixed(1)+'s' : 'N/A'}
+                        </span>
+                        <span style="background:rgba(108,117,125,0.1); padding:2px 6px; border-radius:8px; font-size:0.75rem; font-weight:500; color:#6c757d;">
+                            📅 ${formatDate(e.date)}
+                        </span>
+                    </div>
+                </div>
+                <div style="${rankStyle} font-size:1.3rem; font-weight:800; text-align:right; min-width:60px; background:rgba(255,255,255,0.7); padding:6px 10px; border-radius:8px; box-shadow:0 1px 6px rgba(0,0,0,0.08);">
+                    <div style="font-size:1.25rem; font-weight:800;">${primaryScore}</div>
+                    <div style="font-size:0.85rem; margin-top:4px; color:#555;">pts: ${secondaryScore}</div>
+                </div>
             `;
-        
+
             container.appendChild(entry);
         });
 
-           <div style="
-               text-align:center;
-               margin-top:16px;
-               padding-top:12px;
-               border-top:2px solid rgba(90,103,216,0.1);
-               color:#666;
-               font-size:0.9rem;
-               font-weight:500;
-           ">
-               🏆 Showing ${topScores.length} scores • Updated live
-           </div>
-       `;
-       
-       // Add spinning animation keyframes if not already added
-       if (!document.getElementById('leaderboard-animations')) {
-           const style = document.createElement('style');
-           style.id = 'leaderboard-animations';
-           style.textContent = `
-               @keyframes spin {
-                   0% { transform: rotate(0deg); }
-                   100% { transform: rotate(360deg); }
-               }
-           `;
-           document.head.appendChild(style);
-       }
-       
-   } catch (err) {
-       console.error(err);
-       container.innerHTML = `
-           <div style="
-               text-align:center;
-               padding:40px;
-               color:#e53e3e;
-               font-size:1.1rem;
-               background:linear-gradient(135deg,rgba(229,62,62,0.1) 0%,rgba(255,255,255,0.95) 100%);
-               border-radius:12px;
-               border:2px solid rgba(229,62,62,0.2);
-           ">
-               ⚠️ Failed to load leaderboard<br>
-               <span style="font-size:0.9rem;color:#666;margin-top:8px;display:block;">Please try again later</span>
-           </div>
-       `;
-   }
+        // Add footer
+        const footer = document.createElement('div');
+        footer.style.textAlign = 'center';
+        footer.style.marginTop = '16px';
+        footer.style.paddingTop = '12px';
+        footer.style.borderTop = '2px solid rgba(90,103,216,0.1)';
+        footer.style.color = '#666';
+        footer.style.fontSize = '0.9rem';
+        footer.style.fontWeight = '500';
+        footer.textContent = `🏆 Showing ${topScores.length} scores • Updated live`;
+        container.appendChild(footer);
+
+    } catch (err) {
+        console.error(err);
+        container.innerHTML = `
+            <div style="text-align:center; padding:40px; color:#e53e3e; font-size:1.1rem; background:linear-gradient(135deg,rgba(229,62,62,0.1) 0%,rgba(255,255,255,0.95) 100%); border-radius:12px; border:2px solid rgba(229,62,62,0.2);">
+                ⚠️ Failed to load leaderboard<br>
+                <span style="font-size:0.9rem; color:#666; margin-top:8px; display:block;">Please try again later</span>
+            </div>
+        `;
+    }
 }
 
 
