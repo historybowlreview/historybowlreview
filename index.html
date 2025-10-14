@@ -2113,21 +2113,22 @@ function submitAnswer(){
 
         let msg;
         if (correct) {
-            msg = `✔️ Correct! +10 pts`;
-            gameState.rawScore += 10;
-            // --- Weighted score addition ---
+            const earnedPoints = 10; // points awarded for this correct answer
+            msg = `✔️ Correct! +${earnedPoints} pts`;
+            gameState.rawScore += earnedPoints;
+        
             const isQ3 = (gameState.currentQuarter === 3);
             const isQ2Bonus = !!gameState.isAnsweringBonus && gameState.currentQuarter === 2;
             const percentDisplayed = computePercentDisplayed();
-            
+        
             const wInc = computeWeightedIncrement(earnedPoints, { isQ3, isQ2Bonus, percentDisplayed });
             gameState.weightedScore = (gameState.weightedScore || 0) + wInc;
-            
+        
             updateScoreDisplays();
             if (responseTime !== null) {
                 gameState.responseTimes.push(responseTime);
             }
-            updateScoreDisplays();
+        }
         } else {
             msg = `❌ Incorrect. Correct: ${formatAnswer(qArr[idx].answer)}`;
         }
