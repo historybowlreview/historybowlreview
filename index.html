@@ -474,7 +474,7 @@ async function loadQuestionsFromServer() {
         const q4Count = jsonData.q4.reduce((sum, group) => sum + group.parts.length, 0);
 
         updateQuestionsStatus(
-            `Successfully loaded: Q1(${jsonData.q1.length}) Q2(${jsonData.q2.length}) Q3(${q3Count}) Q4(${q4Count})`,
+            `Successfully loaded: Q1(${jsonData.q1.length}) Q2(${jsonData.q2.length}*2) Q3(${q3Count}) Q4(${q4Count})`,
             true
         );
 
@@ -1007,7 +1007,7 @@ function promptPracticeQuarter() {
     const promptText =
       `Enter practice quarter (1,2,3,4) or 'q' to cancel:\n` +
       `Q1: ${q1count} questions\n` +
-      `Q2: ${q2count} questions\n` +
+      `Q2: ${q2count}*2 questions\n` +
       `Q3: ${q3count} categories\n` +
       `Q4: ${q4count} questions`;
     
@@ -2585,7 +2585,7 @@ function renderQuestionsDisplay(){
     summary.innerHTML = `
         <h4>Loaded Questions Summary:</h4>
         <p>Quarter 1: ${q1count} questions</p>
-        <p>Quarter 2: ${q2count} questions</p>
+        <p>Quarter 2: ${q2count}*2 questions</p>
         <p>Quarter 3: ${q3count} categories</p>
         <p>Quarter 4: ${q4count} questions</p>
     `;
