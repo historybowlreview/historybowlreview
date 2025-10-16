@@ -922,8 +922,23 @@ function backToMenu(){
     $('leaderboardPanel').style.display = 'none';
     $('mainMenu').style.display = 'grid';
     $('categorySelection').classList.add('hidden');
+    $('showAnswerBtn').style.display = 'inline-block';
     gameState.mode = 'practice';
     $('modeDisplay').textContent = 'Practice';
+}
+function stripTiebreakerPrefix(text) {
+    return text.replace(/^\(TIEBREAKER (BONUS|EXAMPLE) QUESTION\)\s*/i, '');
+}
+
+function computePercentDisplayed() {
+    const text = stripTiebreakerPrefix(gameState.currentQuestionText || "");
+    const total = Math.max(1, text.length);
+    // Adjust readingCharIndex to account for stripped prefix
+    const originalText = gameState.currentQuestionText || "";
+    const prefixLength = originalText.length - text.length;
+    const adjustedIndex = Math.max(0, (gameState.readingCharIndex || total) - prefixLength);
+    const shown = Math.max(0, Math.min(total, adjustedIndex));
+    return shown / total;
 }
 
 async function openPracticeMode() {
@@ -1007,6 +1022,7 @@ function startFullGameFromMenu() {
     resetGame();
     updatePauseButtonVisibility();
     $('modeDisplay').textContent = 'Full Game';
+    $('showAnswerBtn').style.display = 'none';
     $('mainMenu').style.display = 'none';
     $('gameArea').style.display = 'block';
     startGame();
@@ -1108,6 +1124,11 @@ function togglePause() {
             gameState.pausedAnswerTime = val ? parseInt(val[1]) : null;
             clearInterval(gameState.answerTimer);
         }
+        // ADD THIS: Handle bonus timer
+        if (gameState.bonusTimer) {
+            gameState.pausedBonusTime = gameState.bonusTimeLeft;
+            clearInterval(gameState.bonusTimer);
+        }
         if (gameState.q3Timer) {
             gameState.pausedQ3Time = gameState.q3TimeLeft;
             clearInterval(gameState.q3Timer);
@@ -1127,8 +1148,7 @@ function togglePause() {
         $('buzzerBtn').disabled = true;
         $('showAnswerBtn').disabled = true;
 
-        // Only re-enable answer input if buzzed or it's Q3 category mode
-        if (gameState.buzzed || (gameState.currentQuarter === 3 && gameState.q3CategoryActive)) {
+        if (gameState.buzzed || (gameState.currentQuarter === 3 && gameState.q3CategoryActive) || gameState.isAnsweringBonus) {
             $('answerInput').disabled = false;
         } else {
             $('answerInput').disabled = true;
@@ -1139,12 +1159,30 @@ function togglePause() {
         $('pauseBtn').textContent = "Pause";
         clearFeedback();
         if (gameState.wasReading) resumeReading();
+        
+        // ADD THIS: Resume post-read timer
+        if (typeof gameState.pausedPostReadTime === 'number' && gameState.pausedPostReadTime > 0) {
+            gameState.postReadTimeLeft = gameState.pausedPostReadTime;
+            resumePostReadTimer();
+        }
+        
+        // ADD THIS: Resume answer timer
+        if (typeof gameState.pausedAnswerTime === 'number' && gameState.pausedAnswerTime > 0) {
+            gameState.answerTimeLeft = gameState.pausedAnswerTime;
+            resumeAnswerTimer();
+        }
+        
+        // ADD THIS: Resume bonus timer
+        if (typeof gameState.pausedBonusTime === 'number' && gameState.pausedBonusTime > 0) {
+            gameState.bonusTimeLeft = gameState.pausedBonusTime;
+            resumeBonusTimer();
+        }
+        
         if (gameState.currentQuarter === 3 && gameState.q3CategoryActive && typeof gameState.pausedQ3Time === 'number') {
             gameState.q3TimeLeft = gameState.pausedQ3Time;
             startQ3CategoryTimer();
         }
     
-        // Resume timer if paused after Show Answer
         if (
             typeof gameState.pausedFeedbackTime === 'number' &&
             !isNaN(gameState.pausedFeedbackTime) &&
@@ -1156,14 +1194,15 @@ function togglePause() {
 
         gameState.pausedPostReadTime = null;
         gameState.pausedAnswerTime = null;
+        gameState.pausedBonusTime = null;
         gameState.pausedQ3Time = null;
         gameState.pausedFeedbackTime = null;
         gameState.wasReading = false;
 
-        // --- Add this logic here ---
         if (
             gameState.buzzed ||
-            (gameState.currentQuarter === 3 && gameState.q3CategoryActive)
+            (gameState.currentQuarter === 3 && gameState.q3CategoryActive) ||
+            gameState.isAnsweringBonus
         ) {
             $('buzzerBtn').disabled = true;
         } else {
@@ -1172,7 +1211,7 @@ function togglePause() {
 
         $('showAnswerBtn').disabled = gameState.isShowingAnswer ? true : false;
 
-        if (gameState.buzzed || (gameState.currentQuarter === 3 && gameState.q3CategoryActive)) {
+        if (gameState.buzzed || (gameState.currentQuarter === 3 && gameState.q3CategoryActive) || gameState.isAnsweringBonus) {
             $('answerInput').disabled = false;
         } else {
             $('answerInput').disabled = true;
@@ -1180,6 +1219,33 @@ function togglePause() {
     }
 }
 
+function resumeBonusTimer() {
+    $('timerDisplay').textContent = `Bonus time: ${gameState.bonusTimeLeft}`;
+    gameState.bonusTimer = setInterval(() => {
+        gameState.bonusTimeLeft--;
+        $('timerDisplay').textContent = `Bonus time: ${gameState.bonusTimeLeft}`;
+        if (gameState.bonusTimeLeft <= 0) {
+            clearInterval(gameState.bonusTimer);
+            gameState.bonusTimer = null;
+            // Auto-submit the answer
+            if ($('answerInput').value.trim()) {
+                submitAnswer();
+            } else {
+                $('answerInput').disabled = true;
+                $('timerDisplay').textContent = "Bonus expired";
+                setFeedback(`Time expired! No points awarded. The correct answer was: ${formatAnswer(gameState.currentAnswer)}`, false);
+                startFeedbackCountdown(10);
+                $('questionText').textContent = gameState.currentBonus?.question || '';
+                gameState.currentBonus = null;
+                gameState.isAnsweringBonus = false;
+                setTimeout(()=> {
+                    nextQuestion();
+                }, 10000);
+            }
+        }
+    }, 1000);
+}
+  
 // Add this function:
 function resumeFeedbackCountdown(timeLeft) {
     if (
@@ -2161,16 +2227,21 @@ function submitAnswer(){
                         if (gameState.bonusTimeLeft <= 0) {
                             clearInterval(gameState.bonusTimer);
                             gameState.bonusTimer = null;
-                            $('answerInput').disabled = true;
-                            $('timerDisplay').textContent = "Bonus expired";
-                            setFeedback(`Time expired! No points awarded. The correct answer was: ${formatAnswer(gameState.currentAnswer)}`, false);
-                            startFeedbackCountdown(10);
-                            $('questionText').textContent = gameState.currentBonus?.question || '';
-                            // Mark we're not answering bonus anymore
-                            gameState.currentBonus = null;
-                            gameState.isAnsweringBonus = false;
-                            setTimeout(()=> {
-                                nextQuestion();
+    // Auto-submit if there's an answer
+                            if ($('answerInput').value.trim()) {
+        // Don't disable input yet, let submitAnswer handle it
+                                submitAnswer();
+                                return; // Exit to let submitAnswer handle the rest
+                            } else {
+                                $('answerInput').disabled = true;
+                                $('timerDisplay').textContent = "Bonus expired";
+                                setFeedback(`Time expired! No points awarded. The correct answer was: ${formatAnswer(gameState.currentAnswer)}`, false);
+                                startFeedbackCountdown(10);
+                                $('questionText').textContent = gameState.currentBonus?.question || '';
+                                gameState.currentBonus = null;
+                                gameState.isAnsweringBonus = false;
+                                setTimeout(()=> {
+                                    nextQuestion();
                             }, 10000);
                         }
                     }, 1000);
