@@ -2217,7 +2217,6 @@ function submitAnswer(){
                     $('answerInput').focus();
                     gameState.isAnsweringBonus = true;
                     gameState.questionStartTime = Date.now(); // Reset for bonus timing
-
                     // === START BONUS TIMER ===
                     gameState.bonusTimeLeft = 20;
                     $('timerDisplay').textContent = `Bonus time: ${gameState.bonusTimeLeft}`;
@@ -2227,9 +2226,9 @@ function submitAnswer(){
                         if (gameState.bonusTimeLeft <= 0) {
                             clearInterval(gameState.bonusTimer);
                             gameState.bonusTimer = null;
-    // Auto-submit if there's an answer
+                            // Auto-submit if there's an answer
                             if ($('answerInput').value.trim()) {
-        // Don't disable input yet, let submitAnswer handle it
+                                // Don't disable input yet, let submitAnswer handle it
                                 submitAnswer();
                                 return; // Exit to let submitAnswer handle the rest
                             } else {
@@ -2242,8 +2241,9 @@ function submitAnswer(){
                                 gameState.isAnsweringBonus = false;
                                 setTimeout(()=> {
                                     nextQuestion();
-                            }, 10000);
-                        }
+                                }, 10000);
+                            }
+                        } // ADD THIS CLOSING BRACE
                     }, 1000);
                     // === END BONUS TIMER ===
                 }, 1000);
