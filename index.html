@@ -3097,22 +3097,7 @@ async function exportPDFs() {
     }, 2000);
     
     alert('PDFs exported successfully!');
-}PDF.setFontSize(10);
-        
-        gameState.pdfQuestions.q1.forEach((q, i) => {
-            const cleanQ = cleanTiebreakerText(q.question);
-            yPos = addWrappedText(pdf, `${i + 1}. ${cleanQ}`, margin, yPos, 170);
-            yPos += 3;
-            pdf.text('_'.repeat(80), margin, yPos);
-            yPos += 10;
-            
-            answerYPos = addWrappedText(answerKeyPDF, `${i + 1}. ${cleanQ}`, margin, answerYPos, 170);
-            answerYPos += 3;
-            const answer = formatAnswer(q.answer);
-            answerKeyPDF.text(answer, margin, answerYPos);
-            answerYPos += 10;
-        });
-    }
+}
     
     // Quarter 2
     if (gameState.pdfQuestions.q2.length > 0) {
