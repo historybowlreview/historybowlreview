@@ -329,34 +329,33 @@
     </div>
 
     <!-- Game Area -->
-    <div id="gameArea" class="game-area">
-      <div class="scoreboard">
-        <div class="team-score">
-          <div class="team-name">Score</div>
-          <div class="score" id="rawScore">0</div>
-          <div class="small muted" id="weightedScoreDisplay" style="font-size:0.95rem;margin-top:6px;">Weighted: 0</div>
-          <div class="small muted">Total points</div>
-        </div>
-        <div style="text-align:center">
-          <div class="small">Quarter</div>
-          <div id="quarterDisplay" style="font-weight:700">1</div>
-          <div id="questionCounter" class="small muted">Q 0 / 0</div>
-        </div>
-        <div class="team-score">
-          <div class="team-name">Avg Buzz-in</div>
-          <div class="score" id="avgResponseTime">--</div>
-          <div class="small muted">Seconds to buzz</div>
-        <div class="team-score">
-          <div class="team-name">Accuracy</div>
-          <div class="score" id="accuracyDisplay">--%</div>
-          <div class="small muted">Questions correct</div>
-        </div>
+    <div class="scoreboard">
+      <div class="team-score">
+        <div class="team-name">Score</div>
+        <div class="score" id="rawScore">0</div>
+        <div class="small muted" id="weightedScoreDisplay" style="font-size:0.95rem;margin-top:6px;">Weighted: 0</div>
+        <div class="small muted">Total points</div>
+      </div>
+      <div style="text-align:center">
+        <div class="small">Quarter</div>
+        <div id="quarterDisplay" style="font-weight:700">1</div>
+        <div id="questionCounter" class="small muted">Q 0 / 0</div>
+      </div>
+      <div class="team-score">
+        <div class="team-name">Avg Buzz-in</div>
+        <div class="score" id="avgResponseTime">--</div>
+        <div class="small muted">Seconds to buzz</div>
+      </div>
+      <div class="team-score">
+        <div class="team-name">Accuracy</div>
+        <div class="score" id="accuracyDisplay">--%</div>
+        <div class="small muted">Questions correct</div>
       </div>
       <div style="text-align:center">
         <div class="small">Timer</div>
         <div id="timerDisplay" style="font-weight:700">--</div>
-        <div id="q3PrefixBox" class="hidden" style="font-weight:600;font-size:1.08em;margin-bottom:6px;"></div>
       </div>
+    </div>
       <div class="question-area">
         <div id="questionText" class="question-text">Load questions first, then click "Next Question" to begin.</div>
       </div>
@@ -372,6 +371,10 @@
         <input id="answerInput" class="answer-input" placeholder="Type answer and press Enter or Submit..." disabled>
         <button class="btn" onclick="submitAnswer()">Submit</button>
         <div id="currentResponseTime" class="small muted">Response time: --</div>
+        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;margin-left:12px;">
+          <input type="checkbox" id="addToPDFCheckbox" style="width:18px;height:18px;cursor:pointer;">
+          <span style="font-size:0.9rem;color:#2d3748;font-weight:500;">Add to PDF</span>
+        </label>
       </div>
       <div id="feedback" class="feedback"></div>
       <!-- Q3 category selection area -->
@@ -2104,6 +2107,7 @@ function submitAnswer(){
     const isCorrect = isStrictCorrect(given, gameState.currentAnswer) ||
                   looseMatch(given, gameState.currentAnswer);
     let basePoints = 0;
+    addCurrentQuestionToPDF();
     let earnedPoints = 0;
     const submitTime = Date.now();
 
@@ -2812,26 +2816,31 @@ async function generateSamplePDFs() {
         return;
     }
     
+    // Check if questions are loaded
+    if (!QUESTIONS.q1 || QUESTIONS.q1.length === 0) {
+        alert('Questions not loaded yet. Please wait for questions to load.');
+        return;
+    }
+    
     // Generate 10 Q1 questions
     const allQ1 = QUESTIONS.q1.filter(q => !q.question.startsWith('(TIEBREAKER'));
     const shuffledQ1 = shuffle([...allQ1]);
-    gameState.pdfQuestions.q1 = shuffledQ1.slice(0, 10);
+    gameState.pdfQuestions.q1 = shuffledQ1.slice(0, Math.min(10, shuffledQ1.length));
     
     // Generate 8 Q2 questions
     const allQ2 = QUESTIONS.q2.filter(q => !q.tossup.question.startsWith('(TIEBREAKER'));
     const shuffledQ2 = shuffle([...allQ2]);
-    gameState.pdfQuestions.q2 = shuffledQ2.slice(0, 8);
+    gameState.pdfQuestions.q2 = shuffledQ2.slice(0, Math.min(8, shuffledQ2.length));
     
     // Generate 4 Q3 categories
     const shuffledQ3 = shuffle([...QUESTIONS.q3]);
-    gameState.pdfQuestions.q3 = shuffledQ3.slice(0, 4);
+    gameState.pdfQuestions.q3 = shuffledQ3.slice(0, Math.min(4, shuffledQ3.length));
     
     // Generate 8 Q4 questions
     const allQ4 = QUESTIONS.q4.filter(q => !q.parts[0].startsWith('(TIEBREAKER'));
     const shuffledQ4 = shuffle([...allQ4]);
-    gameState.pdfQuestions.q4 = shuffledQ4.slice(0, 8);
+    gameState.pdfQuestions.q4 = shuffledQ4.slice(0, Math.min(8, shuffledQ4.length));
     
-    renderPDFQuestionsList();
     alert('Sample PDFs generated! Click "Export Practice PDFs" to download.');
 }
 
