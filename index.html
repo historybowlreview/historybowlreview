@@ -2707,6 +2707,7 @@ document.addEventListener('keydown', function(e){
 });
 
 /* ------------------ Page init ------------------ */
+/* ------------------ Page init ------------------ */
 function init(){
     resetGame();
     updateScoreDisplays();
@@ -2714,10 +2715,469 @@ function init(){
 
     // Automatically load questions when the page loads
     loadQuestionsFromServer();
+    
+    // Load jsPDF library
+    const script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+    script.onload = () => console.log('jsPDF loaded');
+    document.head.appendChild(script);
 }
 
 init();
 
+/* ------------------ PDF Management Functions ------------------ */
+function renderPDFQuestionsList() {
+    const container = $('pdfQuestionsList');
+    const total = gameState.pdfQuestions.q1.length + 
+                  gameState.pdfQuestions.q2.length + 
+                  gameState.pdfQuestions.q3.length + 
+                  gameState.pdfQuestions.q4.length;
+    
+    if (total === 0) {
+        container.innerHTML = '<p style="color:#666;">No questions selected yet. Use the "Add to PDF" checkbox while playing to add questions.</p>';
+        return;
+    }
+    
+    let html = `<p><strong>Total: ${total} questions</strong></p>`;
+    html += `<p>Q1: ${gameState.pdfQuestions.q1.length} | Q2: ${gameState.pdfQuestions.q2.length} | Q3: ${gameState.pdfQuestions.q3.length} categories | Q4: ${gameState.pdfQuestions.q4.length}</p>`;
+    container.innerHTML = html;
+}
+
+function addCurrentQuestionToPDF() {
+    const checkbox = $('addToPDFCheckbox');
+    if (!checkbox.checked) return;
+    
+    const q = gameState.currentQuarter;
+    
+    if (q === 1) {
+        const question = gameState.activeQ1[gameState.currentQuestionIndex];
+        if (question && !gameState.pdfQuestions.q1.some(q => q.question === question.question)) {
+            gameState.pdfQuestions.q1.push(question);
+        }
+    } else if (q === 2) {
+        const question = gameState.activeQ2[gameState.currentQuestionIndex];
+        if (question && !gameState.pdfQuestions.q2.some(q => q.tossup.question === question.tossup.question)) {
+            gameState.pdfQuestions.q2.push(question);
+        }
+    } else if (q === 3 && gameState.q3SelectedCategoryData) {
+        if (!gameState.pdfQuestions.q3.some(cat => cat.category === gameState.q3SelectedCategoryData.category)) {
+            gameState.pdfQuestions.q3.push(gameState.q3SelectedCategoryData);
+        }
+    } else if (q === 4) {
+        const question = gameState.activeQ4[gameState.currentQuestionIndex];
+        if (question && !gameState.pdfQuestions.q4.some(q => q.parts[0] === question.parts[0])) {
+            gameState.pdfQuestions.q4.push(question);
+        }
+    }
+    
+    checkbox.checked = false;
+}
+
+function clearPDFQuestions() {
+    if (confirm('Clear all selected PDF questions?')) {
+        gameState.pdfQuestions = { q1: [], q2: [], q3: [], q4: [] };
+        renderPDFQuestionsList();
+    }
+}
+
+async function generateSamplePDFs() {
+    const total = gameState.pdfQuestions.q1.length + 
+                  gameState.pdfQuestions.q2.length + 
+                  gameState.pdfQuestions.q3.length + 
+                  gameState.pdfQuestions.q4.length;
+    
+    if (total > 0) {
+        alert('Please clear the PDF before generating sample PDFs.');
+        return;
+    }
+    
+    // Generate 10 Q1 questions
+    const allQ1 = QUESTIONS.q1.filter(q => !q.question.startsWith('(TIEBREAKER'));
+    const shuffledQ1 = shuffle([...allQ1]);
+    gameState.pdfQuestions.q1 = shuffledQ1.slice(0, 10);
+    
+    // Generate 8 Q2 questions
+    const allQ2 = QUESTIONS.q2.filter(q => !q.tossup.question.startsWith('(TIEBREAKER'));
+    const shuffledQ2 = shuffle([...allQ2]);
+    gameState.pdfQuestions.q2 = shuffledQ2.slice(0, 8);
+    
+    // Generate 4 Q3 categories
+    const shuffledQ3 = shuffle([...QUESTIONS.q3]);
+    gameState.pdfQuestions.q3 = shuffledQ3.slice(0, 4);
+    
+    // Generate 8 Q4 questions
+    const allQ4 = QUESTIONS.q4.filter(q => !q.parts[0].startsWith('(TIEBREAKER'));
+    const shuffledQ4 = shuffle([...allQ4]);
+    gameState.pdfQuestions.q4 = shuffledQ4.slice(0, 8);
+    
+    renderPDFQuestionsList();
+    alert('Sample PDFs generated! Click "Export Practice PDFs" to download.');
+}
+
+function cleanTiebreakerText(text) {
+    return text.replace(/^\(TIEBREAKER (EXAMPLE|BONUS) QUESTION\)\s*/i, '');
+}
+
+function replaceAnswerInBonus(bonusQuestion, tossupAnswer) {
+    const answerVariants = Array.isArray(tossupAnswer) ? tossupAnswer : [tossupAnswer];
+    let result = bonusQuestion;
+    
+    for (const ans of answerVariants) {
+        const regex = new RegExp(ans.replace(/[.*+?^${}()|[\]\\]/g, '\\'), 'gi');
+        result = result.replace(regex, '[Previous Answer]');
+    }
+    
+    return result;
+}
+
+async function exportPDFs() {
+    const total = gameState.pdfQuestions.q1.length + 
+                  gameState.pdfQuestions.q2.length + 
+                  gameState.pdfQuestions.q3.length + 
+                  gameState.pdfQuestions.q4.length;
+    
+    if (total === 0) {
+        alert('No questions selected. Add questions using the checkbox while playing.');
+        return;
+    }
+    
+    if (typeof window.jspdf === 'undefined') {
+        alert('PDF library is still loading. Please try again in a moment.');
+        return;
+    }
+    
+    const { jsPDF } = window.jspdf;
+    
+    // Create main PDF
+    const pdf = new jsPDF();
+    const answerKeyPDF = new jsPDF();
+    let yPos = 20;
+    let answerYPos = 20;
+    const margin = 20;
+    const lineHeight = 7;
+    const pageHeight = 280;
+    
+    // Helper function to add text with wrapping
+    const addWrappedText = (doc, text, x, y, maxWidth, isAnswer = false) => {
+        const lines = doc.splitTextToSize(text, maxWidth);
+        lines.forEach((line, i) => {
+            if ((isAnswer ? answerYPos : yPos) + lineHeight > pageHeight) {
+                doc.addPage();
+                if (isAnswer) answerYPos = 20;
+                else yPos = 20;
+            }
+            doc.text(line, x, isAnswer ? answerYPos : yPos);
+            if (isAnswer) answerYPos += lineHeight;
+            else yPos += lineHeight;
+        });
+        return isAnswer ? answerYPos : yPos;
+    };
+    
+    // Title
+    pdf.setFontSize(16);
+    pdf.text('History Bowl Practice Test', margin, yPos);
+    answerKeyPDF.setFontSize(16);
+    answerKeyPDF.text('History Bowl Practice Test - Answer Key', margin, answerYPos);
+    
+    const today = new Date().toLocaleDateString();
+    pdf.setFontSize(10);
+    pdf.text(`Generated: ${today}`, margin, yPos + 7);
+    answerKeyPDF.setFontSize(10);
+    answerKeyPDF.text(`Generated: ${today}`, margin, answerYPos + 7);
+    
+    yPos += 20;
+    answerYPos += 20;
+    
+    // Quarter 1
+    if (gameState.pdfQuestions.q1.length > 0) {
+        pdf.setFontSize(14);
+        pdf.text('Quarter 1', margin, yPos);
+        answerKeyPDF.setFontSize(14);
+        answerKeyPDF.text('Quarter 1', margin, answerYPos);
+        yPos += 10;
+        answerYPos += 10;
+        
+        pdf.setFontSize(10);
+        answerKeyPDF.setFontSize(10);
+        
+        // List categories first
+        pdf.text('Categories:', margin, yPos);
+        answerKeyPDF.text('Categories:', margin, answerYPos);
+        yPos += 7;
+        answerYPos += 7;
+        
+        gameState.pdfQuestions.q3.forEach((cat, i) => {
+            pdf.text(`${i + 1}. ${cat.category}`, margin + 5, yPos);
+            answerKeyPDF.text(`${i + 1}. ${cat.category}`, margin + 5, answerYPos);
+            yPos += 7;
+            answerYPos += 7;
+        });
+        
+        pdf.text('(Select any 3 categories to complete)', margin, yPos);
+        answerKeyPDF.text('(Select any 3 categories to complete)', margin, answerYPos);
+        yPos += 10;
+        answerYPos += 10;
+        
+        // Add page break before questions
+        pdf.addPage();
+        yPos = 20;
+        answerKeyPDF.addPage();
+        answerYPos = 20;
+        
+        // Now add questions for each category
+        gameState.pdfQuestions.q3.forEach((cat, catIdx) => {
+            pdf.setFontSize(12);
+            pdf.text(`Category ${catIdx + 1}: ${cat.category}`, margin, yPos);
+            answerKeyPDF.setFontSize(12);
+            answerKeyPDF.text(`Category ${catIdx + 1}: ${cat.category}`, margin, answerYPos);
+            yPos += 7;
+            answerYPos += 7;
+            
+            pdf.setFontSize(10);
+            pdf.text(cat.prompt || 'Millard Fillmore is or was...', margin, yPos);
+            answerKeyPDF.setFontSize(10);
+            answerKeyPDF.text(cat.prompt || 'Millard Fillmore is or was...', margin, answerYPos);
+            yPos += 10;
+            answerYPos += 10;
+            
+            cat.questions.forEach((q, i) => {
+                const cleanQ = cleanTiebreakerText(q.question);
+                yPos = addWrappedText(pdf, `${i + 1}. ${cleanQ}`, margin, yPos, 170);
+                yPos += 3;
+                pdf.text('_'.repeat(80), margin, yPos);
+                yPos += 10;
+                
+                answerYPos = addWrappedText(answerKeyPDF, `${i + 1}. ${cleanQ}`, margin, answerYPos, 170);
+                answerYPos += 3;
+                answerKeyPDF.text(formatAnswer(q.answer), margin, answerYPos);
+                answerYPos += 10;
+            });
+            
+            if (catIdx < gameState.pdfQuestions.q3.length - 1) {
+                pdf.addPage();
+                yPos = 20;
+                answerKeyPDF.addPage();
+                answerYPos = 20;
+            }
+        });
+    }
+    
+    // Quarter 4
+    if (gameState.pdfQuestions.q4.length > 0) {
+        pdf.addPage();
+        yPos = 20;
+        answerKeyPDF.addPage();
+        answerYPos = 20;
+        
+        pdf.setFontSize(14);
+        pdf.text('Quarter 4', margin, yPos);
+        answerKeyPDF.setFontSize(14);
+        answerKeyPDF.text('Quarter 4', margin, answerYPos);
+        yPos += 10;
+        answerYPos += 10;
+        
+        pdf.setFontSize(9);
+        pdf.text('Scoring: Answer after 30pt section = 30pts, after 20pt section = 20pts, after 10pt section = 10pts', margin, yPos);
+        pdf.text('Note: Answering incorrectly in an earlier section voids all points that could be earned later.', margin, yPos + 5);
+        pdf.text('Leaving it blank allows you to answer in a later section.', margin, yPos + 10);
+        answerKeyPDF.setFontSize(9);
+        answerKeyPDF.text('Scoring: Answer after 30pt section = 30pts, after 20pt section = 20pts, after 10pt section = 10pts', margin, answerYPos);
+        answerKeyPDF.text('Note: Answering incorrectly in an earlier section voids all points that could be earned later.', margin, answerYPos + 5);
+        answerKeyPDF.text('Leaving it blank allows you to answer in a later section.', margin, answerYPos + 10);
+        yPos += 20;
+        answerYPos += 20;
+        
+        // Section 1: 30pt questions only
+        pdf.setFontSize(12);
+        pdf.text('Section 1: 30 Point Questions', margin, yPos);
+        answerKeyPDF.setFontSize(12);
+        answerKeyPDF.text('Section 1: 30 Point Questions', margin, answerYPos);
+        yPos += 10;
+        answerYPos += 10;
+        
+        pdf.setFontSize(10);
+        answerKeyPDF.setFontSize(10);
+        
+        gameState.pdfQuestions.q4.forEach((q, i) => {
+            const cleanQ = cleanTiebreakerText(q.parts[0]);
+            yPos = addWrappedText(pdf, `${i + 1}. ${cleanQ}`, margin, yPos, 170);
+            yPos += 3;
+            pdf.text('_'.repeat(80), margin, yPos);
+            yPos += 10;
+            
+            answerYPos = addWrappedText(answerKeyPDF, `${i + 1}. ${cleanQ}`, margin, answerYPos, 170);
+            answerYPos += 3;
+            answerKeyPDF.text(formatAnswer(q.answer), margin, answerYPos);
+            answerYPos += 10;
+        });
+        
+        // Section 2: 30pt + 20pt
+        pdf.addPage();
+        yPos = 20;
+        answerKeyPDF.addPage();
+        answerYPos = 20;
+        
+        pdf.setFontSize(12);
+        pdf.text('Section 2: 20 Point Questions (30pt + 20pt sections)', margin, yPos);
+        answerKeyPDF.setFontSize(12);
+        answerKeyPDF.text('Section 2: 20 Point Questions (30pt + 20pt sections)', margin, answerYPos);
+        yPos += 10;
+        answerYPos += 10;
+        
+        pdf.setFontSize(10);
+        answerKeyPDF.setFontSize(10);
+        
+        gameState.pdfQuestions.q4.forEach((q, i) => {
+            const part1 = cleanTiebreakerText(q.parts[0]);
+            const part2 = cleanTiebreakerText(q.parts[1]);
+            const combined = `${part1} ${part2}`;
+            
+            yPos = addWrappedText(pdf, `${i + 1}. ${combined}`, margin, yPos, 170);
+            yPos += 3;
+            pdf.text('_'.repeat(80), margin, yPos);
+            yPos += 10;
+            
+            answerYPos = addWrappedText(answerKeyPDF, `${i + 1}. ${combined}`, margin, answerYPos, 170);
+            answerYPos += 3;
+            answerKeyPDF.text(formatAnswer(q.answer), margin, answerYPos);
+            answerYPos += 10;
+        });
+        
+        // Section 3: Full questions
+        pdf.addPage();
+        yPos = 20;
+        answerKeyPDF.addPage();
+        answerYPos = 20;
+        
+        pdf.setFontSize(12);
+        pdf.text('Section 3: 10 Point Questions (Full Questions)', margin, yPos);
+        answerKeyPDF.setFontSize(12);
+        answerKeyPDF.text('Section 3: 10 Point Questions (Full Questions)', margin, answerYPos);
+        yPos += 10;
+        answerYPos += 10;
+        
+        pdf.setFontSize(10);
+        answerKeyPDF.setFontSize(10);
+        
+        gameState.pdfQuestions.q4.forEach((q, i) => {
+            const part1 = cleanTiebreakerText(q.parts[0]);
+            const part2 = cleanTiebreakerText(q.parts[1]);
+            const part3 = cleanTiebreakerText(q.parts[2]);
+            const combined = `${part1} ${part2} ${part3}`;
+            
+            yPos = addWrappedText(pdf, `${i + 1}. ${combined}`, margin, yPos, 170);
+            yPos += 3;
+            pdf.text('_'.repeat(80), margin, yPos);
+            yPos += 10;
+            
+            answerYPos = addWrappedText(answerKeyPDF, `${i + 1}. ${combined}`, margin, answerYPos, 170);
+            answerYPos += 3;
+            answerKeyPDF.text(formatAnswer(q.answer), margin, answerYPos);
+            answerYPos += 10;
+        });
+    }
+    
+    // Save PDFs with 2 second delay
+    pdf.save('history-bowl-practice.pdf');
+    
+    setTimeout(() => {
+        answerKeyPDF.save('history-bowl-practice-answer-key.pdf');
+    }, 2000);
+    
+    alert('PDFs exported successfully!');
+}PDF.setFontSize(10);
+        
+        gameState.pdfQuestions.q1.forEach((q, i) => {
+            const cleanQ = cleanTiebreakerText(q.question);
+            yPos = addWrappedText(pdf, `${i + 1}. ${cleanQ}`, margin, yPos, 170);
+            yPos += 3;
+            pdf.text('_'.repeat(80), margin, yPos);
+            yPos += 10;
+            
+            answerYPos = addWrappedText(answerKeyPDF, `${i + 1}. ${cleanQ}`, margin, answerYPos, 170);
+            answerYPos += 3;
+            const answer = formatAnswer(q.answer);
+            answerKeyPDF.text(answer, margin, answerYPos);
+            answerYPos += 10;
+        });
+    }
+    
+    // Quarter 2
+    if (gameState.pdfQuestions.q2.length > 0) {
+        if (yPos > 100) {
+            pdf.addPage();
+            yPos = 20;
+        }
+        if (answerYPos > 100) {
+            answerKeyPDF.addPage();
+            answerYPos = 20;
+        }
+        
+        pdf.setFontSize(14);
+        pdf.text('Quarter 2', margin, yPos);
+        answerKeyPDF.setFontSize(14);
+        answerKeyPDF.text('Quarter 2', margin, answerYPos);
+        yPos += 10;
+        answerYPos += 10;
+        
+        pdf.setFontSize(10);
+        answerKeyPDF.setFontSize(10);
+        
+        gameState.pdfQuestions.q2.forEach((q, i) => {
+            const cleanTossup = cleanTiebreakerText(q.tossup.question);
+            const cleanBonus = cleanTiebreakerText(q.bonus.question);
+            
+            // Tossup
+            yPos = addWrappedText(pdf, `${i + 1}. TOSSUP: ${cleanTossup}`, margin, yPos, 170);
+            yPos += 3;
+            pdf.text('_'.repeat(80), margin, yPos);
+            yPos += 10;
+            
+            answerYPos = addWrappedText(answerKeyPDF, `${i + 1}. TOSSUP: ${cleanTossup}`, margin, answerYPos, 170);
+            answerYPos += 3;
+            answerKeyPDF.text(formatAnswer(q.tossup.answer), margin, answerYPos);
+            answerYPos += 10;
+            
+            // Bonus with [Previous Answer] replacement
+            const bonusWithReplacement = replaceAnswerInBonus(cleanBonus, q.tossup.answer);
+            yPos = addWrappedText(pdf, `${i + 1}. BONUS: ${bonusWithReplacement}`, margin, yPos, 170);
+            yPos += 3;
+            pdf.text('_'.repeat(80), margin, yPos);
+            yPos += 10;
+            
+            // Answer key has full bonus question
+            answerYPos = addWrappedText(answerKeyPDF, `${i + 1}. BONUS: ${cleanBonus}`, margin, answerYPos, 170);
+            answerYPos += 3;
+            answerKeyPDF.text(formatAnswer(q.bonus.answer), margin, answerYPos);
+            answerYPos += 10;
+        });
+    }
+    
+    // Quarter 3
+    if (gameState.pdfQuestions.q3.length > 0) {
+        pdf.addPage();
+        yPos = 20;
+        answerKeyPDF.addPage();
+        answerYPos = 20;
+        
+        pdf.setFontSize(14);
+        pdf.text('Quarter 3', margin, yPos);
+        answerKeyPDF.setFontSize(14);
+        answerKeyPDF.text('Quarter 3', margin, answerYPos);
+        yPos += 10;
+        answerYPos += 10;
+        
+        pdf.setFontSize(10);
+        answerKey        <div class="team-score">
+          <div class="team-name">Avg Buzz-in</div>
+          <div class="score" id="avgResponseTime">--</div>
+          <div class="small muted">Seconds to buzz</div>
+        </div>
+        <div class="team-score">
+          <div class="team-name">Accuracy</div>
+          <div class="score" id="accuracyDisplay">--%</div>
+          <div class="small muted">Questions correct</div>
+        </div>
 </script>
 </body>
 </html>
