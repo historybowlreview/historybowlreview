@@ -2861,6 +2861,23 @@ function replaceAnswerInBonus(bonusQuestion, tossupAnswer) {
     return result;
 }
 
+function init(){
+    resetGame();
+    updateScoreDisplays();
+    updateQuestionsStatus('Loading questions from server...', true);
+
+    // Automatically load questions when the page loads
+    loadQuestionsFromServer();
+    
+    // Load jsPDF library - ADD THIS SECTION
+    const script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+    script.onload = () => console.log('jsPDF loaded');
+    script.onerror = () => console.error('Failed to load jsPDF');
+    document.head.appendChild(script);
+}
+init()
+  
 async function exportPDFs() {
     // Initialize if undefined
     if (!gameState.pdfQuestions) {
