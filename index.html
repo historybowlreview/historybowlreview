@@ -292,7 +292,10 @@
         </div>
       </div>
     </div>
-
+    <!-- Player Name Input (MOVE THIS OUTSIDE) -->
+    <div id="playerNameContainer" style="text-align:center; margin-bottom: 16px;">
+      <input type="text" id="playerNameInput" placeholder="Enter your name for leaderboard" maxlength="20">
+    </div>
     <!-- Main Menu -->
     <div id="mainMenu" class="menu">
       <div class="card" onclick="openPracticeMode()">
@@ -310,10 +313,6 @@
         <p class="muted">Shows all full game attempts ordered by score. Enter your name to save it with your score.</p>
         <div style="margin-top:10px"><button class="btn">View Leaderboard</button></div>
       </div>
-      <!-- Player Name Input -->
-      <div id="playerNameContainer" style="margin-bottom: 10px;">
-        <input type="text" id="playerNameInput" placeholder="Enter your name for leaderboard" maxlength="20">
-      </div>
       <div class="card" onclick="exportPDFs()">
         <h3>Export PDFs</h3>
         <div style="margin-top:10px"><button class="btn">Export PDFs</button></div>
@@ -329,6 +328,7 @@
     </div>
 
     <!-- Game Area -->
+  <div id="gameArea" class="game-area">
     <div class="scoreboard">
       <div class="team-score">
         <div class="team-name">Score</div>
@@ -356,36 +356,37 @@
         <div id="timerDisplay" style="font-weight:700">--</div>
       </div>
     </div>
-      <div class="question-area">
-        <div id="questionText" class="question-text">Load questions first, then click "Next Question" to begin.</div>
-      </div>
-      <div class="controls">
-        <button id="buzzerBtn" class="buzzer-btn" onclick="buzz()" disabled>🔔 BUZZ</button>
-        <button class="btn secondary" id="showAnswerBtn" onclick="showAnswer()">Show Answer</button>
-        <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
-          <div class="small muted">Mode:</div>
-          <div id="modeDisplay" style="font-weight:700">Practice</div>
-        </div>
-      </div>
-      <div class="controls-row">
-        <input id="answerInput" class="answer-input" placeholder="Type answer and press Enter or Submit..." disabled>
-        <button class="btn" onclick="submitAnswer()">Submit</button>
-        <div id="currentResponseTime" class="small muted">Response time: --</div>
-        <label style="display:flex;align-items:center;gap:6px;cursor:pointer;margin-left:12px;">
-          <input type="checkbox" id="addToPDFCheckbox" style="width:18px;height:18px;cursor:pointer;">
-          <span style="font-size:0.9rem;color:#2d3748;font-weight:500;">Add to PDF</span>
-        </label>
-      </div>
-      <div id="feedback" class="feedback"></div>
-      <!-- Q3 category selection area -->
-      <div id="categorySelection" class="categories hidden"></div>
-      <!-- Controls to go back or reset -->
-      <div class="controls-row" style="margin-top:12px">
-        <button class="btn secondary" onclick="backToMenu()">Back to Menu</button>
-        <button class="btn secondary" id="pauseBtn" onclick="togglePause()">Pause</button>
-        <button class="btn" onclick="resetPracticeGame()">Reset Game</button>
+    <div id="q3PrefixBox" class="hidden" style="font-weight:600;font-size:1.08em;margin-bottom:6px;"></div>
+    <div class="question-area">
+      <div id="questionText" class="question-text">Load questions first, then click "Next Question" to begin.</div>
+    </div>
+    <div class="controls">
+      <button id="buzzerBtn" class="buzzer-btn" onclick="buzz()" disabled>🔔 BUZZ</button>
+      <button class="btn secondary" id="showAnswerBtn" onclick="showAnswer()">Show Answer</button>
+      <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+        <div class="small muted">Mode:</div>
+        <div id="modeDisplay" style="font-weight:700">Practice</div>
       </div>
     </div>
+    <div class="controls-row">
+      <input id="answerInput" class="answer-input" placeholder="Type answer and press Enter or Submit..." disabled>
+      <button class="btn" onclick="submitAnswer()">Submit</button>
+      <div id="currentResponseTime" class="small muted">Response time: --</div>
+      <label style="display:flex;align-items:center;gap:6px;cursor:pointer;margin-left:12px;">
+        <input type="checkbox" id="addToPDFCheckbox" style="width:18px;height:18px;cursor:pointer;">
+        <span style="font-size:0.9rem;color:#2d3748;font-weight:500;">Add to PDF</span>
+      </label>
+    </div>
+    <div id="feedback" class="feedback"></div>
+      <!-- Q3 category selection area -->
+    <div id="categorySelection" class="categories hidden"></div>
+      <!-- Controls to go back or reset -->
+    <div class="controls-row" style="margin-top:12px">
+      <button class="btn secondary" onclick="backToMenu()">Back to Menu</button>
+      <button class="btn secondary" id="pauseBtn" onclick="togglePause()">Pause</button>
+      <button class="btn" onclick="resetPracticeGame()">Reset Game</button>
+    </div>
+  </div>
 
     <!-- Leaderboard Panel -->
     <div id="leaderboardPanel" class="admin-panel hidden">
