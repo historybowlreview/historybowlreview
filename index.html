@@ -2955,10 +2955,10 @@ async function exportPDFs() {
     const today = new Date().toLocaleDateString();
     pdf.setFontSize(10);
     pdf.setFont(undefined, 'normal');
-    pdf.text(`Generated: ${today}`, margin, yPos);
+    pdf.text(`Generated using Kizuruki's History Bowl Study Program: ${today}`, margin, yPos);
     answerKeyPDF.setFontSize(10);
     answerKeyPDF.setFont(undefined, 'normal');
-    answerKeyPDF.text(`Generated: ${today}`, margin, answerYPos);
+    answerKeyPDF.text(`Generated using Kizuruki's History Bowl Study Program: ${today}`, margin, answerYPos);
     
     yPos += 10;
     answerYPos += 10;
@@ -3317,15 +3317,27 @@ async function exportPDFs() {
             answerYPos += 12;
         });
     }
+    const bottomText = "Generated using Kizuruki's History Bowl Study Program";
+    const bottomLines = pdf.splitTextToSize(bottomText, maxWidth);
+    const requiredSpace = bottomLines.length * lineHeight + 12;
     
+    if (needsNewPage(requiredSpace, false)) addNewPage(pdf, false);
+    if (needsNewPage(requiredSpace, true)) addNewPage(answerKeyPDF, true);
+    
+    addWrappedText(pdf, bottomText, margin, yPos, maxWidth, false);
+    yPos += bottomLines.length * lineHeight + 12;
+    
+    addWrappedText(answerKeyPDF, bottomText, margin, answerYPos, maxWidth, true);
+    answerYPos += bottomLines.length * lineHeight + 12;
     // Save PDFs
     pdf.save('history-bowl-practice.pdf');
     
     setTimeout(() => {
         answerKeyPDF.save('history-bowl-practice-answer-key.pdf');
     }, 1200);
-    
-    alert('PDFs exported successfully!');
+    setTimeout(() => {
+        alert('PDFs exported successfully!');
+    }, 2400);
 }
 </script>
 </body>
