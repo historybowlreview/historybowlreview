@@ -2425,9 +2425,15 @@ function startFeedbackCountdown(seconds) {
 }
 
 function formatAnswer(ans) {
-    if (Array.isArray(ans)) return ans.join(', ');
-    if (typeof ans === 'string' && ans.includes(',')) return ans.split(',').map(s => s.trim()).join(', ');
-    return ans;
+    // Convert arrays to string
+    let answerText = Array.isArray(ans) ? ans.join(', ') : ans;
+    
+    if (typeof answerText === 'string' && answerText.includes(',')) {
+        answerText = answerText.split(',').map(s => s.trim()).join(', ');
+    }
+    
+    // Prepend 'Answer: ' for concise formatting
+    return `Answer: ${answerText}`;
 }
 /* ------------------ Finish/End-game ------------------ */
 async function finishGame() {
@@ -2856,7 +2862,17 @@ async function generateSamplePDFs() {
 }
 
 function cleanTiebreakerText(text) {
-    return text.replace(/^\(TIEBREAKER (EXAMPLE|BONUS) QUESTION\)\s*/i, '').replace(/^\(TIEBREAKER\)\s*/i, '');
+    return text
+        .replace(/^\(TIEBREAKER (EXAMPLE|BONUS) QUESTION\)\s*/i, '')
+        .replace(/^\(TIEBREAKER\)\s*/i, '')
+        .replace(/^\(TIEBREAKER EXAMPLE QUESTION\)\s*/i, ''); // ensure full cleanup
+}
+const footerText = "(generated using kizuruki's history bowl study program)";
+function addFooter(doc, y = 280) {
+    doc.setFontSize(8);
+    doc.setFont(undefined, 'italic');
+    doc.text(footerText, 20, y); // margin = 20
+    doc.setFont(undefined, 'normal');
 }
 
 function replaceAnswerInBonus(bonusQuestion, tossupAnswer) {
@@ -2915,6 +2931,8 @@ async function exportPDFs() {
         doc.addPage();
         if (isAnswer) answerYPos = 20;
         else yPos = 20;
+    
+        addFooter(doc); // add footer to each new page
     };
     
     // Helper to add text with wrapping; ensures block fits (prevents overlap)
@@ -2927,6 +2945,7 @@ async function exportPDFs() {
         if (currentY + requiredSpace > pageHeight - 10) {
             addNewPage(doc, isAnswer);
             currentY = isAnswer ? answerYPos : yPos;
+            addFooter(doc)
         }
         
         lines.forEach(line => {
@@ -3027,7 +3046,9 @@ async function exportPDFs() {
             
             addWrappedText(answerKeyPDF, `${i + 1}. ${cleanQ}`, margin, answerYPos, maxWidth, true);
             answerYPos += 2;
+            answerKeyPDF.setFont(undefined, 'bold');
             answerKeyPDF.text(formatAnswer(q.answer), margin, answerYPos);
+            answerKeyPDF.setFont(undefined, 'normal');
             answerYPos += 12;
         });
     }
@@ -3165,7 +3186,9 @@ async function exportPDFs() {
                 
                 addWrappedText(answerKeyPDF, `${i + 1}. ${cleanQ}`, margin, answerYPos, maxWidth, true);
                 answerYPos += 2;
+                answerKeyPDF.setFont(undefined, 'bold');
                 answerKeyPDF.text(formatAnswer(q.answer), margin, answerYPos);
+                answerKeyPDF.setFont(undefined, 'normal');
                 answerYPos += 12;
             });
         });
@@ -3230,7 +3253,9 @@ async function exportPDFs() {
             
             addWrappedText(answerKeyPDF, `${i + 1}. ${cleanQ}`, margin, answerYPos, maxWidth, true);
             answerYPos += 2;
+            answerKeyPDF.setFont(undefined, 'bold');
             answerKeyPDF.text(formatAnswer(q.answer), margin, answerYPos);
+            answerKeyPDF.setFont(undefined, 'normal');
             answerYPos += 12;
         });
         
@@ -3269,7 +3294,9 @@ async function exportPDFs() {
             
             addWrappedText(answerKeyPDF, `${i + 1}. ${display}`, margin, answerYPos, maxWidth, true);
             answerYPos += 2;
+            answerKeyPDF.setFont(undefined, 'bold');
             answerKeyPDF.text(formatAnswer(q.answer), margin, answerYPos);
+            answerKeyPDF.setFont(undefined, 'normal');
             answerYPos += 12;
         });
         
@@ -3310,7 +3337,9 @@ async function exportPDFs() {
             
             addWrappedText(answerKeyPDF, `${i + 1}. ${combined}`, margin, answerYPos, maxWidth, true);
             answerYPos += 2;
+            answerKeyPDF.setFont(undefined, 'bold');
             answerKeyPDF.text(formatAnswer(q.answer), margin, answerYPos);
+            answerKeyPDF.setFont(undefined, 'normal');
             answerYPos += 12;
         });
     }
