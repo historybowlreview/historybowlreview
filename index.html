@@ -2769,6 +2769,7 @@ function renderPDFQuestionsList() {
     html += `<p>Q1: ${gameState.pdfQuestions.q1.length} | Q2: ${gameState.pdfQuestions.q2.length} | Q3: ${gameState.pdfQuestions.q3.length} categories | Q4: ${gameState.pdfQuestions.q4.length}</p>`;
     container.innerHTML = html;
 }
+
 function addCurrentQuestionToPDF() {
     if (!gameState.pdfQuestions) {
         gameState.pdfQuestions = { q1: [], q2: [], q3: [], q4: [] };
@@ -2855,7 +2856,7 @@ async function generateSamplePDFs() {
 }
 
 function cleanTiebreakerText(text) {
-    return text.replace(/^\(TIEBREAKER( EXAMPLE| BONUS)? QUESTION\)\s*/i, '').replace(/^\(TIEBREAKER\)\s*/i, '');
+    return text.replace(/^\(TIEBREAKER (EXAMPLE|BONUS) QUESTION\)\s*/i, '').replace(/^\(TIEBREAKER\)\s*/i, '');
 }
 
 function replaceAnswerInBonus(bonusQuestion, tossupAnswer) {
@@ -2936,40 +2937,61 @@ async function exportPDFs() {
         if (isAnswer) answerYPos = currentY;
         else yPos = currentY;
     };
-    const writeAnswerBold = (doc, text) => {
-      doc.setFont(undefined, 'bold');
-      // Use addWrappedText so the answer wraps and advances answerYPos correctly.
-      addWrappedText(doc, `Answer: ${text}`, margin, 0, maxWidth, true);
-      doc.setFont(undefined, 'normal');
-  };
+    
     // Title page
-    pdf.setFontSize(16); pdf.setFont(undefined, 'bold');
+    pdf.setFontSize(16);
+    pdf.setFont(undefined, 'bold');
     pdf.text('History Bowl Practice Test', margin, yPos);
-    answerKeyPDF.setFontSize(16); answerKeyPDF.setFont(undefined, 'bold');
+    answerKeyPDF.setFontSize(16);
+    answerKeyPDF.setFont(undefined, 'bold');
     answerKeyPDF.text('History Bowl Practice Test - Answer Key', margin, answerYPos);
-    yPos += 10; answerYPos += 10;
+    
+    yPos += 10;
+    answerYPos += 10;
+    
     const today = new Date().toLocaleDateString();
-    pdf.setFontSize(10); pdf.text(`Generated: ${today}`, margin, yPos);
-    answerKeyPDF.setFontSize(10); answerKeyPDF.text(`Generated: ${today}`, margin, answerYPos);
-    yPos += 15; answerYPos += 15;
+    pdf.setFontSize(10);
+    pdf.setFont(undefined, 'normal');
+    pdf.text(`Generated: ${today}`, margin, yPos);
+    answerKeyPDF.setFontSize(10);
+    answerKeyPDF.setFont(undefined, 'normal');
+    answerKeyPDF.text(`Generated: ${today}`, margin, answerYPos);
     
     yPos += 10;
     answerYPos += 10;
     
     // --- Scoring Guidelines (both PDFs) ---
-    pdf.setFontSize(9); pdf.setFont(undefined, 'bold');
-    pdf.text('Scoring Guidelines:', margin, yPos); yPos += 6; pdf.setFont(undefined, 'normal');
-    pdf.text('Q1: 1.5 pts | Q2: Tossup 1.5, Bonus 1, Both +0.5 | Q3: Cats 1–3 = 2 pts each; Cat 4 = +0.25 per Q (Q1=0.25 → Q8=2) | Q4: 4.5 / 3 / 1.5 pts. Total = 100 pts.', margin, yPos, {maxWidth});
+    pdf.setFontSize(9);
+    pdf.setFont(undefined, 'bold');
+    pdf.text('Scoring Guidelines:', margin, yPos);
+    yPos += 6;
+    pdf.setFont(undefined, 'normal');
+    pdf.text('Q1: 1.5 pts each.', margin, yPos);
+    yPos += 5;
+    pdf.text('Q2: Tossup 1.5 pts, Bonus 1.0 pt; getting both parts correct yields an extra +0.5 pts.', margin, yPos, {maxWidth: maxWidth});
+    yPos += 6;
+    pdf.text('Q3: Select one category from Categories 1–3 (each correct = 2 pts). Category 4 is mandatory; Q1 = 0.25 pts, Q2 = 0.5 pts, ... increasing by 0.25 each, with Q8 = 2 pts.', margin, yPos, {maxWidth: maxWidth});
     yPos += 7;
-    pdf.text('Alternate scoring: each Q normally 10 pts, Q4 = 30/20/10 by timing.', margin, yPos, {maxWidth});
-    yPos += 10;
-
-    answerKeyPDF.setFontSize(9); answerKeyPDF.setFont(undefined, 'bold');
-    answerKeyPDF.text('Scoring Guidelines:', margin, answerYPos); answerYPos += 6; answerKeyPDF.setFont(undefined, 'normal');
-    answerKeyPDF.text('Q1: 1.5 pts | Q2: Tossup 1.5, Bonus 1, Both +0.5 | Q3: Cats 1–3 = 2 pts each; Cat 4 = +0.25 per Q (Q1=0.25 → Q8=2) | Q4: 4.5 / 3 / 1.5 pts. Total = 100 pts.', margin, answerYPos, {maxWidth});
+    pdf.text('Q4: Scoring replaced: 4.5 / 3 / 1.5 pts (instead of 30/20/10). Total maximum score = 100 pts.', margin, yPos, {maxWidth: maxWidth});
+    yPos += 6;
+    pdf.text('Alternate scoring (optional): each question normally 10 pts; Q4 may be scored 30/20/10 depending on timing.', margin, yPos, {maxWidth: maxWidth});
+    yPos += 12;
+    
+    answerKeyPDF.setFontSize(9);
+    answerKeyPDF.setFont(undefined, 'bold');
+    answerKeyPDF.text('Scoring Guidelines:', margin, answerYPos);
+    answerYPos += 6;
+    answerKeyPDF.setFont(undefined, 'normal');
+    answerKeyPDF.text('Q1: 1.5 pts each.', margin, answerYPos);
+    answerYPos += 5;
+    answerKeyPDF.text('Q2: Tossup 1.5 pts, Bonus 1.0 pt; getting both parts correct yields an extra +0.5 pts.', margin, answerYPos, {maxWidth: maxWidth});
+    answerYPos += 6;
+    answerKeyPDF.text('Q3: Select one category from Categories 1–3 (each correct = 2 pts). Category 4 is mandatory; Q1 = 0.25 pts, Q2 = 0.5 pts, ... increasing by 0.25 each, with Q8 = 2 pts.', margin, answerYPos, {maxWidth: maxWidth});
     answerYPos += 7;
-    answerKeyPDF.text('Alternate scoring: each Q normally 10 pts, Q4 = 30/20/10 by timing.', margin, answerYPos, {maxWidth});
-    answerYPos += 10;
+    answerKeyPDF.text('Q4: Scoring replaced: 4.5 / 3 / 1.5 pts (instead of 30/20/10). Total maximum score = 100 pts.', margin, answerYPos, {maxWidth: maxWidth});
+    answerYPos += 6;
+    answerKeyPDF.text('Alternate scoring (optional): each question normally 10 pts; Q4 may be scored 30/20/10 depending on timing.', margin, answerYPos, {maxWidth: maxWidth});
+    answerYPos += 12;
     // --- End scoring guidelines ---
     
     // Quarter 1
@@ -3003,9 +3025,10 @@ async function exportPDFs() {
             pdf.text('_'.repeat(underscoreLen), margin, yPos);
             yPos += 12; // consistent spacing between question blocks
             
-            // Answer key: use wrapped bold writer (it updates answerYPos internally)
             addWrappedText(answerKeyPDF, `${i + 1}. ${cleanQ}`, margin, answerYPos, maxWidth, true);
-            writeAnswerBold(answerKeyPDF, formatAnswer(q.answer));
+            answerYPos += 2;
+            answerKeyPDF.text(formatAnswer(q.answer), margin, answerYPos);
+            answerYPos += 12;
         });
     }
     
@@ -3046,7 +3069,9 @@ async function exportPDFs() {
             yPos += 10;
             
             addWrappedText(answerKeyPDF, `${i + 1}. TOSSUP: ${cleanTossup}`, margin, answerYPos, maxWidth, true);
-            writeAnswerBold(answerKeyPDF, formatAnswer(q.tossup.answer));
+            answerYPos += 2;
+            answerKeyPDF.text(formatAnswer(q.tossup.answer), margin, answerYPos);
+            answerYPos += 10;
             
             // Bonus (can be on different page)
             const bonusLines = pdf.splitTextToSize(`BONUS: ${bonusWithReplacement}`, maxWidth);
@@ -3061,7 +3086,9 @@ async function exportPDFs() {
             yPos += 12;
             
             addWrappedText(answerKeyPDF, `BONUS: ${cleanBonus}`, margin, answerYPos, maxWidth, true);
-            writeAnswerBold(answerKeyPDF, formatAnswer(q.bonus.answer));
+            answerYPos += 2;
+            answerKeyPDF.text(formatAnswer(q.bonus.answer), margin, answerYPos);
+            answerYPos += 12;
         });
     }
     
@@ -3136,9 +3163,10 @@ async function exportPDFs() {
                 pdf.text('_'.repeat(underscoreLen), margin, yPos);
                 yPos += 12;
                 
-                // Answer key: write the question header then the bold wrapped answer (writeAnswerBold advances answerYPos)
                 addWrappedText(answerKeyPDF, `${i + 1}. ${cleanQ}`, margin, answerYPos, maxWidth, true);
-                writeAnswerBold(answerKeyPDF, formatAnswer(q.answer));
+                answerYPos += 2;
+                answerKeyPDF.text(formatAnswer(q.answer), margin, answerYPos);
+                answerYPos += 12;
             });
         });
     }
@@ -3147,7 +3175,7 @@ async function exportPDFs() {
     if (gameState.pdfQuestions.q4.length > 0) {
         addNewPage(pdf, false);
         addNewPage(answerKeyPDF, true);
-    
+        
         pdf.setFontSize(14);
         pdf.setFont(undefined, 'bold');
         pdf.text('Quarter 4', margin, yPos);
@@ -3156,122 +3184,137 @@ async function exportPDFs() {
         answerKeyPDF.text('Quarter 4', margin, answerYPos);
         yPos += 8;
         answerYPos += 8;
-    
+        
         pdf.setFontSize(9);
         pdf.setFont(undefined, 'normal');
-        pdf.text('Scoring: Answer in earliest section = 4.5 pts, next = 3 pts, last = 1.5 pts (alternate: 30/20/10).', margin, yPos, {maxWidth});
+        // Updated Q4 scoring description to reflect 4.5/3/1.5 points
+        pdf.text('Scoring: Answer in earliest section = 4.5 pts, next = 3 pts, last = 1.5 pts (alternate: 30/20/10).', margin, yPos, {maxWidth: maxWidth});
         yPos += 6;
-        pdf.text('Note: Answering incorrectly in an earlier section voids later points. Leaving blank allows answering in a later section.', margin, yPos, {maxWidth});
+        pdf.text('Note: Answering incorrectly in an earlier section voids later points. Leaving blank allows answering in a later section.', margin, yPos, {maxWidth: maxWidth});
         yPos += 10;
-    
+        
         answerKeyPDF.setFontSize(9);
         answerKeyPDF.setFont(undefined, 'normal');
-        answerKeyPDF.text('Scoring: Answer in earliest section = 4.5 pts, next = 3 pts, last = 1.5 pts (alternate: 30/20/10).', margin, answerYPos, {maxWidth});
+        answerKeyPDF.text('Scoring: Answer in earliest section = 4.5 pts, next = 3 pts, last = 1.5 pts (alternate: 30/20/10).', margin, answerYPos, {maxWidth: maxWidth});
         answerYPos += 6;
-        answerKeyPDF.text('Note: Answering incorrectly in an earlier section voids later points. Leaving blank allows answering in a later section.', margin, answerYPos, {maxWidth});
+        answerKeyPDF.text('Note: Answering incorrectly in an earlier section voids later points. Leaving blank allows answering in a later section.', margin, answerYPos, {maxWidth: maxWidth});
         answerYPos += 10;
-    
-        // Section 1: earliest
-        pdf.setFontSize(12); pdf.setFont(undefined, 'bold');
+        
+        // Section 1: earliest (4.5 pts)
+        pdf.setFontSize(12);
+        pdf.setFont(undefined, 'bold');
         pdf.text('Section 1: Earliest (4.5 pts)', margin, yPos);
-        answerKeyPDF.setFontSize(12); answerKeyPDF.setFont(undefined, 'bold');
+        answerKeyPDF.setFontSize(12);
+        answerKeyPDF.setFont(undefined, 'bold');
         answerKeyPDF.text('Section 1: Earliest (4.5 pts)', margin, answerYPos);
-        yPos += 8; answerYPos += 8;
-        pdf.setFontSize(10); pdf.setFont(undefined, 'normal');
-        answerKeyPDF.setFontSize(10); answerKeyPDF.setFont(undefined, 'normal');
-    
+        yPos += 8;
+        answerYPos += 8;
+        
+        pdf.setFontSize(10);
+        pdf.setFont(undefined, 'normal');
+        answerKeyPDF.setFontSize(10);
+        answerKeyPDF.setFont(undefined, 'normal');
+        
         gameState.pdfQuestions.q4.forEach((q, i) => {
-            const part1 = cleanTiebreakerText(q.parts[0] || '');
-            const questionLines = pdf.splitTextToSize(`${i + 1}. ${part1}`, maxWidth);
+            const cleanQ = cleanTiebreakerText(q.parts[0]);
+            const questionLines = pdf.splitTextToSize(`${i + 1}. ${cleanQ}`, maxWidth);
             const requiredSpace = questionLines.length * lineHeight + 12;
-    
+            
             if (needsNewPage(requiredSpace, false)) addNewPage(pdf, false);
             if (needsNewPage(requiredSpace, true)) addNewPage(answerKeyPDF, true);
-    
-            addWrappedText(pdf, `${i + 1}. ${part1}`, margin, yPos, maxWidth, false);
+            
+            addWrappedText(pdf, `${i + 1}. ${cleanQ}`, margin, yPos, maxWidth, false);
             yPos += 2;
             pdf.text('_'.repeat(underscoreLen), margin, yPos);
             yPos += 12;
-    
-            addWrappedText(answerKeyPDF, `${i + 1}. ${part1}`, margin, answerYPos, maxWidth, true);
-            writeAnswerBold(answerKeyPDF, formatAnswer(q.answer));
+            
+            addWrappedText(answerKeyPDF, `${i + 1}. ${cleanQ}`, margin, answerYPos, maxWidth, true);
+            answerYPos += 2;
+            answerKeyPDF.text(formatAnswer(q.answer), margin, answerYPos);
+            answerYPos += 12;
         });
-    
-        // Section 2: middle
-        addNewPage(pdf, false); addNewPage(answerKeyPDF, true);
-        pdf.setFontSize(12); pdf.setFont(undefined, 'bold');
+        
+        // Section 2: middle (3 pts) - showing second part if present
+        addNewPage(pdf, false);
+        addNewPage(answerKeyPDF, true);
+        
+        pdf.setFontSize(12);
+        pdf.setFont(undefined, 'bold');
         pdf.text('Section 2: Middle (3 pts)', margin, yPos);
-        answerKeyPDF.setFontSize(12); answerKeyPDF.setFont(undefined, 'bold');
+        answerKeyPDF.setFontSize(12);
+        answerKeyPDF.setFont(undefined, 'bold');
         answerKeyPDF.text('Section 2: Middle (3 pts)', margin, answerYPos);
-        yPos += 8; answerYPos += 8;
-        pdf.setFontSize(10); pdf.setFont(undefined, 'normal');
-        answerKeyPDF.setFontSize(10); answerKeyPDF.setFont(undefined, 'normal');
-    
+        yPos += 8;
+        answerYPos += 8;
+        
+        pdf.setFontSize(10);
+        pdf.setFont(undefined, 'normal');
+        answerKeyPDF.setFontSize(10);
+        answerKeyPDF.setFont(undefined, 'normal');
+        
         gameState.pdfQuestions.q4.forEach((q, i) => {
             const part1 = cleanTiebreakerText(q.parts[0] || '');
             const part2 = cleanTiebreakerText(q.parts[1] || '');
             const display = part2 ? `${part1} — ${part2}` : part1;
-    
             const questionLines = pdf.splitTextToSize(`${i + 1}. ${display}`, maxWidth);
             const requiredSpace = questionLines.length * lineHeight + 12;
-    
+            
             if (needsNewPage(requiredSpace, false)) addNewPage(pdf, false);
             if (needsNewPage(requiredSpace, true)) addNewPage(answerKeyPDF, true);
-    
+            
             addWrappedText(pdf, `${i + 1}. ${display}`, margin, yPos, maxWidth, false);
             yPos += 2;
             pdf.text('_'.repeat(underscoreLen), margin, yPos);
             yPos += 12;
-    
+            
             addWrappedText(answerKeyPDF, `${i + 1}. ${display}`, margin, answerYPos, maxWidth, true);
-            writeAnswerBold(answerKeyPDF, formatAnswer(q.answer));
+            answerYPos += 2;
+            answerKeyPDF.text(formatAnswer(q.answer), margin, answerYPos);
+            answerYPos += 12;
         });
-    
-        // Section 3: last
-        addNewPage(pdf, false); addNewPage(answerKeyPDF, true);
-        pdf.setFontSize(12); pdf.setFont(undefined, 'bold');
+        
+        // Section 3: last (1.5 pts) - full/final parts
+        addNewPage(pdf, false);
+        addNewPage(answerKeyPDF, true);
+        
+        pdf.setFontSize(12);
+        pdf.setFont(undefined, 'bold');
         pdf.text('Section 3: Last (1.5 pts)', margin, yPos);
-        answerKeyPDF.setFontSize(12); answerKeyPDF.setFont(undefined, 'bold');
+        answerKeyPDF.setFontSize(12);
+        answerKeyPDF.setFont(undefined, 'bold');
         answerKeyPDF.text('Section 3: Last (1.5 pts)', margin, answerYPos);
-        yPos += 8; answerYPos += 8;
-        pdf.setFontSize(10); pdf.setFont(undefined, 'normal');
-        answerKeyPDF.setFontSize(10); answerKeyPDF.setFont(undefined, 'normal');
-    
+        yPos += 8;
+        answerYPos += 8;
+        
+        pdf.setFontSize(10);
+        pdf.setFont(undefined, 'normal');
+        answerKeyPDF.setFontSize(10);
+        answerKeyPDF.setFont(undefined, 'normal');
+        
         gameState.pdfQuestions.q4.forEach((q, i) => {
             const part1 = cleanTiebreakerText(q.parts[0] || '');
             const part2 = cleanTiebreakerText(q.parts[1] || '');
             const part3 = cleanTiebreakerText(q.parts[2] || '');
+            
             const combined = [part1, part2, part3].filter(Boolean).join(' — ');
-    
             const questionLines = pdf.splitTextToSize(`${i + 1}. ${combined}`, maxWidth);
             const requiredSpace = questionLines.length * lineHeight + 12;
-    
+            
             if (needsNewPage(requiredSpace, false)) addNewPage(pdf, false);
             if (needsNewPage(requiredSpace, true)) addNewPage(answerKeyPDF, true);
-    
+            
             addWrappedText(pdf, `${i + 1}. ${combined}`, margin, yPos, maxWidth, false);
             yPos += 2;
             pdf.text('_'.repeat(underscoreLen), margin, yPos);
             yPos += 12;
-    
+            
             addWrappedText(answerKeyPDF, `${i + 1}. ${combined}`, margin, answerYPos, maxWidth, true);
-            writeAnswerBold(answerKeyPDF, formatAnswer(q.answer));
+            answerYPos += 2;
+            answerKeyPDF.text(formatAnswer(q.answer), margin, answerYPos);
+            answerYPos += 12;
         });
     }
-    // ---- FOOTER ----
-    // put footer on the last page of each PDF explicitly
-    const footerText = '(Generated using Kizuruki’s History Bowl Study Program)';
-    if (pdf.getNumberOfPages) {
-        pdf.setPage(pdf.getNumberOfPages());
-    } // fallback: if method not available, it will write on current page
-    pdf.setFontSize(8); pdf.setFont(undefined, 'italic');
-    pdf.text(footerText, margin, pageHeight - 10);
     
-    if (answerKeyPDF.getNumberOfPages) {
-        answerKeyPDF.setPage(answerKeyPDF.getNumberOfPages());
-    }
-    answerKeyPDF.setFontSize(8); answerKeyPDF.setFont(undefined, 'italic');
-    answerKeyPDF.text(footerText, margin, pageHeight - 10);
     // Save PDFs
     pdf.save('history-bowl-practice.pdf');
     
