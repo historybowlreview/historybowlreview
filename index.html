@@ -3336,14 +3336,26 @@ async function exportPDFs() {
     addWrappedText(answerKeyPDF, bottomText, margin, answerYPos, maxWidth, true);
     answerYPos += bottomLines.length * lineHeight + 12;
     // Save PDFs
-    pdf.save('history-bowl-practice.pdf');
+    const practiceBlob = pdf.output('blob');
+    const answerKeyBlob = answerKeyPDF.output('blob');
     
+    // Create object URLs for both PDFs
+    const practiceUrl = URL.createObjectURL(practiceBlob);
+    const answerKeyUrl = URL.createObjectURL(answerKeyBlob);
+    
+    // Open both in new windows/tabs
+    const practiceWindow = window.open(practiceUrl, '_blank');
+    const answerKeyWindow = window.open(answerKeyUrl, '_blank');
+    
+    // Add a small delay to ensure both windows open
     setTimeout(() => {
-        answerKeyPDF.save('history-bowl-practice-answer-key.pdf');
-    }, 1200);
-    setTimeout(() => {
-        alert('PDFs exported successfully!');
-    }, 2400);
+        // Clean up object URLs
+        URL.revokeObjectURL(practiceUrl);
+        URL.revokeObjectURL(answerKeyUrl);
+        
+        // Show success message
+        alert('Both PDFs opened in new tabs/windows. Save both files to download them.');
+    }, 500);
 }
 </script>
 </body>
