@@ -2769,12 +2769,6 @@ function renderPDFQuestionsList() {
     html += `<p>Q1: ${gameState.pdfQuestions.q1.length} | Q2: ${gameState.pdfQuestions.q2.length} | Q3: ${gameState.pdfQuestions.q3.length} categories | Q4: ${gameState.pdfQuestions.q4.length}</p>`;
     container.innerHTML = html;
 }
-const writeAnswerBold = (doc, text) => {
-    // ensure bold for answer label and text, but use addWrappedText so wrapping and page breaks are handled
-    doc.setFont(undefined, 'bold');
-    addWrappedText(doc, `Answer: ${text}`, margin, /*startY unused*/ 0, maxWidth, true);
-    doc.setFont(undefined, 'normal');
-};
 function addCurrentQuestionToPDF() {
     if (!gameState.pdfQuestions) {
         gameState.pdfQuestions = { q1: [], q2: [], q3: [], q4: [] };
@@ -2942,6 +2936,12 @@ async function exportPDFs() {
         if (isAnswer) answerYPos = currentY;
         else yPos = currentY;
     };
+    const writeAnswerBold = (doc, text) => {
+      doc.setFont(undefined, 'bold');
+      // Use addWrappedText so the answer wraps and advances answerYPos correctly.
+      addWrappedText(doc, `Answer: ${text}`, margin, 0, maxWidth, true);
+      doc.setFont(undefined, 'normal');
+  };
     // Title page
     pdf.setFontSize(16); pdf.setFont(undefined, 'bold');
     pdf.text('History Bowl Practice Test', margin, yPos);
@@ -3200,7 +3200,8 @@ async function exportPDFs() {
             pdf.text('_'.repeat(underscoreLen), margin, yPos);
             yPos += 12;
             
-            addWrappedText(answerKeyPDF, `${i + 1}. ${cleanQ}`, margin, answerYPos, maxWidth, true);
+            // Answer key: header then bold wrapped answer (writeAnswerBold advances answerYPos)
+            addWrappedText(answerKeyPDF, `${i + 1}. ${display}`, margin, answerYPos, maxWidth, true);
             writeAnswerBold(answerKeyPDF, formatAnswer(q.answer));
         });
         
@@ -3238,9 +3239,7 @@ async function exportPDFs() {
             yPos += 12;
             
             addWrappedText(answerKeyPDF, `${i + 1}. ${display}`, margin, answerYPos, maxWidth, true);
-            answerYPos += 2;
-            answerKeyPDF.text(formatAnswer(q.answer), margin, answerYPos);
-            answerYPos += 12;
+            writeAnswerBold(answerKeyPDF, formatAnswer(q.answer));
         });
         
         // Section 3: last (1.5 pts) - full/final parts
@@ -3279,9 +3278,8 @@ async function exportPDFs() {
             yPos += 12;
             
             addWrappedText(answerKeyPDF, `${i + 1}. ${combined}`, margin, answerYPos, maxWidth, true);
-            answerYPos += 2;
-            answerKeyPDF.text(formatAnswer(q.answer), margin, answerYPos);
-            answerYPos += 12;
+            writeAnswerBold(answerKeyPDF, formatAnswer(q.answer));
+
         });
     }
     // ---- FOOTER ----
