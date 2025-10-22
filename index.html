@@ -3191,7 +3191,7 @@ async function exportPDFs() {
             const cleanQ = cleanTiebreakerText(q.parts[0]);
             const questionLines = pdf.splitTextToSize(`${i + 1}. ${cleanQ}`, maxWidth);
             const requiredSpace = questionLines.length * lineHeight + 12;
-            
+            const display = part2 ? `${part1} — ${part2}` : part1;
             if (needsNewPage(requiredSpace, false)) addNewPage(pdf, false);
             if (needsNewPage(requiredSpace, true)) addNewPage(answerKeyPDF, true);
             
