@@ -2943,9 +2943,8 @@ async function exportPDFs() {
         // Check if entire text block fits; if not, start a new page
         const requiredSpace = lines.length * lineHeight;
         if (currentY + requiredSpace > pageHeight - 10) {
-            addNewPage(doc, isAnswer);
+            addNewPage(doc, isAnswer); // footer is added inside addNewPage
             currentY = isAnswer ? answerYPos : yPos;
-            addFooter(doc)
         }
         
         lines.forEach(line => {
