@@ -3343,18 +3343,21 @@ async function exportPDFs() {
     const practiceUrl = URL.createObjectURL(practiceBlob);
     const answerKeyUrl = URL.createObjectURL(answerKeyBlob);
     
-    // Open both in new windows/tabs
-    const practiceWindow = window.open(practiceUrl, '_blank');
-    const answerKeyWindow = window.open(answerKeyUrl, '_blank');
-    
-    // Add a small delay to ensure both windows open
+    // Open both in new windows/tabs with a delay to avoid Safari restrictions
     setTimeout(() => {
-        // Clean up object URLs
-        URL.revokeObjectURL(practiceUrl);
-        URL.revokeObjectURL(answerKeyUrl);
-        
-        // Show success message
-        alert('Both PDFs opened in new tabs/windows. Save both files to download them.');
+        const practiceWindow = window.open(practiceUrl, '_blank');
+        setTimeout(() => {
+            const answerKeyWindow = window.open(answerKeyUrl, '_blank');
+            
+            // Clean up object URLs
+            setTimeout(() => {
+                URL.revokeObjectURL(practiceUrl);
+                URL.revokeObjectURL(answerKeyUrl);
+                
+                // Show success message
+                alert('Both PDFs opened in new tabs/windows. Save both files to download them.');
+            }, 500);
+        }, 500);
     }, 500);
 }
 </script>
