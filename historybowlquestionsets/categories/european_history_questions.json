@@ -408,6 +408,14 @@
         "Bavaria",
         "Bayern"
       ]
+    },
+    {
+      "question": "During his first Parliament, this man confiscated all the land holdings of his predecessor’s wife,\nElizabeth Woodville. Shortly after this man became king, the children Richard of Shrewsbury and\nEdward V mysteriously disappeared after being taken to the Tower of London. This man’s remains had\ndisappeared for centuries until, in 2012, they were found under a parking lot. For ten points, name this\nsubject of a Shakespeare history, the final king of the House of York.",
+      "answer": "Richard III"
+    },
+    {
+      "question": "(TIEBREAKER BONUS QUESTION) During World War II, Vidkun Quisling led a collaborationist regime in what country,\nwhose people now use “Quisling” as a synonym for traitor?",
+      "answer": "Norway"
     }
   ],
   "q2": [
@@ -1131,6 +1139,69 @@
           "Piedmont Sardinia",
           "Piedmont",
           "Sardinia"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "A civil war during this conflict was fought between the Armagnacs and Burgundians. One side of\nthis war sent out cavalry raids called chevauch´ees [sheh-voh-SHAYS], sometimes led by the Black Prince.\nCharles VII was crowned after this war’s Siege of Orleans was lifted. Longbows helped the English win\nthe Battle of Crecy during, for ten points, what war between England and France that lasted from 1337\nto 1453?",
+        "answer": [
+          "Hundred Years’ War",
+          "Hundred Years’"
+        ]
+      },
+      "bonus": {
+        "question": "The Siege of Orleans was lifted with the help of this 17-year-old French peasant girl. She was\ncaptured and burned at the stake by the English, but cleared by the Pope years later and made a saint in\n1920.",
+        "answer": [
+          "Saint Joan of Arc",
+          "Joan of Arc",
+          "Saint Jeanne d'Arc",
+          "Jeanne d'Arc"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "This kingdom allowed Janos Hunyadi to serve as regent despite losing at the Battle of Varna. The\nethnic group that founded this kingdom raided Europe before their defeat by Holy Roman Emperor\nOtto I at Lechfeld and are known as the Magyars. This kingdom came into personal unions with nearby\nCroatia, Austria, and Bohemia and is surrounded by the Carpathian Mountains. For ten points, name\nthis kingdom that ruled from what is now Budapest.",
+        "answer": [
+          "Kingdom of Hungary",
+          "Hungary"
+        ]
+      },
+      "bonus": {
+        "question": "Hungary was eventually split by the Habsburgs, the Ottomans, and this third independent state\nruled by John Zapolya. Bram Stoker’s Count Dracula came from this region.",
+        "answer": "Transylvania"
+      }
+    },
+    {
+      "tossup": {
+        "question": "During this Prime Minister’s tenure, the Sun ran an infamous headline declaring “Gotcha!” after\na submarine controversially sunk the enemy ship General Belgrano in international waters. The IRA\nattempted to assassinate this Conservative leader in the Brighton Hotel Bombing. John Major succeeded,\nfor ten points, what “Iron Lady” who led through the 1980s as the UK’s first female Prime Minister?",
+        "answer": [
+          "Margaret Hilda Thatcher",
+          "Thatcher",
+          "Margaret Thatcher"
+        ]
+      },
+      "bonus": {
+        "question": "The General Belgrano was sunk during a 1982 war between Britain and Argentina over this\nSouth Atlantic island chain",
+        "answer": [
+          "Falkland Islands",
+          "Falklands",
+          "Islas Malvinas",
+          "Malvinas"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "After this king’s finance minister liberalized grain commerce, the ensuing grain hoarding triggered\nrevolts known as the Flour War; this king then dismissed that minister, Turgot [tur-goh], in favor of\nJacques Necker. This king, who sent the Comte de Rochambeau to aid the American Revolution, was\ncaught fleeing to Varennes with his wife, Marie Antoinette. For ten points, name this French king who\nwas executed during the French Revolution.",
+        "answer": "Louis XVI"
+      },
+      "bonus": {
+        "question": "Louis XVI was executed shortly before the Reign of Terror, which was orchestrated by this\nleader of the Committee of Public Safety.",
+        "answer": [
+          "Maximilien Robespierre",
+          "Robespierre"
         ]
       }
     }
@@ -2534,6 +2605,107 @@
           ]
         }
       ]
+    },
+    {
+      "category": "CASTLES",
+      "prompt": "Name the...",
+      "questions": [
+        {
+          "question": "Protective ditch, usually filled with water, surrounding many castles.",
+          "answer": "moats"
+        },
+        {
+          "question": "System of government that lent itself to castle-building, as relatively independent lords ruled over\ntheir lands from a castle and served a king.",
+          "answer": [
+            "feudalism",
+            "feudal",
+            "feudalist"
+          ]
+        },
+        {
+          "question": "Siege engines that used a counterweight to swing a projectile at castle walls.",
+          "answer": "trebuchets"
+        },
+        {
+          "question": "Chinese technological innovation that allowed for bombards and mortars, making castles largely\nobsolete by the 15th century.",
+          "answer": "gunpowder"
+        },
+        {
+          "question": "Castle built by William the Conqueror outside of London after his conquest of England. It is now a\nroyal residence.",
+          "answer": [
+            "Windsor Castle",
+            "Windsor"
+          ]
+        },
+        {
+          "question": "“Mad” King of Bavaria who built Neuschwanstein [noysh-van-stein] Castle.",
+          "answer": [
+            "Ludwig II",
+            "Ludwig"
+          ]
+        },
+        {
+          "question": "Coastal region of France east of Brittany where motte-and-bailey castles were first developed.",
+          "answer": "Normandy"
+        },
+        {
+          "question": "Crusading group that occupied Krak des Chevaliers [she-vahl-yay] in Syria until 1271 before going to\nMalta.",
+          "answer": [
+            "Knights Hospitaller",
+            "Hospitaller",
+            "the Order of Knights of the Hospital of Saint John",
+            "the Order of Knights of the Hospital of Saint John of Jerusalem",
+            "the order of Hospitallers"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "EUROPEAN REFUGEE CRISIS",
+      "prompt": "Name the...",
+      "questions": [
+        {
+          "question": "Large sea crossed by migrants fleeing Africa to Europe. Its ancient Roman name, Mare Nostrum,\nnames a 2014 rescue operation.",
+          "answer": [
+            "Mediterranean Sea",
+            "Mediterranean"
+          ]
+        },
+        {
+          "question": "Group of 28 European nations that debated how to handle the refugee crisis.",
+          "answer": "European Union"
+        },
+        {
+          "question": "Middle Eastern country where civil war against Bashar al-Assad has displaced the most refugees.",
+          "answer": "Syria"
+        },
+        {
+          "question": "River for much of Serbia and Croatia’s border, making border control difficult, and which passes\nthrough four European capitals.",
+          "answer": [
+            "Danube River",
+            "Danube"
+          ]
+        },
+        {
+          "question": "Greek island, home of the ancient poet Sappho, to which Turkish refugees often cross.",
+          "answer": "Lesbos"
+        },
+        {
+          "question": "Country where Prime Minister Viktor Orban built a wire fence along the Serbian border.",
+          "answer": "Hungary"
+        },
+        {
+          "question": "Current Italian Prime Minister who wants to expand migrant-return policies.",
+          "answer": [
+            "Paolo Gentiloni",
+            "Gentiloni"
+          ]
+        },
+        {
+          "question": "French coastal city where a large “Jungle” camp housed refugees and migrants until October 2016.",
+          "answer": "Calais"
+        }
+      ]
     }
   ],
   "q4": [
@@ -3125,6 +3297,37 @@
         "daughter, Anastasia, who was killed with the rest of this man’s family by the Bolsheviks in 1918.\nFor ten points, name this final Romanov Tsar of Russia."
       ],
       "answer": "Nicholas II"
+    },
+    {
+      "parts": [
+        "(30 pts) Early in this monarch’s reign, the Earl of Bute was employed as prime minister. Newgate\nPrison burned down during the reign of this monarch, who also faced the Gordon Riots.\nGeorge Grenville worked under this monarch, who barred expansion west of the (20 pts) ",
+        "Appalachians. Lord North passed the Townshend Acts and the (10 pts) ",
+        "Intolerable Acts while\nserving, for ten points, what English king who rejected the Olive Branch Petition.and lost control over\nthe colonies in the American Revolution?"
+      ],
+      "answer": "George III"
+    },
+    {
+      "parts": [
+        "(30 pts) This government’s attempt to unify Protestantism was opposed by Dietrich Bonhoeffer’s\nConfessing Church. The Red Orchestra and White Rose groups opposed this government,\nwhich attacked modernist art at the (20 pts) ",
+        "Degenerate Art Exhibition. Leni Riefenstahl’s film\nTriumph of the Will was produced with the help of Joseph (10 pts) ",
+        "Goebbels, this government’s\npropaganda minister. For ten points, name this regime that created the Nuremberg Laws to persecute\nJews before engineering the Holocaust."
+      ],
+      "answer": [
+        "Nazi Germany",
+        "Nazi",
+        "Germany",
+        "National Socialist German Workers’ Party",
+        "NSGWP",
+        "the Third Reich"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) (TIEBREAKER EXAMPLE QUESTION) In case of one war, this country planned to rush through its northern neighbor\nto the Dyle River. This country’s navy was attacked by its own ally at Mers-el-K´ebir\nand forced to scuttle its own ships at (20 pts) ",
+        "Toulon. This country built a defensive\nstructure called the Maginot Line that was bypassed by a (10 pts) ",
+        "blitzkrieg through the\nArdennes forest. For ten points, name this country that was split into German-occupied north and\nVichy south after its defeat in World War II."
+      ],
+      "answer": "France"
     }
   ]
 }

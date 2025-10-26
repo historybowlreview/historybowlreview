@@ -125,6 +125,32 @@
     {
       "question": "This religion was favored by Gratian, who removed the Altar of Victory in favor of this religion.\nThis religion came into conflict with the cults of Mithras and Sol Invictus. Early branches of this religion\nincluded Arianism and Nestorianism. The Edict of Milan legalized the practice of this religion; earlier,\nmembers of this religion were forced to fight in the Colosseum. For ten points, name this religion that was\npersecuted in Rome until the reign of Constantine the Great.",
       "answer": "Christianity"
+    },
+    {
+      "question": "One member of this program was given the call sign “Chaika,” or “Seagull,” and completed her\nintended action 48 times. The exclamation “poyekhali!” was made at the start of one of this program’s\nmissions; that mission, which began at the Baikonur Cosmodrome, was Vostok 1 and launched in 1961.\nValentina Tereshkova and Yuri Gagarin were members of, for ten points, what Cold War-era program\nthat, in 1957, launched Sputnik into orbit?",
+      "answer": [
+        "Soviet Union’s space program",
+        "Soviet space",
+        "Soviet space program",
+        "Kosmicheskaya programma SSSR",
+        "Russian space program",
+        "Russia space",
+        "Russia space program"
+      ]
+    },
+    {
+      "question": "Philip the Good ordered the construction of one of these objects called Mons Meg. An early metal\nversion of these objects was called the pot-de-fer, and culverins were portable types of these items. The\nHungarian engineer Orban designed a massive one of these objects that malfunctioned and killed him.\nVauban designed star forts to defend against these weapons, which Mehmed II used to destroy the walls\nof Constantinople in 1453. For ten points, name these gunpowder-based artillery pieces.",
+      "answer": [
+        "cannons",
+        "bombards"
+      ]
+    },
+    {
+      "question": "Pliny the Younger wrote a letter to Trajan concerning the treatment of these people, the earliest\nreference to these people that wasn’t written by one of them. These people built elaborate catacombs to\nbury their dead and were blamed for a Great Fire by Nero. As a prelude to gladiatorial competitions, these\npeople were forced to fight animals in the arena. For ten points, name these people who were persecuted\nin the Roman Empire for their worship of Jesus.",
+      "answer": [
+        "Roman Christians",
+        "Christians"
+      ]
     }
   ],
   "q2": [
@@ -781,6 +807,65 @@
           ]
         }
       ]
+    },
+    {
+      "category": "NEW WORLD PIRACY",
+      "prompt": "Name the...",
+      "questions": [
+        {
+          "question": "Items displayed on the classic “Jolly Roger” pirate flag.",
+          "answer": [
+            "bones",
+            "skull",
+            "crossbones",
+            "skull and crossbones",
+            "skull and bones"
+          ]
+        },
+        {
+          "question": "Alcoholic beverage made from distilled sugarcane juice that pirates drank mixed with water as\n“bumbo” or “grog.”",
+          "answer": "rum"
+        },
+        {
+          "question": "Disease caused by a lack of Vitamin C that pirates could avoid by eating limes.",
+          "answer": "scurvy"
+        },
+        {
+          "question": "Sea dominated by 17th century pirates from Cuba to the Lesser Antilles to South America.",
+          "answer": [
+            "Caribbean Sea",
+            "Caribbean"
+          ]
+        },
+        {
+          "question": "Island in that sea where pirates docked at Port Royal. It’s now a country with capital Kingston.",
+          "answer": "Jamaica"
+        },
+        {
+          "question": "Pirate who commanded the Queen Anne’s Revenge and died in a shootout in North Carolina.",
+          "answer": [
+            "Blackbeard",
+            "Edward Teach",
+            "Teach",
+            "Edward Thatch",
+            "Thatch"
+          ]
+        },
+        {
+          "question": "Pirate who captured the Quedagh Merchant and supposedly left a massive buried treasure, according\nto Robert Louis Stevenson and others.",
+          "answer": [
+            "Captain William Kidd",
+            "Kidd"
+          ]
+        },
+        {
+          "question": "Famous pirate island just north of Haiti, where Henry Morgan hired some of his crew. A “Dry” island\ngroup off the Florida Keys shares its name.",
+          "answer": [
+            "Tortuga",
+            "Dry Tortugas"
+          ]
+        }
+      ]
     }
   ],
   "q4": [
@@ -904,6 +989,36 @@
       "answer": [
         "Great Schism",
         "Schism of 1054"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) Anti-British activists of this religion in the early-20th century were known as “LalBal-Pal.” A speech beginning “sisters and brothers of America” introduced this religion\nto America at the 1893 Parliament of the World’s Religions and was given by (20 pts) ",
+        "Swami\nVivekananda. A liberation from the birth-rebirth cycle sought in this religion is known\nas moksha. Opposition to this religion’s (10 pts) ",
+        "Brahmanist caste system led to the development of\nJainism and Buddhism. For ten points, name this predominant religion of India."
+      ],
+      "answer": [
+        "Hinduism",
+        "Hindu"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) During this time period, a hunger march called the Jarrow Crusade marched to London,\nwhere the House of Commons completely ignored them. In this time period, Francis\nTownsend proposed a two-percent transaction tax to fund an (20 pts) ",
+        "Old Age Revolving\nPension Plan. The Smoot Hawley Act may have worsened the effects of this time period, in\nwhich vagrants were arrested for (10 pts) ",
+        "“riding the rails” and living in Hoovervilles. For ten points,\nname this period of history that followed the 1929 Wall Street Crash and adversely affected economies\naround the world."
+      ],
+      "answer": "Great Depression"
+    },
+    {
+      "parts": [
+        "(30 pts) During an expedition to the Azores, this man captured the Madre de Deus treasure\nship. This man failed to heed a pardon for trying to overthrow King James I in the Main\nPlot, which later cost him his life. (20 pts) ",
+        "John White was sent to govern over a “lost colony”\nthis man founded, in which the word (10 pts) ",
+        "“Croatoan” was the only hint of where the settlers\ndisappeared. For ten points, name this founder of Roanoke colony who shares his name with the capital\nof North Carolina."
+      ],
+      "answer": [
+        "Sir Walter Raleigh",
+        "Raleigh"
       ]
     }
   ]

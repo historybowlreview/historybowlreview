@@ -256,6 +256,18 @@
         "Sun Yat-sen",
         "Sun"
       ]
+    },
+    {
+      "question": "This ruler overthrew the Chagatai Khanate after his capture of Balkh and defeated the leader of the\nGolden Horde, Tokhtamysh, at the Kur River. This man defeated the Tughluq Dynasty by setting camels\non fire to scare elephants. This ruler brought back the spoils from his sacks of Damascus and Delhi to his\ncapital of Samarkand. For ten points, name this Turkic conqueror of Central Asia who suffered from a\nlimp.",
+      "answer": [
+        "Timur the Lame",
+        "Tamerlane",
+        "Timur"
+      ]
+    },
+    {
+      "question": "Two answers required. A conflict between these two countries was sparked by the destruction of a\nbakery owned by a man named Remontel. Maximilian I was installed by one of these countries on the\nthrone of the other. Ignacio Zaragoza led one of these two countries in victory against the other at the\nBattle of Puebla, which is commemorated by Cinco de Mayo. For ten points, name these two countries\nthat clashed under leaders like Porfirio Diaz and Napoleon III.",
+      "answer": "Mexico and France"
     }
   ],
   "q2": [
@@ -860,6 +872,19 @@
           "Fatimid Caliphate",
           "Fatimid"
         ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "During this man’s reign, his brother’s general Kitbuqa lost the Battle of Ain Jalut, the first time his\nempire’s army had been halted entirely. This man defeated Ariq Boke in the Toluid civil war before being\nnamed Khan. This man’s invasions of Japan were twice halted by the kamikaze winds. For ten points,\nname this founder of the Yuan Dynasty, a Mongol leader who was the grandson of Genghis Khan.",
+        "answer": [
+          "Kublai Khan",
+          "Kublai"
+        ]
+      },
+      "bonus": {
+        "question": "Kublai Khan established the Yuan Dynasty’s capital at Dadu, which is now this city. This city\nwas known as Zhongdu as the capital of the Greater Jin Dynasty, and as Peking while capital of the Qing\n[ching] Dynasty.",
+        "answer": "Beijing"
       }
     }
   ],
@@ -1788,6 +1813,57 @@
           "answer": "Karakorum"
         }
       ]
+    },
+    {
+      "category": "UNITED NATIONS",
+      "prompt": "Name the...",
+      "questions": [
+        {
+          "question": "War that inspired its creation and which the League of Nations failed to stop.",
+          "answer": "World War II"
+        },
+        {
+          "question": "Home country of former Secretary General Antonio Guterres, who previously worked as Prime\nMinister in Lisbon.",
+          "answer": "Portugal"
+        },
+        {
+          "question": "Term for the 15-nation UN body in charge of international peace. Its five permanent members hold\nveto power.",
+          "answer": [
+            "UN Security Council",
+            "Security Council",
+            "United Nations Security Council"
+          ]
+        },
+        {
+          "question": "Home country of Dag Hammarskjold, the UN’s second Secretary General from Scandinavia.",
+          "answer": "Sweden"
+        },
+        {
+          "question": "South Korean Secretary General who left the office in 2016.",
+          "answer": [
+            "Ban Ki-moon",
+            "Ban"
+          ]
+        },
+        {
+          "question": "Dutch city where the Peace Palace hosts the UN’s International Court of Justice.",
+          "answer": "the Hague"
+        },
+        {
+          "question": "Secretary General from Ghana who later tried to create peace in Syria.",
+          "answer": [
+            "Kofi Annan",
+            "Annan"
+          ]
+        },
+        {
+          "question": "Former Iranian leader who, in a 2010 speech to the General Assembly, claimed the US government\ncaused the 9/11 attacks.",
+          "answer": [
+            "Mahmoud Ahmadinejad",
+            "Ahmadinejad"
+          ]
+        }
+      ]
     }
   ],
   "q4": [
@@ -2115,6 +2191,26 @@
         "mujahideen. For ten points, name this country\nthat was ruled by the Taliban until a 2001 US invasion."
       ],
       "answer": "Afghanistan"
+    },
+    {
+      "parts": [
+        "(30 pts) This man faced off against Royalists under Miguel de la Torre in a crucial 1821 battle.\nThis man, who assumed control of the armies of the United Provinces after issuing the\nCartagena Manifesto, sanctioned indiscriminate killing by his forces in the (20 pts) ",
+        "Decree of\nWar to the Death. After winning the Battle of Carabobo, this leader presided over the\nfounding of Gran (10 pts) ",
+        "Colombia. For ten points, name this Venezuelan independence fighter who\nliberated large areas of South America and is the namesake of a South American country."
+      ],
+      "answer": [
+        "Simon Bolivar",
+        "Bolivar",
+        "Simon Jose Antonio de la Santisima Trinidad de Bolivar y Palacios"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) In this country, indigenous soldiers who fought for Portuguese interests were known as\nLascarins. During the sack of Vijayabahu, three members of a royal family in this country\nkilled the King of Kotte. A temple containing a (20 pts) ",
+        "tooth relic of Siddhartha Gautama\ncan be found in this country’s city of Kandy; that temple was bombed in the 1990s by a\nterrorist group known as LTTE. (10 pts) ",
+        "Tamil and Sinhalese are the major languages of, for ten points,\nwhat country, once known as Ceylon, found on an island south of India?"
+      ],
+      "answer": "Sri Lanka"
     }
   ]
 }

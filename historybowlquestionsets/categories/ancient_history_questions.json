@@ -57,6 +57,14 @@
         "Tarquinius Superbus",
         "Tarquin the Proud"
       ]
+    },
+    {
+      "question": "One of this man’s works was compiled by Tribonian, John the Cappadocian, and others. A\ndisagreement at chariot races during his reign grew into the Nika Riots, which he put down at the\nencouragement of his wife Theodora. This ruler’s general Belisarius recaptured Northern Africa and\nmuch of Italy, and this man codified Roman law into the Corpus Juris Civilis. For ten points, name this\nByzantine emperor who built the Hagia Sophia.",
+      "answer": [
+        "Justinian the Great",
+        "Justinian",
+        "Justinian I"
+      ]
     }
   ],
   "q2": [
@@ -656,6 +664,18 @@
         "Mandate of Heaven empowered, for ten points, what position held by Qin Shi\nHuangdi and hundreds of other Middle Kingdom leaders?"
       ],
       "answer": "Emperor of China"
+    },
+    {
+      "parts": [
+        "(30 pts) Emperor Gallienus slaughtered a force of these people at Naissus in 269 AD. A century\nlater, a group of these people led by Fritigern slaughtered the Romans and killed Emperor\nValens in the Battle of (20 pts) ",
+        "Adrianople. This ethnic group’s 3rd century AD appearance\nin the frontiers of Europe hastened the fall of Rome. (10 pts) ",
+        "Alaric and Theoderic were among the\nleaders of, for ten points, what Germanic ethnic group that was split into western and eastern branches\nprefixed by “Visi-” and “Ostro-?”"
+      ],
+      "answer": [
+        "Goths",
+        "Visigoths",
+        "Ostrogoths"
+      ]
     }
   ]
 }

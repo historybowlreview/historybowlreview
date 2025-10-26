@@ -108,6 +108,10 @@
     {
       "question": "This state claims Machias Seal Island, and the oldest national park east of the Mississippi is on\nits Mount Desert Island. Its Baxter State Park is home to Mount Kathadin, and it is home to Acadia\nNational Park. Part of its northern border was set at the St. John’s River by the Webster-Ashburton\nTreaty, which settled the Aroostook War. The Appalachian Trail’s northern end is in, for ten points, what\nU.S. state that was originally part of Massachusetts in the north of New England?",
       "answer": "Maine"
+    },
+    {
+      "question": "In a myth about this location, the Devil threw a rock at a friar, creating the “Friar’s Heel” about 100\nfeet from a “Slaughter Stone.” William Stukeley hypothesized that this site was used as a Druid place of\nworship. The sunset of the winter solstice aligns with this site, which is located on the Salisbury plain.\nFor ten points, name this prehistoric monument of England, a ring of standing stones.",
+      "answer": "Stonehenge"
     }
   ],
   "q2": [
@@ -264,6 +268,33 @@
           "Hoover Dam",
           "Hoover"
         ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "Bradford Washburn, the first person to climb the West Buttress route on this mountain, was married\nto Barbara Polk, the first woman to climb this mountain. Walter Harper, a member of the Koyukon\ntribe, was the first to climb this mountain in 1913. President Obama’s 2015 executive order renaming this\nmountain was supported by Lisa Murkowski and denounced by Ohio politicians. For ten points, name this\nhighest mountain in North America, formerly named for a U.S. President.",
+        "answer": [
+          "Denali",
+          "Mount McKinley",
+          "McKinley"
+        ]
+      },
+      "bonus": {
+        "question": "Another Alaskan feature is this island chain that forms a namesake “Arc” to the southwest. This\nchain’s islands of Attu and Kiska were invaded by the Japanese in World War II.",
+        "answer": [
+          "Aleutian Islands",
+          "Aleutian"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "Frank Crowe served as the chief engineer of this project, for which Six Companies, Inc. was\nformed. J.G. Tierney and his son, Patrick Tierney, were the first and last people to die in this project’s\nconstruction. Boulder City was built near this structure, which slowly changed its name from Boulder\nDam in the 1940s. For ten points, name this arch-gravity dam built over the Colorado River during the\nGreat Depression, named for a US President.",
+        "answer": "Hoover Dam"
+      },
+      "bonus": {
+        "question": "Hoover Dam was built on the Colorado River, but it lies on the border between these two\nnon-Colorado states. Clocks in Hoover Dam display different times for half the year because one of these\ntwo states hasn’t observed Daylight Savings Time since 1967.",
+        "answer": "Nevada and Arizona"
       }
     }
   ],
@@ -624,6 +655,19 @@
       "answer": [
         "Korean Peninsula",
         "Korea"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) A prominent port on this body of water was once ruled by a zamorin and was the most\ndominant city on the Malabar Coast. During the Ming Dynasty, Zheng He asserted Chinese\ndominance over (20 pts) ",
+        "trade routes in and around this ocean. To reach Calicut, Vasco da\nGama rounded the Cape of (10 pts) ",
+        "Good Hope and sailed along and across this body of water. The\nendpoint of the Brahmaputra and Ganges rivers is, for ten points, what South Asian ocean between Africa\nand Australia?"
+      ],
+      "answer": [
+        "Indian Ocean",
+        "Indian",
+        "Arabian Sea",
+        "Arabian"
       ]
     }
   ]

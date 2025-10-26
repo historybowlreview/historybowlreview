@@ -337,6 +337,25 @@
         "question": "Operation Paperclip hid the Nazi backgrounds of the imported scientists, including Hubertus\nStrughold. Strughold had used human test subjects in his work at this German concentration camp near\nMunich, which the Americans used as a military base after the war.",
         "answer": "Dachau"
       }
+    },
+    {
+      "tossup": {
+        "question": "This scientist described the “chemistry of the imponderable” in a Nobel Prize lecture explaining the\nwork of Henri Becquerel. This scientist co-authored a study comparing tumor cell and healthy cell death\nrates when exposed to an element that this chemist isolated in 1910, four years after the death of her\nhusband Pierre. The first woman to win a Nobel Prize was, for ten points, what Polish-French physicist\nwho discovered radium while studying radioactive decay?",
+        "answer": [
+          "Marie Sklodowska Curie",
+          "Marie Curie",
+          "Marie Sklodowska",
+          "Sklodowska",
+          "Curie"
+        ]
+      },
+      "bonus": {
+        "question": "Marie Curie isolated radium from a sample of radium chloride via a cathode of this element;\nthe radium reacted with this element to form an amalgam. This element, which is a liquid at room\ntemperature, has largely been phased out of use in scientific thermometers.",
+        "answer": [
+          "mercury",
+          "Hg"
+        ]
+      }
     }
   ],
   "q3": [
@@ -515,6 +534,14 @@
         "Alan Turing",
         "Turing"
       ]
+    },
+    {
+      "parts": [
+        "(30 pts) Cantilevers are used in the “atomic force” type of these devices, which were inspired by\na scanning, tunnelling type that won the 1986 Physics Nobel. Ernst Ruska and Max Knoll\nworked to develop types of these devices based on raster scattering of (20 pts) ",
+        "electrons. In the\n17th century, Anton Van Leeuwenhoek built one of these devices to observe what he called\nanimalcules, organisms that Robert (10 pts) ",
+        "Hooke later noted were made up of cells. For ten points,\nname these scientific tools that allow you to see very small things."
+      ],
+      "answer": "microscope"
     }
   ]
 }
