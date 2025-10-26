@@ -693,6 +693,8 @@ let gameState = {
     q3CategoryActive: false,
     currentQuestionIndex: -1,
     rawScore: 0,
+    questionsAttempted: 0,
+    questionsCorrect: 0,
     weightedScore: 0,
     responseTimes: [], // Array to track response times
     readingInterval: null,
@@ -739,7 +741,10 @@ function updateScoreDisplays(){
     // Calculate and display average response time
     const avgBuzz = calculateAverageBuzzInTime();
     $('avgResponseTime').textContent = avgBuzz !== null ? avgBuzz.toFixed(1) + 's' : '--';
-
+    const att = gameState.questionsAttempted || 0;
+    $('accuracyDisplay').textContent = att
+      ? Math.round(100 * (gameState.questionsCorrect || 0) / att) + '%'
+      : '--%';
     $('quarterDisplay').textContent = gameState.currentQuarter;
 }
 
@@ -1379,6 +1384,8 @@ function resetGame() {
         pausedPostReadTime: null,
         bonusTimer: null,
         bonusTimeLeft: null,
+        questionsAttempted: 0,
+        questionsCorrect: 0,
         pausedAnswerTime: null,
         wasReading: false,
         readingCharIndex: 0,
@@ -1678,7 +1685,7 @@ function startQ3CategoryTimer() {
         gameState.q3TimeLeft--;
         $('timerDisplay').textContent = `Time left: ${gameState.q3TimeLeft}s`;
         if (gameState.q3TimeLeft <= 0) {
-            finishQ3CategoryRound();
+            finalizeCurrentQ3InputOnTimeout();
         }
     }, 1000);
 }
@@ -1688,6 +1695,39 @@ function stopQ3CategoryTimer() {
         clearInterval(gameState.q3Timer);
         gameState.q3Timer = null;
     }
+}
+
+function finalizeCurrentQ3InputOnTimeout() {
+  const qArr = gameState.q3CategoryQuestions || [];
+  const idx = gameState.q3CurrentQuestionIdx ?? 0;
+  const curr = qArr[idx];
+
+  // Only consider if this question hasn't been answered yet
+  if (curr && !curr.userAnswer) {
+    const typed = $('answerInput').value.trim();
+    if (typed) {
+      curr.userAnswer = typed;
+      const correct =
+        isStrictCorrect(typed, curr.answer) || looseMatch(typed, curr.answer);
+      curr.isCorrect = correct;
+
+      // Score it like normal Q3 submits
+      if (correct) {
+        const earnedPoints = 10;
+        gameState.rawScore += earnedPoints;
+        const wInc = computeWeightedIncrement(earnedPoints, { isQ3: true });
+        gameState.weightedScore = (gameState.weightedScore || 0) + wInc;
+      }
+
+      // Update accuracy counters
+      gameState.questionsAttempted++;
+      if (correct) gameState.questionsCorrect++;
+      updateScoreDisplays();
+    }
+  }
+
+  // proceed to normal finish
+  finishQ3CategoryRound();
 }
 
 function finishQ3CategoryRound() {
@@ -2139,6 +2179,9 @@ function submitAnswer(){
             isStrictCorrect(given, qArr[idx].answer) ||
             looseMatch(given, qArr[idx].answer);
         qArr[idx].isCorrect = correct;
+        gameState.questionsAttempted++;
+        if (correct) gameState.questionsCorrect++;
+        updateScoreDisplays();
     
         let msg;
         if (correct) {
@@ -2195,7 +2238,9 @@ function submitAnswer(){
             
             const wInc = computeWeightedIncrement(earnedPoints, { isQ3, isQ2Bonus, percentDisplayed });
             gameState.weightedScore = (gameState.weightedScore || 0) + wInc;
-            
+            gameState.questionsAttempted++;
+            gameState.questionsCorrect++;
+            updateScoreDisplays();
             updateScoreDisplays();
             if (responseTime !== null) {
                 gameState.responseTimes.push(responseTime);
@@ -2207,6 +2252,8 @@ function submitAnswer(){
             }, 1500);
         } else {
             setFeedback(`Incorrect. The correct answer was: ${formatAnswer(gameState.currentAnswer)}`, false);
+            gameState.questionsAttempted++;
+            updateScoreDisplays();
             startFeedbackCountdown(10);
             $('questionText').textContent = gameState.currentQuestionText;
             setTimeout(()=> {
@@ -2225,7 +2272,8 @@ function submitAnswer(){
             
             const wInc = computeWeightedIncrement(earnedPoints, { isQ3, isQ2Bonus, percentDisplayed });
             gameState.weightedScore = (gameState.weightedScore || 0) + wInc;
-            
+            gameState.questionsAttempted++;
+            gameState.questionsCorrect++;
             updateScoreDisplays();
             if (responseTime !== null) {
                 gameState.responseTimes.push(responseTime);
@@ -2280,6 +2328,8 @@ function submitAnswer(){
             }
         } else {
             setFeedback(`Incorrect tossup. The correct answer was: ${formatAnswer(gameState.currentAnswer)}. (No bonus.)`, false);
+            gameState.questionsAttempted++;
+            updateScoreDisplays();
             startFeedbackCountdown(10);
             $('questionText').textContent = gameState.currentQuestionText; // Stay on tossup, not bonus!
             setTimeout(()=> { nextQuestion(); }, 10000);
@@ -2297,7 +2347,9 @@ function submitAnswer(){
             
             const wInc = computeWeightedIncrement(earnedPoints, { isQ3, isQ2Bonus, percentDisplayed });
             gameState.weightedScore = (gameState.weightedScore || 0) + wInc;
-            
+            gameState.questionsAttempted++;
+            gameState.questionsCorrect++;
+            updateScoreDisplays();
             updateScoreDisplays();
             if (responseTime !== null) {
                 gameState.responseTimes.push(responseTime);
@@ -2306,6 +2358,8 @@ function submitAnswer(){
             setFeedback(`Correct! +${earnedPoints} points (${responseTime?.toFixed(1)}s)`, true);
             setTimeout(()=> nextQuestion(), 1500);
         } else {
+            gameState.questionsAttempted++;
+            updateScoreDisplays();
             setFeedback(`Incorrect. The correct answer was: ${formatAnswer(gameState.currentAnswer)}`, false);
             startFeedbackCountdown(10);
             $('questionText').textContent = gameState.currentQuestionText;
