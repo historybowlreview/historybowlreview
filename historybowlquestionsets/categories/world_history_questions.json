@@ -268,6 +268,21 @@
     {
       "question": "Two answers required. A conflict between these two countries was sparked by the destruction of a\nbakery owned by a man named Remontel. Maximilian I was installed by one of these countries on the\nthrone of the other. Ignacio Zaragoza led one of these two countries in victory against the other at the\nBattle of Puebla, which is commemorated by Cinco de Mayo. For ten points, name these two countries\nthat clashed under leaders like Porfirio Diaz and Napoleon III.",
       "answer": "Mexico and France"
+    },
+    {
+      "question": "Members of this class began the Rokugo rebellion after the defeat of their lord. These people, who\nreceived stipends in units of rice called koku, first rose to prominence during the Kamakura shogunate.\nMembers of this class who were no longer employed were known as ronin. These warriors had the right\nto bear katanas and followed the bushido code of honor. For ten points, name this noble military class in\nmedieval Japan.",
+      "answer": "samurai"
+    },
+    {
+      "question": "Foreign intervention in this conflict prompted the battles of Outpost Harry and Pork Chop Hill.\nDuring this war, Matthew Ridgeway replaced a general who masterminded a decisive landing at Inchon,\nDouglas MacArthur. A demilitarized zone was created after an armistice was signed, though there has\nstill been no peace treaty to end this war. For ten points, name this 1950s conflict on an Asian peninsula.",
+      "answer": [
+        "Korean War",
+        "Korean"
+      ]
+    },
+    {
+      "question": "James Scobie died in this country, leading to the creation of the Eureka Flag. In this nation, the\ncaptain of the Bounty, William Bligh, was deposed in the Rum Rebellion. An island in this country was\nfirst reached by Abel Tasman in 1642. At Botany Bay, convicts and Aborigines met in what became an\nEnglish penal colony. For ten points, name this country where, in 1770, James Cook landed near what is\nnow the city of Sydney.",
+      "answer": "Australia"
     }
   ],
   "q2": [
@@ -885,6 +900,78 @@
       "bonus": {
         "question": "Kublai Khan established the Yuan Dynasty’s capital at Dadu, which is now this city. This city\nwas known as Zhongdu as the capital of the Greater Jin Dynasty, and as Peking while capital of the Qing\n[ching] Dynasty.",
         "answer": "Beijing"
+      }
+    },
+    {
+      "tossup": {
+        "question": "This non-African leader made the mistake of sending troops to aid Agostinho Neto of the MPLA in\nthe Angolan Civil War, a costly intervention dubbed his country’s “Vietnam.” Though he was arrested\nfor launching an unsuccessful raid on Moncada Barracks in a failed revolution, his later movement of 26th\nJuly was able to overthrow Fulgencio Batista with the aid of Che Guevara. For ten points, name this\nformer Communist president of Cuba who died in 2016.",
+        "answer": [
+          "Fidel Castro",
+          "Castro"
+        ]
+      },
+      "bonus": {
+        "question": "This man, Fidel’s brother, took power in 2006 due to Fidel’s illness. In 2013, this man announced\nthat he would retire as President in 2018.",
+        "answer": [
+          "Raul Castro",
+          "Raul"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "In this region, a politician from the localist “Youngspiration” party used the derogatory term “jee-na”\nduring her swearing in. This region’s Demosisto party suffered a setback when activist Joshua Wong was\nsentenced to prison. This region’s districts of Mong Kok and Admiralty hosted protests as part of the\n2014 Umbrella Revolution. Several Causeway Bay booksellers have been kidnapped by Chinese special\nagents in, for ten points, what special administrative region that was once a British colony?",
+        "answer": "Hong Kong"
+      },
+      "bonus": {
+        "question": "Before he was kidnapped, Gui Minhai, one of the Causeway Bay booksellers, was writing a book\non this man. This current Chinese General Secretary developed the “One Belt, One Road” initiative.",
+        "answer": [
+          "Xi Jinping",
+          "Xi"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "In this country, students were attacked in the Night of the Pencils during Jorge Videla’s presidency.\nLeft-wing Montoneros were killed at the Ezeiza Airport during a rally for a returning leader of this country\nwho had been supported by the descamisados, or “shirtless ones.” In the 1970s and 80s, this country\nexperienced a period of state terrorism called the Dirty War. Evita was the First Lady of, for ten points,\nwhat South American country ruled from Buenos Aires?",
+        "answer": [
+          "Argentina",
+          "Argentine Republic",
+          "Argentine"
+        ]
+      },
+      "bonus": {
+        "question": "During the Ezeiza Massacre, the Montoneros had gathered to see this man, the husband of\nEvita, return from exile. The Dirty War began after this man’s third wife, Isabel, was deposed.",
+        "answer": [
+          "Juan Domingo Peron",
+          "Peron"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "This modern-day country’s borders were set by Frederick Lugard, who consolidated a “northern”\nand “southern” protectorate. In 1970, this country’s leader, Yakubu Gowon, put down a revolt from\nthe breakaway region of Biafra. In a more recent conflict, this country faced the kidnapping of over 200\nschoolgirls from Chibok, a crime committed by Boko Haram. Muhammadu Buhari leads, for ten points,\nwhat oil-rich West African country where 8 million people live in Lagos?",
+        "answer": [
+          "Federal Republic of Nigeria",
+          "Nigeria"
+        ]
+      },
+      "bonus": {
+        "question": "Lagos served as the first capital of Nigeria, but has since been replaced by this planned capital\ncity in the center of the country.",
+        "answer": "Abuja"
+      }
+    },
+    {
+      "tossup": {
+        "question": "In this country, suicide bombers pretending to be journalists used an exploding camera to assassinate\nAhmad Shah Massoud. This country’s caves of Tora Bora served as the headquarters of an insurgency.\nThe Northern Alliance was formed to defend this country and received Western support when this country\nwas invaded in Operation Enduring Freedom after 9/11. For ten points, name this country where, in 2001,\nNATO troops toppled the Taliban government.",
+        "answer": [
+          "Islamic Republic of Afghanistan",
+          "Afghanistan"
+        ]
+      },
+      "bonus": {
+        "question": "The NATO invasion in 2001 triggered a massive-but-brief drop in the farming of this illegal\nsubstance from poppy seed pods. It is used in the production of morphine and heroin.",
+        "answer": "opium"
       }
     }
   ],
@@ -2211,6 +2298,42 @@
         "Tamil and Sinhalese are the major languages of, for ten points,\nwhat country, once known as Ceylon, found on an island south of India?"
       ],
       "answer": "Sri Lanka"
+    },
+    {
+      "parts": [
+        "(30 pts) In this country, the 1978 Cinema Rex fire was blamed on the already-hated SAVAK\npolice, raising tensions. The CIA’s Operation Ajax supported a 1953 coup in this country\nafter (20 pts) ",
+        "Mohammad Mossadegh nationalized its oil industry. That coup replaced this\ncountry’s only democratic government with Reza Pahlavi, a (10 pts) ",
+        "Shah who was overthrown in\na 1979 Islamic Revolution. For ten points, name this country where Ayatollah Khomeini was brought to\npower after protests in Tehran."
+      ],
+      "answer": [
+        "Islamic Republic of Iran",
+        "Iran"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) This emperor designed a building that looked like a palace, but was a torture chamber\nwhose name translated to “Hell-On-Earth.” This “Beloved-of-the-Gods” put down a minor\nrevolt in his empire at Taxila, and he ruled his kingdom from (20 pts) ",
+        "Maghda. This ruler’s\nsculpture of four-outward facing lions at Sarnath and his 24-spoked “wheel of righteousness”\nwere designed after he waged a bloody war in (10 pts) ",
+        "Kalinga, after which he converted to Buddhism.\nFor ten points, name this descendant of Chandragupta, a ruler of the Mauryan Empire."
+      ],
+      "answer": [
+        "Ashoka the Great",
+        "Ashoka Maurya",
+        "Ashoka",
+        "Ashok",
+        "Asoka"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) (TIEBREAKER EXAMPLE QUESTION) This nation, which conquered the German base of Tsingtao during World War\nI as part of its alliance with Britain, joined Britain, Italy, and France as permanent\nmembers on the League of Nations’ executive council. The (20 pts) ",
+        "Doolittle raids\nattacked this country. Economic conglomerates called (10 pts) ",
+        "zaibatsu were created in, for ten\npoints, what Asian empire that annexed neighboring Korea in 1910 and was led by Hideki Tojo in\nWorld War II?"
+      ],
+      "answer": [
+        "Empire of Japan",
+        "Japan"
+      ]
     }
   ]
 }

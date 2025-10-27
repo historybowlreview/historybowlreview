@@ -97,6 +97,10 @@
     {
       "question": "This novel’s reputation increased when it was assigned as required reading by David Riesman in\na sociology class shortly after its publication. Shortly after this novel was picked up by a Book of the\nMonth club, its author moved from his New York City apartment to his longtime home in Cornish, New\nHampshire. Mark David Chapman bought a copy of this book the day that he killed John Lennon. For\nten points, name this novel about the rebellious teen Holden Caulfield by J.D. Salinger.",
       "answer": "The Catcher in the Rye"
+    },
+    {
+      "question": "In this novel, a woman who seeks vengeance for the rape and murder of her sister by a callous\nnobleman sews the names of those she marks for death into her knitting. Near the start of this novel,\nDoctor Manette is released from an eighteen-year sentence in the Bastille. This novel ends as Sydney\nCarton is guillotined in place of Charles Darnay during the French Revolution. For ten points, name this\nCharles Dickens novel titled after London and Paris.",
+      "answer": "A Tale of Two Cities"
     }
   ],
   "q2": [
@@ -252,6 +256,14 @@
         "Food and Drug Act was passed in response to, for ten points, what novel about the Chicago meatpacking\nindustry, written by Upton Sinclair?"
       ],
       "answer": "The Jungle"
+    },
+    {
+      "parts": [
+        "(30 pts) An army regiment in this novel is based out of the fictional town of Meryton before\nbeing called up to the real-life barracks at Brighton. This novel’s title was drawn from\nFanny Burney’s Cecilia, replacing its author’s original title of (20 pts) ",
+        "First Impressions. This\nnovel opens with a note about “single [men] in possession of a good fortune,” such as the\nincome of ten thousand pounds a year held by (10 pts) ",
+        "Fitzwilliam Darcy. For ten points, name this\nnovel about Elizabeth Bennet written by Jane Austen."
+      ],
+      "answer": "Pride and Prejudice"
     }
   ]
 }

@@ -151,6 +151,24 @@
         "Roman Christians",
         "Christians"
       ]
+    },
+    {
+      "question": "Contamination with this substance killed 21 people in the Bradford sweets poisoning. Until James\nMarsh developed a test for this substance, it was an untraceable poison and earned the name “inheritance\npowder.” Autopsy reports and other studies found this element in the hair of Napoleon, Simon Bolivar,\nand King George III. For ten points, name this poisonous element, a common and deadly drinking water\ncontaminant whose chemical symbol is As [A S].",
+      "answer": "arsenic"
+    },
+    {
+      "question": "After this man’s Kirtland Safety Society failed financially, he fled to Clay County, Missouri. This\nman forced the Nauvoo Expositor to shut down by destroying its press, leading to his death in Carthage\nJail while awaiting trial. This man claimed to have received golden plates from the angel Moroni, as well\nas two seer stones, near the Sacred Grove in western New York. For ten points, name this American\nreligious leader and founder of Mormonism.",
+      "answer": [
+        "Joseph Smith",
+        "Smith"
+      ]
+    },
+    {
+      "question": "(TIEBREAKER BONUS QUESTION) What Norse explorer settled Vinland in North America, after his father founded\nGreenland?",
+      "answer": [
+        "Leif Erikson",
+        "Erikson"
+      ]
     }
   ],
   "q2": [
@@ -370,6 +388,26 @@
       "bonus": {
         "question": "The Umayyads held this type of Islamic state, led by a successor to Muhammad, in North Africa.\nIn 2014, ISIS demanded the allegiance of all Muslims around the world in claiming to have formed this\ntype of state, a move that was roundly criticized and mocked.",
         "answer": "caliphate"
+      }
+    },
+    {
+      "tossup": {
+        "question": "Methods for this activity should satisfy criteria like non-dictatorship and the independence of irrelevant\nalternatives, according to the 1951 book Social Choice and Individual Values. That book outlines an\nimpossibility theorem that applies when this activity involves three or more distinct alternatives and\nwas written by Kenneth Arrow. Methods for judging this activity include “first-past-the-post,” which is\ncriticized for leading to two-party politics. For ten points, name this democratic process in which ballots\nare cast to make political decisions.",
+        "answer": [
+          "voting",
+          "votes",
+          "election",
+          "election systems",
+          "voting systems"
+        ]
+      },
+      "bonus": {
+        "question": "Two current American states use the congressional district method, rather than a winner-take-all\nsystem, to allocate their Electoral College votes. One state split their vote in 2016, while the other did in\n2008. Name either state.",
+        "answer": [
+          "Maine",
+          "Nebraska",
+          "Maine and Nebraska"
+        ]
       }
     }
   ],
@@ -863,6 +901,59 @@
           "answer": [
             "Tortuga",
             "Dry Tortugas"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "WATER",
+      "prompt": "Name the...",
+      "questions": [
+        {
+          "question": "Michigan city that has lacked safe tap water since 2014.",
+          "answer": "Flint"
+        },
+        {
+          "question": "Water delivery structures, such as the Pont du Gard and one in Segovia, built by the Romans.",
+          "answer": "aqueducts"
+        },
+        {
+          "question": "Country where the Turpan oasis provides water to Uyghurs [wee-gurs] in Xinjiang [shin-jiang]\nProvince.",
+          "answer": [
+            "People’s Republic of China",
+            "China"
+          ]
+        },
+        {
+          "question": "Ancient Greek inventor of a water-lifting screw and, supposedly, a death ray.",
+          "answer": [
+            "Archimedes of Syracuse",
+            "Archimedes"
+          ]
+        },
+        {
+          "question": "Type of underground water source, like the Ogallala, that are threatened by over-irrigation.",
+          "answer": "aquifers"
+        },
+        {
+          "question": "Sea that has largely dried up since the Amu Darya and Syr Darya were diverted for irrigation by the\nSoviets.",
+          "answer": [
+            "Aral Sea",
+            "Aral"
+          ]
+        },
+        {
+          "question": "Southeast Asian empire that built barays to store water near Angkor Wat.",
+          "answer": [
+            "Khmer Empire",
+            "Khmer"
+          ]
+        },
+        {
+          "question": "Abbasid caliph who built a qanat for water in Mecca, as well as the House of Wisdom in Baghdad.",
+          "answer": [
+            "Harun al-Rashid",
+            "al-Rashid"
           ]
         }
       ]

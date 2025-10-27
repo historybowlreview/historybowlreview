@@ -120,6 +120,25 @@
         "cancer",
         "sarcoma"
       ]
+    },
+    {
+      "question": "This man stuck a needle in his own eye during his studies on light and color, which he published in\nOpticks. This man feuded with Gottfried Leibniz over credit for the invention of calculus, a system of\nmath that inspired, but was not proven in, this man’s Principia Mathematica. For ten points, name this\nEnglish scientist who developed the law of universal gravitation and the three laws of motion.",
+      "answer": [
+        "Sir Isaac Newton",
+        "Newton",
+        "Isaac Newton"
+      ]
+    },
+    {
+      "question": "(TIEBREAKER BONUS QUESTION) What Polish astronomer developed a heliocentric model, leading to a “Revolution” in\nastronomy named for him?",
+      "answer": [
+        "Nicolas Copernicus",
+        "Copernicus",
+        "Copernican",
+        "Copernican model",
+        "Copernican theory",
+        "Copernican revolution"
+      ]
     }
   ],
   "q2": [

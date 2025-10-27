@@ -173,6 +173,14 @@
         "Tom Petty",
         "Petty"
       ]
+    },
+    {
+      "question": "This artist sculpted the facade of a memorial for Julius II, including a seated sculpture of Moses\nwith small horns. A sculpture of a Biblical hero by this artist was originally commissioned for the Duomo\nCathedral and lacks both a sword and the severed head of a giant, unlike a similar work by Donatello. For\nten points, name this Italian artist of a nude marble David and the ceiling frescos of the Sistine Chapel.",
+      "answer": [
+        "Michelangelo Buonarroti",
+        "Michelangelo",
+        "Buonarroti"
+      ]
     }
   ],
   "q2": [
@@ -445,6 +453,23 @@
           "McClellan"
         ]
       }
+    },
+    {
+      "tossup": {
+        "question": "This composer’s exposure to gamelan at the 1889 World’s Fair inspired his Estampes [eh-stahmp].\nThis composer, who was denied a public funeral due to German bombardment in World War I, interpreted\na legend about the city of Ys [ees] in “The Sunken Cathedral” from his first book of Preludes. A Paul\nVerlaine poem inspired the third movement of his Suite bergamasque. For ten points, name this French\nImpressionist who wrote “Clair de lune.”",
+        "answer": [
+          "Achille-Claude Debussy",
+          "Claude Debussy",
+          "Debussy"
+        ]
+      },
+      "bonus": {
+        "question": "Indonesian gamelan music is played by large ensembles of this broad class of instrument. Other\nexamples of this type of instrument include the Indian tabla, claves [klah-vays] in Cuban music, and\ncastanets.",
+        "answer": [
+          "percussion instruments",
+          "percussion"
+        ]
+      }
     }
   ],
   "q3": [],
@@ -714,6 +739,42 @@
         "Bat Pyramid",
         "Step Pyramid",
         "Bent Pyramid"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) A structure in this city was built with two different shades of white marble and had its\nconstruction halted for twenty-five years. That monument stands at the center of a park\nplanned by Pierre (20 pts) ",
+        "L’Enfant, who laid out this city. Maya Lin designed a memorial in\nthis city that consists of a sloping (10 pts) ",
+        "wall of black marble covered in the names of soldiers. For ten\npoints, name this city home to the Vietnam Veterans’ Memorial wall and several Smithsonian museums\nin the National Mall."
+      ],
+      "answer": [
+        "Washington D.C.",
+        "Washington",
+        "DC",
+        "District of Columbia"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) Sergeant Leon Weckstein claimed to have spared this building from destruction during\nWorld War II. This building, located in the Square of Miracles, is thought to have been\nconstructed by Diotisalvi. (20 pts) ",
+        "Mussolini ordered the drilling of 100 holes into this structure\nas an attempt at fixing it. According to legend, this building was used to disprove an (10 pts) ",
+        "Aristotelian theory about spheres of different masses. For ten points, name this Italian structure whose\nweak foundation gives it a famous four-degree tilt."
+      ],
+      "answer": [
+        "Leaning Tower of Pisa",
+        "Tower of Pisa"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) This musician included “Feux Follets” [foh follay] and a piece inspired by hetman\nIvan Mazeppa in a series of twelve hard piano pieces. This composer’s orchestral piece\nLes pr´eludes was the first “symphonic poem,” and his illegitimate daughter (20 pts) ",
+        "Cosima\nmarried Richard Wagner [ree-kard vahg-ner]. He used Roma melodies for a set of nineteen\npiano showpieces named for his home (10 pts) ",
+        "country. For ten points, name this Romantic composer of\nthe Transcendental Etudes and Hungarian Rhapsodies who inspired a namesake “mania” in 19th century\nFrance."
+      ],
+      "answer": [
+        "Franz Liszt",
+        "Liszt",
+        "Liszt Ferenc"
       ]
     }
   ]

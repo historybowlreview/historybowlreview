@@ -669,6 +669,44 @@
         "Adams family",
         "Adams"
       ]
+    },
+    {
+      "question": "This case was briefly interrupted when judge Robert Jackson suffered a heart attack. The “massive\nresistance” movement attempted to circumvent this case’s ruling, which was to be carried out with “all\ndeliberate speed.” Thurgood Marshall argued for the plaintiffs in this case, which struck down Plessy\nvs. Ferguson. For ten points, name this Supreme Court case that overturned the “separate but equal”\nprinciple in public schools.",
+      "answer": [
+        "Brown vs Board of Education of Topeka Kansas",
+        "Brown",
+        "Brown v Board of Education",
+        "Brown vs Board of Education"
+      ]
+    },
+    {
+      "question": "In a discussion with Ethel Barrymore, this man said that Americans wanted a solemn president\n“and he would go along with them.” This man, whose death prompted Dorothy Parker to ask “How\ncan they tell?”, supposedly got his nickname by quipping “You lose” after a woman bet she could “get\nmore than two words out of him.” For ten points, name this US President, known as “Silent Cal,” whose\nconversational style mimicked his laissez-faire politics of the 1920s.",
+      "answer": [
+        "Calvin Coolidge",
+        "Coolidge"
+      ]
+    },
+    {
+      "question": "A depiction of this event dubbed a customs office as “Butcher’s Hall;” Henry Pelham created that\nengraving. During this event, Richard Palmes attacked Thomas Preston with a club, prompting a volley\nof gunfire that killed Crispus Attucks. John Adams controversially agreed to defend a group of British\nsoldiers accused of murder for their roles in this event. For ten points, name this 1770 killing of five\nprotesters in Massachusetts.",
+      "answer": [
+        "Boston Massacre",
+        "the Incident on King Street"
+      ]
+    },
+    {
+      "question": "This man oversaw the creation of a Brazilian rubber planation and city named for him, as well as\nthe River Rouge Plant in the US. This man attacked Jewish people through his newspaper, The Dearborn\nIndependent. This man restricted one of his products to “any color, so long as it’s black.” The US’s “Big\nThree” are Chrysler, General Motors and the company founded by, for ten points, what American car\nmaker whose assembly lines built millions of Model Ts?",
+      "answer": [
+        "Henry Ford",
+        "Ford"
+      ]
+    },
+    {
+      "question": "Description acceptable. This event was briefly halted when a nearby patrol forced William Dawes to\nflee; he subsequently fell off his horse and could not finish his mission. This event’s central participant\nslipped by the Somerset by boat after Robert Newman had placed two lanterns in the Old North Church.\nMilitia were able to prepare to fight at Lexington and Concord thanks to, for ten points, what event in\nwhich a Boston silversmith warned of approaching British soldiers?",
+      "answer": [
+        "Paul Revere’s midnight ride",
+        "Revere ride",
+        "Revere's midnight ride"
+      ]
     }
   ],
   "q2": [
@@ -1422,6 +1460,73 @@
         "answer": [
           "bears",
           "Bear Flag Revolt"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "Near this battle’s end, a storm prevented the losing side from evacuating to Gloucester Point. News\nof this battle prompted Lord North to proclaim, “Oh God, it’s all over.” This battle began when the\nContinental Army and Comte de Rochambeau’s forces besieged the namesake city. For ten points, name\nthis 1781 battle that forced Charles Cornwallis to surrender to George Washington, effectively ending the\nAmerican Revolution.",
+        "answer": [
+          "Battle of Yorktown",
+          "Yorktown"
+        ]
+      },
+      "bonus": {
+        "question": "The victory at Yorktown was made possible by the Comte de Grasse’s September 5th victory at\nthe mouth of this bay northeast of Yorktown, preventing the British fleet from assisting Cornwallis.",
+        "answer": [
+          "Chesapeake Bay",
+          "Chesapeake"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "The investigation into this event produced the Kean-Hamilton Report. Richard Drew’s photograph\nThe Falling Man was taken during this event. Zacarias Moussaoui is sometimes considered the twentieth\nperpetrator of this event, joining a group led by Mohammed Atta. Al-Qaeda orchestrated, for ten points,\nwhat 2001 terrorist attack that destroyed the World Trade Center’s Twin Towers?",
+        "answer": [
+          "September 11th attacks",
+          "September 11th",
+          "9/11"
+        ]
+      },
+      "bonus": {
+        "question": "Among the findings of the 9/11 Commission’s report were this agency’s failure to relay\ninformation about the hijackings to the military. This governmental agency is in charge of air traffic\nmanagement and, thus, grounded all flights on 9/11.",
+        "answer": [
+          "Federal Aviation Administration",
+          "FAA"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "A gun is brandished directly at this person in a Pulitzer-winning photograph by Robert Jackson. This\nperson married Marina Prusakova during a period of nearly two years that he spent as a factory worker\nin the Soviet Union. This man shot at and missed Edwin Walker a few months before using the same rifle\nto fire three shots from the sixth floor of a school book depository in Dallas. For ten points, name this\nassassin of John F. Kennedy.",
+        "answer": [
+          "Lee Harvey Oswald",
+          "Oswald"
+        ]
+      },
+      "bonus": {
+        "question": "This Dallas nightclub owner shot Oswald, as depicted in the aforementioned photograph.",
+        "answer": [
+          "Jack Ruby",
+          "Ruby",
+          "Jacob Rubenstein",
+          "Rubenstein"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "In this state, Charles Hamilton murdered five surrendered prisoners in the Marais des Cygnes\nmassacre. Twenty-three people were captured, but no one died, during the Battle of Black Jack in this\nstate, unlike the deadly Pottawatomie Massacre a week earlier. “Beecher’s Bibles” were guns used to shoot\nat “Border Ruffians” in, for ten points, what Plains state that was “Bleeding” in the 1850s in cities like\nLawrence and Topeka?",
+        "answer": [
+          "Bleeding Kansas",
+          "Kansas"
+        ]
+      },
+      "bonus": {
+        "question": "Abolitionists were led by this man in the Battle of Black Jack and the Pottawatomie Massacre,\nthree years before he raided a federal armory in Virginia.",
+        "answer": [
+          "John Brown",
+          "Brown"
         ]
       }
     }
@@ -2936,6 +3041,133 @@
           ]
         }
       ]
+    },
+    {
+      "category": "LOUISIANA PURCHASE",
+      "prompt": "Name the...",
+      "questions": [
+        {
+          "question": "European country that sold Louisiana to the US.",
+          "answer": "France"
+        },
+        {
+          "question": "US President who made the Purchase.",
+          "answer": [
+            "Thomas Jefferson",
+            "Jefferson"
+          ]
+        },
+        {
+          "question": "Two men who led the American Corps of Discovery that explored the Louisiana Territory.",
+          "answer": [
+            "Meriwether Lewis and William Clark",
+            "Lewis and Clark"
+          ]
+        },
+        {
+          "question": "European country that contested the purchase, having given up Louisiana in the Treaty of San\nIldefonso.",
+          "answer": "Spain"
+        },
+        {
+          "question": "Cabinet position held by James Madison when he argued that the purchase was Constitutional.",
+          "answer": [
+            "Secretary of State",
+            "State"
+          ]
+        },
+        {
+          "question": "Man who led an expedition west through the Louisiana Territory to Colorado, where he mapped his\nnamesake peak.",
+          "answer": [
+            "Zebulon Pike",
+            "Pike",
+            "Pike's Peak"
+          ]
+        },
+        {
+          "question": "U.S. minister to France who, with James Monroe, negotiated the terms of the purchase.",
+          "answer": [
+            "Robert Livingston",
+            "Livingston"
+          ]
+        },
+        {
+          "question": "Total cost, within 10%, of the Louisiana Purchase.",
+          "answer": [
+            "15 million dollars",
+            "15 million"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "1960S AMERICAN ACTIVISM",
+      "prompt": "Name the...",
+      "questions": [
+        {
+          "question": "Civil rights leader who gave the “I Have a Dream” speech in 1963.",
+          "answer": [
+            "Dr. Martin Luther King Jr.",
+            "MLK",
+            "Martin Luther King Jr.",
+            "Martin Luther King",
+            "King"
+          ]
+        },
+        {
+          "question": "Organizer of sit-ins in Chicago in 1962 who later challenged Hillary Clinton in the 2016 Democratic\nprimaries.",
+          "answer": [
+            "Bernard “Bernie” Sanders",
+            "Sanders",
+            "Bernard Sanders",
+            "Bernie Sanders"
+          ]
+        },
+        {
+          "question": "Event where Tommie Smith and John Carlos raised their fists as a Black Power salute while receiving\ntheir medals.",
+          "answer": [
+            "1968 Mexico City Summer Olympics",
+            "Olympics"
+          ]
+        },
+        {
+          "question": "Black nationalist group founded by Huey Newton and Bobby Seale in Oakland.",
+          "answer": [
+            "Black Panther Party",
+            "Black Panthers"
+          ]
+        },
+        {
+          "question": "Man who gave the “Ballot or the Bullet” speech and was assassinated after leaving the Nation of\nIslam.",
+          "answer": [
+            "Malcolm X",
+            "Little",
+            "Malcolm Little",
+            "ell-Hajj Malik el-Shabazz",
+            "el-Shabazz"
+          ]
+        },
+        {
+          "question": "New York bar where a police raid in 1969 triggered riots and helped start the gay rights movement.",
+          "answer": [
+            "Stonewall Inn",
+            "Stonewall"
+          ]
+        },
+        {
+          "question": "1968 political event in Chicago where Hubert Humphrey was nominated for President as police beat\nprotesters.",
+          "answer": [
+            "Democratic National Convention",
+            "DNC"
+          ]
+        },
+        {
+          "question": "Native American advocacy group that occupied Alcatraz in 1969 and the Pine Ridge Reservation,\nsite of the Wounded Knee massacre, in 1973.",
+          "answer": [
+            "American Indian Movement",
+            "AIM"
+          ]
+        }
+      ]
     }
   ],
   "q4": [
@@ -3781,6 +4013,52 @@
       "answer": [
         "sinking of the RMS Lusitania",
         "sinking Lusitania"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) This president criticized Senators Joseph Martin, Bruce Barton and Hamilton Fish for\ntheir conservative stances on military buildup. Owen Roberts’ “switch (20 pts) ",
+        "in time that\nsaved nine” prevented this man from expanding the Supreme Court to 15 justices. During\nthis man’s presidency, Congress passed the (10 pts) ",
+        "Social Security Act as his “Fireside Chats” calmed\nAmerica in the Great Depression. For ten points, name this president who enacted the New Deal and led\nthe US in World War II."
+      ],
+      "answer": [
+        "Franklin Delano Roosevelt",
+        "F Roosevelt",
+        "FDR"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) The first member of this body to be expelled was William Blount; after expelling 14\nmembers during the Civil War, it has not expelled anyone since. Under the Byrd Rule, the\nParliamentarian of this body can declare what this body can do through (20 pts) ",
+        "reconciliation.\nThe standing rules of this legislative body specify a procedure known as cloture, which\nrequires (10 pts) ",
+        "60 votes to overcome a filibuster. Each state receives two votes in, for ten points, what\nupper house of the US Congress?"
+      ],
+      "answer": [
+        "United States Senate",
+        "Senate"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) This institution was the main topic of a secretive meeting of the “First Name Club”\nat Jekyll Island. After studying similar establishments in Europe, Nelson Aldrich planned\nthis institution, which was created in light of J.P. (20 pts) ",
+        "Morgan’s concerns after the Panic of\n1907. A Board of Governors leads this institution, which oversees twelve regional (10 pts) ",
+        "banks\nand enacts monetary policy. Janet Yellen formerly led, for ten points, what central banking system of\nthe US that controls interest rates?"
+      ],
+      "answer": [
+        "Federal Reserve System",
+        "Federal Reserve",
+        "Fed"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) After a failed attempt to revise this document to include impost taxing, frustrated officers\nbegan planning the Newburgh Conspiracy. The legislative body created by this document\nsuccessfully passed the Northwest (20 pts) ",
+        "Ordinance, but many clamored for changes after\nShays’ Rebellion, because this document did not grant the (10 pts) ",
+        "federal government authority to\nlevy tax or regulate interstate commerce. For ten points, name this American governing document that\npreceded the Constitution."
+      ],
+      "answer": [
+        "Articles of Confederation and Perpetual Union",
+        "Articles of Confederation"
       ]
     }
   ]
