@@ -53,6 +53,20 @@
         "Narendra Modi",
         "Modi"
       ]
+    },
+    {
+      "question": "This politician attempted to stall the construction of the Hinckley nuclear power station out of fears\nof Chinese involvement. This figure was criticized after reportedly covering up the misfire of a Trident\nmissile in June 2016. She appointed the highly controversial Boris Johnson as Secretary of State for\nForeign Affairs, and in March 2017 she invoked Article 50 to formally begin the Brexit process. For ten\npoints, name this successor of David Cameron as prime minister of the United Kingdom.",
+      "answer": [
+        "Theresa May",
+        "May"
+      ]
+    },
+    {
+      "question": "In 2004 in this country, TV host Rania al-Baz was severely beaten by her husband for answering the\nphone without permission. This country’s prominent businesswomen include Lubna Olayan, who gave a\nhistoric address in 2004 at the Jeddah Economic Forum, held on this country’s west coast. For ten points,\nname this country where, in 2017, King Salman lifted a restriction on driver’s licenses that will, eventually,\nallow women to drive in Riyadh and Mecca.",
+      "answer": [
+        "Kingdom of Saudi Arabia",
+        "Saudi Arabia"
+      ]
     }
   ],
   "q2": [
@@ -243,6 +257,17 @@
       "answer": [
         "Paul LePage",
         "LePage"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) This company spent 11 months in bankruptcy protection after three years of\nmismanagement by former ESPN executive Mark Shapiro and NFL owner Dan Snyder.\nIn 2005, this company closed AstroWorld in Houston and, due to Hurricane (20 pts) ",
+        "Katrina,\nits New Orleans facility. In 2017, this company stopped promoting the “Stars and Bars”\nConfederate symbol at its primary (10 pts) ",
+        "“Over Texas” location. For ten points, name this American\nchain of amusement parks whose name refers to the number of nations that have governed Texas."
+      ],
+      "answer": [
+        "Six Flags Entertainment Corporation",
+        "Six Flags"
       ]
     }
   ]

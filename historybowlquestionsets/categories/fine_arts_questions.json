@@ -158,6 +158,29 @@
         "bronze",
         "The Age of Bronze"
       ]
+    },
+    {
+      "question": "A type of music native to this country features the five-string vihuela and the deep-bodied, low-pitched\nguitarron. A folk song with an uneven five-four rhythm about a legless arthropod became popular during\nthis country’s revolution, with lyrics making fun of Victoriano Huerta sung by partisans of Pancho Villa.\nFor ten points, name this country where songs like “La Cucaracha” and “La Bamba” are played by\nmariachi bands south of the United States",
+      "answer": [
+        "Mexico",
+        "United Mexican States",
+        "Estados Unidos Mexicanos"
+      ]
+    },
+    {
+      "question": "This artist, who was credited as Charlie Jr. in the Traveling Wilburys, is the subject of a 2007\ndocumentary by Peter Bogdanovich, Running Down a Dream. In 2015, Jeff Lynne and this artist received\nroyalties from Sam Smith, whose “Stay With Me” accidentally plagiarized this man’s “I Won’t Back\nDown.” For ten points, name this artist who sang songs like “American Girl” and “Free Fallin’” with his\nbacking band, the Heartbreakers, and who passed away in October 2017.",
+      "answer": [
+        "Tom Petty",
+        "Petty"
+      ]
+    },
+    {
+      "question": "This artist sculpted the facade of a memorial for Julius II, including a seated sculpture of Moses\nwith small horns. A sculpture of a Biblical hero by this artist was originally commissioned for the Duomo\nCathedral and lacks both a sword and the severed head of a giant, unlike a similar work by Donatello. For\nten points, name this Italian artist of a nude marble David and the ceiling frescos of the Sistine Chapel.",
+      "answer": [
+        "Michelangelo Buonarroti",
+        "Michelangelo",
+        "Buonarroti"
+      ]
     }
   ],
   "q2": [
@@ -382,6 +405,69 @@
           "The Mighty Handful",
           "The Mighty Five",
           "Five"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "A building featuring a coffered one of these structures was originally commissioned by Marcus Agrippa\nand renovated by Hadrian. Constantino Brumidi decorated the interior surface of one of these structures\nwith murals that can be seen from the rotunda below. An oculus allows light to shine into the Pantheon\nthrough, for ten points, what architectural feature that serves as the roof of the United States Capitol\nbuilding?",
+        "answer": "domes"
+      },
+      "bonus": {
+        "question": "The murals in the inside of the Capitol rotunda show the Apotheosis of this leader, who was\nalso shown being crowned by fame and peace in a relief sculpture on an exterior wall.",
+        "answer": [
+          "George Washington",
+          "Washington"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "A piece by this composer was performed in 1955 as the first American production in Russia since\nthe Bolshevik Revolution; that piece by this man was based on a DuBose Heyward novel and was set in\nCharleton’s Catfish Row. This composer also wrote a piece for Paul Whiteman’s band that opens with\na clarinet glissando. For ten points, name this jazz-inspired American composer of Porgy and Bess and\nRhapsody in Blue.",
+        "answer": [
+          "George Gershwin",
+          "Gershwin"
+        ]
+      },
+      "bonus": {
+        "question": "Gershwin depicted a bout of homesickness in a tone poem that includes taxi horns that was\ninspired by his trip to what European capital city?",
+        "answer": [
+          "An American in Paris",
+          "Paris"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "A painting of this conflict shows Francis Barlow addressing a long-haired officer and other captured\nmen; that work, Prisoners From the Front, was made by Winslow Homer, who created sketches of camp\nlife in this war for the magazine Harper’s Weekly. Alexander Gardner and Mathew Brady were prominent\nphotographers of, for ten points, what war, depicted in Brady’s photograph The Dead of Antietam?",
+        "answer": [
+          "American Civil War",
+          "Civil War"
+        ]
+      },
+      "bonus": {
+        "question": "Alexander Gardner also photographed Abraham Lincoln meeting with this Union general after\nthe Battle of Antietam. This man unsuccessfully ran against Lincoln in the 1864 election.",
+        "answer": [
+          "George B. McClellan",
+          "George McClellan",
+          "McClellan"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "This composer’s exposure to gamelan at the 1889 World’s Fair inspired his Estampes [eh-stahmp].\nThis composer, who was denied a public funeral due to German bombardment in World War I, interpreted\na legend about the city of Ys [ees] in “The Sunken Cathedral” from his first book of Preludes. A Paul\nVerlaine poem inspired the third movement of his Suite bergamasque. For ten points, name this French\nImpressionist who wrote “Clair de lune.”",
+        "answer": [
+          "Achille-Claude Debussy",
+          "Claude Debussy",
+          "Debussy"
+        ]
+      },
+      "bonus": {
+        "question": "Indonesian gamelan music is played by large ensembles of this broad class of instrument. Other\nexamples of this type of instrument include the Indian tabla, claves [klah-vays] in Cuban music, and\ncastanets.",
+        "answer": [
+          "percussion instruments",
+          "percussion"
         ]
       }
     }
@@ -639,6 +725,56 @@
         "Jesus Christ",
         "Jesus",
         "Christ"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) One of these structures had its outer layer of tura limestone appropriated for nearby\nconstruction projects, leading it to be nicknamed after its red color. The first of these\nstructures was constructed at Saqqara and consisted of six (20 pts) ",
+        "mastabas of differing sizes.\nA bent example of these structures was constructed on the orders of Sneferu. The only (10 pts) ",
+        "remaining example of the Seven Wonders of the Ancient World is an example of, for ten points, what\nmassive Egyptian structures that cover royal tombs?"
+      ],
+      "answer": [
+        "pyramids",
+        "Red Pyramid",
+        "Bat Pyramid",
+        "Step Pyramid",
+        "Bent Pyramid"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) A structure in this city was built with two different shades of white marble and had its\nconstruction halted for twenty-five years. That monument stands at the center of a park\nplanned by Pierre (20 pts) ",
+        "L’Enfant, who laid out this city. Maya Lin designed a memorial in\nthis city that consists of a sloping (10 pts) ",
+        "wall of black marble covered in the names of soldiers. For ten\npoints, name this city home to the Vietnam Veterans’ Memorial wall and several Smithsonian museums\nin the National Mall."
+      ],
+      "answer": [
+        "Washington D.C.",
+        "Washington",
+        "DC",
+        "District of Columbia"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) Sergeant Leon Weckstein claimed to have spared this building from destruction during\nWorld War II. This building, located in the Square of Miracles, is thought to have been\nconstructed by Diotisalvi. (20 pts) ",
+        "Mussolini ordered the drilling of 100 holes into this structure\nas an attempt at fixing it. According to legend, this building was used to disprove an (10 pts) ",
+        "Aristotelian theory about spheres of different masses. For ten points, name this Italian structure whose\nweak foundation gives it a famous four-degree tilt."
+      ],
+      "answer": [
+        "Leaning Tower of Pisa",
+        "Tower of Pisa"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) This musician included “Feux Follets” [foh follay] and a piece inspired by hetman\nIvan Mazeppa in a series of twelve hard piano pieces. This composer’s orchestral piece\nLes pr´eludes was the first “symphonic poem,” and his illegitimate daughter (20 pts) ",
+        "Cosima\nmarried Richard Wagner [ree-kard vahg-ner]. He used Roma melodies for a set of nineteen\npiano showpieces named for his home (10 pts) ",
+        "country. For ten points, name this Romantic composer of\nthe Transcendental Etudes and Hungarian Rhapsodies who inspired a namesake “mania” in 19th century\nFrance."
+      ],
+      "answer": [
+        "Franz Liszt",
+        "Liszt",
+        "Liszt Ferenc"
       ]
     }
   ]

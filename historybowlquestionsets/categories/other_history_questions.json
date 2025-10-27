@@ -125,6 +125,50 @@
     {
       "question": "This religion was favored by Gratian, who removed the Altar of Victory in favor of this religion.\nThis religion came into conflict with the cults of Mithras and Sol Invictus. Early branches of this religion\nincluded Arianism and Nestorianism. The Edict of Milan legalized the practice of this religion; earlier,\nmembers of this religion were forced to fight in the Colosseum. For ten points, name this religion that was\npersecuted in Rome until the reign of Constantine the Great.",
       "answer": "Christianity"
+    },
+    {
+      "question": "One member of this program was given the call sign “Chaika,” or “Seagull,” and completed her\nintended action 48 times. The exclamation “poyekhali!” was made at the start of one of this program’s\nmissions; that mission, which began at the Baikonur Cosmodrome, was Vostok 1 and launched in 1961.\nValentina Tereshkova and Yuri Gagarin were members of, for ten points, what Cold War-era program\nthat, in 1957, launched Sputnik into orbit?",
+      "answer": [
+        "Soviet Union’s space program",
+        "Soviet space",
+        "Soviet space program",
+        "Kosmicheskaya programma SSSR",
+        "Russian space program",
+        "Russia space",
+        "Russia space program"
+      ]
+    },
+    {
+      "question": "Philip the Good ordered the construction of one of these objects called Mons Meg. An early metal\nversion of these objects was called the pot-de-fer, and culverins were portable types of these items. The\nHungarian engineer Orban designed a massive one of these objects that malfunctioned and killed him.\nVauban designed star forts to defend against these weapons, which Mehmed II used to destroy the walls\nof Constantinople in 1453. For ten points, name these gunpowder-based artillery pieces.",
+      "answer": [
+        "cannons",
+        "bombards"
+      ]
+    },
+    {
+      "question": "Pliny the Younger wrote a letter to Trajan concerning the treatment of these people, the earliest\nreference to these people that wasn’t written by one of them. These people built elaborate catacombs to\nbury their dead and were blamed for a Great Fire by Nero. As a prelude to gladiatorial competitions, these\npeople were forced to fight animals in the arena. For ten points, name these people who were persecuted\nin the Roman Empire for their worship of Jesus.",
+      "answer": [
+        "Roman Christians",
+        "Christians"
+      ]
+    },
+    {
+      "question": "Contamination with this substance killed 21 people in the Bradford sweets poisoning. Until James\nMarsh developed a test for this substance, it was an untraceable poison and earned the name “inheritance\npowder.” Autopsy reports and other studies found this element in the hair of Napoleon, Simon Bolivar,\nand King George III. For ten points, name this poisonous element, a common and deadly drinking water\ncontaminant whose chemical symbol is As [A S].",
+      "answer": "arsenic"
+    },
+    {
+      "question": "After this man’s Kirtland Safety Society failed financially, he fled to Clay County, Missouri. This\nman forced the Nauvoo Expositor to shut down by destroying its press, leading to his death in Carthage\nJail while awaiting trial. This man claimed to have received golden plates from the angel Moroni, as well\nas two seer stones, near the Sacred Grove in western New York. For ten points, name this American\nreligious leader and founder of Mormonism.",
+      "answer": [
+        "Joseph Smith",
+        "Smith"
+      ]
+    },
+    {
+      "question": "(TIEBREAKER BONUS QUESTION) What Norse explorer settled Vinland in North America, after his father founded\nGreenland?",
+      "answer": [
+        "Leif Erikson",
+        "Erikson"
+      ]
     }
   ],
   "q2": [
@@ -344,6 +388,26 @@
       "bonus": {
         "question": "The Umayyads held this type of Islamic state, led by a successor to Muhammad, in North Africa.\nIn 2014, ISIS demanded the allegiance of all Muslims around the world in claiming to have formed this\ntype of state, a move that was roundly criticized and mocked.",
         "answer": "caliphate"
+      }
+    },
+    {
+      "tossup": {
+        "question": "Methods for this activity should satisfy criteria like non-dictatorship and the independence of irrelevant\nalternatives, according to the 1951 book Social Choice and Individual Values. That book outlines an\nimpossibility theorem that applies when this activity involves three or more distinct alternatives and\nwas written by Kenneth Arrow. Methods for judging this activity include “first-past-the-post,” which is\ncriticized for leading to two-party politics. For ten points, name this democratic process in which ballots\nare cast to make political decisions.",
+        "answer": [
+          "voting",
+          "votes",
+          "election",
+          "election systems",
+          "voting systems"
+        ]
+      },
+      "bonus": {
+        "question": "Two current American states use the congressional district method, rather than a winner-take-all\nsystem, to allocate their Electoral College votes. One state split their vote in 2016, while the other did in\n2008. Name either state.",
+        "answer": [
+          "Maine",
+          "Nebraska",
+          "Maine and Nebraska"
+        ]
       }
     }
   ],
@@ -781,6 +845,118 @@
           ]
         }
       ]
+    },
+    {
+      "category": "NEW WORLD PIRACY",
+      "prompt": "Name the...",
+      "questions": [
+        {
+          "question": "Items displayed on the classic “Jolly Roger” pirate flag.",
+          "answer": [
+            "bones",
+            "skull",
+            "crossbones",
+            "skull and crossbones",
+            "skull and bones"
+          ]
+        },
+        {
+          "question": "Alcoholic beverage made from distilled sugarcane juice that pirates drank mixed with water as\n“bumbo” or “grog.”",
+          "answer": "rum"
+        },
+        {
+          "question": "Disease caused by a lack of Vitamin C that pirates could avoid by eating limes.",
+          "answer": "scurvy"
+        },
+        {
+          "question": "Sea dominated by 17th century pirates from Cuba to the Lesser Antilles to South America.",
+          "answer": [
+            "Caribbean Sea",
+            "Caribbean"
+          ]
+        },
+        {
+          "question": "Island in that sea where pirates docked at Port Royal. It’s now a country with capital Kingston.",
+          "answer": "Jamaica"
+        },
+        {
+          "question": "Pirate who commanded the Queen Anne’s Revenge and died in a shootout in North Carolina.",
+          "answer": [
+            "Blackbeard",
+            "Edward Teach",
+            "Teach",
+            "Edward Thatch",
+            "Thatch"
+          ]
+        },
+        {
+          "question": "Pirate who captured the Quedagh Merchant and supposedly left a massive buried treasure, according\nto Robert Louis Stevenson and others.",
+          "answer": [
+            "Captain William Kidd",
+            "Kidd"
+          ]
+        },
+        {
+          "question": "Famous pirate island just north of Haiti, where Henry Morgan hired some of his crew. A “Dry” island\ngroup off the Florida Keys shares its name.",
+          "answer": [
+            "Tortuga",
+            "Dry Tortugas"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "WATER",
+      "prompt": "Name the...",
+      "questions": [
+        {
+          "question": "Michigan city that has lacked safe tap water since 2014.",
+          "answer": "Flint"
+        },
+        {
+          "question": "Water delivery structures, such as the Pont du Gard and one in Segovia, built by the Romans.",
+          "answer": "aqueducts"
+        },
+        {
+          "question": "Country where the Turpan oasis provides water to Uyghurs [wee-gurs] in Xinjiang [shin-jiang]\nProvince.",
+          "answer": [
+            "People’s Republic of China",
+            "China"
+          ]
+        },
+        {
+          "question": "Ancient Greek inventor of a water-lifting screw and, supposedly, a death ray.",
+          "answer": [
+            "Archimedes of Syracuse",
+            "Archimedes"
+          ]
+        },
+        {
+          "question": "Type of underground water source, like the Ogallala, that are threatened by over-irrigation.",
+          "answer": "aquifers"
+        },
+        {
+          "question": "Sea that has largely dried up since the Amu Darya and Syr Darya were diverted for irrigation by the\nSoviets.",
+          "answer": [
+            "Aral Sea",
+            "Aral"
+          ]
+        },
+        {
+          "question": "Southeast Asian empire that built barays to store water near Angkor Wat.",
+          "answer": [
+            "Khmer Empire",
+            "Khmer"
+          ]
+        },
+        {
+          "question": "Abbasid caliph who built a qanat for water in Mecca, as well as the House of Wisdom in Baghdad.",
+          "answer": [
+            "Harun al-Rashid",
+            "al-Rashid"
+          ]
+        }
+      ]
     }
   ],
   "q4": [
@@ -904,6 +1080,36 @@
       "answer": [
         "Great Schism",
         "Schism of 1054"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) Anti-British activists of this religion in the early-20th century were known as “LalBal-Pal.” A speech beginning “sisters and brothers of America” introduced this religion\nto America at the 1893 Parliament of the World’s Religions and was given by (20 pts) ",
+        "Swami\nVivekananda. A liberation from the birth-rebirth cycle sought in this religion is known\nas moksha. Opposition to this religion’s (10 pts) ",
+        "Brahmanist caste system led to the development of\nJainism and Buddhism. For ten points, name this predominant religion of India."
+      ],
+      "answer": [
+        "Hinduism",
+        "Hindu"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) During this time period, a hunger march called the Jarrow Crusade marched to London,\nwhere the House of Commons completely ignored them. In this time period, Francis\nTownsend proposed a two-percent transaction tax to fund an (20 pts) ",
+        "Old Age Revolving\nPension Plan. The Smoot Hawley Act may have worsened the effects of this time period, in\nwhich vagrants were arrested for (10 pts) ",
+        "“riding the rails” and living in Hoovervilles. For ten points,\nname this period of history that followed the 1929 Wall Street Crash and adversely affected economies\naround the world."
+      ],
+      "answer": "Great Depression"
+    },
+    {
+      "parts": [
+        "(30 pts) During an expedition to the Azores, this man captured the Madre de Deus treasure\nship. This man failed to heed a pardon for trying to overthrow King James I in the Main\nPlot, which later cost him his life. (20 pts) ",
+        "John White was sent to govern over a “lost colony”\nthis man founded, in which the word (10 pts) ",
+        "“Croatoan” was the only hint of where the settlers\ndisappeared. For ten points, name this founder of Roanoke colony who shares his name with the capital\nof North Carolina."
+      ],
+      "answer": [
+        "Sir Walter Raleigh",
+        "Raleigh"
       ]
     }
   ]

@@ -219,6 +219,23 @@
         "question": "According to Rousseau, this specific concept was equal to the rule of law. Rousseau’s Discourse\non Political Economy reflected his idea that this concept was actually a defense for the individual against\nthe masses.",
         "answer": "the general will"
       }
+    },
+    {
+      "tossup": {
+        "question": "One of these systems was invented in the 15th century by Sejong the Great of the Joseon Dynasty; its\n40 elements can be combined into over 11 thousand blocks. The oldest of these systems is an abjad with\n22 entries; that Phoenician system inspired modern examples such as Greek, Cyrillic, and Latin. The first\ntwo entries in the Hebrew system inspires the name of, for ten points, what term for a set of letters used\nto write a language?",
+        "answer": "alphabet"
+      },
+      "bonus": {
+        "question": "Sejong the Great invented hangul, the alphabet for this Asian language. It was spoken in the\nJoseon dynasty, and it has undergone significant changes over the last 70 years after the splitting of the\ntwo countries in which it is primarily spoken.",
+        "answer": [
+          "Korean language",
+          "Korean",
+          "Korea",
+          "South Korea",
+          "North Korea",
+          "South and North Korea"
+        ]
+      }
     }
   ],
   "q3": [],
@@ -301,6 +318,17 @@
         "William James on\nits development. For ten points, name this American philosophical tradition, founded by Charles Sanders\nPeirce and named for its focus on the practical effects of thought."
       ],
       "answer": "pragmatism"
+    },
+    {
+      "parts": [
+        "(30 pts) In one of this man’s studies, he correctly predicted that misplaced envelopes addressed\nto groups like “Friends of the Nazi Party” would be “rescued” less frequently than personal\nletters. The 1961 trial and testimony of Adolf (20 pts) ",
+        "Eichmann in Jerusalem inspired this\nman’s experiment in which the command “you must go on” led over one-third of this man’s\nsubjects to administer supposedly (10 pts) ",
+        "lethal doses of electricity to test subjects. For ten points,\nname this American psychologist of a controversial obedience experiment."
+      ],
+      "answer": [
+        "Stanley Milgram",
+        "Milgram"
+      ]
     }
   ]
 }

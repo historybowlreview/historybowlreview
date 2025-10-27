@@ -57,6 +57,18 @@
         "Tarquinius Superbus",
         "Tarquin the Proud"
       ]
+    },
+    {
+      "question": "One of this man’s works was compiled by Tribonian, John the Cappadocian, and others. A\ndisagreement at chariot races during his reign grew into the Nika Riots, which he put down at the\nencouragement of his wife Theodora. This ruler’s general Belisarius recaptured Northern Africa and\nmuch of Italy, and this man codified Roman law into the Corpus Juris Civilis. For ten points, name this\nByzantine emperor who built the Hagia Sophia.",
+      "answer": [
+        "Justinian the Great",
+        "Justinian",
+        "Justinian I"
+      ]
+    },
+    {
+      "question": "Hermogenes recounts this man’s desire to die relatively young in order to escape the afflictions of old\nage in an account of this man’s Apology by Xenophon. This husband of Xanthippe was put to death by\nan Athenian tribunal by drinking hemlock on charges of corrupting the youth. For ten points, name this\nclassical philosopher whose namesake “method” employs rigorous questioning and who mentored Plato.",
+      "answer": "Socrates"
     }
   ],
   "q2": [
@@ -242,6 +254,24 @@
       "bonus": {
         "question": "These Mesopotamian step-pyramids had shrines at their highest levels. Nabonidus rebuilt a\nGreat one of these in Ur.",
         "answer": "ziggurats"
+      }
+    },
+    {
+      "tossup": {
+        "question": "During this event, a man declared “fortune favors the brave” while hoping to save his friends, Rectina\nand Pomponianus at Stabiae. Prior to this event, an observer in Misenum noted an unusually dense and\nrapidly rising cloud. Letters describing this event were written to Tacitus by Pliny the Younger, whose\nuncle died in it. For ten points, name this 79 AD natural disaster that covered the towns of Herculaneum\nand Pompeii in ash.",
+        "answer": [
+          "eruption of Mount Vesuvius",
+          "eruption Vesuvius"
+        ]
+      },
+      "bonus": {
+        "question": "Pliny the Elder sailed across this bay to save Pomponianus. This bay’s name, which it shares\nwith a city on its northern shore, translates to “new city.”",
+        "answer": [
+          "Bay of Naples",
+          "Naples",
+          "Neapolis",
+          "Napoli"
+        ]
       }
     }
   ],
@@ -538,6 +568,58 @@
           ]
         }
       ]
+    },
+    {
+      "category": "ANCIENT EGYPT",
+      "prompt": "Name the...",
+      "questions": [
+        {
+          "question": "Common title used by Egyptian monarchs, such as the ruler of Egypt in the Book of Exodus.",
+          "answer": "Pharaoh"
+        },
+        {
+          "question": "Writing system of Ancient Egypt that preceded the development of demotic script.",
+          "answer": [
+            "Hieroglyphs",
+            "Hieroglyphics"
+          ]
+        },
+        {
+          "question": "Slab, discovered in 1799, whose three writings allowed the Egyptian writing system to be deciphered\nfrom Greek.",
+          "answer": "Rosetta Stone"
+        },
+        {
+          "question": "Boy king whose tomb was unearthed by Howard Carter in 1922.",
+          "answer": [
+            "King Tutankhamun",
+            "King Tut",
+            "Tut",
+            "Tutankhamun"
+          ]
+        },
+        {
+          "question": "Mythical creature with a human’s head and a lion’s body that is depicted in a massive sculpture in\nGiza.",
+          "answer": "Sphinx"
+        },
+        {
+          "question": "First of the three “Kingdom” periods, which encompasses the Third through the Sixth Dynasties.",
+          "answer": [
+            "Old Kingdom",
+            "Old"
+          ]
+        },
+        {
+          "question": "Animal that alternatively names Faiyum and Sumenu, two centers of worship for the deity Sobek.",
+          "answer": [
+            "crocodile",
+            "Crocodilopolis"
+          ]
+        },
+        {
+          "question": "Foreign people who, centuries before the Sea Peoples attacked, invaded Egypt to establish the\nFifteenth Dynasty and ruled from Avaris.",
+          "answer": "Hyksos"
+        }
+      ]
     }
   ],
   "q4": [
@@ -656,6 +738,18 @@
         "Mandate of Heaven empowered, for ten points, what position held by Qin Shi\nHuangdi and hundreds of other Middle Kingdom leaders?"
       ],
       "answer": "Emperor of China"
+    },
+    {
+      "parts": [
+        "(30 pts) Emperor Gallienus slaughtered a force of these people at Naissus in 269 AD. A century\nlater, a group of these people led by Fritigern slaughtered the Romans and killed Emperor\nValens in the Battle of (20 pts) ",
+        "Adrianople. This ethnic group’s 3rd century AD appearance\nin the frontiers of Europe hastened the fall of Rome. (10 pts) ",
+        "Alaric and Theoderic were among the\nleaders of, for ten points, what Germanic ethnic group that was split into western and eastern branches\nprefixed by “Visi-” and “Ostro-?”"
+      ],
+      "answer": [
+        "Goths",
+        "Visigoths",
+        "Ostrogoths"
+      ]
     }
   ]
 }
