@@ -43,6 +43,42 @@
       font-size: 1.4rem;
       text-align: center;
     }
+    #tipsModal, #rulesModal {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 9999;
+      display: none;
+      backdrop-filter: blur(4px);
+    }
+    
+    .tips-modal-content {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      background: white;
+      color: #2d3748;
+      padding: 28px;
+      border-radius: 16px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80vh;
+      overflow: hidden;
+      box-shadow: 0 16px 50px rgba(0,0,0,0.25);
+    }
+    
+    .scrollBox {
+      overflow-y: auto;
+      max-height: 60vh;
+      padding-right: 10px;
+      margin-bottom: 16px;
+    }
+    
+    .scrollBox::-webkit-scrollbar { width: 6px; }
+    .scrollBox::-webkit-scrollbar-thumb {
+      background: #5a67d8;
+      border-radius: 3px;
+}
     .header{text-align:center;color:#fff;margin-bottom:20px}
     .header h1{font-size:2.2rem;text-shadow:2px 2px 4px rgba(0,0,0,0.25)}
     .menu{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:16px}
@@ -292,6 +328,73 @@
         </div>
       </div>
     </div>
+    <!-- Tips Modal -->
+    <div id="tipsModal" style="display:none;">
+      <div class="tips-modal-content">
+        <h3>Tips</h3>
+        <div class="scrollBox">
+          <ul>
+            <li></li>
+            <li><strong>PRACTICE MODE TIPS</strong></li>
+            <li>When you're practicing, try to practice the categories you've specialized in.</li>
+            <li>Study time should be allocated proportional to each category's total question count.</li>
+            <li>By selecting the categories you're studying in practice mode, bigger categories will be weighed more and show up more often.</li>
+            <li>When answering questions in practice, all information might be useful information for later, so let the question read out entirely and try to remember all its parts before answering, even if you already know the answer before the question is finished reading.</li>
+            <li>You can also save questions to PDFs. If you get any wrong or if you want to save specific questions to practice for later, you can check the Add to PDF button. After it moves on to the next question, the question will be added to a PDF, and you can export PDFs with as many questions as you like in the main menu.</li>
+            <li>I would recommend saving any questions you get wrong to a PDF and exporting it to practice for later.</li>
+            <li>In Quarter 3, try to pick categories that you don't know so that you can expand your breadth of knowledge, and memorize them as best you can.</li>
+            <li></li>
+            <li><strong>FULL GAME SIMULATION TIPS</strong></li>
+            <li>Full game simulations should be reserved for after you've already practiced a bunch to test your skill, not so much for building knowledge though it can be used for that purpose</li>
+            <li>Save any questions you get wrong to PDFs.</li>
+            <li>Answer as soon as you're pretty sure you're right, in the competition it'll be better to answer earlier before the other team has a chance to, but it's important to find a good balance between your certainty about the answer and the earliness of your buzz (doesn't apply to Q3).</li>
+            <li>Points are awarded based on the competition's format, but weighted score also takes into account your time to buzz in, giving as much as a 2x bonus decreasing as the question goes on based on the formula: 1+(1-x^{1.2})</li>
+            <li>(Quarter 2 Bonus questions and Quarter 3 questions all give a static 15 weighted score since you don't have to worry about buzzing in early when the other team can't answer.</li>
+          </ul>
+        </div>
+        <button class="btn secondary closeBtn" onclick="closeTips()">X Close</button>
+      </div>
+    </div>
+    
+    <!-- Rules Modal -->
+    <div id="rulesModal" style="display:none;">
+      <div class="tips-modal-content">
+        <h3>Practice Resource Links</h3>
+        <div class="scrollBox">
+          <ul>
+            <li></li>
+            <li><strong>HISTORY LINKS</strong></li>
+            <li><a href="https://www.iacompetitions.com/resources-national-history-bowl/" target="_blank">Varsity & JV National History Bowl Past Questions</a>: Useful for studying past questions, though the history bowl review program is a better, funner way of studying the same exact content in my opinion.</li>
+            <li><a href="https://www.iacompetitions.com/study-guides/" target="_blank">History Bowl Study Guides</a>: KNOW EVERYTHING ON HERE AND LOOK UP EVERYTHING LISTED TO GET DEEPER KNOWLEDGE BEYOND BASIC DESCRIPTION OF IT</li>
+            <li><a href="https://en.wikipedia.org/wiki/Timeline_of_the_21st_century" target="_blank">Wikipedia Timeline of the 21st century</a>: good for Recent History questions.</li>
+            <li><a href="https://en.wikipedia.org/wiki/2020s" target="_blank">Wikipedia 2020s</a>: better for Recent History questions.</li>
+            <li><a href="https://en.wikipedia.org/wiki/2025" target="_blank">Wikipedia 2025</a>: Wikipedia is good in general but for Recent History questions, most will be from events that occured within the last year, so use this and the news to study for that.</li>
+            <li><a href="https://www.bbc.com/news/world">BBC News</a>: helpful to keep up with for Recent History questions.</li>
+            <li><a href="http://news.bbc.co.uk/2/hi/country_profiles/default.stm" target="_blank">BBC Country Profiles</a>: helpful for general knowledge on countries and their histories.</li>
+            <li><a href="https://www.sporcle.com/games/category/history" target="_blank">Sporcle History Quizzes</a>: good for finding random niche history topics to study.</li>
+            <li></li>
+            <li><strong>GEOGRAPHY LINKS</strong></li>
+            <li>Even if you're not studying for the Geography Bowl, some of these links might still be helpful, and a decent knowledge of geography is helpful for the History Bowl. All the geography links are good for studying, don't just stick to one or the other. Don't be afraid to look for geography stuff in other places too!</li>
+            <li><a href="https://www.cia.gov/the-world-factbook/countries/" target="_blank">CIA World Factbook</a>: very good for basic knowledge on all aspects of countries, which does come in handy.</li>
+            <li><a href="https://www.sporcle.com/games/category/geography" target="_blank">Sporcle Geography Quizzes</a>: good for finding random & niche geography topics to study.</li>
+            <li><a href="https://www.geoguessr.com/quiz/seterra" target="_blank">Seterra Geography Quizzes</a>: extremely helpful for memorizing country locations, regional and national capitals, borders, flags, and sports teams.</li>
+            <li><a href="https://historybowlreview.github.io/geographybowlreview/" target="_blank">Geography Bowl Study Program</a>: not as useful for geography as the history bowl review is for history, but it still has a decent amount of questions.</li>
+            <li><a href="https://www.factmonster.com/world/geography/world-geography" target="_blank">Fact Monster Geography</a>: random geography stuff, might be useful.</li>
+            <li>You should also refer to atlases/encyclopedias/wikipedia for maps, lists of things, and anything else you might need, you could also use ai or friends to ask you questions on specific stuff if quiz websites aren't available.</li>
+            <li></li>
+            <li><strong>For Geography, you should know:</strong></li>
+            <li>Superlatives (top 5/10 in the world and the top 1 per continent~ of): Highest Peaks, Lowest Points, Largest/Smallest Populations, Largest Deserts, Largest Islands, Largest/Smallest Countries, Wealthiest/Poorest Countries, Largest/Smallest Lakes, Largest/Smallest Rivers, Largest/Smallest Seas, Largest/Smallest Oceans etc.</li>
+            <li></li>
+            <li>All national capitals, state capitals of US, regions and regional capitals of Canada, regions of other important countries/what they're called/known for, currencies, exports, etc, pop culturally significant locations (Jaws/star wars film locations e.g.), landmarks, etc.</li>
+            <li></li>
+            <li>Locations (continent and countries/US States) of mountain ranges, lakes, rivers, seas, oceans, significant islands, etc.</li>
+            <li></li>
+            <li>There will be random geography facts mentioned so I would absorb any fun facts or weird facts you may find or hear.</li>
+          </ul>
+        </div>
+        <button class="btn secondary closeBtn" onclick="closeRules()">X Close</button>
+      </div>
+    </div>
     <!-- Player Name Input (MOVE THIS OUTSIDE) -->
     <div id="playerNameContainer" style="text-align:center; margin-bottom: 16px;">
       <input type="text" id="playerNameInput" placeholder="Enter your name for leaderboard" maxlength="20">
@@ -313,17 +416,16 @@
         <p class="muted">Shows all full game attempts ordered by score. Enter your name to save it with your score.</p>
         <div style="margin-top:10px"><button class="btn">View Leaderboard</button></div>
       </div>
-      <div class="card" onclick="exportPDFs()">
-        <h3>Export PDFs</h3>
-        <div style="margin-top:10px"><button class="btn">Export PDFs</button></div>
+      <div class="card">
+        <h3>PDFs</h3>
+        <button class="btn" onclick="exportPDFs()">Export PDFs</button>
+        <button class="btn" onclick="clearPDFQuestions()">Clear PDFs</button>
+        <button class="btn" onclick="generateSamplePDFs()">Generate Practice PDFs</button>
       </div>
-      <div class="card" onclick="clearPDFQuestions()">
-        <h3>Clear PDFs</h3>
-        <div style="margin-top:10px"><button class="btn">Clear PDFs</button></div>
-      </div>
-      <div class="card" onclick="generateSamplePDFs()">
-        <h3>Generate Practice PDFs</h3>
-        <div style="margin-top:10px"><button class="btn">Generate Practice PDFs</button></div>
+      <div class="card">
+        <h3>Tips & Links</h3>
+        <button class="btn secondary" onclick="showTips()">Tips</button>
+        <button class="btn secondary" onclick="showRules()">Links</button>
       </div>
     </div>
 
@@ -374,7 +476,7 @@
     </div>
     <div class="controls-row">
       <input id="answerInput" class="answer-input" placeholder="Type answer and press Enter or Submit..." disabled>
-      <button class="btn" onclick="submitAnswer()">Submit</button>
+      <button id="submitBtn" class="btn" onclick="submitAnswer()">Submit</button>
       <div id="currentResponseTime" class="small muted">Response time: --</div>
       <label style="display:flex;align-items:center;gap:6px;cursor:pointer;margin-left:12px;">
         <input type="checkbox" id="addToPDFCheckbox" style="width:18px;height:18px;cursor:pointer;">
@@ -450,6 +552,19 @@ async function loadQuestionsFromServer() {
 }
 
 let QUESTIONS_SETS = [];
+function showTips() {
+  $('tipsModal').style.display = 'block';
+}
+function closeTips() {
+  $('tipsModal').style.display = 'none';
+}
+
+function showRules() {
+  $('rulesModal').style.display = 'block';
+}
+function closeRules() {
+  $('rulesModal').style.display = 'none';
+}
 
 async function loadAllQuestionSets(files) {
     QUESTIONS_SETS = [];
@@ -1142,6 +1257,8 @@ function startGame(){
 function togglePause() {
     if (!gameState.isPaused) {
         // PAUSE
+        $('answerInput').disabled = true;
+        $('submitBtn').disabled = true;
         gameState.wasReading = !!gameState.readingInterval;
         if (gameState.readingInterval) clearInterval(gameState.readingInterval);
         if (gameState.postReadTimer) {
@@ -1246,6 +1363,14 @@ function togglePause() {
         } else {
             $('answerInput').disabled = true;
         }
+        if (gameState.buzzed || (gameState.currentQuarter === 3 && gameState.q3CategoryActive) || gameState.isAnsweringBonus) {
+            $('answerInput').disabled = false;
+        } else {
+            $('answerInput').disabled = true;
+        }
+// keep submit button in lockstep with the input
+        $('submitBtn').disabled = $('answerInput').disabled;
+
     }
 }
 
@@ -1366,6 +1491,7 @@ function updatePauseButtonVisibility() {
 
 function resetGame() {
     clearAllTimers();
+    gameState._pdfAddedKeys = new Set();
     if (gameState.feedbackTimer) {
         clearInterval(gameState.feedbackTimer);
         gameState.feedbackTimer = null;
@@ -1438,6 +1564,9 @@ function resetGame() {
     clearFeedback();
 }
 
+  // once, near your gameState definition or right after resetGame()
+if (!gameState._pdfAddedKeys) gameState._pdfAddedKeys = new Set();
+
 async function resetPracticeGame() {
     if (gameState.mode === 'full') {
         startFullGameFromMenu();
@@ -1488,6 +1617,7 @@ function getCurrentQuarterArray(){
 
 /* ------------------ Start Next Question ------------------ */
 function nextQuestion() {
+    addCurrentQuestionToPDF();
     if (!gameState.questionsLoaded) {
         alert("Questions failed to load.");
         return;
@@ -2067,6 +2197,47 @@ function normalize(s){
     return (s || "").toString().trim().toLowerCase();
 }
 
+  function normalizeText(s) {
+  if (s == null) return '';
+  return String(s)
+    .toLowerCase()
+    .replace(/\s+/g, ' ')      // collapse whitespace
+    .replace(/[^\S\r\n]/g, ' ')// normalize weird spaces
+    .trim();
+}
+
+function ensureUniquePDFAdd(quarter, payload, questionTextForKey, answerForKey) {
+  // quarter: 1,2,3,4  (string or number is fine)
+  // payload: the exact object you would push into gameState.pdfQuestions.qX
+  // questionTextForKey: the final combined text you print in the PDF
+  // answerForKey: the final answer text (string or array), BEFORE or AFTER formatAnswer—either is fine if consistent
+
+  // Use your formatAnswer if present, else stringify:
+  const ansText = typeof formatAnswer === 'function'
+    ? formatAnswer(answerForKey)
+    : (Array.isArray(answerForKey) ? answerForKey.join(', ') : String(answerForKey ?? ''));
+
+  const key = pdfKeyFor(quarter, questionTextForKey, ansText);
+
+  if (!gameState._pdfAddedKeys) gameState._pdfAddedKeys = new Set(); // safety
+  if (gameState._pdfAddedKeys.has(key)) return false; // already added
+
+  // push to correct quarter bucket
+  const buckets = gameState.pdfQuestions || (gameState.pdfQuestions = { q1:[], q2:[], q3:[], q4:[] });
+  const map = {1:'q1', 2:'q2', 3:'q3', 4:'q4', '1':'q1', '2':'q2', '3':'q3', '4':'q4'};
+  const bucket = buckets[ map[quarter] ];
+  if (!bucket) return false;
+
+  bucket.push(payload);
+  gameState._pdfAddedKeys.add(key);
+  return true;
+}
+
+// If you already have formatAnswer(ans) use it to normalize arrays like ["A", "B"].
+function pdfKeyFor(quarter, questionText, answerText) {
+  return `${quarter}|${normalizeText(questionText)}|${normalizeText(answerText)}`;
+}
+
 function getPluralForms(word) {
     let forms = [word];
     if (word.endsWith('y') && word.length > 2) {
@@ -2133,6 +2304,7 @@ function normalizeAnswerArray(ans) {
 }
 
 function submitAnswer(){
+    if (gameState.isPaused) return; // hard block while paused
     if ($('answerInput').disabled) return;
     if(gameState.bonusTimer) {
         clearInterval(gameState.bonusTimer);
@@ -2151,7 +2323,6 @@ function submitAnswer(){
     const isCorrect = isStrictCorrect(given, gameState.currentAnswer) ||
                   looseMatch(given, gameState.currentAnswer);
     let basePoints = 0;
-    addCurrentQuestionToPDF();
     let earnedPoints = 0;
     const submitTime = Date.now();
 
@@ -2789,7 +2960,7 @@ function promptPracticeSet() {
 /* ------------------ Key handling ------------------ */
 document.addEventListener('keydown', function(e){
     if (e.key === 'Enter'){
-        if (!$('answerInput').disabled && document.activeElement === $('answerInput')){
+        if (!gameState.isPaused && !$('answerInput').disabled && document.activeElement === $('answerInput')){
             submitAnswer();
         }
     }
