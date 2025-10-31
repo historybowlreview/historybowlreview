@@ -313,17 +313,11 @@
         <p class="muted">Shows all full game attempts ordered by score. Enter your name to save it with your score.</p>
         <div style="margin-top:10px"><button class="btn">View Leaderboard</button></div>
       </div>
-      <div class="card" onclick="exportPDFs()">
-        <h3>Export PDFs</h3>
-        <div style="margin-top:10px"><button class="btn">Export PDFs</button></div>
-      </div>
-      <div class="card" onclick="clearPDFQuestions()">
-        <h3>Clear PDFs</h3>
-        <div style="margin-top:10px"><button class="btn">Clear PDFs</button></div>
-      </div>
-      <div class="card" onclick="generateSamplePDFs()">
-        <h3>Generate Practice PDFs</h3>
-        <div style="margin-top:10px"><button class="btn">Generate Practice PDFs</button></div>
+      <div class="card">
+        <h3>PDFs</h3>
+        <button class="btn" onclick="exportPDFs()">Export PDFs</button>
+        <button class="btn" onclick="clearPDFQuestions()">Clear PDFs</button>
+        <button class="btn" onclick="generateSamplePDFs()">Generate Practice PDFs</button>
       </div>
     </div>
 
