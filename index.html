@@ -507,7 +507,47 @@
         <!-- Sample leaderboard entries for demonstration -->
       </div>
     </div>
-
+    <!-- PDF Weights Modal -->
+    <div id="pdfWeightsModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:10000; backdrop-filter:blur(4px);">
+      <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:#fff; border-radius:16px; padding:24px; width:min(480px,94vw); box-shadow:0 20px 60px rgba(0,0,0,.25);">
+        <h3 style="margin:0 0 14px; color:#5a67d8;">Category Weights for Q3</h3>
+        <p class="small muted" style="margin-bottom:12px;">Lower weight = less likely to be selected among Q3 categories.</p>
+    
+        <div style="display:grid; gap:12px;">
+          <label style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+            <span>US History</span>
+            <select id="w_us" class="btn outline" style="min-width:120px;">
+              <option value="1">100%</option>
+              <option value="0.5">50%</option>
+              <option value="0.33">33%</option>
+            </select>
+          </label>
+    
+          <label style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+            <span>European History</span>
+            <select id="w_eu" class="btn outline" style="min-width:120px;">
+              <option value="1">100%</option>
+              <option value="0.5">50%</option>
+              <option value="0.33">33%</option>
+            </select>
+          </label>
+    
+          <label style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+            <span>World History</span>
+            <select id="w_world" class="btn outline" style="min-width:120px;">
+              <option value="1">100%</option>
+              <option value="0.5">50%</option>
+              <option value="0.33">33%</option>
+            </select>
+          </label>
+        </div>
+    
+        <div class="modal-confirm-group" style="margin-top:18px;">
+          <button class="btn" id="weightsConfirmBtn">Confirm</button>
+          <button class="btn secondary" id="weightsCancelBtn">Cancel</button>
+        </div>
+      </div>
+    </div>
     <footer>
       <p><i>Made by Kizuruki</i></p>
     </footer>
@@ -601,11 +641,15 @@ function deselectAllSets() {
 }
 
 
-function openSetPicker(availableFiles, callback) {
+function openSetPicker(availableFiles, callback, title = 'Select Practice Sets') {
     window._setPickerCallback = callback;
     window._setPickerFiles = availableFiles;
     const tabsContainer = $('setPickerTabs');
     const list = $('setPickerList');
+        // NEW: set the modal title dynamically
+    const header = $('setPickerModal').querySelector('h3');
+    if (header) header.textContent = title;
+  
     tabsContainer.innerHTML = '';
     list.innerHTML = '';
 
@@ -2918,7 +2962,18 @@ function renderQuestionsDisplay(){
 }
 
 function promptPracticeSet() {
-    const availableFiles = [
+  const availableFiles = window.AVAILABLE_FILES; // shared global
+
+  openSetPicker(availableFiles, (selectedFiles) => {
+    if (!selectedFiles || !selectedFiles.length) return;
+
+    // 👇 your existing practice logic here
+    // (load questions, set up the game, etc.)
+    loadAllQuestionSets(selectedFiles);
+  }, 'Select Practice Sets');
+}
+
+window.AVAILABLE_FILES = [
         {
             year: "Categories",
             sets: [
@@ -3107,48 +3162,137 @@ function clearPDFQuestions() {
     }
 }
 
+function openPDFWeightsModal(defaults = { us: 1, eu: 1, world: 1 }) {
+  return new Promise((resolve) => {
+    const m = $('pdfWeightsModal');
+    const wUS = $('w_us'), wEU = $('w_eu'), wWorld = $('w_world');
+    wUS.value = String(defaults.us);
+    wEU.value = String(defaults.eu);
+    wWorld.value = String(defaults.world);
+
+    const onConfirm = () => {
+      cleanup();
+      resolve({
+        us: parseFloat(wUS.value),
+        eu: parseFloat(wEU.value),
+        world: parseFloat(wWorld.value),
+      });
+    };
+    const onCancel = () => { cleanup(); resolve(null); };
+
+    function cleanup() {
+      $('weightsConfirmBtn').removeEventListener('click', onConfirm);
+      $('weightsCancelBtn').removeEventListener('click', onCancel);
+      m.style.display = 'none';
+    }
+
+    $('weightsConfirmBtn').addEventListener('click', onConfirm);
+    $('weightsCancelBtn').addEventListener('click', onCancel);
+    m.style.display = 'block';
+  });
+}
+
+
 async function generateSamplePDFs() {
-    if (!gameState.pdfQuestions) {
-        gameState.pdfQuestions = { q1: [], q2: [], q3: [], q4: [] };
+  // Ensure PDF buckets exist
+  if (!gameState.pdfQuestions) {
+    gameState.pdfQuestions = { q1: [], q2: [], q3: [], q4: [] };
+  }
+
+  const prefilled =
+    gameState.pdfQuestions.q1.length +
+    gameState.pdfQuestions.q2.length +
+    gameState.pdfQuestions.q3.length +
+    gameState.pdfQuestions.q4.length;
+
+  if (prefilled > 0) {
+    alert('Please clear the PDF before generating sample PDFs.');
+    return;
+  }
+
+  // 1) Pick which sets to draw from (same UI as practice set picker)
+  const availableFiles = window.AVAILABLE_FILES; // same source as practice picker
+  if (!availableFiles || !availableFiles.length) {
+    alert('No sets available. Make sure AVAILABLE_FILES is defined.');
+    return;
+  }
+
+  const selectedFiles = await new Promise(resolve =>
+    openSetPicker(availableFiles, (files) => resolve(files), 'Select PDF Sources')
+  );
+  if (!selectedFiles || !selectedFiles.length) return;
+
+  // 2) Load only the selected sets into QUESTIONS_SETS
+  await loadAllQuestionSets(selectedFiles);
+  if (!QUESTIONS_SETS.length) {
+    alert("Failed to load selected question sets.");
+    return;
+  }
+
+  // Merge pools from selected sets
+  const q1Pool = QUESTIONS_SETS.flatMap(s => s.q1 || []).filter(q => !q.question?.startsWith('(TIEBREAKER'));
+  const q2Pool = QUESTIONS_SETS.flatMap(s => s.q2 || []).filter(q => !q.tossup?.question?.startsWith('(TIEBREAKER'));
+  const q3Pool = QUESTIONS_SETS.flatMap(s => s.q3 || []);
+  const q4Pool = QUESTIONS_SETS.flatMap(s => s.q4 || []).filter(q =>
+    !((q.parts?.[0] || '').toUpperCase().startsWith('(TIEBREAKER')) &&
+    !((q.parts?.[0] || '').toUpperCase().startsWith('(TIEBREAKER BONUS')) &&
+    !((q.parts?.[0] || '').toUpperCase().startsWith('(TIEBREAKER EXAMPLE'))
+  );
+
+  if (!q1Pool.length && !q2Pool.length && !q3Pool.length && !q4Pool.length) {
+    alert('No questions found in the selected sets.');
+    return;
+  }
+
+  // 3) Ask for weights (US / EU / World History)
+  const weights = await openPDFWeightsModal({ us: 1, eu: 1, world: 1 });
+  if (weights === null) return; // user canceled
+
+  // 4) Helper sampling functions
+  const pickN = (arr, n) => shuffle([...arr]).slice(0, Math.min(n, arr.length));
+
+  // Weighted sampling for Q3 categories by name
+  function weightedPickCategories(categories, n) {
+    // Build weighted list
+    const items = [];
+    for (const c of categories) {
+      const name = (c.category || '').toLowerCase();
+      let w = 1;
+      if (name.includes('us history')) w = weights.us;
+      else if (name.includes('european history')) w = weights.eu;
+      else if (name.includes('world history')) w = weights.world;
+      // at least tiny weight if someone set to 0 accidentally
+      w = Math.max(0.001, w);
+
+      // push proportional copies (integer-ish)
+      const copies = Math.max(1, Math.round(w * 100));
+      for (let i = 0; i < copies; i++) items.push(c);
     }
-    
-    const total = gameState.pdfQuestions.q1.length + 
-                  gameState.pdfQuestions.q2.length + 
-                  gameState.pdfQuestions.q3.length + 
-                  gameState.pdfQuestions.q4.length;
-    
-    if (total > 0) {
-        alert('Please clear the PDF before generating sample PDFs.');
-        return;
+    // sample without replacement
+    const picked = [];
+    const seen = new Set();
+    while (picked.length < n && items.length) {
+      const x = items[Math.floor(Math.random() * items.length)];
+      const key = x.category + '|' + (x.prompt || '');
+      if (!seen.has(key)) {
+        seen.add(key);
+        picked.push(x);
+      }
     }
-    
-    if (!QUESTIONS.q1 || QUESTIONS.q1.length === 0) {
-        alert('Questions not loaded yet. Please wait for questions to load.');
-        return;
-    }
-    
-    // Exclude TIEBREAKER-labeled questions from generated samples
-    const allQ1 = QUESTIONS.q1.filter(q => !q.question.startsWith('(TIEBREAKER'));
-    const shuffledQ1 = shuffle([...allQ1]);
-    gameState.pdfQuestions.q1 = shuffledQ1.slice(0, Math.min(10, shuffledQ1.length));
-    
-    const allQ2 = QUESTIONS.q2.filter(q => !q.tossup.question.startsWith('(TIEBREAKER'));
-    const shuffledQ2 = shuffle([...allQ2]);
-    gameState.pdfQuestions.q2 = shuffledQ2.slice(0, Math.min(8, shuffledQ2.length));
-    
-    const shuffledQ3 = shuffle([...QUESTIONS.q3]);
-    gameState.pdfQuestions.q3 = shuffledQ3.slice(0, Math.min(4, shuffledQ3.length));
-    
-    // Explicitly ensure Q4 tiebreaker/bonus labels are excluded
-    const allQ4 = QUESTIONS.q4.filter(q => 
-        !q.parts[0].startsWith('(TIEBREAKER') &&
-        !q.parts[0].toUpperCase().startsWith('(TIEBREAKER BONUS') &&
-        !q.parts[0].toUpperCase().startsWith('(TIEBREAKER EXAMPLE')
-    );
-    const shuffledQ4 = shuffle([...allQ4]);
-    gameState.pdfQuestions.q4 = shuffledQ4.slice(0, Math.min(8, shuffledQ4.length));
-    
-    alert('Sample PDFs generated! Click "Export Practice PDFs" to download.');
+    return picked;
+  }
+
+  // 5) Fill the PDF buckets FROM THE CHOSEN SETS ONLY
+  gameState.pdfQuestions.q1 = pickN(q1Pool, 10);
+  gameState.pdfQuestions.q2 = pickN(q2Pool, 8);
+
+  // Q3: use weighted selection for categories
+  const wantedQ3 = Math.min(4, q3Pool.length);
+  gameState.pdfQuestions.q3 = weightedPickCategories(q3Pool, wantedQ3);
+
+  gameState.pdfQuestions.q4 = pickN(q4Pool, 8);
+
+  alert('Sample PDFs generated from your selected sets! Click "Export PDFs" to download.');
 }
 
 function cleanTiebreakerText(text) {
