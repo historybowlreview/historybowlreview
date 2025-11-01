@@ -596,8 +596,46 @@
 /* ================================================================
    Game state & helpers
    ================================================================ */
+// 'A', 'B', 'C', any combo like 'AB', 'BC', 'ABC', or 'mixed'
+const FULL_GAME_SET_MODE = 'ABC';
+
 let practiceCategoryWeights = { us: 1, eu: 1, world: 1 };
 let practiceCategorySelection = 'A'; // Default to A 
+
+function extractSetLetterFromAny(obj) {
+  // Try a few known shapes: file path like ".../A2021-2022...", or text "Set A", etc.
+  const hay = [
+    obj.file,
+    obj.source,
+    obj.setName,
+    obj.category,
+    obj.title,
+  ].filter(Boolean).join(' ');
+
+  // 1) Path-style: "/A2021-2022" or "/B2019-2020"
+  let m = hay.match(/\/([ABC])\d{4}-\d{4}/i);
+  if (m) return m[1].toUpperCase();
+
+  // 2) Text-style: "Set A", "Category B", "Q3 C", etc.
+  m = hay.match(/\b([ABC])\b(?![a-z])/i);
+  if (m) return m[1].toUpperCase();
+
+  return null; // unknown
+}
+
+function parseLetters(mode) {
+  if (!mode || String(mode).toLowerCase() === 'mixed') return null; // null => no filtering
+  const letters = new Set(String(mode).toUpperCase().replace(/[^ABC]/g, '').split(''));
+  return letters.size ? letters : null;
+}
+
+function filterByLetters(items, letters) {
+  if (!letters) return items; // no filtering (mixed)
+  return items.filter(it => {
+    const L = extractSetLetterFromAny(it);
+    return L ? letters.has(L) : false;
+  });
+}
 
 function openCategoryWeightsModal(defaults = { us: 1, eu: 1, world: 1 }) {
   return new Promise((resolve) => {
@@ -836,6 +874,40 @@ function renderSetList(yearIdx) {
         typeHeader.style.color = '#111827';
         typeHeader.style.fontWeight = '700';
         typeBlock.appendChild(typeHeader);
+        if (typeLabel === 'Category Sets') {
+        const weightRow = document.createElement('div');
+        weightRow.style.display = 'grid';
+        weightRow.style.gridTemplateColumns = 'repeat(auto-fit,minmax(180px,1fr))';
+        weightRow.style.gap = '8px';
+        weightRow.style.margin = '8px 0 12px';
+      
+        function makePicker(labelText, id, key) {
+          const wrap = document.createElement('label');
+          wrap.style.display = 'flex';
+          wrap.style.justifyContent = 'space-between';
+          wrap.style.alignItems = 'center';
+          wrap.style.gap = '8px';
+          wrap.innerHTML = `
+            <span>${labelText}</span>
+            <select id="${id}" class="btn outline" style="min-width:120px;">
+              <option value="1">100%</option>
+              <option value="0.5">50%</option>
+              <option value="0.33">33%</option>
+            </select>`;
+          // sync from current weights
+          wrap.querySelector('select').value = String(practiceCategoryWeights[key] ?? 1);
+          wrap.querySelector('select').onchange = (e) => {
+            practiceCategoryWeights[key] = parseFloat(e.target.value);
+          };
+          return wrap;
+        }
+      
+        weightRow.appendChild(makePicker('US History','picker_us','us'));
+        weightRow.appendChild(makePicker('European History','picker_eu','eu'));
+        weightRow.appendChild(makePicker('World History','picker_world','world'));
+      
+        typeBlock.appendChild(weightRow);
+      }
 
         letters.forEach(letter => {
             // Collapsible section
@@ -1308,23 +1380,8 @@ async function openPracticeMode() {
 function assignPracticeQuestionsFromSets(sets) {
   gameState.activeQ1 = sets.flatMap(set => set.q1 || []);
   gameState.activeQ2 = sets.flatMap(set => set.q2 || []);
-  gameState.activeQ3 = sets.flatMap(set => set.q3 || []);
+  gameState.activeQ3 = sets.flatMap(set => set.q3 || []); // ← keep all picked categories
   gameState.activeQ4 = sets.flatMap(set => set.q4 || []);
-  
-  // Filter Q3 categories by selected category (A, B, or C)
-  if (gameState.activeQ3 && gameState.activeQ3.length > 0) {
-    gameState.activeQ3 = gameState.activeQ3.filter(cat => 
-      cat.category.toUpperCase().includes(practiceCategorySelection)
-    );
-    
-    // Apply weighting to Q3 categories
-    if (practiceCategoryWeights) {
-      gameState.activeQ3 = weightedPickCategories(gameState.activeQ3, practiceCategoryWeights);
-    }
-    
-    // Shuffle the categories for practice
-    gameState.activeQ3 = [...gameState.activeQ3].sort(() => Math.random() - 0.5);
-  }
 }
 
 function promptPracticeQuarter() {
@@ -1360,46 +1417,25 @@ function promptPracticeQuarter() {
 }
 
 function startFullGameFromMenu() {
-  if (!gameState.questionsLoaded) {
-    alert("Questions failed to load.");
-    return;
-  }
-  
-  // Prompt for category selection
-  const categoryChoice = prompt("Enter category for full game (A, B, C) or 'cancel' to abort:", "A");
-  if (!categoryChoice || categoryChoice.toLowerCase() === 'cancel') {
-    backToMenu();
-    return;
-  }
-  
-  // Validate category
-  if (!['A', 'B', 'C'].includes(categoryChoice.toUpperCase())) {
-    alert("Invalid category. Please enter A, B, or C.");
-    return startFullGameFromMenu();
-  }
-  
-  const selectedCategory = categoryChoice.toUpperCase();
-  
-  gameState.mode = 'full'; // Set mode BEFORE resetGame
+  if (!gameState.questionsLoaded) { alert("Questions failed to load."); return; }
+
+  gameState.mode = 'full';
   resetGame();
   updatePauseButtonVisibility();
   $('modeDisplay').textContent = 'Full Game';
   $('showAnswerBtn').style.display = 'none';
   $('mainMenu').style.display = 'none';
   $('gameArea').style.display = 'block';
-  
-  // Filter questions by category
-  const filteredQ3 = QUESTIONS.q3.filter(cat => 
-    cat.category.toUpperCase().includes(selectedCategory)
-  );
-  
-  // Apply weighting to Q3 categories
-  if (practiceCategoryWeights) {
-    gameState.activeQ3 = weightedPickCategories(filteredQ3, practiceCategoryWeights);
-  } else {
-    gameState.activeQ3 = filteredQ3;
-  }
-  
+
+  const letters = parseLetters(FULL_GAME_SET_MODE);
+
+  // If you want the whole game’s pools filtered by set combos:
+  gameState.activeQ1 = filterByLetters(QUESTIONS.q1 || [], letters);
+  gameState.activeQ2 = filterByLetters(QUESTIONS.q2 || [], letters);
+  gameState.activeQ3 = filterByLetters(QUESTIONS.q3 || [], letters);
+  gameState.activeQ4 = filterByLetters(QUESTIONS.q4 || [], letters);
+
+  // Q3 category weighting still works downstream when you pick the 3 choices.
   startGame();
 }
 
@@ -1978,9 +2014,7 @@ function showCategorySelection(){
     
     // Shuffle and select 3 random categories
     let shuffled = [...categories].sort(() => Math.random() - 0.5);
-    let selected = shuffled.slice(0, 3);
-
-    // Store the displayed categories so we can reference them correctly
+    let selected = weightedPickCategories(categories, practiceCategoryWeights);
     gameState.q3DisplayedCategories = selected;
 
     selected.forEach((cat, idx) => {
@@ -3108,36 +3142,18 @@ function renderQuestionsDisplay(){
 }
 
 function promptPracticeSet() {
-  const availableFiles = window.AVAILABLE_FILES;
-  
-  // First, open category selection dialog
-  const categoryChoice = prompt("Enter category (A, B, C) or 'cancel' to abort:", "A");
-  if (!categoryChoice || categoryChoice.toLowerCase() === 'cancel') {
-    backToMenu();
-    return null;
-  }
-  
-  // Validate category
-  if (!['A', 'B', 'C'].includes(categoryChoice.toUpperCase())) {
-    alert("Invalid category. Please enter A, B, or C.");
-    return promptPracticeSet();
-  }
-  
-  practiceCategorySelection = categoryChoice.toUpperCase();
-  
-  // Then open set picker with category weights
-  openSetPicker(availableFiles, async (selectedFiles) => {
-    if (!selectedFiles || !selectedFiles.length) return;
-    
-    // Prompt for category weights
-    const weights = await openCategoryWeightsModal({ us: 1, eu: 1, world: 1 });
-    if (weights === null) return; // User canceled
-    
-    practiceCategoryWeights = weights;
-    
-    // Load questions
-    loadAllQuestionSets(selectedFiles);
-  }, 'Select Practice Sets');
+  return new Promise((resolve) => {
+    const availableFiles = window.AVAILABLE_FILES;
+    openSetPicker(
+      availableFiles,
+      async (selectedFiles) => {
+        if (!selectedFiles || !selectedFiles.length) { resolve(null); return; }
+        // If user didn’t touch inline pickers we’ll still have defaults
+        resolve(selectedFiles);
+      },
+      'Select Practice Sets'
+    );
+  });
 }
 
 window.AVAILABLE_FILES = [
