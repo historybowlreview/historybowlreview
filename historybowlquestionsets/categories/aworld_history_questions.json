@@ -1,0 +1,406 @@
+{
+  "q1": [
+    {
+      "question": "This city’s neighborhood of Tepito is a center for the veneration of “Saint Death.” The Ten\nTragic Days ended with Francisco Madero's [MUH-dare-oze] assassination in this city. Two\nsprinters made a salute to \"Black Power\" at the 1968 Summer Olympics held in this city. This\ncity was built over the ruins of an older city on Lake Texcoco by the Spaniards. For 10 points,\nname this city that serves as the capital of a country south of the Rio Grande.",
+      "answer": [
+        "Mexico City",
+        "Ciudad de Mexico"
+      ]
+    },
+    {
+      "question": "In the Treaty of Petropolis, this country acquired territory from its neighbor that would\nbecome the rubber-tree-rich State of Acre. Its capital was designed by Lucio Costa[LOOSE-eeoh KAH-stah] and Oscar Niemeyer [NEE-uh-my-ur] in the shape of an airplane. The Piraha\npeople are found in this country’s largest state, whose capital Manaus [muh-NOUSE] is on the\nbanks of the Rio Negro [NEH-GROW] and the Amazon. For 10 points, name this Portuguesespeaking South American country, the fifth-largest country in the world.",
+      "answer": [
+        "Brazil",
+        "Federative Republic of Brazil",
+        "Republica Federativa do Brasil",
+        "Brasil"
+      ]
+    },
+    {
+      "question": "This ruler's successor was given the Shahnama [SHAH-nuh-mah] of Shah Tahmasp [TAHmosp]. This ruler, who allied with Francis I and sponsored Piri Reis [PEER-ee RAY-iss], was the\nfirst ruler served by the Grand Vizier Mehmed Sokullu Pasha [soh-KOOL-uh POSH-uh] and was\nmarried to Hurrem Sultan [HOOR-em SOOL-tahn]. This ruler besieged Esztergom [EZZ-turrgohm] and defeated Louis II at the Battle of Mohacs [MOH-hotch] to conquer Hungary. This\nruler, who was nicknamed for his law-giving abilities, seized Baghdad. For 10 points, name this\nsultan who presided over the peak of the Ottoman Empire.",
+      "answer": [
+        "Suleyman the Magnificent",
+        "Suleyman",
+        "Suleyman I",
+        "Kanuni"
+      ]
+    }
+  ],
+  "q2": [
+    {
+      "tossup": {
+        "question": "In this war, the French captured Minorca [min-OR-cuh], which was returned at its end.\nSaltykov [SALT-yuh-koff] and Loudon [loo-dohn] dealt a heavy loss to the Prussians at\nKunersdorf [KOON-urs-dorf] in this war in which Rossbach [ROSS-bock] and Leuthen [LOYtunn] were sites of victories by Frederick the Great. Canada became a British colony after the\nTreaty of Paris that ended this war. For 10 points, name this worldwide war that lasted from\n1756 to 1763.",
+        "answer": [
+          "Seven Years’ War",
+          "Seven Years’",
+          "French and Indian War",
+          "French and Indian",
+          "Third Carnatic War",
+          "Third Carnatic"
+        ]
+      },
+      "bonus": {
+        "question": "A theater of the Seven Years’ War called the Third Carnatic War took place in which\nmodern-day country?",
+        "answer": [
+          "Republic of India",
+          "India",
+          "Bharat Ganarajya",
+          "Bharat"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "The sancai [san-tsye] technique of three-color pottery glazing dates to this dynasty. Yang\nGuifei [yong gwee-fay], one of the Four Beauties, was the consort of this dynasty’s Emperor\nXuanzong. It was interrupted by the Second Zhou [zhoe] Dynasty of Empress Wu, and it rose to\npower after the Sui [sway] dynasty. Its first emperor was Taizong, and Li Po and Dufu were\nfamous poets who lived during this dynasty. For 10 points, name this Chinese dynasty that lasted\nfrom 618 to 907.",
+        "answer": [
+          "Tang Dynasty",
+          "Tang",
+          "Tang chao"
+        ]
+      },
+      "bonus": {
+        "question": "The Tang [tong] dynasty faced this rebellion, led by a namesake general, who\nestablished the Yan dynasty.",
+        "answer": [
+          "An Lushan rebellion",
+          "An Lushan",
+          "An-shi",
+          "An-shi rebellion",
+          "Tianbao",
+          "Tianbao rebellion"
+        ]
+      }
+    }
+  ],
+  "q3": [
+    {
+      "category": "CRUSADES",
+      "prompt": "During the Crusades, who or what…",
+      "questions": [
+        {
+          "question": "Led Muslim resistance to the Third Crusade after capturing Jerusalem in 1187?",
+          "answer": [
+            "Saladin",
+            "Salah ad-Din"
+          ]
+        },
+        {
+          "question": "Led the Third Crusade as the King of England and won the Battle of Arsuf [ar-soof]?",
+          "answer": [
+            "Richard I",
+            "Richard the Lionheart"
+          ]
+        },
+        {
+          "question": "Was a military monastic order founded in 1119 and named after a prominent Jerusalem site?",
+          "answer": [
+            "Knights Templar",
+            "Templar",
+            "Poor Fellow-Soldiers of Christ and of the Temple of Solomon",
+            "Soldiers of the Temple of Solomon"
+          ]
+        },
+        {
+          "question": "Was the other prominent Christian military order, which survived on Malta and Rhodes after\nthe Crusades?",
+          "answer": [
+            "Knights Hospitaller",
+            "Hospitaller",
+            "Order of Hospitallers",
+            "Order of the Knights of St. John",
+            "St. John"
+          ]
+        },
+        {
+          "question": "Was the city, notably not in the Holy Land, was the capital of an Empire led by Alexius I?",
+          "answer": "Constantinople"
+        },
+        {
+          "question": "Was the 1187 crushing defeat for the Kingdom of Jerusalem that prompted the launch of the\nThird Crusade?",
+          "answer": "Battle of the Horns of Hattin"
+        },
+        {
+          "question": "Was the first ruler to use the title “King of Jerusalem”?",
+          "answer": [
+            "Baldwin I",
+            "Baldwin",
+            "Baldwin IX of Flanders",
+            "Baldwin IX",
+            "Baldwin VI Count of Hainaut",
+            "Baldwin VI Hainaut"
+          ]
+        },
+        {
+          "question": "Was the last Crusader city to fall, in 1291?",
+          "answer": [
+            "Acre",
+            "Akka",
+            "Akko"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "1956",
+      "prompt": "In the year 1956, who or what…",
+      "questions": [
+        {
+          "question": "Was re-elected President of the United States?",
+          "answer": [
+            "Dwight D. Eisenhower",
+            "Eisenhower",
+            "Ike"
+          ]
+        },
+        {
+          "question": "Lost the US Presidential election?",
+          "answer": [
+            "Adlai Stevenson II",
+            "Stevenson",
+            "Adlai Stevenson"
+          ]
+        },
+        {
+          "question": "Was the European country invaded by the Soviet Union in October to put down a revolt?",
+          "answer": [
+            "Republic of Hungary",
+            "Hungary",
+            "Magyarorszag"
+          ]
+        },
+        {
+          "question": "Was the country that joined France and Britain in briefly seizing control of the Suez Canal?",
+          "answer": [
+            "State of Israel",
+            "Israel"
+          ]
+        },
+        {
+          "question": "Was the New York Yankees pitcher who threw a perfect game in the World Series?",
+          "answer": [
+            "Don Larsen",
+            "Larsen"
+          ]
+        },
+        {
+          "question": "Was the nation led by Anastasio Somoza Garcia, who was assassinated in 1956?",
+          "answer": "Nicaragua"
+        },
+        {
+          "question": "Was the nation that hosted the first Summer Olympics in the Southern Hemisphere?",
+          "answer": [
+            "Commonwealth of Australia",
+            "Australia"
+          ]
+        },
+        {
+          "question": "The Italian ocean liner that sank off the coast of Massachusetts, killing 46 people?",
+          "answer": [
+            "S.S. Andrea Doria",
+            "Andrea Doria",
+            "SS Andrea Doria"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "CUBA IN THE 19TH CENTURY",
+      "prompt": "Who or what was...",
+      "questions": [
+        {
+          "question": "The Spanish administrative capital, still the capital of modern Cuba?",
+          "answer": "Havana"
+        },
+        {
+          "question": "Song inspired by Jose Marti [mar-TEE] that became the most famous patriotic song of Cuba?",
+          "answer": "Guantanamera"
+        },
+        {
+          "question": "The main crop of Cuba, whose workers were organized into a revolution by Carlos Cespedes\n[SESS-pay-dace] and which is used to make rum?",
+          "answer": [
+            "sugar",
+            "sugarcane",
+            "sugar cane"
+          ]
+        },
+        {
+          "question": "The knife-like weapons with a Spanish name used by revolutionaries under Carlos Cespedes?",
+          "answer": "machetes"
+        },
+        {
+          "question": "The manifesto written by Pierre Soule [soo-LAY] that declared that the U.S. should acquire\nCuba?",
+          "answer": [
+            "Ostend Manifesto",
+            "Ostend"
+          ]
+        },
+        {
+          "question": "The war begun by Carlos Cespedes, named after a period of time?",
+          "answer": [
+            "the Ten Years War",
+            "Ten Years",
+            "la Guerra de los Diez Anos",
+            "Diez Anos",
+            "la Guerra Grande"
+          ]
+        },
+        {
+          "question": "The Spanish general nicknamed “the Butcher” for his brutality?",
+          "answer": [
+            "Valeriano Weyler",
+            "Weyler"
+          ]
+        },
+        {
+          "question": "The U.S. ship sending weapons to Cuba that was seized, leading to a namesake affair?",
+          "answer": [
+            "Virginius",
+            "Virginius Affair"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "ANCIENT CITIES",
+      "prompt": "Name the ancient city...",
+      "questions": [
+        {
+          "question": "Which was home to the Etemenanki Ziggurat [EE-tem-un-ONN-kee ZIGG-ur-ot] as well as\naccording to legend the Hanging Gardens?",
+          "answer": [
+            "Babylon",
+            "Babil",
+            "Bavel",
+            "Al-Hilah"
+          ]
+        },
+        {
+          "question": "Which was the last capital of the Shang [shong] Dynasty and the site of a number of Shang\nroyal tombs?",
+          "answer": [
+            "Anyang",
+            "Yinxu"
+          ]
+        },
+        {
+          "question": "Whose walls crumbled under attack by Joshua?",
+          "answer": "Jericho"
+        },
+        {
+          "question": "The site of a namesake “lighthouse” as well as the Sarapeum [suh-ROPP-ee-um]?",
+          "answer": "Alexandria"
+        },
+        {
+          "question": "Whose ruins are on a peak overlooking Peru’s Urubamba [ooh-roo-BAHM-buh] Valley?",
+          "answer": "Machu Picchu"
+        },
+        {
+          "question": "That gave its name to the country once called Rhodesia [roh-DEE-zhuh]?",
+          "answer": [
+            "Great Zimbabwe",
+            "Zimbabwe"
+          ]
+        },
+        {
+          "question": "Which was a Nabatean [nah-buh-TAY-uhn] capital located in present day Jordan?",
+          "answer": "Petra"
+        },
+        {
+          "question": "Where Monks Mound was built? Once of the largest cities in the Americas, it is currently next\nto St. Louis.",
+          "answer": "Cahokia"
+        }
+      ]
+    },
+    {
+      "category": "RISE OF JAPAN",
+      "prompt": "Who or what was...",
+      "questions": [
+        {
+          "question": "The title of the de facto military rulers of feudal Japan?",
+          "answer": [
+            "shogun",
+            "seii tai shogun"
+          ]
+        },
+        {
+          "question": "The military class banned from carrying swords and then abolished during modernization?",
+          "answer": "samurai"
+        },
+        {
+          "question": "The emperor who launched a namesake period of modernization?",
+          "answer": [
+            "Meiji",
+            "Meiji Emperor",
+            "Meiji tenno Mutsuhito",
+            "Mutsuhito"
+          ]
+        },
+        {
+          "question": "The other Asian power which Japan defeated in an 1894-5 war?",
+          "answer": [
+            "China",
+            "Zhongguo",
+            "Qing",
+            "Qing dynasty",
+            "Qing Chao",
+            "Empire of the Great Qing",
+            "Da Qing Diguo"
+          ]
+        },
+        {
+          "question": "The peninsular country annexed by Japan in 1910, ending its Choson Dynasty?",
+          "answer": [
+            "Korea",
+            "Hanguk"
+          ]
+        },
+        {
+          "question": "The crushing naval victory by Japan over Russia in 1905?",
+          "answer": [
+            "Battle of Tsushima Strait",
+            "Tsushima",
+            "Battle of Tsushima"
+          ]
+        },
+        {
+          "question": "The port gained on the Liaodong peninsula by Japan after the Russo-Japanese War?",
+          "answer": [
+            "Port Arthur",
+            "Dalian"
+          ]
+        },
+        {
+          "question": "The treaty ending the Russo-Japanese War signed in a New Hampshire city?",
+          "answer": [
+            "Treaty of Portsmouth",
+            "Portsmouth"
+          ]
+        }
+      ]
+    }
+  ],
+  "q4": [
+    {
+      "parts": [
+        "(30 pts) The first meeting of this political party ended with \"three cheers for the Queen Empress.\" One prime minister from this party died in Tashkent the day after reaching a\npeace agreement with a neighboring country. That leader's successor, also from this party,\ndeclared a (20 pts) ",
+        "state of emergency in 1975, after which this party lost an election to Morarji\n[more-are-jee] Desai's Janata Party. Three generations of politicians from this party have\nbeen (10 pts) ",
+        "prime minister, beginning with Jawaharlal [juh-wah-har-lull] Nehru. For 10 points,\nname this political party that led the Indian independence movement."
+      ],
+      "answer": [
+        "Indian National Congress",
+        "Congress",
+        "Congress Party",
+        "INC"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) This product was blended with more palatable herbs in order to create madak [mahdokk]. The two principal areas of modern creation of this product are called the Golden\nCrescent and the Golden Triangle. This product names a conflict during which the (20 pts) ",
+        "Taku forts were destroyed that was sparked by the boarding of the H. M. S. Arrow. A letter\nto Queen Victoria asking why this commodity was legal in her country was written by (10 pts) ",
+        "Lin Zexu, who angered British merchants by destroying large amounts of it. For 10 points,\nidentify this narcotic drug whose trade sparked two wars between China and Britain."
+      ],
+      "answer": [
+        "opium",
+        "heroin",
+        "yapian",
+        "Opium Wars"
+      ]
+    }
+  ]
+}
