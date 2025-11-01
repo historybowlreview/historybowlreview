@@ -547,47 +547,6 @@
         <!-- Sample leaderboard entries for demonstration -->
       </div>
     </div>
-    <!-- PDF Weights Modal -->
-    <div id="pdfWeightsModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:10000; backdrop-filter:blur(4px);">
-      <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:#fff; border-radius:16px; padding:24px; width:min(480px,94vw); box-shadow:0 20px 60px rgba(0,0,0,.25);">
-        <h3 style="margin:0 0 14px; color:#5a67d8;">Category Weights for Q3</h3>
-        <p class="small muted" style="margin-bottom:12px;">Lower weight = less likely to be selected among Q3 categories.</p>
-    
-        <div style="display:grid; gap:12px;">
-          <label style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
-            <span>US History</span>
-            <select id="w_us" class="btn outline" style="min-width:120px;">
-              <option value="1">100%</option>
-              <option value="0.5">50%</option>
-              <option value="0.33">33%</option>
-            </select>
-          </label>
-    
-          <label style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
-            <span>European History</span>
-            <select id="w_eu" class="btn outline" style="min-width:120px;">
-              <option value="1">100%</option>
-              <option value="0.5">50%</option>
-              <option value="0.33">33%</option>
-            </select>
-          </label>
-    
-          <label style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
-            <span>World History</span>
-            <select id="w_world" class="btn outline" style="min-width:120px;">
-              <option value="1">100%</option>
-              <option value="0.5">50%</option>
-              <option value="0.33">33%</option>
-            </select>
-          </label>
-        </div>
-    
-        <div class="modal-confirm-group" style="margin-top:18px;">
-          <button class="btn" id="weightsConfirmBtn">Confirm</button>
-          <button class="btn secondary" id="weightsCancelBtn">Cancel</button>
-        </div>
-      </div>
-    </div>
     <footer>
       <p><i>Made by Kizuruki</i></p>
     </footer>
@@ -3340,37 +3299,6 @@ function clearPDFQuestions() {
     }
 }
 
-function openPDFWeightsModal(defaults = { us: 1, eu: 1, world: 1 }) {
-  return new Promise((resolve) => {
-    const m = $('pdfWeightsModal');
-    const wUS = $('w_us'), wEU = $('w_eu'), wWorld = $('w_world');
-    wUS.value = String(defaults.us);
-    wEU.value = String(defaults.eu);
-    wWorld.value = String(defaults.world);
-
-    const onConfirm = () => {
-      cleanup();
-      resolve({
-        us: parseFloat(wUS.value),
-        eu: parseFloat(wEU.value),
-        world: parseFloat(wWorld.value),
-      });
-    };
-    const onCancel = () => { cleanup(); resolve(null); };
-
-    function cleanup() {
-      $('weightsConfirmBtn').removeEventListener('click', onConfirm);
-      $('weightsCancelBtn').removeEventListener('click', onCancel);
-      m.style.display = 'none';
-    }
-
-    $('weightsConfirmBtn').addEventListener('click', onConfirm);
-    $('weightsCancelBtn').addEventListener('click', onCancel);
-    m.style.display = 'block';
-  });
-}
-
-
 async function generateSamplePDFs() {
   // Ensure PDF buckets exist
   if (!gameState.pdfQuestions) {
@@ -3422,9 +3350,15 @@ async function generateSamplePDFs() {
     return;
   }
 
-  // 3) Ask for weights (US / EU / World History)
-  const weights = await openPDFWeightsModal({ us: 1, eu: 1, world: 1 });
-  if (weights === null) return; // user canceled
+  // Q3: use weighted selection for categories
+  const wantedQ3 = Math.min(4, q3Pool.length);
+  gameState.pdfQuestions.q3 = weightedPickCategories(q3Pool, wantedQ3);
+  // Q3: use the shared weighted picker (choose up to 4 categories)
+  const wantedQ3 = Math.min(4, q3Pool.length);
+  gameState.pdfQuestions.q3 = weightedPickCategories(q3Pool, weights);
+  // ^ if your shared function returns exactly 3, either tweak its limit or slice:
+  gameState.pdfQuestions.q3 = gameState.pdfQuestions.q3.slice(0, wantedQ3);
+
 
   // 4) Helper sampling functions
   const pickN = (arr, n) => shuffle([...arr]).slice(0, Math.min(n, arr.length));
