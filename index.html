@@ -322,6 +322,46 @@
           <button class="btn secondary" id="selectAllYearBtn">Select All This Year</button>
           <button class="btn outline" id="deselectAllYearBtn">Deselect All This Year</button>
         </div>
+        <div id="categoryWeightsModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:10000; backdrop-filter:blur(4px);">
+          <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:#fff; border-radius:16px; padding:24px; width:min(480px,94vw); box-shadow:0 20px 60px rgba(0,0,0,.25);">
+            <h3 style="margin:0 0 14px; color:#5a67d8;">Category Weights for Practice</h3>
+            <p class="small muted" style="margin-bottom:12px;">Adjust weights to control category frequency in practice mode.</p>
+        
+            <div style="display:grid; gap:12px;">
+              <label style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+                <span>US History</span>
+                <select id="pw_us" class="btn outline" style="min-width:120px;">
+                  <option value="1">100%</option>
+                  <option value="0.5">50%</option>
+                  <option value="0.33">33%</option>
+                </select>
+              </label>
+        
+              <label style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+                <span>European History</span>
+                <select id="pw_eu" class="btn outline" style="min-width:120px;">
+                  <option value="1">100%</option>
+                  <option value="0.5">50%</option>
+                  <option value="0.33">33%</option>
+                </select>
+              </label>
+        
+              <label style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+                <span>World History</span>
+                <select id="pw_world" class="btn outline" style="min-width:120px;">
+                  <option value="1">100%</option>
+                  <option value="0.5">50%</option>
+                  <option value="0.33">33%</option>
+                </select>
+              </label>
+            </div>
+        
+            <div class="modal-confirm-group" style="margin-top:18px;">
+              <button class="btn" id="weightsConfirmBtn">Confirm</button>
+              <button class="btn secondary" id="weightsCancelBtn">Cancel</button>
+            </div>
+          </div>
+        </div>
         <div class="modal-confirm-group">
           <button class="btn" onclick="confirmSetPicker()">Confirm</button>
           <button class="btn secondary" onclick="cancelSetPicker()">Cancel</button>
@@ -556,6 +596,72 @@
 /* ================================================================
    Game state & helpers
    ================================================================ */
+let practiceCategoryWeights = { us: 1, eu: 1, world: 1 };
+let practiceCategorySelection = 'A'; // Default to A 
+
+function openCategoryWeightsModal(defaults = { us: 1, eu: 1, world: 1 }) {
+  return new Promise((resolve) => {
+    const m = $('categoryWeightsModal');
+    const wUS = $('pw_us'), wEU = $('pw_eu'), wWorld = $('pw_world');
+    wUS.value = String(defaults.us);
+    wEU.value = String(defaults.eu);
+    wWorld.value = String(defaults.world);
+
+    const onConfirm = () => {
+      cleanup();
+      resolve({
+        us: parseFloat(wUS.value),
+        eu: parseFloat(wEU.value),
+        world: parseFloat(wWorld.value),
+      });
+    };
+    const onCancel = () => { cleanup(); resolve(null); };
+
+    function cleanup() {
+      $('weightsConfirmBtn').removeEventListener('click', onConfirm);
+      $('weightsCancelBtn').removeEventListener('click', onCancel);
+      m.style.display = 'none';
+    }
+
+    $('weightsConfirmBtn').addEventListener('click', onConfirm);
+    $('weightsCancelBtn').addEventListener('click', onCancel);
+    m.style.display = 'block';
+  });
+}
+
+function weightedPickCategories(categories, weights) {
+  // Build weighted list
+  const items = [];
+  for (const c of categories) {
+    const name = (c.category || '').toLowerCase();
+    let w = 1;
+    if (name.includes('us history')) w = weights.us;
+    else if (name.includes('european history')) w = weights.eu;
+    else if (name.includes('world history')) w = weights.world;
+    // at least tiny weight if someone set to 0 accidentally
+    w = Math.max(0.001, w);
+
+    // push proportional copies (integer-ish)
+    const copies = Math.max(1, Math.round(w * 100));
+    for (let i = 0; i < copies; i++) items.push(c);
+  }
+  
+  // Sample without replacement
+  const picked = [];
+  const seen = new Set();
+  while (picked.length < Math.min(3, items.length) && items.length) {
+    const x = items[Math.floor(Math.random() * items.length)];
+    const key = x.category + '|' + (x.prompt || '');
+    if (!seen.has(key)) {
+      seen.add(key);
+      picked.push(x);
+    }
+  }
+  
+  return picked;
+}
+
+
 let QUESTIONS = {
     q1: [],
     q2: [],
@@ -1200,16 +1306,25 @@ async function openPracticeMode() {
 }
 
 function assignPracticeQuestionsFromSets(sets) {
-    gameState.activeQ1 = sets.flatMap(set => set.q1 || []);
-    gameState.activeQ2 = sets.flatMap(set => set.q2 || []);
-    gameState.activeQ3 = sets.flatMap(set => set.q3 || []);
-    gameState.activeQ4 = sets.flatMap(set => set.q4 || []);
+  gameState.activeQ1 = sets.flatMap(set => set.q1 || []);
+  gameState.activeQ2 = sets.flatMap(set => set.q2 || []);
+  gameState.activeQ3 = sets.flatMap(set => set.q3 || []);
+  gameState.activeQ4 = sets.flatMap(set => set.q4 || []);
+  
+  // Filter Q3 categories by selected category (A, B, or C)
+  if (gameState.activeQ3 && gameState.activeQ3.length > 0) {
+    gameState.activeQ3 = gameState.activeQ3.filter(cat => 
+      cat.category.toUpperCase().includes(practiceCategorySelection)
+    );
     
-    // Ensure we have at least one category for Q3 practice
-    if (gameState.activeQ3 && gameState.activeQ3.length > 0) {
-        // Shuffle the categories for practice
-        gameState.activeQ3 = [...gameState.activeQ3].sort(() => Math.random() - 0.5);
+    // Apply weighting to Q3 categories
+    if (practiceCategoryWeights) {
+      gameState.activeQ3 = weightedPickCategories(gameState.activeQ3, practiceCategoryWeights);
     }
+    
+    // Shuffle the categories for practice
+    gameState.activeQ3 = [...gameState.activeQ3].sort(() => Math.random() - 0.5);
+  }
 }
 
 function promptPracticeQuarter() {
@@ -1245,18 +1360,47 @@ function promptPracticeQuarter() {
 }
 
 function startFullGameFromMenu() {
-    if (!gameState.questionsLoaded) {
-        alert("Questions failed to load.");
-        return;
-    }
-    gameState.mode = 'full'; // Set mode BEFORE resetGame
-    resetGame();
-    updatePauseButtonVisibility();
-    $('modeDisplay').textContent = 'Full Game';
-    $('showAnswerBtn').style.display = 'none';
-    $('mainMenu').style.display = 'none';
-    $('gameArea').style.display = 'block';
-    startGame();
+  if (!gameState.questionsLoaded) {
+    alert("Questions failed to load.");
+    return;
+  }
+  
+  // Prompt for category selection
+  const categoryChoice = prompt("Enter category for full game (A, B, C) or 'cancel' to abort:", "A");
+  if (!categoryChoice || categoryChoice.toLowerCase() === 'cancel') {
+    backToMenu();
+    return;
+  }
+  
+  // Validate category
+  if (!['A', 'B', 'C'].includes(categoryChoice.toUpperCase())) {
+    alert("Invalid category. Please enter A, B, or C.");
+    return startFullGameFromMenu();
+  }
+  
+  const selectedCategory = categoryChoice.toUpperCase();
+  
+  gameState.mode = 'full'; // Set mode BEFORE resetGame
+  resetGame();
+  updatePauseButtonVisibility();
+  $('modeDisplay').textContent = 'Full Game';
+  $('showAnswerBtn').style.display = 'none';
+  $('mainMenu').style.display = 'none';
+  $('gameArea').style.display = 'block';
+  
+  // Filter questions by category
+  const filteredQ3 = QUESTIONS.q3.filter(cat => 
+    cat.category.toUpperCase().includes(selectedCategory)
+  );
+  
+  // Apply weighting to Q3 categories
+  if (practiceCategoryWeights) {
+    gameState.activeQ3 = weightedPickCategories(filteredQ3, practiceCategoryWeights);
+  } else {
+    gameState.activeQ3 = filteredQ3;
+  }
+  
+  startGame();
 }
 
 function startPostReadTimer() {
@@ -1703,116 +1847,118 @@ function getCurrentQuarterArray(){
 
 /* ------------------ Start Next Question ------------------ */
 function nextQuestion() {
-    addCurrentQuestionToPDF();
-    if (!gameState.questionsLoaded) {
-        alert("Questions failed to load.");
+  addCurrentQuestionToPDF();
+  if (!gameState.questionsLoaded) {
+    alert("Questions failed to load.");
+    return;
+  }
+
+  clearAllTimers();
+  if (gameState.currentQuarter !== 3) {
+    $('q3PrefixBox').classList.add('hidden');
+    $('q3PrefixBox').textContent = '';
+  }
+  clearFeedback();
+  $('showAnswerBtn').disabled = false;
+
+  // Quarter 3: Category
+  if (gameState.currentQuarter === 3) {
+    if (gameState.q3selectedCategory === null) {
+      showCategorySelection();
+      return;
+    }
+    
+    // Ensure we have the correct Q3 categories from the selected category
+    if (gameState.mode === 'full') {
+      QUESTIONS.q3 = gameState.activeQ3;
+    }
+
+    const cat = gameState.activeQ3[gameState.q3selectedCategory];
+    if (!cat || !cat.questions || cat.questions.length === 0){
+      $('questionText').textContent = "No questions in this category.";
+      return;
+    }
+
+    if (gameState.q3categoryProgress >= cat.questions.length) {
+      if (gameState.mode === 'full') {
+        gameState.currentQuarter++;
+        gameState.currentQuestionIndex = -1;
+        gameState.q3selectedCategory = null;
+        gameState.q3categoryProgress = 0;
+        nextQuestion();
         return;
-    }
-
-    clearAllTimers();
-    if (gameState.currentQuarter !== 3) {
-        $('q3PrefixBox').classList.add('hidden');
-        $('q3PrefixBox').textContent = '';
-    }
-    clearFeedback();
-    $('showAnswerBtn').disabled = false;
-
-    // Quarter 3: Category
-    if (gameState.currentQuarter === 3) {
-        if (gameState.q3selectedCategory === null) {
-            showCategorySelection();
-            return;
-        }
-        if (gameState.mode === 'full') {
-            QUESTIONS.q3 = gameState.activeQ3;
-        }
-
-        const cat = gameState.activeQ3[gameState.q3selectedCategory];
-        if (!cat || !cat.questions || cat.questions.length === 0){
-            $('questionText').textContent = "No questions in this category.";
-            return;
-        }
-
-        if (gameState.q3categoryProgress >= cat.questions.length) {
-            if (gameState.mode === 'full') {
-                gameState.currentQuarter++;
-                gameState.currentQuestionIndex = -1;
-                gameState.q3selectedCategory = null;
-                gameState.q3categoryProgress = 0;
-                nextQuestion();
-                return;
-            } else {
-                gameState.q3selectedCategory = null;
-                showCategorySelection();
-                return;
-            }
-        }
-
-        showQ3CategoryQuestion();
+      } else {
+        gameState.q3selectedCategory = null;
+        showCategorySelection();
         return;
+      }
     }
 
-    // Quarters 1,2,4: increment index
-    if (gameState.currentQuarter === 1) {
-        gameState.currentQuestionIndex++;
-        if (gameState.currentQuestionIndex >= gameState.activeQ1.length) {
-            if (gameState.mode === 'full') {
-                gameState.currentQuarter++;
-                gameState.currentQuestionIndex = -1;
-                nextQuestion();
-                return;
-            } else {
-                alert(`No more questions in Quarter 1.`);
-                gameState.currentQuestionIndex = gameState.activeQ1.length - 1;
-                return;
-            }
-        }
-    } else if (gameState.currentQuarter === 2) {
-        if (!gameState.isAnsweringBonus) {
-            gameState.currentQuestionIndex++;
-        }
-        if (gameState.currentQuestionIndex >= gameState.activeQ2.length) {
-            if (gameState.mode === 'full') {
-                gameState.currentQuarter++;
-                gameState.currentQuestionIndex = -1;
-                nextQuestion();
-                return;
-            } else {
-                alert(`No more questions in Quarter 2.`);
-                gameState.currentQuestionIndex = gameState.activeQ2.length - 1;
-                return;
-            }
-        }
-    } else if (gameState.currentQuarter === 4) {
-        gameState.currentQuestionIndex++;
-        if (gameState.currentQuestionIndex >= gameState.activeQ4.length) {
-            if (gameState.mode === 'full') {
-                finishGame();
-                return;
-            } else {
-                alert(`No more questions in Quarter 4.`);
-                gameState.currentQuestionIndex = gameState.activeQ4.length - 1;
-                return;
-            }
-        }
+    showQ3CategoryQuestion();
+    return;
+  }
+
+  // Quarters 1,2,4: increment index
+  if (gameState.currentQuarter === 1) {
+    gameState.currentQuestionIndex++;
+    if (gameState.currentQuestionIndex >= gameState.activeQ1.length) {
+      if (gameState.mode === 'full') {
+        gameState.currentQuarter++;
+        gameState.currentQuestionIndex = -1;
+        nextQuestion();
+        return;
+      } else {
+        alert(`No more questions in Quarter 1.`);
+        gameState.currentQuestionIndex = gameState.activeQ1.length - 1;
+        return;
+      }
     }
+  } else if (gameState.currentQuarter === 2) {
+    if (!gameState.isAnsweringBonus) {
+      gameState.currentQuestionIndex++;
+    }
+    if (gameState.currentQuestionIndex >= gameState.activeQ2.length) {
+      if (gameState.mode === 'full') {
+        gameState.currentQuarter++;
+        gameState.currentQuestionIndex = -1;
+        nextQuestion();
+        return;
+      } else {
+        alert(`No more questions in Quarter 2.`);
+        gameState.currentQuestionIndex = gameState.activeQ2.length - 1;
+        return;
+      }
+    }
+  } else if (gameState.currentQuarter === 4) {
+    gameState.currentQuestionIndex++;
+    if (gameState.currentQuestionIndex >= gameState.activeQ4.length) {
+      if (gameState.mode === 'full') {
+        finishGame();
+        return;
+      } else {
+        alert(`No more questions in Quarter 4.`);
+        gameState.currentQuestionIndex = gameState.activeQ4.length - 1;
+        return;
+      }
+    }
+  }
 
-    // Prepare question UI
-    $('buzzerBtn').disabled = true;
-    $('answerInput').disabled = true;
-    $('answerInput').value = '';
-    $('questionText').textContent = 'Get ready...';
-    console.log(
-      "DEBUG: Summary Q1:", gameState.activeQ1?.length,
-      "Counter Q1:", gameState.activeQ1?.length,
-      "Q1 Array sample:", gameState.activeQ1?.slice(0,2)
-    );
-    $('questionCounter').textContent = computeQuestionCounterText();
-    $('currentResponseTime').textContent = 'Response time: --';
-    $('categorySelection').classList.add('hidden');
+  // Prepare question UI
+  $('buzzerBtn').disabled = true;
+  $('answerInput').disabled = true;
+  $('answerInput').value = '';
+  $('questionText').textContent = 'Get ready...';
+  console.log(
+    "DEBUG: Summary Q1:", gameState.activeQ1?.length,
+    "Counter Q1:", gameState.activeQ1?.length,
+    "Q1 Array sample:", gameState.activeQ1?.slice(0,2)
+  );
+  $('questionCounter').textContent = computeQuestionCounterText();
+  $('currentResponseTime').textContent = 'Response time: --';
+  $('categorySelection').classList.add('hidden');
 
-    // Start reading question
-    setTimeout(() => startReading(), 800);
+  // Start reading question
+  setTimeout(() => startReading(), 800);
 }
 
 /* ------------------ Category selection for Q3 ------------------ */
@@ -2962,13 +3108,34 @@ function renderQuestionsDisplay(){
 }
 
 function promptPracticeSet() {
-  const availableFiles = window.AVAILABLE_FILES; // shared global
-
-  openSetPicker(availableFiles, (selectedFiles) => {
+  const availableFiles = window.AVAILABLE_FILES;
+  
+  // First, open category selection dialog
+  const categoryChoice = prompt("Enter category (A, B, C) or 'cancel' to abort:", "A");
+  if (!categoryChoice || categoryChoice.toLowerCase() === 'cancel') {
+    backToMenu();
+    return null;
+  }
+  
+  // Validate category
+  if (!['A', 'B', 'C'].includes(categoryChoice.toUpperCase())) {
+    alert("Invalid category. Please enter A, B, or C.");
+    return promptPracticeSet();
+  }
+  
+  practiceCategorySelection = categoryChoice.toUpperCase();
+  
+  // Then open set picker with category weights
+  openSetPicker(availableFiles, async (selectedFiles) => {
     if (!selectedFiles || !selectedFiles.length) return;
-
-    // 👇 your existing practice logic here
-    // (load questions, set up the game, etc.)
+    
+    // Prompt for category weights
+    const weights = await openCategoryWeightsModal({ us: 1, eu: 1, world: 1 });
+    if (weights === null) return; // User canceled
+    
+    practiceCategoryWeights = weights;
+    
+    // Load questions
     loadAllQuestionSets(selectedFiles);
   }, 'Select Practice Sets');
 }
