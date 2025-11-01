@@ -646,78 +646,117 @@ function renderSetList(yearIdx) {
     const list = $('setPickerList');
     list.innerHTML = '';
     const sets = window._setPickerFiles[yearIdx].sets;
-    
-     // Group sets by first letter (A, B, C)
-     const groups = {};
-     sets.forEach((set, idx) => {
-         const match = set.file.match(/\/([A-Z])\d{4}-\d{4}/);
-         const group = match ? match[1] : 'Other';
-         if (!groups[group]) groups[group] = [];
-         groups[group].push({ ...set, idx });
-     });
-    
-     Object.keys(groups).sort().forEach(group => {
-        // Collapsible section
-         const section = document.createElement('div');
-         section.style.marginBottom = '8px';
-    
-         // Header
-        const header = document.createElement('div');
-        header.textContent = `Set ${group}`;
-        header.style.cursor = 'pointer';
-        header.style.fontWeight = 'bold';
-        header.style.background = '#f3f4f6';
-         header.style.padding = '6px';
-         header.style.borderRadius = '6px 6px 0 0';
-         section.appendChild(header);
-    
-        // Content
-        const content = document.createElement('div');
-        content.style.padding = '8px';
-         content.style.border = '1px solid #e2e8f0';
-         content.style.borderTop = 'none';
-    
-         groups[group].forEach(set => {
-             const div = document.createElement('div');
-             div.innerHTML = `<label>
-                <input type="checkbox" value="${yearIdx}-${set.idx}" ${_selectedSets[`${yearIdx}-${set.idx}`] ? "checked" : ""}>
-                 ${set.name}
-             </label>`;
-             content.appendChild(div);
-                
-             // Add this:
-             const input = div.querySelector('input[type=checkbox]');
-             input.checked = !!_selectedSets[`${yearIdx}-${set.idx}`];
-            input.onchange = function() {
-                _selectedSets[`${yearIdx}-${set.idx}`] = input.checked;
+
+    // 1) Split by type, then group by letter within each type
+    //    regular:  paths like ".../B2014-2015HistoryBowlRound4.json" → letter from /([A-Z])\d{4}-\d{4}
+    //    categories: paths like ".../categories/a/aus_history_questions.json" → letter from /categories/([a-z])/
+    const groupsByType = { regular: {}, categories: {} };
+
+    sets.forEach((set, idx) => {
+        const file = set.file || '';
+
+        if (file.includes('/categories/')) {
+            // Category type
+            const m = file.match(/\/categories\/([a-z])\//i);
+            const letter = m ? m[1].toUpperCase() : 'Other';
+            if (!groupsByType.categories[letter]) groupsByType.categories[letter] = [];
+            groupsByType.categories[letter].push({ ...set, idx });
+        } else {
+            // Regular type
+            const m = file.match(/\/([A-Z])\d{4}-\d{4}/);
+            const letter = m ? m[1] : 'Other';
+            if (!groupsByType.regular[letter]) groupsByType.regular[letter] = [];
+            groupsByType.regular[letter].push({ ...set, idx });
+        }
+    });
+
+    // Helper to render one type (regular or categories)
+    function renderTypeSections(typeLabel, groupMap) {
+        const letters = Object.keys(groupMap).sort();
+        if (letters.length === 0) return;
+
+        // Type heading (e.g., "Regular Sets" / "Category Sets")
+        const typeBlock = document.createElement('div');
+        typeBlock.style.marginBottom = '12px';
+
+        const typeHeader = document.createElement('h3');
+        typeHeader.textContent = typeLabel;
+        typeHeader.style.margin = '8px 0';
+        typeHeader.style.fontSize = '14px';
+        typeHeader.style.color = '#111827';
+        typeHeader.style.fontWeight = '700';
+        typeBlock.appendChild(typeHeader);
+
+        letters.forEach(letter => {
+            // Collapsible section
+            const section = document.createElement('div');
+            section.style.marginBottom = '8px';
+
+            // Header
+            const header = document.createElement('div');
+            header.textContent = (typeLabel === 'Category Sets')
+                ? `Category ${letter}`
+                : `Set ${letter}`;
+            header.style.cursor = 'pointer';
+            header.style.fontWeight = 'bold';
+            header.style.background = '#f3f4f6';
+            header.style.padding = '6px';
+            header.style.borderRadius = '6px 6px 0 0';
+            section.appendChild(header);
+
+            // Content
+            const content = document.createElement('div');
+            content.style.padding = '8px';
+            content.style.border = '1px solid #e2e8f0';
+            content.style.borderTop = 'none';
+
+            groupMap[letter].forEach(set => {
+                const div = document.createElement('div');
+                div.innerHTML = `<label>
+                    <input type="checkbox" value="${yearIdx}-${set.idx}" ${_selectedSets[`${yearIdx}-${set.idx}`] ? "checked" : ""}>
+                    ${set.name}
+                </label>`;
+                content.appendChild(div);
+
+                // Keep checkbox state wired to _selectedSets
+                const input = div.querySelector('input[type=checkbox]');
+                input.checked = !!_selectedSets[`${yearIdx}-${set.idx}`];
+                input.onchange = function () {
+                    _selectedSets[`${yearIdx}-${set.idx}`] = input.checked;
+                };
+            });
+
+            section.appendChild(content);
+
+            // Collapsible logic
+            header.onclick = () => {
+                content.style.display = (content.style.display === 'none') ? 'block' : 'none';
             };
+            content.style.display = 'block';
+
+            typeBlock.appendChild(section);
         });
-        section.appendChild(content);
-    
-        // Collapsible logic
-         header.onclick = () => {
-            content.style.display = (content.style.display === 'none') ? 'block' : 'none';
-        };
-        content.style.display = 'block';
-    
-        list.appendChild(section);
-     });
-    
-     // Year-specific select/deselect all
-     $('selectAllYearBtn').onclick = function() {
-       // Mark all sets in this year as selected in _selectedSets
-       window._setPickerFiles[yearIdx].sets.forEach((set, setIdx) => {
-         _selectedSets[`${yearIdx}-${setIdx}`] = true;
-       });
-       renderSetList(yearIdx); // Update the UI
-     };
-        
-     $('deselectAllYearBtn').onclick = function() {
-       // Deselect all sets in this year in _selectedSets
-       window._setPickerFiles[yearIdx].sets.forEach((set, setIdx) => {
-        delete _selectedSets[`${yearIdx}-${setIdx}`];
-       });
-       renderSetList(yearIdx); // Update the UI
+
+        list.appendChild(typeBlock);
+    }
+
+    // 2) Render Regular first, then Categories (both are alphabetized internally)
+    renderTypeSections('Regular Sets', groupsByType.regular);
+    renderTypeSections('Category Sets', groupsByType.categories);
+
+    // 3) Year-specific select/deselect all (unchanged)
+    $('selectAllYearBtn').onclick = function () {
+        window._setPickerFiles[yearIdx].sets.forEach((set, setIdx) => {
+            _selectedSets[`${yearIdx}-${setIdx}`] = true;
+        });
+        renderSetList(yearIdx);
+    };
+
+    $('deselectAllYearBtn').onclick = function () {
+        window._setPickerFiles[yearIdx].sets.forEach((set, setIdx) => {
+            delete _selectedSets[`${yearIdx}-${setIdx}`];
+        });
+        renderSetList(yearIdx);
     };
 }
 
