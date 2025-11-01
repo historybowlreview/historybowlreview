@@ -3395,12 +3395,6 @@ async function generateSamplePDFs() {
   gameState.pdfQuestions.q1 = pickN(q1Pool, 10);
   gameState.pdfQuestions.q2 = pickN(q2Pool, 8);
 
-  // Q3: use weighted selection for categories
-  const wantedQ3 = Math.min(4, q3Pool.length);
-  gameState.pdfQuestions.q3 = weightedPickCategories(q3Pool, wantedQ3);
-
-  gameState.pdfQuestions.q4 = pickN(q4Pool, 8);
-
   alert('Sample PDFs generated from your selected sets! Click "Export PDFs" to download.');
 }
 
