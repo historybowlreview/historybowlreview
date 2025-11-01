@@ -3350,9 +3350,6 @@ async function generateSamplePDFs() {
     return;
   }
 
-  // Q3: use weighted selection for categories
-  const wantedQ3 = Math.min(4, q3Pool.length);
-  gameState.pdfQuestions.q3 = weightedPickCategories(q3Pool, wantedQ3);
   // Q3: use the shared weighted picker (choose up to 4 categories)
   const wantedQ3 = Math.min(4, q3Pool.length);
   gameState.pdfQuestions.q3 = weightedPickCategories(q3Pool, weights);
