@@ -3352,7 +3352,7 @@ async function generateSamplePDFs() {
 
   // Q3: use the shared weighted picker (choose up to 4 categories)
   const wantedQ3 = Math.min(4, q3Pool.length);
-  gameState.pdfQuestions.q3 = weightedPickCategories(q3Pool, weights);
+  gameState.pdfQuestions.q3 = weightedPickCategories(q3Pool, practiceCategoryWeights);
   // ^ if your shared function returns exactly 3, either tweak its limit or slice:
   gameState.pdfQuestions.q3 = gameState.pdfQuestions.q3.slice(0, wantedQ3);
 
@@ -3360,43 +3360,13 @@ async function generateSamplePDFs() {
   // 4) Helper sampling functions
   const pickN = (arr, n) => shuffle([...arr]).slice(0, Math.min(n, arr.length));
 
-  // Weighted sampling for Q3 categories by name
-  function weightedPickCategories(categories, n) {
-    // Build weighted list
-    const items = [];
-    for (const c of categories) {
-      const name = (c.category || '').toLowerCase();
-      let w = 1;
-      if (name.includes('us history')) w = weights.us;
-      else if (name.includes('european history')) w = weights.eu;
-      else if (name.includes('world history')) w = weights.world;
-      // at least tiny weight if someone set to 0 accidentally
-      w = Math.max(0.001, w);
-
-      // push proportional copies (integer-ish)
-      const copies = Math.max(1, Math.round(w * 100));
-      for (let i = 0; i < copies; i++) items.push(c);
-    }
-    // sample without replacement
-    const picked = [];
-    const seen = new Set();
-    while (picked.length < n && items.length) {
-      const x = items[Math.floor(Math.random() * items.length)];
-      const key = x.category + '|' + (x.prompt || '');
-      if (!seen.has(key)) {
-        seen.add(key);
-        picked.push(x);
-      }
-    }
-    return picked;
-  }
-
   // 5) Fill the PDF buckets FROM THE CHOSEN SETS ONLY
   gameState.pdfQuestions.q1 = pickN(q1Pool, 10);
   gameState.pdfQuestions.q2 = pickN(q2Pool, 8);
 
   alert('Sample PDFs generated from your selected sets! Click "Export PDFs" to download.');
 }
+
 
 function cleanTiebreakerText(text) {
     return text.replace(/^\(TIEBREAKER (EXAMPLE|BONUS) QUESTION\)\s*/i, '').replace(/^\(TIEBREAKER\)\s*/i, '');
