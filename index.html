@@ -322,6 +322,46 @@
           <button class="btn secondary" id="selectAllYearBtn">Select All This Year</button>
           <button class="btn outline" id="deselectAllYearBtn">Deselect All This Year</button>
         </div>
+        <div id="categoryWeightsModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.45); z-index:10000; backdrop-filter:blur(4px);">
+          <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); background:#fff; border-radius:16px; padding:24px; width:min(480px,94vw); box-shadow:0 20px 60px rgba(0,0,0,.25);">
+            <h3 style="margin:0 0 14px; color:#5a67d8;">Category Weights for Practice</h3>
+            <p class="small muted" style="margin-bottom:12px;">Adjust weights to control category frequency in practice mode.</p>
+        
+            <div style="display:grid; gap:12px;">
+              <label style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+                <span>US History</span>
+                <select id="pw_us" class="btn outline" style="min-width:120px;">
+                  <option value="1">100%</option>
+                  <option value="0.5">50%</option>
+                  <option value="0.33">33%</option>
+                </select>
+              </label>
+        
+              <label style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+                <span>European History</span>
+                <select id="pw_eu" class="btn outline" style="min-width:120px;">
+                  <option value="1">100%</option>
+                  <option value="0.5">50%</option>
+                  <option value="0.33">33%</option>
+                </select>
+              </label>
+        
+              <label style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+                <span>World History</span>
+                <select id="pw_world" class="btn outline" style="min-width:120px;">
+                  <option value="1">100%</option>
+                  <option value="0.5">50%</option>
+                  <option value="0.33">33%</option>
+                </select>
+              </label>
+            </div>
+        
+            <div class="modal-confirm-group" style="margin-top:18px;">
+              <button class="btn" id="weightsConfirmBtn">Confirm</button>
+              <button class="btn secondary" id="weightsCancelBtn">Cancel</button>
+            </div>
+          </div>
+        </div>
         <div class="modal-confirm-group">
           <button class="btn" onclick="confirmSetPicker()">Confirm</button>
           <button class="btn secondary" onclick="cancelSetPicker()">Cancel</button>
@@ -337,6 +377,7 @@
             <li></li>
             <li><strong>PRACTICE MODE TIPS</strong></li>
             <li>When you're practicing, try to practice the categories you've specialized in.</li>
+            <li>You can also select specific question sets one by one to try to memorize them.</li>
             <li>Study time should be allocated proportional to each category's total question count.</li>
             <li>By selecting the categories you're studying in practice mode, bigger categories will be weighed more and show up more often.</li>
             <li>When answering questions in practice, all information might be useful information for later, so let the question read out entirely and try to remember all its parts before answering, even if you already know the answer before the question is finished reading.</li>
@@ -347,6 +388,8 @@
             <li><strong>FULL GAME SIMULATION TIPS</strong></li>
             <li>Full game simulations should be reserved for after you've already practiced a bunch to test your skill, not so much for building knowledge though it can be used for that purpose</li>
             <li>Save any questions you get wrong to PDFs.</li>
+            <li>No answers use letters or numbers apart from the standard 26 letters and 10 numbers.</li>
+            <li>Most of the time, the last name of a person will be accepted, so it is generally recommended to only answer the last name (there may be exceptions for common last names or related figures like J Adams and JQ Adams.</li>
             <li>Answer as soon as you're pretty sure you're right, in the competition it'll be better to answer earlier before the other team has a chance to, but it's important to find a good balance between your certainty about the answer and the earliness of your buzz (doesn't apply to Q3).</li>
             <li>Points are awarded based on the competition's format, but weighted score also takes into account your time to buzz in, giving as much as a 2x bonus decreasing as the question goes on based on the formula: 1+(1-x^{1.2})</li>
             <li>(Quarter 2 Bonus questions and Quarter 3 questions all give a static 15 weighted score since you don't have to worry about buzzing in early when the other team can't answer.</li>
@@ -504,7 +547,6 @@
         <!-- Sample leaderboard entries for demonstration -->
       </div>
     </div>
-
     <footer>
       <p><i>Made by Kizuruki</i></p>
     </footer>
@@ -513,6 +555,109 @@
 /* ================================================================
    Game state & helpers
    ================================================================ */
+// 'A', 'B', 'C', any combo like 'AB', 'BC', 'ABC', or 'mixed'
+const FULL_GAME_SET_MODE = 'ABC';
+
+let practiceCategoryWeights = { us: 1, eu: 1, world: 1 };
+let practiceCategorySelection = 'A'; // Default to A 
+
+function extractSetLetterFromAny(obj) {
+  // Try a few known shapes: file path like ".../A2021-2022...", or text "Set A", etc.
+  const hay = [
+    obj.file,
+    obj.source,
+    obj.setName,
+    obj.category,
+    obj.title,
+  ].filter(Boolean).join(' ');
+
+  // 1) Path-style: "/A2021-2022" or "/B2019-2020"
+  let m = hay.match(/\/([ABC])\d{4}-\d{4}/i);
+  if (m) return m[1].toUpperCase();
+
+  // 2) Text-style: "Set A", "Category B", "Q3 C", etc.
+  m = hay.match(/\b([ABC])\b(?![a-z])/i);
+  if (m) return m[1].toUpperCase();
+
+  return null; // unknown
+}
+
+function parseLetters(mode) {
+  if (!mode || String(mode).toLowerCase() === 'mixed') return null; // null => no filtering
+  const letters = new Set(String(mode).toUpperCase().replace(/[^ABC]/g, '').split(''));
+  return letters.size ? letters : null;
+}
+
+function filterByLetters(items, letters) {
+  if (!letters) return items; // no filtering (mixed)
+  return items.filter(it => {
+    const L = extractSetLetterFromAny(it);
+    return L ? letters.has(L) : false;
+  });
+}
+
+function openCategoryWeightsModal(defaults = { us: 1, eu: 1, world: 1 }) {
+  return new Promise((resolve) => {
+    const m = $('categoryWeightsModal');
+    const wUS = $('pw_us'), wEU = $('pw_eu'), wWorld = $('pw_world');
+    wUS.value = String(defaults.us);
+    wEU.value = String(defaults.eu);
+    wWorld.value = String(defaults.world);
+
+    const onConfirm = () => {
+      cleanup();
+      resolve({
+        us: parseFloat(wUS.value),
+        eu: parseFloat(wEU.value),
+        world: parseFloat(wWorld.value),
+      });
+    };
+    const onCancel = () => { cleanup(); resolve(null); };
+
+    function cleanup() {
+      $('weightsConfirmBtn').removeEventListener('click', onConfirm);
+      $('weightsCancelBtn').removeEventListener('click', onCancel);
+      m.style.display = 'none';
+    }
+
+    $('weightsConfirmBtn').addEventListener('click', onConfirm);
+    $('weightsCancelBtn').addEventListener('click', onCancel);
+    m.style.display = 'block';
+  });
+}
+
+function weightedPickCategories(categories, weights) {
+  // Build weighted list
+  const items = [];
+  for (const c of categories) {
+    const name = (c.category || '').toLowerCase();
+    let w = 1;
+    if (name.includes('us history')) w = weights.us;
+    else if (name.includes('european history')) w = weights.eu;
+    else if (name.includes('world history')) w = weights.world;
+    // at least tiny weight if someone set to 0 accidentally
+    w = Math.max(0.001, w);
+
+    // push proportional copies (integer-ish)
+    const copies = Math.max(1, Math.round(w * 100));
+    for (let i = 0; i < copies; i++) items.push(c);
+  }
+  
+  // Sample without replacement
+  const picked = [];
+  const seen = new Set();
+  while (picked.length < Math.min(3, items.length) && items.length) {
+    const x = items[Math.floor(Math.random() * items.length)];
+    const key = x.category + '|' + (x.prompt || '');
+    if (!seen.has(key)) {
+      seen.add(key);
+      picked.push(x);
+    }
+  }
+  
+  return picked;
+}
+
 let QUESTIONS = {
     q1: [],
     q2: [],
@@ -598,11 +743,15 @@ function deselectAllSets() {
 }
 
 
-function openSetPicker(availableFiles, callback) {
+function openSetPicker(availableFiles, callback, title = 'Select Practice Sets') {
     window._setPickerCallback = callback;
     window._setPickerFiles = availableFiles;
     const tabsContainer = $('setPickerTabs');
     const list = $('setPickerList');
+        // NEW: set the modal title dynamically
+    const header = $('setPickerModal').querySelector('h3');
+    if (header) header.textContent = title;
+  
     tabsContainer.innerHTML = '';
     list.innerHTML = '';
 
@@ -643,78 +792,151 @@ function renderSetList(yearIdx) {
     const list = $('setPickerList');
     list.innerHTML = '';
     const sets = window._setPickerFiles[yearIdx].sets;
-    
-     // Group sets by first letter (A, B, C)
-     const groups = {};
-     sets.forEach((set, idx) => {
-         const match = set.file.match(/\/([A-Z])\d{4}-\d{4}/);
-         const group = match ? match[1] : 'Other';
-         if (!groups[group]) groups[group] = [];
-         groups[group].push({ ...set, idx });
-     });
-    
-     Object.keys(groups).sort().forEach(group => {
-        // Collapsible section
-         const section = document.createElement('div');
-         section.style.marginBottom = '8px';
-    
-         // Header
-        const header = document.createElement('div');
-        header.textContent = `Set ${group}`;
-        header.style.cursor = 'pointer';
-        header.style.fontWeight = 'bold';
-        header.style.background = '#f3f4f6';
-         header.style.padding = '6px';
-         header.style.borderRadius = '6px 6px 0 0';
-         section.appendChild(header);
-    
-        // Content
-        const content = document.createElement('div');
-        content.style.padding = '8px';
-         content.style.border = '1px solid #e2e8f0';
-         content.style.borderTop = 'none';
-    
-         groups[group].forEach(set => {
-             const div = document.createElement('div');
-             div.innerHTML = `<label>
-                <input type="checkbox" value="${yearIdx}-${set.idx}" ${_selectedSets[`${yearIdx}-${set.idx}`] ? "checked" : ""}>
-                 ${set.name}
-             </label>`;
-             content.appendChild(div);
-                
-             // Add this:
-             const input = div.querySelector('input[type=checkbox]');
-             input.checked = !!_selectedSets[`${yearIdx}-${set.idx}`];
-            input.onchange = function() {
-                _selectedSets[`${yearIdx}-${set.idx}`] = input.checked;
+
+    // 1) Split by type, then group by letter within each type
+    //    regular:  paths like ".../B2014-2015HistoryBowlRound4.json" → letter from /([A-Z])\d{4}-\d{4}
+    //    categories: paths like ".../categories/a/aus_history_questions.json" → letter from /categories/([a-z])/
+    const groupsByType = { regular: {}, categories: {} };
+
+    sets.forEach((set, idx) => {
+        const file = set.file || '';
+
+        if (file.includes('/categories/')) {
+            // Category type
+            const m = file.match(/\/categories\/([a-z])\//i);
+            const letter = m ? m[1].toUpperCase() : 'Other';
+            if (!groupsByType.categories[letter]) groupsByType.categories[letter] = [];
+            groupsByType.categories[letter].push({ ...set, idx });
+        } else {
+            // Regular type
+            const m = file.match(/\/([A-Z])\d{4}-\d{4}/);
+            const letter = m ? m[1] : 'Other';
+            if (!groupsByType.regular[letter]) groupsByType.regular[letter] = [];
+            groupsByType.regular[letter].push({ ...set, idx });
+        }
+    });
+
+    // Helper to render one type (regular or categories)
+    function renderTypeSections(typeLabel, groupMap) {
+        const letters = Object.keys(groupMap).sort();
+        if (letters.length === 0) return;
+
+        // Type heading (e.g., "Regular Sets" / "Category Sets")
+        const typeBlock = document.createElement('div');
+        typeBlock.style.marginBottom = '12px';
+
+        const typeHeader = document.createElement('h3');
+        typeHeader.textContent = typeLabel;
+        typeHeader.style.margin = '8px 0';
+        typeHeader.style.fontSize = '14px';
+        typeHeader.style.color = '#111827';
+        typeHeader.style.fontWeight = '700';
+        typeBlock.appendChild(typeHeader);
+        if (typeLabel === 'Category Sets') {
+        const weightRow = document.createElement('div');
+        weightRow.style.display = 'grid';
+        weightRow.style.gridTemplateColumns = 'repeat(auto-fit,minmax(180px,1fr))';
+        weightRow.style.gap = '8px';
+        weightRow.style.margin = '8px 0 12px';
+      
+        function makePicker(labelText, id, key) {
+          const wrap = document.createElement('label');
+          wrap.style.display = 'flex';
+          wrap.style.justifyContent = 'space-between';
+          wrap.style.alignItems = 'center';
+          wrap.style.gap = '8px';
+          wrap.innerHTML = `
+            <span>${labelText}</span>
+            <select id="${id}" class="btn outline" style="min-width:120px;">
+              <option value="1">100%</option>
+              <option value="0.5">50%</option>
+              <option value="0.33">33%</option>
+            </select>`;
+          // sync from current weights
+          wrap.querySelector('select').value = String(practiceCategoryWeights[key] ?? 1);
+          wrap.querySelector('select').onchange = (e) => {
+            practiceCategoryWeights[key] = parseFloat(e.target.value);
+          };
+          return wrap;
+        }
+      
+        weightRow.appendChild(makePicker('US History','picker_us','us'));
+        weightRow.appendChild(makePicker('European History','picker_eu','eu'));
+        weightRow.appendChild(makePicker('World History','picker_world','world'));
+      
+        typeBlock.appendChild(weightRow);
+      }
+
+        letters.forEach(letter => {
+            // Collapsible section
+            const section = document.createElement('div');
+            section.style.marginBottom = '8px';
+
+            // Header
+            const header = document.createElement('div');
+            header.textContent = (typeLabel === 'Category % Weights')
+                ? `Categories Set ${letter}`
+                : `Set ${letter}`;
+            header.style.cursor = 'pointer';
+            header.style.fontWeight = 'bold';
+            header.style.background = '#f3f4f6';
+            header.style.padding = '6px';
+            header.style.borderRadius = '6px 6px 0 0';
+            section.appendChild(header);
+
+            // Content
+            const content = document.createElement('div');
+            content.style.padding = '8px';
+            content.style.border = '1px solid #e2e8f0';
+            content.style.borderTop = 'none';
+
+            groupMap[letter].forEach(set => {
+                const div = document.createElement('div');
+                div.innerHTML = `<label>
+                    <input type="checkbox" value="${yearIdx}-${set.idx}" ${_selectedSets[`${yearIdx}-${set.idx}`] ? "checked" : ""}>
+                    ${set.name}
+                </label>`;
+                content.appendChild(div);
+
+                // Keep checkbox state wired to _selectedSets
+                const input = div.querySelector('input[type=checkbox]');
+                input.checked = !!_selectedSets[`${yearIdx}-${set.idx}`];
+                input.onchange = function () {
+                    _selectedSets[`${yearIdx}-${set.idx}`] = input.checked;
+                };
+            });
+
+            section.appendChild(content);
+
+            // Collapsible logic
+            header.onclick = () => {
+                content.style.display = (content.style.display === 'none') ? 'block' : 'none';
             };
+            content.style.display = 'block';
+
+            typeBlock.appendChild(section);
         });
-        section.appendChild(content);
-    
-        // Collapsible logic
-         header.onclick = () => {
-            content.style.display = (content.style.display === 'none') ? 'block' : 'none';
-        };
-        content.style.display = 'block';
-    
-        list.appendChild(section);
-     });
-    
-     // Year-specific select/deselect all
-     $('selectAllYearBtn').onclick = function() {
-       // Mark all sets in this year as selected in _selectedSets
-       window._setPickerFiles[yearIdx].sets.forEach((set, setIdx) => {
-         _selectedSets[`${yearIdx}-${setIdx}`] = true;
-       });
-       renderSetList(yearIdx); // Update the UI
-     };
-        
-     $('deselectAllYearBtn').onclick = function() {
-       // Deselect all sets in this year in _selectedSets
-       window._setPickerFiles[yearIdx].sets.forEach((set, setIdx) => {
-        delete _selectedSets[`${yearIdx}-${setIdx}`];
-       });
-       renderSetList(yearIdx); // Update the UI
+
+        list.appendChild(typeBlock);
+    }
+
+    // 2) Render Regular first, then Categories (both are alphabetized internally)
+    renderTypeSections('Regular Sets', groupsByType.regular);
+    renderTypeSections('Category Sets', groupsByType.categories);
+
+    // 3) Year-specific select/deselect all (unchanged)
+    $('selectAllYearBtn').onclick = function () {
+        window._setPickerFiles[yearIdx].sets.forEach((set, setIdx) => {
+            _selectedSets[`${yearIdx}-${setIdx}`] = true;
+        });
+        renderSetList(yearIdx);
+    };
+
+    $('deselectAllYearBtn').onclick = function () {
+        window._setPickerFiles[yearIdx].sets.forEach((set, setIdx) => {
+            delete _selectedSets[`${yearIdx}-${setIdx}`];
+        });
+        renderSetList(yearIdx);
     };
 }
 
@@ -1114,16 +1336,10 @@ async function openPracticeMode() {
 }
 
 function assignPracticeQuestionsFromSets(sets) {
-    gameState.activeQ1 = sets.flatMap(set => set.q1 || []);
-    gameState.activeQ2 = sets.flatMap(set => set.q2 || []);
-    gameState.activeQ3 = sets.flatMap(set => set.q3 || []);
-    gameState.activeQ4 = sets.flatMap(set => set.q4 || []);
-    
-    // Ensure we have at least one category for Q3 practice
-    if (gameState.activeQ3 && gameState.activeQ3.length > 0) {
-        // Shuffle the categories for practice
-        gameState.activeQ3 = [...gameState.activeQ3].sort(() => Math.random() - 0.5);
-    }
+  gameState.activeQ1 = sets.flatMap(set => set.q1 || []);
+  gameState.activeQ2 = sets.flatMap(set => set.q2 || []);
+  gameState.activeQ3 = sets.flatMap(set => set.q3 || []); // ← keep all picked categories
+  gameState.activeQ4 = sets.flatMap(set => set.q4 || []);
 }
 
 function promptPracticeQuarter() {
@@ -1159,18 +1375,26 @@ function promptPracticeQuarter() {
 }
 
 function startFullGameFromMenu() {
-    if (!gameState.questionsLoaded) {
-        alert("Questions failed to load.");
-        return;
-    }
-    gameState.mode = 'full'; // Set mode BEFORE resetGame
-    resetGame();
-    updatePauseButtonVisibility();
-    $('modeDisplay').textContent = 'Full Game';
-    $('showAnswerBtn').style.display = 'none';
-    $('mainMenu').style.display = 'none';
-    $('gameArea').style.display = 'block';
-    startGame();
+  if (!gameState.questionsLoaded) { alert("Questions failed to load."); return; }
+
+  gameState.mode = 'full';
+  resetGame();
+  updatePauseButtonVisibility();
+  $('modeDisplay').textContent = 'Full Game';
+  $('showAnswerBtn').style.display = 'none';
+  $('mainMenu').style.display = 'none';
+  $('gameArea').style.display = 'block';
+
+  const letters = parseLetters(FULL_GAME_SET_MODE);
+
+  // If you want the whole game’s pools filtered by set combos:
+  gameState.activeQ1 = filterByLetters(QUESTIONS.q1 || [], letters);
+  gameState.activeQ2 = filterByLetters(QUESTIONS.q2 || [], letters);
+  gameState.activeQ3 = filterByLetters(QUESTIONS.q3 || [], letters);
+  gameState.activeQ4 = filterByLetters(QUESTIONS.q4 || [], letters);
+
+  // Q3 category weighting still works downstream when you pick the 3 choices.
+  startGame();
 }
 
 function startPostReadTimer() {
@@ -1552,7 +1776,7 @@ function resetGame() {
 
     $('questionText').textContent = gameState.questionsLoaded ?
         "Select a category to start!" :
-        "Questions failed to load";
+        "Questions are loading (shouldn't take more than 20sec unless you have slow wifi, otherwise)/ Failed to load.";
     $('buzzerBtn').disabled = true;
     $('answerInput').disabled = true;
     $('categorySelection').classList.add('hidden');
@@ -1617,116 +1841,118 @@ function getCurrentQuarterArray(){
 
 /* ------------------ Start Next Question ------------------ */
 function nextQuestion() {
-    addCurrentQuestionToPDF();
-    if (!gameState.questionsLoaded) {
-        alert("Questions failed to load.");
+  addCurrentQuestionToPDF();
+  if (!gameState.questionsLoaded) {
+    alert("Questions failed to load.");
+    return;
+  }
+
+  clearAllTimers();
+  if (gameState.currentQuarter !== 3) {
+    $('q3PrefixBox').classList.add('hidden');
+    $('q3PrefixBox').textContent = '';
+  }
+  clearFeedback();
+  $('showAnswerBtn').disabled = false;
+
+  // Quarter 3: Category
+  if (gameState.currentQuarter === 3) {
+    if (gameState.q3selectedCategory === null) {
+      showCategorySelection();
+      return;
+    }
+    
+    // Ensure we have the correct Q3 categories from the selected category
+    if (gameState.mode === 'full') {
+      QUESTIONS.q3 = gameState.activeQ3;
+    }
+
+    const cat = gameState.activeQ3[gameState.q3selectedCategory];
+    if (!cat || !cat.questions || cat.questions.length === 0){
+      $('questionText').textContent = "No questions in this category.";
+      return;
+    }
+
+    if (gameState.q3categoryProgress >= cat.questions.length) {
+      if (gameState.mode === 'full') {
+        gameState.currentQuarter++;
+        gameState.currentQuestionIndex = -1;
+        gameState.q3selectedCategory = null;
+        gameState.q3categoryProgress = 0;
+        nextQuestion();
         return;
-    }
-
-    clearAllTimers();
-    if (gameState.currentQuarter !== 3) {
-        $('q3PrefixBox').classList.add('hidden');
-        $('q3PrefixBox').textContent = '';
-    }
-    clearFeedback();
-    $('showAnswerBtn').disabled = false;
-
-    // Quarter 3: Category
-    if (gameState.currentQuarter === 3) {
-        if (gameState.q3selectedCategory === null) {
-            showCategorySelection();
-            return;
-        }
-        if (gameState.mode === 'full') {
-            QUESTIONS.q3 = gameState.activeQ3;
-        }
-
-        const cat = gameState.activeQ3[gameState.q3selectedCategory];
-        if (!cat || !cat.questions || cat.questions.length === 0){
-            $('questionText').textContent = "No questions in this category.";
-            return;
-        }
-
-        if (gameState.q3categoryProgress >= cat.questions.length) {
-            if (gameState.mode === 'full') {
-                gameState.currentQuarter++;
-                gameState.currentQuestionIndex = -1;
-                gameState.q3selectedCategory = null;
-                gameState.q3categoryProgress = 0;
-                nextQuestion();
-                return;
-            } else {
-                gameState.q3selectedCategory = null;
-                showCategorySelection();
-                return;
-            }
-        }
-
-        showQ3CategoryQuestion();
+      } else {
+        gameState.q3selectedCategory = null;
+        showCategorySelection();
         return;
+      }
     }
 
-    // Quarters 1,2,4: increment index
-    if (gameState.currentQuarter === 1) {
-        gameState.currentQuestionIndex++;
-        if (gameState.currentQuestionIndex >= gameState.activeQ1.length) {
-            if (gameState.mode === 'full') {
-                gameState.currentQuarter++;
-                gameState.currentQuestionIndex = -1;
-                nextQuestion();
-                return;
-            } else {
-                alert(`No more questions in Quarter 1.`);
-                gameState.currentQuestionIndex = gameState.activeQ1.length - 1;
-                return;
-            }
-        }
-    } else if (gameState.currentQuarter === 2) {
-        if (!gameState.isAnsweringBonus) {
-            gameState.currentQuestionIndex++;
-        }
-        if (gameState.currentQuestionIndex >= gameState.activeQ2.length) {
-            if (gameState.mode === 'full') {
-                gameState.currentQuarter++;
-                gameState.currentQuestionIndex = -1;
-                nextQuestion();
-                return;
-            } else {
-                alert(`No more questions in Quarter 2.`);
-                gameState.currentQuestionIndex = gameState.activeQ2.length - 1;
-                return;
-            }
-        }
-    } else if (gameState.currentQuarter === 4) {
-        gameState.currentQuestionIndex++;
-        if (gameState.currentQuestionIndex >= gameState.activeQ4.length) {
-            if (gameState.mode === 'full') {
-                finishGame();
-                return;
-            } else {
-                alert(`No more questions in Quarter 4.`);
-                gameState.currentQuestionIndex = gameState.activeQ4.length - 1;
-                return;
-            }
-        }
+    showQ3CategoryQuestion();
+    return;
+  }
+
+  // Quarters 1,2,4: increment index
+  if (gameState.currentQuarter === 1) {
+    gameState.currentQuestionIndex++;
+    if (gameState.currentQuestionIndex >= gameState.activeQ1.length) {
+      if (gameState.mode === 'full') {
+        gameState.currentQuarter++;
+        gameState.currentQuestionIndex = -1;
+        nextQuestion();
+        return;
+      } else {
+        alert(`No more questions in Quarter 1.`);
+        gameState.currentQuestionIndex = gameState.activeQ1.length - 1;
+        return;
+      }
     }
+  } else if (gameState.currentQuarter === 2) {
+    if (!gameState.isAnsweringBonus) {
+      gameState.currentQuestionIndex++;
+    }
+    if (gameState.currentQuestionIndex >= gameState.activeQ2.length) {
+      if (gameState.mode === 'full') {
+        gameState.currentQuarter++;
+        gameState.currentQuestionIndex = -1;
+        nextQuestion();
+        return;
+      } else {
+        alert(`No more questions in Quarter 2.`);
+        gameState.currentQuestionIndex = gameState.activeQ2.length - 1;
+        return;
+      }
+    }
+  } else if (gameState.currentQuarter === 4) {
+    gameState.currentQuestionIndex++;
+    if (gameState.currentQuestionIndex >= gameState.activeQ4.length) {
+      if (gameState.mode === 'full') {
+        finishGame();
+        return;
+      } else {
+        alert(`No more questions in Quarter 4.`);
+        gameState.currentQuestionIndex = gameState.activeQ4.length - 1;
+        return;
+      }
+    }
+  }
 
-    // Prepare question UI
-    $('buzzerBtn').disabled = true;
-    $('answerInput').disabled = true;
-    $('answerInput').value = '';
-    $('questionText').textContent = 'Get ready...';
-    console.log(
-      "DEBUG: Summary Q1:", gameState.activeQ1?.length,
-      "Counter Q1:", gameState.activeQ1?.length,
-      "Q1 Array sample:", gameState.activeQ1?.slice(0,2)
-    );
-    $('questionCounter').textContent = computeQuestionCounterText();
-    $('currentResponseTime').textContent = 'Response time: --';
-    $('categorySelection').classList.add('hidden');
+  // Prepare question UI
+  $('buzzerBtn').disabled = true;
+  $('answerInput').disabled = true;
+  $('answerInput').value = '';
+  $('questionText').textContent = 'Get ready...';
+  console.log(
+    "DEBUG: Summary Q1:", gameState.activeQ1?.length,
+    "Counter Q1:", gameState.activeQ1?.length,
+    "Q1 Array sample:", gameState.activeQ1?.slice(0,2)
+  );
+  $('questionCounter').textContent = computeQuestionCounterText();
+  $('currentResponseTime').textContent = 'Response time: --';
+  $('categorySelection').classList.add('hidden');
 
-    // Start reading question
-    setTimeout(() => startReading(), 800);
+  // Start reading question
+  setTimeout(() => startReading(), 800);
 }
 
 /* ------------------ Category selection for Q3 ------------------ */
@@ -1746,9 +1972,7 @@ function showCategorySelection(){
     
     // Shuffle and select 3 random categories
     let shuffled = [...categories].sort(() => Math.random() - 0.5);
-    let selected = shuffled.slice(0, 3);
-
-    // Store the displayed categories so we can reference them correctly
+    let selected = weightedPickCategories(categories, practiceCategoryWeights);
     gameState.q3DisplayedCategories = selected;
 
     selected.forEach((cat, idx) => {
@@ -2876,29 +3100,60 @@ function renderQuestionsDisplay(){
 }
 
 function promptPracticeSet() {
-    const availableFiles = [
+  return new Promise((resolve) => {
+    const availableFiles = window.AVAILABLE_FILES;
+    openSetPicker(
+      availableFiles,
+      async (selectedFiles) => {
+        if (!selectedFiles || !selectedFiles.length) { resolve(null); return; }
+        // If user didn’t touch inline pickers we’ll still have defaults
+        resolve(selectedFiles);
+      },
+      'Select Practice Sets'
+    );
+  });
+}
+
+window.AVAILABLE_FILES = [
         {
             year: "Categories",
             sets: [
-                { name: "US History", file: "historybowlquestionsets/categories/us_history_questions.json" },
-                { name: "European History", file: "historybowlquestionsets/categories/european_history_questions.json" },
-                { name: "World History", file: "historybowlquestionsets/categories/world_history_questions.json" },
-                { name: "Other History", file: "historybowlquestionsets/categories/other_history_questions.json" },
-                { name: "Ancient History", file: "historybowlquestionsets/categories/ancient_history_questions.json" },
-                { name: "Geographical History", file: "historybowlquestionsets/categories/geographical_history_questions.json" },
-                { name: "Fine Arts History", file: "historybowlquestionsets/categories/fine_arts_questions.json" },
-                { name: "Math and Science History", file: "historybowlquestionsets/categories/math_science_questions.json" },
-                { name: "Pop Culture/Sports History", file: "historybowlquestionsets/categories/pop_culture_sports_questions.json" },
-                { name: "Social Science/Philosophy", file: "historybowlquestionsets/categories/social_science_questions.json" },
-                { name: "Literature History", file: "historybowlquestionsets/categories/literature_history_questions.json" },
-                { name: "Recent History (2000-Present)", file: "historybowlquestionsets/categories/recent_history_questions.json" },
-                { name: "Mythology", file: "historybowlquestionsets/categories/mythology_questions.json" }
+                { name: "US History", file: "historybowlquestionsets/categories/a/aus_history_questions.json" },
+                { name: "European History", file: "historybowlquestionsets/categories/a/aeuropean_history_questions.json" },
+                { name: "World History", file: "historybowlquestionsets/categories/a/aworld_history_questions.json" },
+                { name: "Other History", file: "historybowlquestionsets/categories/a/aother_history_questions.json" },
+                { name: "Ancient History", file: "historybowlquestionsets/categories/a/aancient_history_questions.json" },
+                { name: "Geographical History", file: "historybowlquestionsets/categories/a/ageographical_history_questions.json" },
+                { name: "Fine Arts History", file: "historybowlquestionsets/categories/a/afine_arts_questions.json" },
+                { name: "Math and Science History", file: "historybowlquestionsets/categories/a/amath_science_questions.json" },
+                { name: "Pop Culture/Sports History", file: "historybowlquestionsets/categories/a/apop_culture_sports_questions.json" },
+                { name: "Social Science/Philosophy", file: "historybowlquestionsets/categories/a/asocial_science_questions.json" },
+                { name: "Literature History", file: "historybowlquestionsets/categories/a/aliterature_history_questions.json" },
+                { name: "Recent History (2000-Present)", file: "historybowlquestionsets/categories/a/arecent_history_questions.json" },
+                { name: "Mythology", file: "historybowlquestionsets/categories/a/amythology_questions.json" },
+              
+                { name: "US History", file: "historybowlquestionsets/categories/c/cus_history_questions.json" },
+                { name: "European History", file: "historybowlquestionsets/categories/c/ceuropean_history_questions.json" },
+                { name: "World History", file: "historybowlquestionsets/categories/c/cworld_history_questions.json" },
+                { name: "Other History", file: "historybowlquestionsets/categories/c/cother_history_questions.json" },
+                { name: "Ancient History", file: "historybowlquestionsets/categories/c/cancient_history_questions.json" },
+                { name: "Geographical History", file: "historybowlquestionsets/categories/c/cgeographical_history_questions.json" },
+                { name: "Fine Arts History", file: "historybowlquestionsets/categories/c/cfine_arts_questions.json" },
+                { name: "Math and Science History", file: "historybowlquestionsets/categories/c/cmath_science_questions.json" },
+                { name: "Pop Culture/Sports History", file: "historybowlquestionsets/categories/c/cpop_culture_sports_questions.json" },
+                { name: "Social Science/Philosophy", file: "historybowlquestionsets/categories/c/csocial_science_questions.json" },
+                { name: "Literature History", file: "historybowlquestionsets/categories/c/cliterature_history_questions.json" },
+                { name: "Recent History (2000-Present)", file: "historybowlquestionsets/categories/c/crecent_history_questions.json" },
+                { name: "Mythology", file: "historybowlquestionsets/categories/c/cmythology_questions.json" }
             ]
         },
         {
             year: "2014-2015",
             sets: [
                 { name: "Round 4", file: "historybowlquestionsets/2014-2015/B2014-2015HistoryBowlRound4.json" },
+                { name: "Round 1", file: "historybowlquestionsets/2014-2015/A2014-2015HistoryBowlRound1.json" },
+                { name: "Round 2", file: "historybowlquestionsets/2014-2015/A2014-2015HistoryBowlRound2.json" },
+                { name: "Round 3", file: "historybowlquestionsets/2014-2015/A2014-2015HistoryBowlRound3.json" },
                 { name: "Round 5", file: "historybowlquestionsets/2014-2015/B2014-2015HistoryBowlRound5.json" },
                 { name: "Round 1", file: "historybowlquestionsets/2014-2015/C2014-2015HistoryBowlRound1.json" },
                 { name: "Round 2", file: "historybowlquestionsets/2014-2015/C2014-2015HistoryBowlRound2.json" },
@@ -2951,11 +3206,7 @@ function promptPracticeSet() {
                 { name: "Round 4", file: "historybowlquestionsets/2017-2018/C2017-2018HistoryBowlRound4.json" }
             ]
         }
-    ];
-    return new Promise(resolve => {
-        openSetPicker(availableFiles, files => resolve(files));
-    });
-}
+]
 
 /* ------------------ Key handling ------------------ */
 document.addEventListener('keydown', function(e){
@@ -3049,48 +3300,73 @@ function clearPDFQuestions() {
 }
 
 async function generateSamplePDFs() {
-    if (!gameState.pdfQuestions) {
-        gameState.pdfQuestions = { q1: [], q2: [], q3: [], q4: [] };
-    }
-    
-    const total = gameState.pdfQuestions.q1.length + 
-                  gameState.pdfQuestions.q2.length + 
-                  gameState.pdfQuestions.q3.length + 
-                  gameState.pdfQuestions.q4.length;
-    
-    if (total > 0) {
-        alert('Please clear the PDF before generating sample PDFs.');
-        return;
-    }
-    
-    if (!QUESTIONS.q1 || QUESTIONS.q1.length === 0) {
-        alert('Questions not loaded yet. Please wait for questions to load.');
-        return;
-    }
-    
-    // Exclude TIEBREAKER-labeled questions from generated samples
-    const allQ1 = QUESTIONS.q1.filter(q => !q.question.startsWith('(TIEBREAKER'));
-    const shuffledQ1 = shuffle([...allQ1]);
-    gameState.pdfQuestions.q1 = shuffledQ1.slice(0, Math.min(10, shuffledQ1.length));
-    
-    const allQ2 = QUESTIONS.q2.filter(q => !q.tossup.question.startsWith('(TIEBREAKER'));
-    const shuffledQ2 = shuffle([...allQ2]);
-    gameState.pdfQuestions.q2 = shuffledQ2.slice(0, Math.min(8, shuffledQ2.length));
-    
-    const shuffledQ3 = shuffle([...QUESTIONS.q3]);
-    gameState.pdfQuestions.q3 = shuffledQ3.slice(0, Math.min(4, shuffledQ3.length));
-    
-    // Explicitly ensure Q4 tiebreaker/bonus labels are excluded
-    const allQ4 = QUESTIONS.q4.filter(q => 
-        !q.parts[0].startsWith('(TIEBREAKER') &&
-        !q.parts[0].toUpperCase().startsWith('(TIEBREAKER BONUS') &&
-        !q.parts[0].toUpperCase().startsWith('(TIEBREAKER EXAMPLE')
-    );
-    const shuffledQ4 = shuffle([...allQ4]);
-    gameState.pdfQuestions.q4 = shuffledQ4.slice(0, Math.min(8, shuffledQ4.length));
-    
-    alert('Sample PDFs generated! Click "Export Practice PDFs" to download.');
+  // Ensure PDF buckets exist
+  if (!gameState.pdfQuestions) {
+    gameState.pdfQuestions = { q1: [], q2: [], q3: [], q4: [] };
+  }
+
+  const prefilled =
+    gameState.pdfQuestions.q1.length +
+    gameState.pdfQuestions.q2.length +
+    gameState.pdfQuestions.q3.length +
+    gameState.pdfQuestions.q4.length;
+
+  if (prefilled > 0) {
+    alert('Please clear the PDF before generating sample PDFs.');
+    return;
+  }
+
+  // 1) Pick which sets to draw from (same UI as practice set picker)
+  const availableFiles = window.AVAILABLE_FILES; // same source as practice picker
+  if (!availableFiles || !availableFiles.length) {
+    alert('No sets available. Make sure AVAILABLE_FILES is defined.');
+    return;
+  }
+
+  const selectedFiles = await new Promise(resolve =>
+    openSetPicker(availableFiles, (files) => resolve(files), 'Select PDF Sources')
+  );
+  if (!selectedFiles || !selectedFiles.length) return;
+
+  // 2) Load only the selected sets into QUESTIONS_SETS
+  await loadAllQuestionSets(selectedFiles);
+  if (!QUESTIONS_SETS.length) {
+    alert("Failed to load selected question sets.");
+    return;
+  }
+
+  // Merge pools from selected sets
+  const q1Pool = QUESTIONS_SETS.flatMap(s => s.q1 || []).filter(q => !q.question?.startsWith('(TIEBREAKER'));
+  const q2Pool = QUESTIONS_SETS.flatMap(s => s.q2 || []).filter(q => !q.tossup?.question?.startsWith('(TIEBREAKER'));
+  const q3Pool = QUESTIONS_SETS.flatMap(s => s.q3 || []);
+  const q4Pool = QUESTIONS_SETS.flatMap(s => s.q4 || []).filter(q =>
+    !((q.parts?.[0] || '').toUpperCase().startsWith('(TIEBREAKER')) &&
+    !((q.parts?.[0] || '').toUpperCase().startsWith('(TIEBREAKER BONUS')) &&
+    !((q.parts?.[0] || '').toUpperCase().startsWith('(TIEBREAKER EXAMPLE'))
+  );
+
+  if (!q1Pool.length && !q2Pool.length && !q3Pool.length && !q4Pool.length) {
+    alert('No questions found in the selected sets.');
+    return;
+  }
+
+  // Q3: use the shared weighted picker (choose up to 4 categories)
+  const wantedQ3 = Math.min(4, q3Pool.length);
+  gameState.pdfQuestions.q3 = weightedPickCategories(q3Pool, practiceCategoryWeights);
+  // ^ if your shared function returns exactly 3, either tweak its limit or slice:
+  gameState.pdfQuestions.q3 = gameState.pdfQuestions.q3.slice(0, wantedQ3);
+
+
+  // 4) Helper sampling functions
+  const pickN = (arr, n) => shuffle([...arr]).slice(0, Math.min(n, arr.length));
+
+  // 5) Fill the PDF buckets FROM THE CHOSEN SETS ONLY
+  gameState.pdfQuestions.q1 = pickN(q1Pool, 10);
+  gameState.pdfQuestions.q2 = pickN(q2Pool, 8);
+
+  alert('Sample PDFs generated from your selected sets! Click "Export PDFs" to download.');
 }
+
 
 function cleanTiebreakerText(text) {
     return text.replace(/^\(TIEBREAKER (EXAMPLE|BONUS) QUESTION\)\s*/i, '').replace(/^\(TIEBREAKER\)\s*/i, '');
