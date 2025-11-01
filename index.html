@@ -1776,7 +1776,7 @@ function resetGame() {
 
     $('questionText').textContent = gameState.questionsLoaded ?
         "Select a category to start!" :
-        "Questions failed to load";
+        "Questions are loading (shouldn't take more than 20sec unless you have slow wifi, otherwise)/ Failed to load.";
     $('buzzerBtn').disabled = true;
     $('answerInput').disabled = true;
     $('categorySelection').classList.add('hidden');
