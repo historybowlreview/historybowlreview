@@ -24,6 +24,13 @@
         "Suleyman I",
         "Kanuni"
       ]
+    },
+    {
+      "question": "This region’s Qajar [kah-JAR] Dynasty was founded by a eunuch. Another of its rulers\ninvaded India and carried away the Peacock Throne. This nation was led by Nadir. Another\nleader of this nation signed a deal with the company that would become BP to develop this\nregion’s oil fields. That ruler belonged to the Pahlavi [pah-lah-vee] Dynasty. For 10 points, name\nthis country that, before the Islamic Revolution, was ruled by the Shah.",
+      "answer": [
+        "Persia",
+        "Iran"
+      ]
     }
   ],
   "q2": [
@@ -373,6 +380,125 @@
           ]
         }
       ]
+    },
+    {
+      "category": "THE MUGHAL DYNASTY",
+      "prompt": "The Mughal Dynasty…",
+      "questions": [
+        {
+          "question": "Overthrew the Lodi Dynasty, which was based in which city whose “new” version is the\ncapital of modern India?",
+          "answer": [
+            "Delhi",
+            "New Delhi"
+          ]
+        },
+        {
+          "question": "Created which tomb for the wife of Shah Jahan?",
+          "answer": "Taj Mahal"
+        },
+        {
+          "question": "Was founded by which Turko-Mongol leader who won the First Battle of Panipat [pah-neepot]?",
+          "answer": [
+            "Babur",
+            "Zahir-ud-din Muhammad Babur"
+          ]
+        },
+        {
+          "question": "Was ruled by which “Great” Emperor who founded the religion Din-e-Ilahi [din-ee-ill-ahhee]?",
+          "answer": [
+            "Akbar",
+            "Abu'l-Fath Jalal ud-din Muhammad Akbar"
+          ]
+        },
+        {
+          "question": "Fought against which Maratha king, a master of guerrilla warfare who won the Battle of\nPratapgarh [prah-top-gad]?",
+          "answer": [
+            "Shivaji Bonsle",
+            "Shivaji",
+            "Chhatrapati Shivaji Maharaj]"
+          ]
+        },
+        {
+          "question": "Was led in the 17th century by which man, who defeated his brother Dara Shikoh at the Battle\nof Samugarh [sahm-oo-gad]?",
+          "answer": [
+            "Aurangzeb",
+            "Alamgir"
+          ]
+        },
+        {
+          "question": "Was temporarily overthrown by which Pashtun warlord who oversaw many civil reforms?",
+          "answer": [
+            "Sher Shah Suri",
+            "Sher Shah",
+            "Sher Khan",
+            "Farid Khan"
+          ]
+        },
+        {
+          "question": "Ended after the deposition of this final Emperor in 1857?",
+          "answer": [
+            "Bahadur Shah II",
+            "Mirza Abu Zafar Sirajuddin Muhammad Bahadur Shah Zafar",
+            "Bahadur Shah Zafar"
+          ]
+        }
+      ]
+    },
+    {
+      "category": "PELOPONNESIAN WAR",
+      "prompt": "In the Peloponnesian War, who or what was the...",
+      "questions": [
+        {
+          "question": "Century in which the conflict took place?",
+          "answer": [
+            "5th century BCE",
+            "5TH BC",
+            "5TH BCE",
+            "400S BCE",
+            "400S BC"
+          ]
+        },
+        {
+          "question": "Author of a contemporary history of the war?",
+          "answer": "Thucydides"
+        },
+        {
+          "question": "City whose namesake decree issued by Athens started the war?",
+          "answer": "Megara"
+        },
+        {
+          "question": "Leader of Athens in the first part of the war who gave a famous funeral oration?",
+          "answer": "Pericles"
+        },
+        {
+          "question": "Island that was the target of a disastrous Athenian expedition led by Nicias [nih-see-us]?",
+          "answer": [
+            "Sicily",
+            "Sicilia"
+          ]
+        },
+        {
+          "question": "Group of slaves in Sparta incited by Athens to revolt?",
+          "answer": [
+            "Helots",
+            "Helotes"
+          ]
+        },
+        {
+          "question": "Leader of Sparta who won the battle of Aegospotami [ee-go-spot-uh-mee], the decisive battle\nof the war?",
+          "answer": [
+            "Lysander",
+            "Lysandros"
+          ]
+        },
+        {
+          "question": "Group of people that took power in Athens after the end of the war with the help of Sparta?",
+          "answer": [
+            "Thirty Tyrants",
+            "Triakonta Tyrannoi"
+          ]
+        }
+      ]
     }
   ],
   "q4": [
@@ -400,6 +526,38 @@
         "heroin",
         "yapian",
         "Opium Wars"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) Ancient gods worshiped by this ethnic group included Uzza [ooz-ah] and Hubal. It\nfought the Byzantine Empire at the Battle of Yarmouk. This ethnic group’s rebellion was\nsubdued in the Wars of Apostasy, after which their invasions brought down the (20 pts) ",
+        "Sassanid [sass-uh-nihd] Empire. This ethnic group loyally followed the Rashidun [rash-eedone] after being subdued by (10 pts) ",
+        "Abu Bakr [ah-boo bah-kur], and originally pledged loyalty to\na prophet who took dictation from Gabriel in a cave. For 10 points, name this largely Islamic\nethnic group that populates a peninsula northeast of Africa."
+      ],
+      "answer": "Arabs"
+    },
+    {
+      "parts": [
+        "(30 pts) Regina Ip resigned from the government of Tung Chee-hwa in this city after 2003’s 1\nJuly March. That march was in protest of Article 23 of this city’s (20 pts) ",
+        "Basic Law. The “right\nof abode” in this city was expanded by its Court of Final Appeal in 1999. This city was the\nsite of (10 pts) ",
+        "2014 protests aimed at the ouster of Chief Executive CY Leung that were termed the\n“Umbrella Revolution.” The United Kingdom returned this city to its present country in 1997\nafter a 99-year lease. For 10 points, name this city, a Special Administrative Region of China."
+      ],
+      "answer": [
+        "Hong Kong Special Administrative Region",
+        "Hong Kong",
+        "HKSAR",
+        "Xianggang"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) The state of Cundinamarca [koon-deen-uh-mark-uh] was set up in this modern-day\ncountry, whose capital was recaptured at the end of the “Foolish Fatherland” period.\nPeriods of unrest in this country have included the War of the Thousand Days and the mid20th-century struggle called “La (20 pts) ",
+        "Violencia.” This country lost western territory when\nPhilippe Jean Bunau-Varilla helped orchestrate a 1903 revolution against it that promoted (10 pts) ",
+        "canal-building interests. For 10 points, identify this country from which Panama gained\nindependence."
+      ],
+      "answer": [
+        "Republic of Colombia",
+        "Colombia"
       ]
     }
   ]

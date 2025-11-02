@@ -36,6 +36,21 @@
         "Athina",
         "Athenai"
       ]
+    },
+    {
+      "question": "This ruler employed a physician who combated rampant paranoia about the undead in Moravia\nand worked with the Count von Haugwitz to reform the empire. This employer of Gerard von\nSwieten was consort to the Duke of Lorraine, Francis Stephen, and signed the Treaty of Breslau\nto end the First Silesian War. The Treaty of Aix-la-Chapelle [ex-luh-shuh-pell] ended a war\nbegun after this ruler's ascension, in violation of Salic Law, under the Pragmatic Sanction. For 10\npoints, name this Habsburg Queen who fought the War of the Austrian Succession.",
+      "answer": [
+        "Maria Theresa Walburga Amalia Christina",
+        "Maria Theresa"
+      ]
+    },
+    {
+      "question": "This party controlled government during the Thirteen Wasted Years. It lost power in 1974\nwith the failure of leader Edward Heath, but regained it when its opponents suffered the “Winter\nof Discontent.” In the 1980s, this party dealt with a miners’ strike in its efforts to weaken unions\nand privatize state industries. For 10 points, name this British political party once led by\nMargaret Thatcher, which opposes the Labour Party.",
+      "answer": [
+        "Conservative Party",
+        "Conservatives",
+        "Tories"
+      ]
     }
   ],
   "q2": [
@@ -141,6 +156,52 @@
           "Lech Walesa",
           "Walesa"
         ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "One politician from this country, Rena Dourou [door-ooh], was recently attacked on national\ntelevision. A January 2015 election here saw the center-right New Democracy lose power to the\nleft-wing Syriza [sur-ree-zuh] party, which ran on an anti-austerity platform. Its finance minister\nrecently secured a four-month bailout extension from the “troika.” [troy-kuh] For 10 points,\nAlexis Tsipras [sip-priss] leads what indebted Eurozone country, whose capital is Athens?",
+        "answer": "Greece"
+      },
+      "bonus": {
+        "question": "This allegedly Nazi right-wing party has the third most seats in Greece’s Parliament,\nalthough it lost one seat in the January elections.",
+        "answer": [
+          "The Popular Association – Golden Dawn",
+          "Golden Dawn",
+          "Laikos Syndesmos - Chrysi Avgi",
+          "Chrysi Avgi"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "An early battle in this conflict was the clash at Covadonga, which was a victory for the\nVisigoth Pelayo. Its turning point is usually considered the defeat of the Almohads at the 13th\ncentury Battle of Las Navas de Tolosa. The union of several factions in this conflict led to the\njoint rule of the Dual Monarchs. El Cid was a heroic figure from, for 10 points, what conflict\nconcluded by Ferdinand and Isabella that ended the period of Islamic government in Spain?",
+        "answer": [
+          "Reconquista of Iberia",
+          "Reconquista",
+          "reconquest"
+        ]
+      },
+      "bonus": {
+        "question": "The end of the Reconquista is considered to be the surrender of Granada by this man, this\nlast Muslim ruler in Iberia.",
+        "answer": [
+          "Muhammad XII",
+          "Boabdil",
+          "Abu Abdullah Muhammad XII"
+        ]
+      }
+    },
+    {
+      "tossup": {
+        "question": "This woman aided Richard Harman, who was arrested for smuggling illegal Tyndale Bibles.\nThis woman’s influence is credited with causing the downfall of Lord Chancellor Thomas\nWolsey. Along with musician Mark Smeaton, this niece of Thomas Howard was imprisoned in\nthe Tower of London on charges of adultery. For 10 points, name this woman executed in 1536,\nthe second wife of Henry VIII.",
+        "answer": [
+          "Anne Boleyn",
+          "Boleyn"
+        ]
+      },
+      "bonus": {
+        "question": "After Anne’s death her husband faced what Catholic rebellion based in Yorkshire and\nled by Robert Aske?",
+        "answer": "Pilgrimage of Grace"
       }
     }
   ],
@@ -275,6 +336,74 @@
           ]
         }
       ]
+    },
+    {
+      "category": "WAR OF THE SPANISH SUCCESSION",
+      "prompt": "During the War of Spanish Succession who or what…",
+      "questions": [
+        {
+          "question": "Was the “Sun King” of France?",
+          "answer": [
+            "Louis XIV",
+            "Louis the Great"
+          ]
+        },
+        {
+          "question": "Was the royal house which the French wanted on the Spanish throne?",
+          "answer": "Bourbon"
+        },
+        {
+          "question": "Was the royal house which previously ruled Spain and also ruled Austria?",
+          "answer": [
+            "Habsburg",
+            "Hapsburgs"
+          ]
+        },
+        {
+          "question": "Was the king of Spain who died at the onset of the war, causing the succession crisis?",
+          "answer": [
+            "Charles II",
+            "Carlos II"
+          ]
+        },
+        {
+          "question": "Was the English king during the war, a Dutch stadtholder who jointly ruled with Mary?",
+          "answer": [
+            "William III of England",
+            "William III",
+            "William III of Orange",
+            "William III of Scotland"
+          ]
+        },
+        {
+          "question": "Was the preeminent English general of the war and ancestor of a later Prime Minister?",
+          "answer": [
+            "Duke of Marlborough",
+            "Marlborough",
+            "John Churchill",
+            "Churchill",
+            "First Duke of Marlborough",
+            "Prince of Mindelheim",
+            "Prince of Mellenburg"
+          ]
+        },
+        {
+          "question": "Was the 1704 British victory that names a palace in Oxfordshire?",
+          "answer": [
+            "Battle of Blenheim",
+            "Blenheim",
+            "Blenheim Palace",
+            "Battle of Blenheim Palace"
+          ]
+        },
+        {
+          "question": "Was the French nobleman who took the Spanish throne at the beginning of the war?",
+          "answer": [
+            "Philip V",
+            "Felipe V"
+          ]
+        }
+      ]
     }
   ],
   "q4": [
@@ -355,6 +484,14 @@
         "Republic of Ireland",
         "Ireland"
       ]
+    },
+    {
+      "parts": [
+        "(30 pts) One ruler from this kingdom led the “Long campaign” and was captured following a\ndefeat at the battle of Varna. The Black Army led by the son of that ruler successfully\nbesieged Vienna and engaged in many conflicts with the Ottomans. Besides (20 pts) ",
+        "Janos\nHunyadi [hoon-yah-dee] and Matthias Corvinus [kore-vine-us], other leaders from the\nArpad dynasty here include its founder, (10 pts) ",
+        "Stephen I. The Treaty of Trianon formally\nabolished this kingdom, whose privileges were confirmed by the Ausgleich [oss-glike] of 1867.\nFor 10 points, name this Magyar kingdom later absorbed into a dual-monarchy with Austria."
+      ],
+      "answer": "Hungary"
     }
   ]
 }

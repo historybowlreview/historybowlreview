@@ -22,6 +22,14 @@
         "Edgar Allan Poe",
         "Poe"
       ]
+    },
+    {
+      "question": "A letter written by this man praises Walter Pater's Marius the Epicurean and asserts,\"Christ's\nplace indeed is with the poets.\" This man was imprisoned after suing the Marquess of\nQueensberry for libel, after which he wrote \"The Ballad of Reading Gaol [jail].\" In his most\nfamous play, a character discovered in a handbag in a Victoria Station attempts to win the hand\nof Gwendolen Fairfax. For 10 points, name this author of The Importance of Being Earnest and\nThe Picture of Dorian Gray.",
+      "answer": [
+        "Oscar Wilde",
+        "Wilde",
+        "Oscar Fingal O'Flahertie Wills Wilde"
+      ]
     }
   ],
   "q2": [
@@ -56,6 +64,24 @@
         "question": "In the “Tomorrow and tomorrow and tomorrow” soliloquy, Macbeth claims that “life’s\nbut a walking” one of what thing?",
         "answer": "shadow"
       }
+    },
+    {
+      "tossup": {
+        "question": "This author wrote of a colonel serving Queen Anne in The History of Henry Esmond and of an\nIrishman who fights in the Seven Years’ War and the American Revolution in The Luck of Barry\nLyndon. Another of his novels opens at Miss Pinkerton’s Academy and contrasts the\nmanipulative Becky Sharp with the naïve Amelia Sedley. For 10 points, name this Victorian\nauthor of Vanity Fair.",
+        "answer": [
+          "William Makepeace Thackeray",
+          "Thackeray",
+          "William Thackeray"
+        ]
+      },
+      "bonus": {
+        "question": "The Battle of Waterloo figures prominently in both Vanity Fair and The Charterhouse\nof Parma, a novel by what French author?",
+        "answer": [
+          "Stendhal",
+          "Marie-Henri Beyle",
+          "Beyle"
+        ]
+      }
     }
   ],
   "q3": [],
@@ -69,6 +95,18 @@
       "answer": [
         "Christopher Marlowe",
         "Marlowe"
+      ]
+    },
+    {
+      "parts": [
+        "(30 pts) In a novel by this author, Edgar, the Master of Ravenswood, dies in quicksand after\nLucy stabs Bucklaw in a bridal chamber. This author of The Bride of Lammermoor wrote a\nnovel in which (20 pts) ",
+        "El Desdichado [dess-dee-cod-oh] jousts with Maurice de Bracy and other\nknights. Frank Osbaldistone narrates this author’s novel (10 pts) ",
+        "Rob Roy, which is part of his\nWaverley series. Cedric the Saxon’s son, Wilfrid, is the title character of this author’s novel set\nin 12th-century England. For 10 points, name this British author of historical romances such as\nIvanhoe."
+      ],
+      "answer": [
+        "Sir Walter Scott",
+        "Scott",
+        "Walter Scott"
       ]
     }
   ]

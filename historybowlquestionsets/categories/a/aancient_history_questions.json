@@ -10,7 +10,26 @@
       ]
     }
   ],
-  "q2": [],
+  "q2": [
+    {
+      "tossup": {
+        "question": "This city contained an internal, artificial harbor created for military use called a cothon [kohthahn]. Its citadel, the byrsa [bursa], was supposedly surrounded with strips of oxhide by its\nfounder. This city was supplanted in its region by Utica until it was re-founded by Julius Caesar,\nnearly a century after salt was supposedly sown in its soils following Cato the Elder’s call for its\ndestruction. For 10 points, name this rival of Rome during the Punic Wars.",
+        "answer": [
+          "Carthage",
+          "Carthago",
+          "Qart-Hadasht"
+        ]
+      },
+      "bonus": {
+        "question": "The settlers who founded Carthage originated from what other Phoenician city, known\nfor its purple dye?",
+        "answer": [
+          "Tyre",
+          "Tur",
+          "Sur"
+        ]
+      }
+    }
+  ],
   "q3": [],
   "q4": [
     {
