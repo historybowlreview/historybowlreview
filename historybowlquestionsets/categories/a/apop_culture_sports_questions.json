@@ -21,6 +21,27 @@
           "A-wing"
         ]
       }
+    },
+    {
+      "tossup": {
+        "question": "This team won a match referred to by their opponents as the “robbery of the century” because\nAntonio Rattin was sent off. A shot that hit the crossbar and bounced onto the goal line gave this\nteam its only World Cup victory, over West Germany in 1966. In 1950, this team suffered a\nshocking World Cup loss to the United States. For 10 points, name this national soccer team that\nplays home games at Wembley Stadium in London.",
+        "answer": [
+          "England",
+          "English",
+          "English national team",
+          "Three Lions"
+        ]
+      },
+      "bonus": {
+        "question": "England was eliminated from the 2014 World Cup after a 2-1 group stage loss to this\nteam, which both won and hosted the first World Cup in 1930.",
+        "answer": [
+          "Uruguay",
+          "Uruguayan national team",
+          "Uruguayan",
+          "La Celeste",
+          "Charruas"
+        ]
+      }
     }
   ],
   "q3": [],
